@@ -1,0 +1,193 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\310033\\source\\repos\\SampleConsoleApp\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{35C07AE8-4704-425A-8B6F-2BD89C4DD049}|UnitTest\\UnitTest.csproj|c:\\users\\310033\\source\\repos\\sampleconsoleapp\\unittest\\producttest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35C07AE8-4704-425A-8B6F-2BD89C4DD049}|UnitTest\\UnitTest.csproj|solutionrelative:unittest\\producttest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{383CDE17-B457-8933-2156-77E76063A20C}|SampleConsoleApp\\SampleConsoleApp.csproj|c:\\users\\310033\\source\\repos\\sampleconsoleapp\\sampleconsoleapp\\repository\\repositoryproduct.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{383CDE17-B457-8933-2156-77E76063A20C}|SampleConsoleApp\\SampleConsoleApp.csproj|solutionrelative:sampleconsoleapp\\repository\\repositoryproduct.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{383CDE17-B457-8933-2156-77E76063A20C}|SampleConsoleApp\\SampleConsoleApp.csproj|c:\\users\\310033\\source\\repos\\sampleconsoleapp\\sampleconsoleapp\\databases\\productdb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{383CDE17-B457-8933-2156-77E76063A20C}|SampleConsoleApp\\SampleConsoleApp.csproj|solutionrelative:sampleconsoleapp\\databases\\productdb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{383CDE17-B457-8933-2156-77E76063A20C}|SampleConsoleApp\\SampleConsoleApp.csproj|c:\\users\\310033\\source\\repos\\sampleconsoleapp\\sampleconsoleapp\\ui\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{383CDE17-B457-8933-2156-77E76063A20C}|SampleConsoleApp\\SampleConsoleApp.csproj|solutionrelative:sampleconsoleapp\\ui\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{383CDE17-B457-8933-2156-77E76063A20C}|SampleConsoleApp\\SampleConsoleApp.csproj|c:\\users\\310033\\source\\repos\\sampleconsoleapp\\sampleconsoleapp\\service\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{383CDE17-B457-8933-2156-77E76063A20C}|SampleConsoleApp\\SampleConsoleApp.csproj|solutionrelative:sampleconsoleapp\\service\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{383CDE17-B457-8933-2156-77E76063A20C}|SampleConsoleApp\\SampleConsoleApp.csproj|c:\\users\\310033\\source\\repos\\sampleconsoleapp\\sampleconsoleapp\\service\\iproductservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{383CDE17-B457-8933-2156-77E76063A20C}|SampleConsoleApp\\SampleConsoleApp.csproj|solutionrelative:sampleconsoleapp\\service\\iproductservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{383CDE17-B457-8933-2156-77E76063A20C}|SampleConsoleApp\\SampleConsoleApp.csproj|c:\\users\\310033\\source\\repos\\sampleconsoleapp\\sampleconsoleapp\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{383CDE17-B457-8933-2156-77E76063A20C}|SampleConsoleApp\\SampleConsoleApp.csproj|solutionrelative:sampleconsoleapp\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{383CDE17-B457-8933-2156-77E76063A20C}|SampleConsoleApp\\SampleConsoleApp.csproj|c:\\users\\310033\\source\\repos\\sampleconsoleapp\\sampleconsoleapp\\repository\\iproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{383CDE17-B457-8933-2156-77E76063A20C}|SampleConsoleApp\\SampleConsoleApp.csproj|solutionrelative:sampleconsoleapp\\repository\\iproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{383CDE17-B457-8933-2156-77E76063A20C}|SampleConsoleApp\\SampleConsoleApp.csproj|c:\\users\\310033\\source\\repos\\sampleconsoleapp\\sampleconsoleapp\\exceptions\\productconflict.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{383CDE17-B457-8933-2156-77E76063A20C}|SampleConsoleApp\\SampleConsoleApp.csproj|solutionrelative:sampleconsoleapp\\exceptions\\productconflict.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{383CDE17-B457-8933-2156-77E76063A20C}|SampleConsoleApp\\SampleConsoleApp.csproj|c:\\users\\310033\\source\\repos\\sampleconsoleapp\\sampleconsoleapp\\sampleconsoleapp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{383CDE17-B457-8933-2156-77E76063A20C}|SampleConsoleApp\\SampleConsoleApp.csproj|solutionrelative:sampleconsoleapp\\sampleconsoleapp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ProductDb.cs",
+              "DocumentMoniker": "C:\\Users\\310033\\source\\repos\\SampleConsoleApp\\SampleConsoleApp\\Databases\\ProductDb.cs",
+              "RelativeDocumentMoniker": "SampleConsoleApp\\Databases\\ProductDb.cs",
+              "ToolTip": "C:\\Users\\310033\\source\\repos\\SampleConsoleApp\\SampleConsoleApp\\Databases\\ProductDb.cs",
+              "RelativeToolTip": "SampleConsoleApp\\Databases\\ProductDb.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-15T11:48:46.628Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ProductTest.cs",
+              "DocumentMoniker": "C:\\Users\\310033\\source\\repos\\SampleConsoleApp\\UnitTest\\ProductTest.cs",
+              "RelativeDocumentMoniker": "UnitTest\\ProductTest.cs",
+              "ToolTip": "C:\\Users\\310033\\source\\repos\\SampleConsoleApp\\UnitTest\\ProductTest.cs",
+              "RelativeToolTip": "UnitTest\\ProductTest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADgAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T18:57:59.164Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RepositoryProduct.cs",
+              "DocumentMoniker": "C:\\Users\\310033\\source\\repos\\SampleConsoleApp\\SampleConsoleApp\\Repository\\RepositoryProduct.cs",
+              "RelativeDocumentMoniker": "SampleConsoleApp\\Repository\\RepositoryProduct.cs",
+              "ToolTip": "C:\\Users\\310033\\source\\repos\\SampleConsoleApp\\SampleConsoleApp\\Repository\\RepositoryProduct.cs",
+              "RelativeToolTip": "SampleConsoleApp\\Repository\\RepositoryProduct.cs",
+              "ViewState": "AgIAACUAAAAAAAAAAAAkwDsAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-15T11:39:32.862Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ProductService.cs",
+              "DocumentMoniker": "C:\\Users\\310033\\source\\repos\\SampleConsoleApp\\SampleConsoleApp\\Service\\ProductService.cs",
+              "RelativeDocumentMoniker": "SampleConsoleApp\\Service\\ProductService.cs",
+              "ToolTip": "C:\\Users\\310033\\source\\repos\\SampleConsoleApp\\SampleConsoleApp\\Service\\ProductService.cs",
+              "RelativeToolTip": "SampleConsoleApp\\Service\\ProductService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-16T04:13:46.728Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IProductService.cs",
+              "DocumentMoniker": "C:\\Users\\310033\\source\\repos\\SampleConsoleApp\\SampleConsoleApp\\Service\\IProductService.cs",
+              "RelativeDocumentMoniker": "SampleConsoleApp\\Service\\IProductService.cs",
+              "ToolTip": "C:\\Users\\310033\\source\\repos\\SampleConsoleApp\\SampleConsoleApp\\Service\\IProductService.cs",
+              "RelativeToolTip": "SampleConsoleApp\\Service\\IProductService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-16T03:59:36.038Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\310033\\source\\repos\\SampleConsoleApp\\SampleConsoleApp\\UI\\Program.cs",
+              "RelativeDocumentMoniker": "SampleConsoleApp\\UI\\Program.cs",
+              "ToolTip": "C:\\Users\\310033\\source\\repos\\SampleConsoleApp\\SampleConsoleApp\\UI\\Program.cs",
+              "RelativeToolTip": "SampleConsoleApp\\UI\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-16T04:21:46.122Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Product.cs",
+              "DocumentMoniker": "C:\\Users\\310033\\source\\repos\\SampleConsoleApp\\SampleConsoleApp\\Models\\Product.cs",
+              "RelativeDocumentMoniker": "SampleConsoleApp\\Models\\Product.cs",
+              "ToolTip": "C:\\Users\\310033\\source\\repos\\SampleConsoleApp\\SampleConsoleApp\\Models\\Product.cs",
+              "RelativeToolTip": "SampleConsoleApp\\Models\\Product.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-15T11:16:32.018Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IProductRepository.cs",
+              "DocumentMoniker": "C:\\Users\\310033\\source\\repos\\SampleConsoleApp\\SampleConsoleApp\\Repository\\IProductRepository.cs",
+              "RelativeDocumentMoniker": "SampleConsoleApp\\Repository\\IProductRepository.cs",
+              "ToolTip": "C:\\Users\\310033\\source\\repos\\SampleConsoleApp\\SampleConsoleApp\\Repository\\IProductRepository.cs",
+              "RelativeToolTip": "SampleConsoleApp\\Repository\\IProductRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-15T11:25:38.098Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ProductConflict.cs",
+              "DocumentMoniker": "C:\\Users\\310033\\source\\repos\\SampleConsoleApp\\SampleConsoleApp\\Exceptions\\ProductConflict.cs",
+              "RelativeDocumentMoniker": "SampleConsoleApp\\Exceptions\\ProductConflict.cs",
+              "ToolTip": "C:\\Users\\310033\\source\\repos\\SampleConsoleApp\\SampleConsoleApp\\Exceptions\\ProductConflict.cs",
+              "RelativeToolTip": "SampleConsoleApp\\Exceptions\\ProductConflict.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-15T12:31:22.44Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "SampleConsoleApp.csproj",
+              "DocumentMoniker": "C:\\Users\\310033\\source\\repos\\SampleConsoleApp\\SampleConsoleApp\\SampleConsoleApp.csproj",
+              "RelativeDocumentMoniker": "SampleConsoleApp\\SampleConsoleApp.csproj",
+              "ToolTip": "C:\\Users\\310033\\source\\repos\\SampleConsoleApp\\SampleConsoleApp\\SampleConsoleApp.csproj",
+              "RelativeToolTip": "SampleConsoleApp\\SampleConsoleApp.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-05-15T11:15:00.792Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
