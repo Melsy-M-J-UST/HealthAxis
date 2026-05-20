@@ -4,7 +4,8 @@ using System.Text;
 
 namespace HealthAxis.Exceptions
 {
-    internal class AppointmentNotFoundException
+    public class AppointmentNotFoundException :Exception
     {
+        public AppointmentNotFoundException(string message) : base(message) { }
     }
 }

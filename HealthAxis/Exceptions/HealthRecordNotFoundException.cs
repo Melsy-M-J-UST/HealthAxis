@@ -4,7 +4,10 @@ using System.Text;
 
 namespace HealthAxis.Exceptions
 {
-    internal class HealthRecordNotFoundException
+    internal class HealthRecordNotFoundException : Exception
     {
+        public HealthRecordNotFoundException(string Message) : base(Message)
+        {
+        }
     }
 }

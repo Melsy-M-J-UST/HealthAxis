@@ -4,7 +4,8 @@ using System.Text;
 
 namespace HealthAxis.Exceptions
 {
-    internal class DoctorNotFoundException
+    public class DoctorNotFoundException : Exception
     {
+        public DoctorNotFoundException(string message) : base(message) { }
     }
 }
