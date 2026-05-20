@@ -4,7 +4,35 @@ using System.Text;
 
 namespace HealthAxis.Models
 {
-    internal class Patient
+    public class Patient
     {
+        public int PatientId { get; set; }
+
+        public string FullName { get; set; } = string.Empty;
+
+        public DateTime DateOfBirth { get; set; }
+
+        public GenderOptions Gender { get; set; } = GenderOptions.Other;
+
+        public string ContactNumber { get; set; } = string.Empty;
+
+        public string Email { get; set; } = string.Empty;
+
+        public string InsuranceID { get; set; } = string.Empty;
+
+        public DateTime CreatedDate { get; set; }
+
+        public enum GenderOptions
+        {
+            Male,
+            Female,
+            Transgender,
+            other
+        };
+
+        public string GetProfileSummary()
+        {
+            return $"PatientId: {PatientId}, FullName: {FullName}, DateOfBirth: {DateOfBirth.ToShortDateString()}, Gender: {Gender}, ContactNumber: {ContactNumber}, Email: {Email}, InsuranceID: {InsuranceID}, Phone: {ContactNumber}, Email: {Email}";
+        }
     }
 }
