@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="HealthAxis/HealthAxis.csproj" />
+  <Project Path="HealthAxisTests/HealthAxisTests.csproj" />
+</Solution>
