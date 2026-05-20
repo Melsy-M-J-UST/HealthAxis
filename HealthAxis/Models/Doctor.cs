@@ -26,5 +26,23 @@ namespace HealthAxis.Models
             Pediatrician,
             Psychiatrist 
         }
+        //public string GetTodaysScheduledCount()
+        //{
+        //    int TodaysCount = 0;
+
+        //    foreach (var a in Appointments)
+        //    {
+        //        if (a.ScheduledDate == DateTime.Date && a.Status == Appointment.StatusOption.Confirmed)
+        //        {
+        //            TodaysCount++;
+        //        }
+        //    }
+        //    return $"Dr. {FullName} ({Specialisation}) - Today's Appointments: {TodaysCount}";
+        //}
+        public string GetProfileSummary()
+        {
+            return $"DoctorId: {DoctorId}, FullName: {DoctorName}, Specialisation: {Specialisation}, Experience(in years): {Experience}, Consultation Fee: {Fees}";
+        }
+
     }
 }
