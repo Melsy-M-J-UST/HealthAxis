@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using HealthAxis.Models;
 
 namespace HealthAxis.Service
 {
-    internal interface IPatientService
+    public interface IPatientService
     {
+        Patient RegisterPatient(Patient patient);
+        Patient? GetPatientById(int patientId);
+        List<Patient> GetAllPatients();
     }
 }
