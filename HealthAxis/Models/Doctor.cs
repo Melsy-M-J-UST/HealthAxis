@@ -39,7 +39,7 @@ namespace HealthAxis.Models
         //    }
         //    return $"Dr. {FullName} ({Specialisation}) - Today's Appointments: {TodaysCount}";
         //}
-        public string GetProfileSummary()
+        public string GetDoctorSummary()
         {
             return $"DoctorId: {DoctorId}, FullName: {DoctorName}, Specialisation: {Specialisation}, Experience(in years): {Experience}, Consultation Fee: {Fees}";
         }

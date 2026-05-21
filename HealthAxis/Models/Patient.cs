@@ -32,7 +32,7 @@ namespace HealthAxis.Models
             Transgender,
             Other
         };
-        public string GetProfileSummary()
+        public string GetPatientSummary()
         {
             return $"Patient ID: {PatientId}, Name: {FullName}, Age: {GetAge()}, Gender: {Gender}, Phone: {PhoneNumber}, Email: {Email}";
         }
