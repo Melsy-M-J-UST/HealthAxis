@@ -35,7 +35,7 @@ namespace HealthAxis.Models
         }
         public  string GetAppointmentSummary()
         {
-            return $"Appointment ID: {AppointmentId} {Patient.GetPatientSummary} {Doctor.GetDoctorSummary} Scheduled Date: {ScheduledDate}  Time Slot: {Slot}  Status: {Status}   Cancellation Reason(if any): {CancellationReason}";
+            return $"Appointment ID: {AppointmentId}\n{Patient.GetPatientSummary}\n{Doctor.GetDoctorSummary}\nScheduled Date: {ScheduledDate}, Time Slot: {Slot}, Status: {Status}, Cancellation Reason(if any): {CancellationReason}";
         }
     }
 }

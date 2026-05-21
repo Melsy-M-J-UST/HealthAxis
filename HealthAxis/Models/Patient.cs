@@ -7,7 +7,7 @@ namespace HealthAxis.Models
     public class Patient
     {
         public int PatientId { get; set; }
-        public string? FullName { get; set; }
+        public string? PatientName { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Email { get; set; }
@@ -34,7 +34,7 @@ namespace HealthAxis.Models
         };
         public string GetPatientSummary()
         {
-            return $"Patient ID: {PatientId}, Name: {FullName}, Age: {GetAge()}, Gender: {Gender}, Phone: {PhoneNumber}, Email: {Email}";
+            return $"Patient ID: {PatientId}, Name: {PatientName}, Age: {GetAge()}, Gender: {Gender}, Phone: {PhoneNumber}, Email: {Email}";
         }
 
 

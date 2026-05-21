@@ -13,5 +13,9 @@ namespace HealthAxis.Models
         public string Diagnosis { get; set; } = string.Empty;
         public string Prescription { get; set; } = string.Empty;
         public string Notes { get; set; } = string.Empty;
+        public string GetHealthRecordSummary()
+        {
+            return $"Record ID: {RecordId}, Patient: {Patient.PatientName}, Doctor: {Doctor.DoctorName}, Visit Date: {VisitedDate.ToShortDateString()}, Diagnosis: {Diagnosis}, Prescription: {Prescription}";
+        }
     }
 }
