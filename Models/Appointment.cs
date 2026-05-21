@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -19,6 +19,7 @@ namespace HAP_Pod4_ConsoleApp_au.Models
         public StatusOption Status { get; set; } = StatusOption.Pending;
 
         public string CancellationReason { get; set; } = string.Empty;
+        public static object AppointmentStatus { get; internal set; }
 
         // ENUM FOR APPOINTMENT STATUS
         public enum StatusOption

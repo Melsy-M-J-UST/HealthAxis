@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AppointmentPortal.ConsoleApp.Repositories
+namespace HAP_Pod4_ConsoleApp_au.Repositories
 {
     public interface IDoctorRepository
     {

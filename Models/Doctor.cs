@@ -60,5 +60,4 @@ namespace HAP_Pod4_ConsoleApp_au.Models
         }
 
     }
-
 }
