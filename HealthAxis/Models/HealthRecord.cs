@@ -4,7 +4,14 @@ using System.Text;
 
 namespace HealthAxis.Models
 {
-    internal class HealthRecord
+    public class HealthRecord
     {
+        public int RecordId { get; set; }
+        public Patient Patient { get; set; } = null!;
+        public Doctor Doctor { get; set; } = null!;
+        public DateTime VisitedDate { get; set; }
+        public string Diagnosis { get; set; } = string.Empty;
+        public string Prescription { get; set; } = string.Empty;
+        public string Notes { get; set; } = string.Empty;
     }
 }
