@@ -5,9 +5,9 @@ using System.Text;
 
 namespace HealthAxis.Repositories
 {
-    public class IAppointmentRepository
+    public interface IAppointmentRepository
     {
-        Appointment BookAppointment(Appointment newAppointment);
+        Appointment BookAppointment(Patient patient,Doctor doctor,DateTime date,String slot);
 
         bool CancelAppointment(int appointmentId, string cancellationReason);
 
@@ -15,7 +15,7 @@ namespace HealthAxis.Repositories
 
         List<Appointment> GetAppointmentsByDoctor(int doctorId);
 
-        List<Appointment> GetAllAppointments();
+        List<Appointment> GetUpcomingAppointments();
 
         Appointment? GetAppointmentById(int appointmentId);
     }
