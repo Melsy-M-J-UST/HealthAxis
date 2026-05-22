@@ -5,6 +5,7 @@ using AppointmentPortal.ConsoleApp.Repositories;
 using AppointmentPortal.ConsoleApp.Repositories.Impl;
 using AppointmentPortal.ConsoleApp.Services;
 using AppointmentPortal.ConsoleApp.Services.Impl;
+using HealthAxis.Exceptions;
 using HealthAxis.Models;
 using HealthAxis.Repositories;
 using HealthAxis.Repositories.Impl;
@@ -126,6 +127,28 @@ void AddDoctor()
         doctorService.AddDoctor(doctor);
 
         Console.WriteLine("Doctor added successfully!");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+}
+void SearchDoctorsBySpecialisation()
+{
+    try
+    {
+        var specialization = GetSpecialisationFromUser();
+
+        var doctors = doctorService.SearchDoctorBySpecialisation(specialization);
+
+        foreach (var doctor in doctors)
+        {
+            Console.WriteLine(doctor.GetProfileSummary());
+        }
+    }
+    catch (DoctorNotFoundException ex)
+    {
+        Console.WriteLine(ex.Message);
     }
     catch (Exception ex)
     {
