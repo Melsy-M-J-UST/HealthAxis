@@ -263,10 +263,13 @@ void BookAppointment()
     try
     {
         Console.Write("Enter Patient ID: ");
-        int patientId = int.Parse(Console.ReadLine() ?? "0");
+        if (!int.TryParse(Console.ReadLine(), out int patientId))
+        {
+            Console.WriteLine("Invalid Patient ID");
+            return;
+        }
 
         var patient = patientService.GetPatientById(patientId);
-
         if (patient == null)
         {
             Console.WriteLine("Patient not found.");
@@ -279,21 +282,24 @@ void BookAppointment()
 
         if (doctors == null || !doctors.Any())
         {
-            Console.WriteLine("No doctors available for this specialization.");
+            Console.WriteLine("No doctors found.");
             return;
         }
 
         Console.WriteLine("\nAvailable Doctors:");
         foreach (var d in doctors)
         {
-            Console.WriteLine($"ID: {d.DoctorId}, Name: {d.FullName}, Exp: {d.YearsOfExperience} yrs, Fee: {d.ConsultationFee}");
+            Console.WriteLine($"ID: {d.DoctorId}, Name: {d.FullName}, Fee: {d.ConsultationFee}");
         }
 
-        Console.Write("\nEnter Doctor ID: ");
-        int doctorId = int.Parse(Console.ReadLine() ?? "0");
+        Console.Write("Enter Doctor ID: ");
+        if (!int.TryParse(Console.ReadLine(), out int doctorId))
+        {
+            Console.WriteLine("Invalid Doctor ID");
+            return;
+        }
 
         var doctor = doctors.FirstOrDefault(d => d.DoctorId == doctorId);
-
         if (doctor == null)
         {
             Console.WriteLine("Invalid doctor selection.");
@@ -301,10 +307,20 @@ void BookAppointment()
         }
 
         Console.Write("Enter appointment date (yyyy-MM-dd): ");
-        DateTime date = DateTime.Parse(Console.ReadLine() ?? string.Empty);
+        if (!DateTime.TryParse(Console.ReadLine(), out DateTime date) || date <= DateTime.Today)
+        {
+            Console.WriteLine("Invalid or past date");
+            return;
+        }
 
         Console.Write("Enter time slot (e.g., 10AM-11AM): ");
         string slot = Console.ReadLine() ?? string.Empty;
+
+        if (string.IsNullOrWhiteSpace(slot))
+        {
+            Console.WriteLine("Invalid slot");
+            return;
+        }
 
         var appointment = new Appointment
         {
@@ -314,10 +330,10 @@ void BookAppointment()
             Slot = slot
         };
 
-        var bookedAppointment = appointmentService.BookAppointment(appointment);
+        var result = appointmentService.BookAppointment(appointment);
 
-        Console.WriteLine("\nAppointment booked successfully!");
-        Console.WriteLine(bookedAppointment.GetDetails());
+        Console.WriteLine("\n✅ Appointment booked successfully!");
+        Console.WriteLine(result.GetDetails());
     }
     catch (AppointmentConflictException ex)
     {
@@ -328,6 +344,7 @@ void BookAppointment()
         Console.WriteLine($"Booking failed: {ex.Message}");
     }
 }
+
 void ViewAllPatients()
 {
     var patients = patientService.GetAllPatients();
