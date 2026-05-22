@@ -14,7 +14,7 @@ namespace HealthAxis.Models
 
         public GenderOptions Gender { get; set; } = GenderOptions.Other;
 
-        public string ContactNumber { get; set; } = string.Empty;
+        public string PhoneNumber { get; set; } = string.Empty;
 
         public string Email { get; set; } = string.Empty;
 
@@ -43,7 +43,7 @@ namespace HealthAxis.Models
 
         public string GetProfileSummary()
         {
-            return $"PatientId: {PatientId}, FullName: {FullName}, DateOfBirth: {DateOfBirth.ToShortDateString()}, Gender: {Gender}, ContactNumber: {ContactNumber}, Email: {Email}, InsuranceID: {InsuranceID}, Phone: {ContactNumber}, Email: {Email}";
+            return $"PatientId: {PatientId}, FullName: {FullName}, DateOfBirth: {DateOfBirth.ToShortDateString()}, Gender: {Gender}, PhoneNumber: {PhoneNumber}, Email: {Email}, InsuranceID: {InsuranceID},Email: {Email}";
         }
     }
 }
