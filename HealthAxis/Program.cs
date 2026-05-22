@@ -5,6 +5,7 @@ using AppointmentPortal.ConsoleApp.Repositories;
 using AppointmentPortal.ConsoleApp.Repositories.Impl;
 using AppointmentPortal.ConsoleApp.Services;
 using AppointmentPortal.ConsoleApp.Services.Impl;
+using HealthAxis.Models;
 using HealthAxis.Repositories;
 using HealthAxis.Repositories.Impl;
 using HealthAxis.Services;
@@ -100,6 +101,62 @@ while (true)
     }
 }
 
+void AddDoctor()
+{
+    try
+    {
+        Doctor doctor = new Doctor();
+
+        doctor.DoctorId = db.GetNextDoctorId();
+
+        Console.Write("Enter Full Name: ");
+        doctor.FullName = Console.ReadLine();
+
+        doctor.Specialisation = GetSpecialisationFromUser();
+
+        Console.Write("Enter Years of Experience: ");
+        doctor.YearsOfExperience = Convert.ToInt32(Console.ReadLine());
+
+        Console.Write("Enter Consultation Fee: ");
+        doctor.ConsultationFee = Convert.ToInt32(Console.ReadLine());
+
+        Console.Write("Is Active (true/false): ");
+        doctor.IsActive = Convert.ToBoolean(Console.ReadLine());
+
+        doctorService.AddDoctor(doctor);
+
+        Console.WriteLine("Doctor added successfully!");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+}
+Doctor.SpecialisationOption GetSpecialisationFromUser()
+{
+    Console.WriteLine("Choose Specialisation:");
+
+    var specialisations = Enum.GetValues(typeof(Doctor.SpecialisationOption));
+
+    for (int i = 0; i < specialisations.Length; i++)
+    {
+        Console.WriteLine($"{i + 1}. {specialisations.GetValue(i)}");
+    }
+
+    Console.Write("Enter choice (number): ");
+
+    if (!int.TryParse(Console.ReadLine(), out int choice))
+    {
+        throw new Exception("Invalid input! Please enter a number.");
+    }
+
+    if (choice < 1 || choice > specialisations.Length)
+    {
+        throw new Exception("Choice out of range!");
+    }
+
+    return (Doctor.SpecialisationOption)specialisations.GetValue(choice - 1);
+}
 void ViewAllPatients()
 {
     var patients = patientService.GetAllPatients();
