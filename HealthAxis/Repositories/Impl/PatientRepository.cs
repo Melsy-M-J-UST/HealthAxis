@@ -7,7 +7,7 @@ using System.Text;
 
 namespace HealthAxis.Repositories.Impl
 {
-    public class PatientRepository
+    public class PatientRepository : IPatientRepository
     {
         public Patient RegisterPatient(Patient patient)
         {
