@@ -162,32 +162,54 @@ void AddDoctor()
     try
     {
         Doctor doctor = new Doctor();
-
         doctor.DoctorId = db.GetNextDoctorId();
 
         Console.Write("Enter Full Name: ");
-        doctor.FullName = Console.ReadLine();
+        string fullName = Console.ReadLine() ?? string.Empty;
+
+        if (!Regex.IsMatch(fullName, @"^[A-Za-z]+( [A-Za-z]+)*$"))
+        {
+            Console.WriteLine("Invalid name");
+            return;
+        }
+        doctor.FullName = fullName;
 
         doctor.Specialisation = GetSpecialisationFromUser();
 
         Console.Write("Enter Years of Experience: ");
-        doctor.YearsOfExperience = Convert.ToInt32(Console.ReadLine());
+        if (!int.TryParse(Console.ReadLine(), out int exp) || exp < 0)
+        {
+            Console.WriteLine("Invalid experience");
+            return;
+        }
+        doctor.YearsOfExperience = exp;
 
         Console.Write("Enter Consultation Fee: ");
-        doctor.ConsultationFee = Convert.ToInt32(Console.ReadLine());
+        if (!int.TryParse(Console.ReadLine(), out int fee) || fee <= 0)
+        {
+            Console.WriteLine("Invalid fee");
+            return;
+        }
+        doctor.ConsultationFee = fee;
 
         Console.Write("Is Active (true/false): ");
-        doctor.IsActive = Convert.ToBoolean(Console.ReadLine());
+        if (!bool.TryParse(Console.ReadLine(), out bool isActive))
+        {
+            Console.WriteLine("Invalid input");
+            return;
+        }
+        doctor.IsActive = isActive;
 
         doctorService.AddDoctor(doctor);
 
-        Console.WriteLine("Doctor added successfully!");
+        Console.WriteLine("✅ Doctor added successfully!");
     }
     catch (Exception ex)
     {
         Console.WriteLine(ex.Message);
     }
 }
+
 void SearchDoctorsBySpecialisation()
 {
     try
