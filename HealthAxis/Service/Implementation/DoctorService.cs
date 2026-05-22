@@ -6,7 +6,7 @@ using System.Text;
 
 namespace HealthAxis.Service.Implementation
 {
-    public class DoctorService
+    public class DoctorService : IDoctorService
     {
         private readonly IDoctorRepository _repository;
 

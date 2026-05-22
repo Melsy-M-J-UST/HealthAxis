@@ -7,7 +7,7 @@ using System.Text;
 
 namespace HealthAxis.Service.Implementation
 {
-    public class AppointmentService
+    public class AppointmentService: IAppointmentService
     {
         private readonly IAppointmentRepository _repository;
 
@@ -60,7 +60,7 @@ namespace HealthAxis.Service.Implementation
             return _repository.GetAppointmentsByDoctor(doctorId);
         }
 
-        public List<Appointment> GetAppointmentsByatient(int patientId)
+        public List<Appointment> GetAppointmentsBypatient(int patientId)
         {
             return _repository.GetAppointmentsByPatient(patientId);
         }
