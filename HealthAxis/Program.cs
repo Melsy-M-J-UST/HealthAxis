@@ -113,3 +113,16 @@ void ViewAllPatients()
         Console.WriteLine(patient.GetProfileSummary());
     }
 }
+void ViewAllDoctors()
+{
+    var doctors = doctorService.GetAllDoctors();
+    if (!doctors.Any())
+    {
+        Console.WriteLine("No Doctors Found");
+        return;
+    }
+    foreach (var doctor in doctors)
+    {
+        Console.WriteLine(doctor.GetProfileSummary());
+    }
+}
