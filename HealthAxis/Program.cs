@@ -82,7 +82,7 @@ while (true)
             ViewAllPatients();
             break;
         case "10":
-            //ViewAllDoctors();
+            ViewAllDoctors();
             break;
         case "11":
             //ViewUpcomingConfirmedAppointments();
@@ -273,5 +273,18 @@ void ViewAllPatients()
     foreach (var patient in patients)
     {
         Console.WriteLine(patient.GetPatientSummary());
+    }
+}
+void ViewAllDoctors()
+{
+    var doctors = doctorService.GetAllDoctors();
+    if (!doctors.Any())
+    {
+        Console.WriteLine("No Doctors Found");
+        return;
+    }
+    foreach (var doctor in doctors)
+    {
+        Console.WriteLine(doctor.GetDoctorSummary());
     }
 }
