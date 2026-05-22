@@ -103,7 +103,12 @@ void RegisterPatient()
 
     Console.Write("Enter your full name: ");
     string FullName = Console.ReadLine() ?? string.Empty;
-    if (Regex.IsMatch(FullName, @"^[A-Za-z]+( [A-Za-z]+)*$"))
+
+    if (Regex.IsMatch(
+            FullName,
+            @"^[A-Za-z]+( [A-Za-z]+)*$",
+            RegexOptions.None,
+            TimeSpan.FromMilliseconds(500)))
     {
         p.PatientName = FullName;
     }
@@ -139,7 +144,12 @@ void RegisterPatient()
 
     Console.Write("Enter your Phone number:");
     string PhoneNumber = Console.ReadLine() ?? string.Empty;
-    while (!Regex.IsMatch(PhoneNumber, @"^\d{10}$"))
+
+    while (!Regex.IsMatch(
+               PhoneNumber,
+               @"^\d{10}$",
+               RegexOptions.None,
+               TimeSpan.FromMilliseconds(300)))
     {
         Console.WriteLine("Enter a valid Phone Number");
         PhoneNumber = Console.ReadLine() ?? string.Empty;
@@ -150,7 +160,11 @@ void RegisterPatient()
     string Email = Console.ReadLine() ?? string.Empty;
     if (Email != string.Empty)
     {
-        if (Regex.IsMatch(Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+        if (Regex.IsMatch(
+        Email,
+        @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+        RegexOptions.None,
+        TimeSpan.FromMilliseconds(500)))
         {
             p.Email = Email;
         }
@@ -180,7 +194,12 @@ void AddDoctor()
 
         Console.Write("Enter Full Name: ");
         string FullName = Console.ReadLine() ?? string.Empty;
-        if (Regex.IsMatch(FullName, @"^[A-Za-z]+( [A-Za-z]+)*$"))
+
+        if (Regex.IsMatch(
+                FullName,
+                @"^[A-Za-z]+( [A-Za-z]+)*$",
+                RegexOptions.None,
+                TimeSpan.FromMilliseconds(500)))
         {
             doctor.DoctorName = FullName;
         }
@@ -262,6 +281,7 @@ Doctor.Specialisations GetSpecialisationFromUser()
 
     throw new Exception("Invalid Specialisation Entered");
 }
+
 void ViewAllPatients()
 {
     var patients = patientService.GetAllPatients();
