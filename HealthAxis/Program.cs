@@ -206,3 +206,57 @@ void ViewAllDoctors()
         Console.WriteLine(doctor.GetProfileSummary());
     }
 }
+
+void ConfirmCancelOrCompleteAppointment()
+{
+    try
+    {
+        Console.Write("Enter your Appointment ID: ");
+        int appointmentId = int.Parse(Console.ReadLine() ?? "0");
+
+        var appointment = appointmentService.GetAppointmentById(appointmentId);
+
+        if (appointment == null)
+        {
+            Console.WriteLine($"Appointment with Id {appointmentId} not found.");
+            return;
+        }
+
+        Console.Write($"We have your Apponintmentwith Id {appointmentId}. Please choose the below option to make changes to the status of your Appointment.");
+        Console.WriteLine("Press 1 to Confirm your appointment");
+        Console.WriteLine("Press 2 to Cancel your appointment");
+        Console.WriteLine("Press 3 to Complete your appointrment");
+
+        string action = Console.ReadLine() ?? string.Empty;
+
+
+        if (action == "1")
+        {
+            appointment.Confirm();
+            Console.WriteLine("Appointment confirmed.");
+        }
+        else if (action == "2")
+        {
+            Console.Write("Cancellation reason: ");
+            string reason = Console.ReadLine() ?? string.Empty;
+            appointmentService.CancelAppointment(appointmentId, reason);
+            Console.WriteLine("Appointment cancelled.");
+        }
+        else if (action == "3")
+        {
+            appointment.Status = Appointment.StatusOption.Completed;
+            Console.WriteLine("Appointment completed.");
+        }
+        else
+        {
+            Console.WriteLine("Invalid action.");
+        }
+
+        Console.WriteLine(appointment);
+    }
+    catch (AppointmentConflictException ex)
+    {
+        Console.WriteLine($"Operation failed: {ex.Message}");
+
+    }
+}
