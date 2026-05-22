@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace HealthAxis1.Services.Impl
+namespace HAP_Pod4_ConsoleApp_au.Services.Impl
 {
     public class PatientService : IPatientService
     {
