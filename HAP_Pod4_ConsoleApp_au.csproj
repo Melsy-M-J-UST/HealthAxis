@@ -8,8 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Exceptions\" />
-    <Folder Include="Services\" />
+    <Compile Remove="Services\IHealthRecordService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Services\IHealthRecordService.cs" />
   </ItemGroup>
 
 </Project>

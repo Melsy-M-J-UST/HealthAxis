@@ -1,6 +1,6 @@
 ﻿using HAP_Pod4_ConsoleApp_au.Models;
 
-namespace AppointmentPortal.ConsoleApp.Data
+namespace HAP_Pod4_ConsoleApp_au.Data
 {
     public class AppDbContext
     {

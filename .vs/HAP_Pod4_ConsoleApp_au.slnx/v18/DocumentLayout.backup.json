@@ -3,12 +3,75 @@
   "WorkspaceRootPath": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\repository\\impl\\healthrepoistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:repository\\impl\\healthrepoistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\services\\impl\\healthrecordservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:services\\impl\\healthrecordservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A37682AE-4BBD-49E0-B900-D23E1F76D90F}|..\\HealthAxisTests_au\\HealthAxisTests_au.csproj|c:\\users\\287766\\source\\repos\\healthaxistests_au\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\services\\impl\\patientservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:services\\impl\\patientservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\services\\impl\\doctorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:services\\impl\\doctorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\services\\impl\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:services\\impl\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\services\\ipatientservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:services\\ipatientservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\services\\ihealthrecordservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:services\\ihealthrecordservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\services\\idoctorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:services\\idoctorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\services\\iappointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:services\\iappointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\repository\\iappointmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:repository\\iappointmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\services\\ihealthrecordservice.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:services\\ihealthrecordservice.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\models\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:models\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\models\\healthrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:models\\healthrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\repository\\impl\\patientrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:repository\\impl\\patientrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\repository\\impl\\healthrepoistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:repository\\impl\\healthrepoistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\repository\\impl\\appointmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:repository\\impl\\appointmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\repository\\impl\\doctorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -23,32 +86,12 @@
       "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:repository\\ipatientrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\repository\\impl\\appointmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:repository\\impl\\appointmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\repository\\idoctorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:repository\\idoctorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\models\\doctor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:models\\doctor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\models\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:models\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\repository\\iappointmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:repository\\iappointmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\models\\healthrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:models\\healthrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\models\\patient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -57,10 +100,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\hap_pod4_consoleapp_au.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:hap_pod4_consoleapp_au.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -70,140 +109,171 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 10,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
             },
             {
               "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "HealthRepoistory.cs",
-              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\Impl\\HealthRepoistory.cs",
-              "RelativeDocumentMoniker": "Repository\\Impl\\HealthRepoistory.cs",
-              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\Impl\\HealthRepoistory.cs",
-              "RelativeToolTip": "Repository\\Impl\\HealthRepoistory.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAcwDcAAAABAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "UnitTest1.cs",
+              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HealthAxisTests_au\\UnitTest1.cs",
+              "RelativeDocumentMoniker": "..\\HealthAxisTests_au\\UnitTest1.cs",
+              "ToolTip": "C:\\Users\\287766\\source\\repos\\HealthAxisTests_au\\UnitTest1.cs",
+              "RelativeToolTip": "..\\HealthAxisTests_au\\UnitTest1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T19:12:58.734Z",
+              "WhenOpened": "2026-05-22T06:23:00.38Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "PatientService.cs",
+              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Services\\Impl\\PatientService.cs",
+              "RelativeDocumentMoniker": "Services\\Impl\\PatientService.cs",
+              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Services\\Impl\\PatientService.cs",
+              "RelativeToolTip": "Services\\Impl\\PatientService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-22T06:01:45.925Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "PatientRepository.cs",
-              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\Impl\\PatientRepository.cs",
-              "RelativeDocumentMoniker": "Repository\\Impl\\PatientRepository.cs",
-              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\Impl\\PatientRepository.cs",
-              "RelativeToolTip": "Repository\\Impl\\PatientRepository.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAIwCkAAAABAAAAAAAAAA==",
+              "Title": "HealthRecordService.cs",
+              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Services\\Impl\\HealthRecordService.cs",
+              "RelativeDocumentMoniker": "Services\\Impl\\HealthRecordService.cs",
+              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Services\\Impl\\HealthRecordService.cs",
+              "RelativeToolTip": "Services\\Impl\\HealthRecordService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T19:12:09.686Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "DoctorRepository.cs",
-              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\Impl\\DoctorRepository.cs",
-              "RelativeDocumentMoniker": "Repository\\Impl\\DoctorRepository.cs",
-              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\Impl\\DoctorRepository.cs",
-              "RelativeToolTip": "Repository\\Impl\\DoctorRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC0AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T19:06:34.725Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "IHealthRepository.cs",
-              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\IHealthRepository.cs",
-              "RelativeDocumentMoniker": "Repository\\IHealthRepository.cs",
-              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\IHealthRepository.cs",
-              "RelativeToolTip": "Repository\\IHealthRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T18:37:21.67Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "IPatientRepository.cs",
-              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\IPatientRepository.cs",
-              "RelativeDocumentMoniker": "Repository\\IPatientRepository.cs",
-              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\IPatientRepository.cs",
-              "RelativeToolTip": "Repository\\IPatientRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T18:37:29.965Z"
+              "WhenOpened": "2026-05-22T06:01:30.726Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "AppointmentRepository.cs",
-              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\Impl\\AppointmentRepository.cs",
-              "RelativeDocumentMoniker": "Repository\\Impl\\AppointmentRepository.cs",
-              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\Impl\\AppointmentRepository.cs",
-              "RelativeToolTip": "Repository\\Impl\\AppointmentRepository.cs",
-              "ViewState": "AgIAAEAAAAAAAAAAAAAcwFgAAAABAAAAAAAAAA==",
+              "Title": "AppointmentService.cs",
+              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Services\\Impl\\AppointmentService.cs",
+              "RelativeDocumentMoniker": "Services\\Impl\\AppointmentService.cs",
+              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Services\\Impl\\AppointmentService.cs",
+              "RelativeToolTip": "Services\\Impl\\AppointmentService.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAADwv0UAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T19:06:01.847Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "IDoctorRepository.cs",
-              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\IDoctorRepository.cs",
-              "RelativeDocumentMoniker": "Repository\\IDoctorRepository.cs",
-              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\IDoctorRepository.cs",
-              "RelativeToolTip": "Repository\\IDoctorRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T18:36:38.776Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Data\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
-              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Data\\AppDbContext.cs",
-              "RelativeToolTip": "Data\\AppDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T18:27:06.96Z"
+              "WhenOpened": "2026-05-22T06:01:07.355Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "Doctor.cs",
-              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Models\\Doctor.cs",
-              "RelativeDocumentMoniker": "Models\\Doctor.cs",
-              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Models\\Doctor.cs",
-              "RelativeToolTip": "Models\\Doctor.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAYwDgAAAApAAAAAAAAAA==",
+              "Title": "IDoctorService.cs",
+              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Services\\IDoctorService.cs",
+              "RelativeDocumentMoniker": "Services\\IDoctorService.cs",
+              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Services\\IDoctorService.cs",
+              "RelativeToolTip": "Services\\IDoctorService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T18:33:45.657Z"
+              "WhenOpened": "2026-05-22T05:59:59.248Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "IPatientService.cs",
+              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Services\\IPatientService.cs",
+              "RelativeDocumentMoniker": "Services\\IPatientService.cs",
+              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Services\\IPatientService.cs",
+              "RelativeToolTip": "Services\\IPatientService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-22T05:59:45.451Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAIEAAAAAAAAAAAAAADoBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T18:24:57.367Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DoctorService.cs",
+              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Services\\Impl\\DoctorService.cs",
+              "RelativeDocumentMoniker": "Services\\Impl\\DoctorService.cs",
+              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Services\\Impl\\DoctorService.cs",
+              "RelativeToolTip": "Services\\Impl\\DoctorService.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAwwEIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-22T06:01:17.122Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IHealthRecordService.cs",
+              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Services\\IHealthRecordService.cs",
+              "RelativeDocumentMoniker": "Services\\IHealthRecordService.cs",
+              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Services\\IHealthRecordService.cs",
+              "RelativeToolTip": "Services\\IHealthRecordService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-22T06:02:16.354Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "IHealthRecordService.cs",
+              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Services\\IHealthRecordService.cs",
+              "RelativeDocumentMoniker": "Services\\IHealthRecordService.cs",
+              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Services\\IHealthRecordService.cs",
+              "RelativeToolTip": "Services\\IHealthRecordService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-22T06:00:14.346Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 9,
-              "Title": "Appointment.cs",
-              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Models\\Appointment.cs",
-              "RelativeDocumentMoniker": "Models\\Appointment.cs",
-              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Models\\Appointment.cs",
-              "RelativeToolTip": "Models\\Appointment.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHAAAAABAAAAAAAAAA==",
+              "Title": "IAppointmentService.cs",
+              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Services\\IAppointmentService.cs",
+              "RelativeDocumentMoniker": "Services\\IAppointmentService.cs",
+              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Services\\IAppointmentService.cs",
+              "RelativeToolTip": "Services\\IAppointmentService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T18:29:03.879Z"
+              "WhenOpened": "2026-05-22T05:59:28.063Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "HealthRepoistory.cs",
+              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\Impl\\HealthRepoistory.cs",
+              "RelativeDocumentMoniker": "Repository\\Impl\\HealthRepoistory.cs",
+              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\Impl\\HealthRepoistory.cs",
+              "RelativeToolTip": "Repository\\Impl\\HealthRepoistory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T19:12:58.734Z"
             },
             {
               "$type": "Document",
@@ -213,13 +283,37 @@
               "RelativeDocumentMoniker": "Repository\\IAppointmentRepository.cs",
               "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\IAppointmentRepository.cs",
               "RelativeToolTip": "Repository\\IAppointmentRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-19T18:35:54.226Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 17,
+              "Title": "AppointmentRepository.cs",
+              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\Impl\\AppointmentRepository.cs",
+              "RelativeDocumentMoniker": "Repository\\Impl\\AppointmentRepository.cs",
+              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\Impl\\AppointmentRepository.cs",
+              "RelativeToolTip": "Repository\\Impl\\AppointmentRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T19:06:01.847Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "PatientRepository.cs",
+              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\Impl\\PatientRepository.cs",
+              "RelativeDocumentMoniker": "Repository\\Impl\\PatientRepository.cs",
+              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\Impl\\PatientRepository.cs",
+              "RelativeToolTip": "Repository\\Impl\\PatientRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T19:12:09.686Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "HealthRecord.cs",
               "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Models\\HealthRecord.cs",
               "RelativeDocumentMoniker": "Models\\HealthRecord.cs",
@@ -231,7 +325,91 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Appointment.cs",
+              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Models\\Appointment.cs",
+              "RelativeDocumentMoniker": "Models\\Appointment.cs",
+              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Models\\Appointment.cs",
+              "RelativeToolTip": "Models\\Appointment.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T18:29:03.879Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 12,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "Data\\AppDbContext.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAkwAIAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T18:27:06.96Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "DoctorRepository.cs",
+              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\Impl\\DoctorRepository.cs",
+              "RelativeDocumentMoniker": "Repository\\Impl\\DoctorRepository.cs",
+              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\Impl\\DoctorRepository.cs",
+              "RelativeToolTip": "Repository\\Impl\\DoctorRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T19:06:34.725Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "IHealthRepository.cs",
+              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\IHealthRepository.cs",
+              "RelativeDocumentMoniker": "Repository\\IHealthRepository.cs",
+              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\IHealthRepository.cs",
+              "RelativeToolTip": "Repository\\IHealthRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T18:37:21.67Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "IPatientRepository.cs",
+              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\IPatientRepository.cs",
+              "RelativeDocumentMoniker": "Repository\\IPatientRepository.cs",
+              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\IPatientRepository.cs",
+              "RelativeToolTip": "Repository\\IPatientRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T18:37:29.965Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "IDoctorRepository.cs",
+              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\IDoctorRepository.cs",
+              "RelativeDocumentMoniker": "Repository\\IDoctorRepository.cs",
+              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Repository\\IDoctorRepository.cs",
+              "RelativeToolTip": "Repository\\IDoctorRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T18:36:38.776Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Doctor.cs",
+              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Models\\Doctor.cs",
+              "RelativeDocumentMoniker": "Models\\Doctor.cs",
+              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Models\\Doctor.cs",
+              "RelativeToolTip": "Models\\Doctor.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAYwDgAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-19T18:33:45.657Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
               "Title": "Patient.cs",
               "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Models\\Patient.cs",
               "RelativeDocumentMoniker": "Models\\Patient.cs",
@@ -243,7 +421,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 24,
               "Title": "HAP_Pod4_ConsoleApp_au.csproj",
               "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\HAP_Pod4_ConsoleApp_au.csproj",
               "RelativeDocumentMoniker": "HAP_Pod4_ConsoleApp_au.csproj",
@@ -252,18 +430,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
               "WhenOpened": "2026-05-19T18:27:40.798Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T18:24:57.367Z"
             }
           ]
         }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using HAP_Pod4_ConsoleApp_au.Models;
 
-namespace HAP_Pod4_ConsoleApp_au.Repositories
+namespace HAP_Pod4_ConsoleApp_au.Services
 {
-    public interface IHealthRepository
+    public interface IHealthRecordService
     {
         HealthRecord AddRecord(HealthRecord record);
 

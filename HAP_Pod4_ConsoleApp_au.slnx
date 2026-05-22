@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="../HealthAxisTests_au/HealthAxisTests_au.csproj" Id="a37682ae-4bbd-49e0-b900-d23e1f76d90f" />
   <Project Path="HAP_Pod4_ConsoleApp_au.csproj" />
 </Solution>
