@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HealthAxis.Exceptions
 {
-    internal class AppointmentConflictException
+    public class AppointmentConflictException
     {
     }
 }
