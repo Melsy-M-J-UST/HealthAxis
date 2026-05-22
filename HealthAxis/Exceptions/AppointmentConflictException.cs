@@ -4,7 +4,11 @@ using System.Text;
 
 namespace HealthAxis.Exceptions
 {
-    public class AppointmentConflictException
+    public class AppointmentConflictException : Exception
     {
+        public AppointmentConflictException(string message) : base(message)
+        {
+
+        }
     }
 }
