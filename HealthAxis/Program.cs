@@ -1,4 +1,5 @@
 ﻿using HealthAxis.Data;
+using HealthAxis.Exceptions;
 using HealthAxis.Models;
 using HealthAxis.Repository;
 using HealthAxis.Repository.Implementation;
@@ -54,13 +55,13 @@ while (true)
     switch (choice)
     {
         case "1":
-            //RegisterPatient();
+            RegisterPatient();
             break;
         case "2":
-            //AddDoctor();
+            AddDoctor();
             break;
         case "3":
-            //SearchDoctorsBySpecialisation();
+            SearchDoctorsBySpecialisation();
             break;
         case "4":
             //BookAppointment();
@@ -168,4 +169,96 @@ void RegisterPatient()
 
     patientService.RegisterPatient(p);
     Console.WriteLine();
+}
+void AddDoctor()
+{
+    try
+    {
+        Doctor doctor = new Doctor();
+
+        doctor.DoctorId = db.GetNextDoctorId();
+
+        Console.Write("Enter Full Name: ");
+        string FullName = Console.ReadLine() ?? string.Empty;
+        if (Regex.IsMatch(FullName, @"^[A-Za-z]+( [A-Za-z]+)*$"))
+        {
+            doctor.DoctorName = FullName;
+        }
+        else
+        {
+            Console.WriteLine("Enter a Valid Name");
+            return;
+        }
+
+        doctor.Specialisation = GetSpecialisationFromUser();
+
+        Console.Write("Enter Years of Experience: ");
+        doctor.Experience = Convert.ToInt32(Console.ReadLine());
+
+        Console.Write("Enter Consultation Fee: ");
+        doctor.Fees = Convert.ToInt32(Console.ReadLine());
+
+        Console.Write("Is Active (true/false): ");
+        doctor.IsPractising = Convert.ToBoolean(Console.ReadLine());
+
+        doctorService.AddDoctor(doctor);
+
+        Console.WriteLine("Doctor added successfully!");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+}
+void SearchDoctorsBySpecialisation()
+{
+    try
+    {
+        var specialization = GetSpecialisationFromUser();
+
+        var doctors = doctorService.SearchDoctorBySpecialisation(specialization);
+
+        foreach (var doctor in doctors)
+        {
+            Console.WriteLine(doctor.GetDoctorSummary());
+        }
+    }
+    catch (DoctorNotFoundException ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+}
+Doctor.Specialisations GetSpecialisationFromUser()
+{
+    Console.WriteLine("Choose Specialisation:");
+
+    var specialisations = Enum.GetValues(typeof(Doctor.Specialisations));
+
+    for (int i = 0; i < specialisations.Length; i++)
+    {
+        Console.WriteLine($"{i + 1}. {specialisations.GetValue(i)}");
+    }
+
+    Console.Write("Enter Specialisation: ");
+    string input = Console.ReadLine() ?? string.Empty;
+
+
+    if (int.TryParse(input, out int choice))
+    {
+        if (choice >= 1 && choice <= specialisations.Length)
+        {
+            return (Doctor.Specialisations)specialisations.GetValue(choice - 1)!;
+        }
+    }
+
+    else if (Enum.TryParse(input, true, out Doctor.Specialisations result))
+    {
+        return result;
+    }
+
+    throw new Exception("Invalid Specialisation Entered");
 }
