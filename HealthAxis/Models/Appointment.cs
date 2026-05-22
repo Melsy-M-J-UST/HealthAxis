@@ -14,19 +14,16 @@ namespace HealthAxis.Models
 
         public string Slot { get; set; } = string.Empty;
 
-        public AppointmentStatus Status { get; set; } = AppointmentStatus.Pending;
+        public AppointmentStatus Status { get; set; } = AppointmentStatus.Confirmed;
 
         public string CancellationReason { get; set; } = string.Empty;
 
         public enum AppointmentStatus
         {
-            Pending,
             Confirmed,
             Cancelled,
             Completed
         }
-
-        public Appointment() { }
 
         public void Confirm()
         {
@@ -41,15 +38,20 @@ namespace HealthAxis.Models
 
         public void Cancel(string reason)
         {
-            if (Status == AppointmentStatus.Pending || Status == AppointmentStatus.Confirmed)
+            if (Status == AppointmentStatus.Confirmed)
             {
                 Status = AppointmentStatus.Cancelled;
                 CancellationReason = reason;
             }
             else
             {
-                throw new InvalidOperationException("Only pending/confirmed appointments can be cancelled.");
+                throw new InvalidOperationException("Only Confirmed appointments can be cancelled.");
             }
+        }
+
+        public string GetDetails()
+        {
+            return $"AppointmentId: {AppointmentId}, Date: {ScheduledDate}, Slot: {Slot}, Status: {Status}, Reason: {CancellationReason}";
         }
     }
 }

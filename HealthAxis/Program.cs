@@ -64,7 +64,7 @@ while (true)
             SearchDoctorsBySpecialisation();
             break;
         case "4":
-            //BookAppointment();
+            BookAppointment();
             break;
         case "5":
             //ViewAppointmentsForPatient();
@@ -193,6 +193,77 @@ Doctor.SpecialisationOption GetSpecialisationFromUser()
     }
 
     return (Doctor.SpecialisationOption)specialisations.GetValue(choice - 1);
+}
+
+void BookAppointment()
+{
+    try
+    {
+        Console.Write("Enter Patient ID: ");
+        int patientId = int.Parse(Console.ReadLine() ?? "0");
+
+        var patient = patientService.GetPatientById(patientId);
+
+        if (patient == null)
+        {
+            Console.WriteLine("Patient not found.");
+            return;
+        }
+
+        var specialization = GetSpecialisationFromUser();
+
+        var doctors = doctorService.SearchDoctorBySpecialisation(specialization);
+
+        if (doctors == null || !doctors.Any())
+        {
+            Console.WriteLine("No doctors available for this specialization.");
+            return;
+        }
+
+        Console.WriteLine("\nAvailable Doctors:");
+        foreach (var d in doctors)
+        {
+            Console.WriteLine($"ID: {d.DoctorId}, Name: {d.FullName}, Exp: {d.YearsOfExperience} yrs, Fee: {d.ConsultationFee}");
+        }
+
+        Console.Write("\nEnter Doctor ID: ");
+        int doctorId = int.Parse(Console.ReadLine() ?? "0");
+
+        var doctor = doctors.FirstOrDefault(d => d.DoctorId == doctorId);
+
+        if (doctor == null)
+        {
+            Console.WriteLine("Invalid doctor selection.");
+            return;
+        }
+
+        Console.Write("Enter appointment date (yyyy-MM-dd): ");
+        DateTime date = DateTime.Parse(Console.ReadLine() ?? string.Empty);
+
+        Console.Write("Enter time slot (e.g., 10AM-11AM): ");
+        string slot = Console.ReadLine() ?? string.Empty;
+
+        var appointment = new Appointment
+        {
+            Patient = patient,
+            Doctor = doctor,
+            ScheduledDate = date,
+            Slot = slot
+        };
+
+        var bookedAppointment = appointmentService.BookAppointment(appointment);
+
+        Console.WriteLine("\nAppointment booked successfully!");
+        Console.WriteLine(bookedAppointment.GetDetails());
+    }
+    catch (AppointmentConflictException ex)
+    {
+        Console.WriteLine($"Booking failed: {ex.Message}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Booking failed: {ex.Message}");
+    }
 }
 void ViewAllPatients()
 {
