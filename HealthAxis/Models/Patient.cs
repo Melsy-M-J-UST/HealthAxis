@@ -27,8 +27,19 @@ namespace HealthAxis.Models
             Male,
             Female,
             Transgender,
-            other
+            Other
         };
+
+        public int GetAge()
+        {
+            var today = DateTime.Today;
+            var age = today.Year - DateOfBirth.Year;
+            if (DateOfBirth.Date > today.AddYears(-age))
+            {
+                age--;
+            }
+            return age;
+        }
 
         public string GetProfileSummary()
         {
