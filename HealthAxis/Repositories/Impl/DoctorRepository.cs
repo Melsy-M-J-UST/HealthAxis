@@ -9,14 +9,20 @@ namespace HealthAxis.Repositories.Impl
 {
     public class DoctorRepository : IDoctorRepository
     {
+        private readonly Database _ContextDb;
+
+        public DoctorRepository(Database contextDb)
+        {
+            _ContextDb = contextDb;
+        }
         public string AddDoctor(Doctor doctor)
         {
-            Database.Doctors.Add(doctor);
+            _ContextDb.Doctors.Add(doctor);
             return "Doctor Added Successfully";
         }
         public List<Doctor> SearchDoctorBySpecialisation(string specialisation)
         {
-            var doctors = Database.Doctors
+            var doctors = _ContextDb.Doctors
                 .Where(doc => doc.Specialisation == specialisation)
                 .ToList();
 
@@ -28,3 +34,4 @@ namespace HealthAxis.Repositories.Impl
             return doctors;
         }
     }
+}

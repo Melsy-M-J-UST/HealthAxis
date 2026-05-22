@@ -10,6 +10,12 @@ namespace HealthAxis.Repositories.Impl
 {
     public class AppointmentRepository : IAppointmentRepository
     {
+
+        private readonly _ContextDb _dbContext;
+        public AppointmentRepository(_ContextDb dbContext)
+        {
+            _dbContext = dbContext;
+        }
         public Appointment BookAppointment(Patient patient, Doctor doctor, DateTime date, string slot)
         {
             if (!Enum.TryParse(slot, true, out Appointment.TimeSlot slotname))
@@ -17,14 +23,14 @@ namespace HealthAxis.Repositories.Impl
                 throw new AppointmentConflictException("Invalid Time slot");
             }
             Appointment newappointment = new Appointment { Patient = patient, Doctor = doctor, ScheduledDate = date, Slot = slotname };
-            Database.Appointments.Add(newappointment);
+            _dbContext.Appointments.Add(newappointment);
             return newappointment;
         }
 
         //CANCELLING APPOINTMENT
         public bool CancelAppointment(string appointmentid, string reason)
         {
-            var appointment = Database.Appointments.FirstOrDefault(app => app.Appointment_id == appointmentid);
+            var appointment = _dbContext.Appointments.FirstOrDefault(app => app.Appointment_id == appointmentid);
             if (appointment == null)
             {
                 throw new AppointmentConflictException("Appointment id doesn't exist");
@@ -37,7 +43,7 @@ namespace HealthAxis.Repositories.Impl
         //FETCHING APPOINTMENTS VIA PATIENT ID
         public List<Appointment> GetAppointmentsByPatient(int patientid)
         {
-            List<Appointment> appointmentbypatientid = Database.Appointments.Where(app => app.Patient.PatientId == patientid).ToList();
+            List<Appointment> appointmentbypatientid = _ContextDb.Appointments.Where(app => app.Patient.PatientId == patientid).ToList();
             if (appointmentbypatientid.Count == 0)
             {
                 throw new AppointmentConflictException("Appointment with this Patient ID not found");
@@ -49,7 +55,7 @@ namespace HealthAxis.Repositories.Impl
         //FETCHING APPOINTMENTS VIA DOCTOR ID
         public List<Appointment> GetAppointmentsByDoctor(int doctorid)
         {
-            var appointmentbydoctorid = Database.Appointments.Where(app => app.Doctor.DoctorId == doctorid).ToList();
+            var appointmentbydoctorid = _dbContext.Appointments.Where(app => app.Doctor.DoctorId == doctorid).ToList();
             if (appointmentbydoctorid.Count == 0)
             {
                 throw new AppointmentConflictException("Appointment with this Doctor ID not found");
@@ -60,17 +66,17 @@ namespace HealthAxis.Repositories.Impl
         //FETCHING APPOINTMENTS
         public List<Appointment> GetUpcomingAppointments()
         {
-            if (Database.Appointments.Count == 0)
+            if (_dbContext.Appointments.Count == 0)
             {
                 throw new AppointmentConflictException("No Appointments!");
             }
-            return Database.Appointments;
+            return _dbContext.Appointments;
         }
 
         //FETCHING APPOINTMENT VIA APPOINTMENT ID
         public Appointment? GetAppointmentById(string appointmentid)
         {
-            var appointment = Database.Appointments.FirstOrDefault(app => app.Appointment_id == appointmentid);
+            var appointment = _dbContext.Appointments.FirstOrDefault(app => app.Appointment_id == appointmentid);
             if (appointment == null)
             {
                 throw new AppointmentConflictException("Appointment with this ID doesn't exist");

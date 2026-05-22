@@ -2,12 +2,21 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static HealthAxis.Repositories.Impl.HealthRecordRepository;
 
 namespace HealthAxis.Services.Impl
 {
     public class HealthRecordService : IHealthRecordService
     {
-        public HealthRecord AddRecord(HealthRecord record)
+        public class HealthRecordService : IHealthRecordService
+        {
+            private readonly IHealthRepository _repository;
+
+            public HealthRecordService(IHealthRepository repository)
+            {
+                _repository = repository;
+            }
+            public HealthRecord AddRecord(HealthRecord record)
         {
 
             if (record == null)

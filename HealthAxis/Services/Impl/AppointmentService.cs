@@ -1,5 +1,6 @@
 ﻿using HealthAxis.Exceptions;
 using HealthAxis.Models;
+using HealthAxis.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +9,12 @@ namespace HealthAxis.Services.Impl
 {
     public class AppointmentService : IAppointmentService
     {
+        private readonly IAppointmentRepository _repo;
+
+        public AppointmentService(IAppointmentRepository repo)
+        {
+            this._repo = repo;
+        }
         public Appointment BookAppointment(Appointment newAppointment)
         {
             if (newAppointment.ScheduledDate.Date <= DateTime.Today)

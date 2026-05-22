@@ -5,7 +5,7 @@ using System.Text;
 
 namespace HealthAxis.Data
 {
-    public class Database
+    public class _ContextDb
     {
         public List<Patient> Patients { get; set; } = new();
         public List<Doctor> Doctors { get; set; } = new();
@@ -18,7 +18,7 @@ namespace HealthAxis.Data
         private int _nextHealthRecordId = 1;
         private int _nextSlotId = 1;
 
-        public Database()
+        public _ContextDb()
         {
             SeedData();
         }

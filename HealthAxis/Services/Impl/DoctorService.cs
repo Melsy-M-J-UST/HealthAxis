@@ -1,4 +1,5 @@
 ﻿using HealthAxis.Models;
+using HealthAxis.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,6 +8,12 @@ namespace HealthAxis.Services.Impl
 {
     public class DoctorService : IDoctorService
     {
+        private readonly IDoctorRepository _repository;
+
+        public DoctorService(IDoctorRepository _repository)
+        {
+            this._repository = _repository;
+        }
         public Doctor AddDoctor(Doctor doctor)
         {
             return _repository.AddDoctor(doctor);
