@@ -25,3 +25,70 @@ IPatientService patientService = provider.GetRequiredService<IPatientService>();
 IDoctorService doctorService = provider.GetRequiredService<IDoctorService>();
 IAppointmentService appointmentService = provider.GetRequiredService<IAppointmentService>();
 IHealthRecordService healthRecordService = provider.GetRequiredService<IHealthRecordService>();
+
+
+while (true)
+{
+    Console.WriteLine();
+    Console.WriteLine("===== Appointment Portal =====");
+    Console.WriteLine("1. Register a new patient");
+    Console.WriteLine("2. Add a new doctor");
+    Console.WriteLine("3. Search doctors by specialisation");
+    Console.WriteLine("4. Book an appointment for a patient");
+    Console.WriteLine("5. View all appointments for a patient");
+    Console.WriteLine("6. Confirm, cancel, or complete an appointment");
+    Console.WriteLine("7. Add a health record after a completed appointment");
+    Console.WriteLine("8. View health history for a patient");
+    Console.WriteLine("9. View all patients");
+    Console.WriteLine("10. View all doctors");
+
+    Console.WriteLine("11. View upcoming confirmed appointments");
+    Console.WriteLine("12. Exit");
+    Console.Write("Choose an option: ");
+
+    var choice = Console.ReadLine();
+    Console.WriteLine();
+
+    switch (choice)
+    {
+        case "1":
+            //RegisterPatient();
+            break;
+        case "2":
+            //AddDoctor();
+            break;
+        case "3":
+            //SearchDoctorsBySpecialisation();
+            break;
+        case "4":
+            //BookAppointment();
+            break;
+        case "5":
+            //ViewAppointmentsForPatient();
+            break;
+        case "6":
+            //ConfirmCancelOrCompleteAppointment();
+            break;
+        case "7":
+            //AddHealthRecord();
+            break;
+        case "8":
+            //ViewHealthHistory();
+            break;
+        case "9":
+            //ViewAllPatients();
+            break;
+        case "10":
+            //ViewAllDoctors();
+            break;
+        case "11":
+            //ViewUpcomingConfirmedAppointments();
+            break;
+        case "12":
+            Console.WriteLine("Exiting application...");
+            return;
+        default:
+            Console.WriteLine("Invalid choice. Please try again.");
+            break;
+    }
+}
