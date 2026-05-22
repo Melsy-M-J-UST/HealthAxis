@@ -1,9 +1,11 @@
 ﻿using HealthAxis.Data;
+using HealthAxis.Models;
 using HealthAxis.Repository;
 using HealthAxis.Repository.Implementation;
 using HealthAxis.Service;
 using HealthAxis.Service.Implementation;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text.RegularExpressions;
 
 var services = new ServiceCollection();
 services.AddSingleton<Database>();
@@ -91,4 +93,79 @@ while (true)
             Console.WriteLine("Invalid choice. Please try again.");
             break;
     }
+}
+
+void RegisterPatient()
+{
+    Patient p = new Patient();
+    p.PatientId = db.GetNextPatientId();
+
+    Console.Write("Enter your full name: ");
+    string FullName = Console.ReadLine() ?? string.Empty;
+    if (Regex.IsMatch(FullName, @"^[A-Za-z]+( [A-Za-z]+)*$"))
+    {
+        p.PatientName = FullName;
+    }
+    else
+    {
+        Console.WriteLine("Enter a Valid Name");
+        return;
+    }
+
+    Console.Write("Enter your Date of Birth:\n");
+    var inputDate = Console.ReadLine();
+    if ((DateTime.TryParse(inputDate, out DateTime dob)) && (dob < DateTime.Today))
+    {
+        p.DateOfBirth = dob;
+    }
+    else
+    {
+        Console.WriteLine("Invalid date format. Please enter a valid date.");
+        return;
+    }
+
+    Console.Write("Enter your Gender: \nMale\nFemale\nTransgender\nOther\nKindly please enter the one among the four given above.\n");
+    bool G = Enum.TryParse(Console.ReadLine(), true, out Patient.Genders gender);
+    if (G)
+    {
+        p.Gender = gender;
+    }
+    else
+    {
+        Console.WriteLine("Enter Valid Gender From the list");
+        return;
+    }
+
+    Console.Write("Enter your Phone number:");
+    string PhoneNumber = Console.ReadLine() ?? string.Empty;
+    while (!Regex.IsMatch(PhoneNumber, @"^\d{10}$"))
+    {
+        Console.WriteLine("Enter a valid Phone Number");
+        PhoneNumber = Console.ReadLine() ?? string.Empty;
+    }
+    p.PhoneNumber = PhoneNumber;
+
+    Console.Write("Enter your Mail Id: ");
+    string Email = Console.ReadLine() ?? string.Empty;
+    if (Email != string.Empty)
+    {
+        if (Regex.IsMatch(Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+        {
+            p.Email = Email;
+        }
+        else
+        {
+            Console.WriteLine("Enter a Valid Email Id");
+            return;
+        }
+    }
+
+    Console.Write("Enter your Insurance ID: ");
+    p.InsuranceId = Console.ReadLine() ?? string.Empty;
+
+    DateTime now = DateTime.Now;
+    p.RegisteredDate = now;
+
+    patientService.RegisterPatient(p);
+    Console.WriteLine();
 }
