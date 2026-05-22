@@ -100,21 +100,62 @@ void RegisterPatient()
 {
     Patient p = new Patient();
     p.PatientId = db.GetNextPatientId();
+
     Console.Write("Enter your full name: ");
-    p.FullName = Console.ReadLine() ?? string.Empty;
-    Console.Write("Enter your Date of Birth(YYYY-MM-DD hh:mm:ss):\n");
-    p.DateOfBirth = Convert.ToDateTime(Console.ReadLine());
-    Console.Write("Enter your Gender: \nMale\nFemale\nTransgender\nOther\nKindly please enter the one among the four given above.\n");
-    Enum.TryParse(Console.ReadLine(), true, out Patient.GenderOptions gender);
+    string fullName = Console.ReadLine() ?? string.Empty;
+
+    if (!Regex.IsMatch(fullName, @"^[A-Za-z]+( [A-Za-z]+)*$"))
+    {
+        Console.WriteLine("Invalid name.");
+        return;
+    }
+    p.FullName = fullName;
+
+    Console.Write("Enter your Date of Birth (YYYY-MM-DD): ");
+    string dobInput = Console.ReadLine();
+
+    if (!DateTime.TryParse(dobInput, out DateTime dob) || dob > DateTime.Today)
+    {
+        Console.WriteLine("Invalid date of birth.");
+        return;
+    }
+    p.DateOfBirth = dob;
+
+    Console.Write("Enter gender (Male/Female/Transgender/Other): ");
+    if (!Enum.TryParse(Console.ReadLine(), true, out Patient.GenderOptions gender))
+    {
+        Console.WriteLine("Invalid gender.");
+        return;
+    }
     p.Gender = gender;
-    Console.Write("Enter your Phone number:");
-    p.PhoneNumber = Console.ReadLine() ?? string.Empty;
-    Console.Write("Enter your Mail Id: ");
-    p.Email = Console.ReadLine() ?? string.Empty;
-    Console.Write("Enter your Insurance ID: ");
+
+    Console.Write("Enter phone number: ");
+    string phone = Console.ReadLine() ?? string.Empty;
+
+    if (!Regex.IsMatch(phone, @"^\d{10}$"))
+    {
+        Console.WriteLine("Invalid phone number.");
+        return;
+    }
+    p.PhoneNumber = phone;
+
+    Console.Write("Enter email: ");
+    string email = Console.ReadLine() ?? string.Empty;
+
+    if (!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+    {
+        Console.WriteLine("Invalid email.");
+        return;
+    }
+    p.Email = email;
+
+    Console.Write("Enter Insurance ID: ");
     p.InsuranceID = Console.ReadLine() ?? string.Empty;
-    Console.WriteLine();
+
+    p.CreatedDate = DateTime.Now;
+
     patientService.RegisterPatient(p);
+    Console.WriteLine("Patient registered successfully");
 }
 void AddDoctor()
 {
