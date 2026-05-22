@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HealthAxis.Repositories
 {
-    internal class IPatientRepository
+    public class IPatientRepository
     {
     }
 }
