@@ -79,7 +79,7 @@ while (true)
             //ViewHealthHistory();
             break;
         case "9":
-            //ViewAllPatients();
+            ViewAllPatients();
             break;
         case "10":
             //ViewAllDoctors();
@@ -261,4 +261,17 @@ Doctor.Specialisations GetSpecialisationFromUser()
     }
 
     throw new Exception("Invalid Specialisation Entered");
+}
+void ViewAllPatients()
+{
+    var patients = patientService.GetAllPatients();
+    if (!patients.Any())
+    {
+        Console.WriteLine("No Patients Found");
+        return;
+    }
+    foreach (var patient in patients)
+    {
+        Console.WriteLine(patient.GetPatientSummary());
+    }
 }
