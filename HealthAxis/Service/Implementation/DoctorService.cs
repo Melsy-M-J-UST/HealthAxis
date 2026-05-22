@@ -23,6 +23,10 @@ namespace HealthAxis.Service.Implementation
         {
             return _repository.SearchDoctorBySpecialisation(specialisation);
         }
+        public Doctor? GetDoctorById(int doctorId)
+        {
+            return _repository.GetDoctorById(doctorId);
+        }
         public List<Doctor> GetAllDoctors()
         {
             return _repository.GetAllDoctors();

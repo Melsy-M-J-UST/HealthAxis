@@ -33,6 +33,15 @@ namespace HealthAxis.Repository.Implementation
 
             return doctors;
         }
+        public Doctor? GetDoctorById(int doctorid)
+        {
+            var doctor = _Db.Doctors.FirstOrDefault(p => p.DoctorId == doctorid);
+            if (doctor == null)
+            {
+                throw new DoctorNotFoundException($"Patient with id {doctorid} not registered.");
+            }
+            return doctor;
+        }
         public List<Doctor> GetAllDoctors()
         {
             return _Db.Doctors.ToList();

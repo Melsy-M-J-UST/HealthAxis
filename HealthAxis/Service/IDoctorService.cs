@@ -9,6 +9,7 @@ namespace HealthAxis.Service
     {
         Doctor AddDoctor(Doctor doctor);
         List<Doctor> GetAllDoctors();
+        Doctor? GetDoctorById(int id);
         List<Doctor> SearchDoctorBySpecialisation(Doctor.Specialisations specialisation);
     }
 }
