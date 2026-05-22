@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace HealthAxis.Models
 {
@@ -22,7 +20,7 @@ namespace HealthAxis.Models
 
         public string GetRecordSummary()
         {
-            return $"HealthRecordId: {HealthRecordId}, Patient: {Patient.GetProfileSummary}, Doctor: {Doctor.GetProfileSummary}, VisitDate: {VisitDate}, Diagnosis: {Diagnosis}, Prescription: {Prescription}, Notes: {Notes}";
+            return $"HealthRecordId: {HealthRecordId}, Patient: {Patient.GetProfileSummary()}, Doctor: {Doctor.GetProfileSummary()}, VisitDate: {VisitDate}, Diagnosis: {Diagnosis}, Prescription: {Prescription}, Notes: {Notes}";
         }
     }
 }

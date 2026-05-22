@@ -12,7 +12,7 @@ namespace HealthAxis.Models
 
         public DateTime ScheduledDate { get; set; }
 
-        public String Slot { get; set; }
+        public string Slot { get; set; } = string.Empty;
 
         public AppointmentStatus Status { get; set; } = AppointmentStatus.Pending;
 
@@ -26,58 +26,30 @@ namespace HealthAxis.Models
             Completed
         }
 
-        public Appointment(string appointmentId, DateTime scheduledDate, string slot)
-        {
-            this.AppointmentId = appointmentId;
-            this.ScheduledDate = scheduledDate;
-            this.Slot = slot;
-            this.Status = AppointmentStatus.Pending;
-            CancellationReason = string.Empty;
-        }
+        public Appointment() { }
 
         public void Confirm()
         {
             if (Status == AppointmentStatus.Cancelled)
-            {
                 throw new InvalidOperationException("Cannot confirm a cancelled appointment.");
-            }
-        else if (Status == AppointmentStatus.Completed)
-            {
+
+            if (Status == AppointmentStatus.Completed)
                 throw new InvalidOperationException("Cannot confirm a completed appointment.");
-            }
+
             Status = AppointmentStatus.Confirmed;
         }
 
         public void Cancel(string reason)
         {
-            if (Status == AppointmentStatus.Confirmed || Status == AppointmentStatus.Pending)
+            if (Status == AppointmentStatus.Pending || Status == AppointmentStatus.Confirmed)
             {
                 Status = AppointmentStatus.Cancelled;
                 CancellationReason = reason;
             }
             else
             {
-                throw new InvalidOperationException("Only pending or confirmed appointments can be cancelled.");
+                throw new InvalidOperationException("Only pending/confirmed appointments can be cancelled.");
             }
         }
-
-        public void Complete()
-        {
-            if (Status != AppointmentStatus.Confirmed)
-            {
-                throw new InvalidOperationException("Only confirmed appointments can be completed.");
-            }
-            else if (Status == AppointmentStatus.Cancelled)
-            {
-                throw new InvalidOperationException("Cannot complete a cancelled appointment.");
-            }
-            Status = AppointmentStatus.Completed;
-        }
-       
-        public string GetDetails()
-        {
-            return $"Appointment ID: {AppointmentId} Scheduled Date: {ScheduledDate} Time Slot: {slot} Status: {status} Cancellation Reason(if any): {CancellationReason}";
-        }
-
     }
 }

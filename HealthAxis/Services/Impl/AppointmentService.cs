@@ -3,7 +3,7 @@ using HealthAxis.Models;
 using HealthAxis.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace HealthAxis.Services.Impl
 {
@@ -13,30 +13,32 @@ namespace HealthAxis.Services.Impl
 
         public AppointmentService(IAppointmentRepository repo)
         {
-            this._repo = repo;
+            _repo = repo;
         }
+
         public Appointment BookAppointment(Appointment newAppointment)
         {
-            if (newAppointment.ScheduledDate.Date <= DateTime.Today)
-            {
-                throw new AppointmentConflictException("Appointment must be scheduled in the future.");
-            }
+            if (newAppointment.ScheduledDate <= DateTime.Now)
+                throw new AppointmentConflictException("Date must be future");
 
-            var existingAppointments = _repo.GetAllAppointments();
+            var existing = _repo.GetAllAppointments();
 
-            bool isSlotTaken = existingAppointments.Any(app =>
-                app.Doctor.DoctorId == newAppointment.Doctor.DoctorId &&
-                app.ScheduledDate.Date == newAppointment.ScheduledDate.Date &&
-                app.Slot == newAppointment.Slot &&
-                app.Status != Appointment.StatusOption.Cancelled
+            bool isTaken = existing.Any(a =>
+                a.Doctor.DoctorId == newAppointment.Doctor.DoctorId &&
+                a.ScheduledDate.Date == newAppointment.ScheduledDate.Date &&
+                a.Slot == newAppointment.Slot &&
+                a.Status != Appointment.AppointmentStatus.Cancelled
             );
 
-            if (isSlotTaken)
-            {
-                throw new AppointmentConflictException("This slot is already booked for the doctor.");
-            }
+            if (isTaken)
+                throw new AppointmentConflictException("Slot already booked");
 
-            return _repo.BookAppointment(newAppointment);
+            return _repo.BookAppointment(
+                newAppointment.Patient,
+                newAppointment.Doctor,
+                newAppointment.ScheduledDate,
+                newAppointment.Slot
+            );
         }
 
         public bool CancelAppointment(int appointmentId, string reason)

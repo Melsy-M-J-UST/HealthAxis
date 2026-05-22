@@ -1,87 +1,87 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using HealthAxis.Models;
-using HealthAxis.Repositories;
-using HealthAxis.Exceptions;
+﻿using HealthAxis.Models;
 using HealthAxis.Data;
+using HealthAxis.Exceptions;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HealthAxis.Repositories.Impl
 {
     public class AppointmentRepository : IAppointmentRepository
     {
+        private readonly Database _dbContext;
 
-        private readonly _ContextDb _dbContext;
-        public AppointmentRepository(_ContextDb dbContext)
+        public AppointmentRepository(Database dbContext)
         {
             _dbContext = dbContext;
         }
+
         public Appointment BookAppointment(Patient patient, Doctor doctor, DateTime date, string slot)
         {
-            if (!Enum.TryParse(slot, true, out Appointment.TimeSlot slotname))
+            var newAppointment = new Appointment
             {
-                throw new AppointmentConflictException("Invalid Time slot");
-            }
-            Appointment newappointment = new Appointment { Patient = patient, Doctor = doctor, ScheduledDate = date, Slot = slotname };
-            _dbContext.Appointments.Add(newappointment);
-            return newappointment;
+                AppointmentId = _dbContext.GetNextAppointmentId(),
+                Patient = patient,
+                Doctor = doctor,
+                ScheduledDate = date,
+                Slot = slot
+            };
+
+            _dbContext.Appointments.Add(newAppointment);
+            return newAppointment;
         }
 
-        //CANCELLING APPOINTMENT
-        public bool CancelAppointment(string appointmentid, string reason)
+        public bool CancelAppointment(int appointmentId, string reason)
         {
-            var appointment = _dbContext.Appointments.FirstOrDefault(app => app.Appointment_id == appointmentid);
+            var appointment = _dbContext.Appointments
+                .FirstOrDefault(a => a.AppointmentId == appointmentId);
+
             if (appointment == null)
-            {
-                throw new AppointmentConflictException("Appointment id doesn't exist");
-            }
-            appointment.CancellationReason = reason;
-            appointment.Status = Appointment.AppointmentStatus.Cancelled;
+                throw new AppointmentConflictException("Appointment not found");
+
+            appointment.Cancel(reason);
             return true;
         }
 
-        //FETCHING APPOINTMENTS VIA PATIENT ID
-        public List<Appointment> GetAppointmentsByPatient(int patientid)
+        public List<Appointment> GetAppointmentsByPatient(int patientId)
         {
-            List<Appointment> appointmentbypatientid = _ContextDb.Appointments.Where(app => app.Patient.PatientId == patientid).ToList();
-            if (appointmentbypatientid.Count == 0)
-            {
-                throw new AppointmentConflictException("Appointment with this Patient ID not found");
-            }
-            return appointmentbypatientid;
+            var list = _dbContext.Appointments
+                .Where(a => a.Patient.PatientId == patientId)
+                .ToList();
 
+            if (!list.Any())
+                throw new AppointmentConflictException("No appointments for patient");
+
+            return list;
         }
 
-        //FETCHING APPOINTMENTS VIA DOCTOR ID
-        public List<Appointment> GetAppointmentsByDoctor(int doctorid)
+        public List<Appointment> GetAppointmentsByDoctor(int doctorId)
         {
-            var appointmentbydoctorid = _dbContext.Appointments.Where(app => app.Doctor.DoctorId == doctorid).ToList();
-            if (appointmentbydoctorid.Count == 0)
-            {
-                throw new AppointmentConflictException("Appointment with this Doctor ID not found");
-            }
-            return appointmentbydoctorid;
+            var list = _dbContext.Appointments
+                .Where(a => a.Doctor.DoctorId == doctorId)
+                .ToList();
+
+            if (!list.Any())
+                throw new AppointmentConflictException("No appointments for doctor");
+
+            return list;
         }
 
-        //FETCHING APPOINTMENTS
         public List<Appointment> GetUpcomingAppointments()
         {
-            if (_dbContext.Appointments.Count == 0)
-            {
-                throw new AppointmentConflictException("No Appointments!");
-            }
-            return _dbContext.Appointments;
+            return _dbContext.Appointments
+                .Where(a => a.ScheduledDate >= System.DateTime.Now)
+                .ToList();
         }
 
-        //FETCHING APPOINTMENT VIA APPOINTMENT ID
-        public Appointment? GetAppointmentById(string appointmentid)
+        public Appointment? GetAppointmentById(int appointmentId)
         {
-            var appointment = _dbContext.Appointments.FirstOrDefault(app => app.Appointment_id == appointmentid);
-            if (appointment == null)
-            {
-                throw new AppointmentConflictException("Appointment with this ID doesn't exist");
-            }
-            return appointment;
+            return _dbContext.Appointments
+                .FirstOrDefault(a => a.AppointmentId == appointmentId);
+        }
+
+        public List<Appointment> GetAllAppointments()
+        {
+            return _dbContext.Appointments;
         }
     }
 }

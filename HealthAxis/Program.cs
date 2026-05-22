@@ -1,10 +1,4 @@
-﻿using AppointmentPortal.ConsoleApp.Data;
-using AppointmentPortal.ConsoleApp.Exceptions;
-using AppointmentPortal.ConsoleApp.Models;
-using AppointmentPortal.ConsoleApp.Repositories;
-using AppointmentPortal.ConsoleApp.Repositories.Impl;
-using AppointmentPortal.ConsoleApp.Services;
-using AppointmentPortal.ConsoleApp.Services.Impl;
+﻿using HealthAxis.Data;
 using HealthAxis.Exceptions;
 using HealthAxis.Models;
 using HealthAxis.Repositories;
@@ -13,14 +7,14 @@ using HealthAxis.Services;
 using HealthAxis.Services.Impl;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.RegularExpressions;
-using static HealthAxis.Repositories.Impl.HealthRecordRepository;
+using System.Linq;
 
 var services = new ServiceCollection();
-services.AddSingleton<AppDbContext>();
+services.AddSingleton<Database>();
 services.AddScoped<IPatientRepository, PatientRepository>();
 services.AddScoped<IDoctorRepository, DoctorRepository>();
 services.AddScoped<IAppointmentRepository, AppointmentRepository>();
-services.AddScoped<IHealthRepository, HealthRepository>();
+services.AddScoped<IHealthRecordRepository, HealthRecordRepository>();
 
 
 services.AddScoped<IPatientService, PatientService>();
@@ -30,7 +24,7 @@ services.AddScoped<IHealthRecordService, HealthRecordService>();
 
 var provider = services.BuildServiceProvider();
 
-var db = provider.GetRequiredService<AppDbContext>();
+var db = provider.GetRequiredService<Database>();
 IPatientService patientService = provider.GetRequiredService<IPatientService>();
 IDoctorService doctorService = provider.GetRequiredService<IDoctorService>();
 IAppointmentService appointmentService = provider.GetRequiredService<IAppointmentService>();
@@ -102,6 +96,26 @@ while (true)
     }
 }
 
+void RegisterPatient()
+{
+    Patient p = new Patient();
+    p.PatientId = db.GetNextPatientId();
+    Console.Write("Enter your full name: ");
+    p.FullName = Console.ReadLine() ?? string.Empty;
+    Console.Write("Enter your Date of Birth(YYYY-MM-DD hh:mm:ss):\n");
+    p.DateOfBirth = Convert.ToDateTime(Console.ReadLine());
+    Console.Write("Enter your Gender: \nMale\nFemale\nTransgender\nOther\nKindly please enter the one among the four given above.\n");
+    Enum.TryParse(Console.ReadLine(), true, out Patient.GenderOptions gender);
+    p.Gender = gender;
+    Console.Write("Enter your Phone number:");
+    p.PhoneNumber = Console.ReadLine() ?? string.Empty;
+    Console.Write("Enter your Mail Id: ");
+    p.Email = Console.ReadLine() ?? string.Empty;
+    Console.Write("Enter your Insurance ID: ");
+    p.InsuranceID = Console.ReadLine() ?? string.Empty;
+    Console.WriteLine();
+    patientService.RegisterPatient(p);
+}
 void AddDoctor()
 {
     try
@@ -244,7 +258,7 @@ void ConfirmCancelOrCompleteAppointment()
         }
         else if (action == "3")
         {
-            appointment.Status = Appointment.StatusOption.Completed;
+            appointment.Status = Appointment.AppointmentStatus.Completed;
             Console.WriteLine("Appointment completed.");
         }
         else
@@ -279,7 +293,7 @@ void AddHealthRecord()
         return;
     }
 
-    if (appointment.Status != Appointment.StatusOption.Completed)
+    if (appointment.Status != Appointment.AppointmentStatus.Completed)
     {
         Console.WriteLine("Health records can only be added for completed appointments.");
         return;
@@ -328,7 +342,7 @@ void ViewHealthHistory()
 
     foreach (var record in records)
     {
-        Console.WriteLine(record.GetSummary());
+        Console.WriteLine(record.GetRecordSummary());
         Console.WriteLine("-----------------------------------");
     }
 }

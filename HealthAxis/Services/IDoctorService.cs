@@ -1,7 +1,5 @@
 ﻿using HealthAxis.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace HealthAxis.Services
 {
@@ -9,6 +7,6 @@ namespace HealthAxis.Services
     {
         Doctor AddDoctor(Doctor doctor);
         List<Doctor> GetAllDoctors();
-        List<Doctor> SearchDoctorBySpecialisation
+        List<Doctor> SearchDoctorBySpecialisation(Doctor.SpecialisationOption specialisation);
     }
 }

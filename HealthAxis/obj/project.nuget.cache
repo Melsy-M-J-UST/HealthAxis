@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "j5G+gKkm5TQ=",
+  "dgSpecHash": "5Bw1oVotx+k=",
   "success": true,
   "projectFilePath": "C:\\Users\\310053\\source\\repos\\HealthAxis\\HealthAxis\\HealthAxis.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\310053\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\10.0.8\\microsoft.extensions.dependencyinjection.10.0.8.nupkg.sha512",
+    "C:\\Users\\310053\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.8\\microsoft.extensions.dependencyinjection.abstractions.10.0.8.nupkg.sha512"
+  ],
   "logs": []
 }

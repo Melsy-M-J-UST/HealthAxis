@@ -1,9 +1,8 @@
 ﻿using HealthAxis.Exceptions;
 using HealthAxis.Models;
 using HealthAxis.Data;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace HealthAxis.Repositories.Impl
 {
@@ -15,12 +14,19 @@ namespace HealthAxis.Repositories.Impl
         {
             _ContextDb = contextDb;
         }
+
         public string AddDoctor(Doctor doctor)
         {
             _ContextDb.Doctors.Add(doctor);
             return "Doctor Added Successfully";
         }
-        public List<Doctor> SearchDoctorBySpecialisation(string specialisation)
+
+        public List<Doctor> GetAllDoctors()
+        {
+            return _ContextDb.Doctors;
+        }
+
+        public List<Doctor> SearchDoctorBySpecialisation(Doctor.SpecialisationOption specialisation)
         {
             var doctors = _ContextDb.Doctors
                 .Where(doc => doc.Specialisation == specialisation)

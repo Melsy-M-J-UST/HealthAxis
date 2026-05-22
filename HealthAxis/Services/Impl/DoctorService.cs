@@ -1,8 +1,6 @@
 ﻿using HealthAxis.Models;
 using HealthAxis.Repositories;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace HealthAxis.Services.Impl
 {
@@ -10,22 +8,25 @@ namespace HealthAxis.Services.Impl
     {
         private readonly IDoctorRepository _repository;
 
-        public DoctorService(IDoctorRepository _repository)
+        public DoctorService(IDoctorRepository repository)
         {
-            this._repository = _repository;
+            _repository = repository;
         }
+
         public Doctor AddDoctor(Doctor doctor)
         {
-            return _repository.AddDoctor(doctor);
+            _repository.AddDoctor(doctor);
+            return doctor;
+        }
+
+        public List<Doctor> GetAllDoctors()
+        {
+            return _repository.GetAllDoctors();
         }
 
         public List<Doctor> SearchDoctorBySpecialisation(Doctor.SpecialisationOption specialisation)
         {
             return _repository.SearchDoctorBySpecialisation(specialisation);
-        }
-        public List<Doctor> GetAllDoctors()
-        {
-            return _repository.GetAllDoctors();
         }
     }
 }

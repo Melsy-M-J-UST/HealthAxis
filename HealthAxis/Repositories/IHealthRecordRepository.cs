@@ -1,11 +1,9 @@
 ﻿using HealthAxis.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace HealthAxis.Repositories
 {
-    public class IHealthRecordRepository
+    public interface IHealthRecordRepository
     {
         HealthRecord AddRecord(HealthRecord record);
 

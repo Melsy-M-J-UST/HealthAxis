@@ -5,7 +5,7 @@ using System.Text;
 
 namespace HealthAxis.Repositories
 {
-    public class IPatientRepository
+    public interface IPatientRepository
     {
         List<Patient> GetAllPatients();
         Patient? GetPatientById(int id);

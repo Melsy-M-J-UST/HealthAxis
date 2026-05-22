@@ -43,7 +43,7 @@ namespace HealthAxis.Models
 
         public string GetProfileSummary()
         {
-            return $"PatientId: {PatientId}, FullName: {FullName}, DateOfBirth: {DateOfBirth.ToShortDateString()}, Gender: {Gender}, PhoneNumber: {PhoneNumber}, Email: {Email}, InsuranceID: {InsuranceID},Email: {Email}";
+            return $"PatientId: {PatientId}, FullName: {FullName}, Age : {GetAge()}, Gender: {Gender}, PhoneNumber: {PhoneNumber}, Email: {Email}";
         }
     }
 }

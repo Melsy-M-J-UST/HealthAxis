@@ -1,41 +1,38 @@
 ﻿using HealthAxis.Data;
 using HealthAxis.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using static HealthAxis.Repositories.Impl.HealthRecordRepository;
+using System.Linq;
 
 namespace HealthAxis.Repositories.Impl
 {
     public class HealthRecordRepository : IHealthRecordRepository
     {
-        public class HealthRepository : IHealthRepository
+        private readonly Database _context;
+
+        public HealthRecordRepository(Database context)
         {
-            private readonly Database _context;
+            _context = context;
+        }
 
-            public HealthRepository(Database context)
-            {
-                _context = context;
-            }
-            public void AddRecord(HealthRecord record)
-            {
-                _ContextDb.HealthRecords.Add(record);
-                _ContextDb.SaveChanges();
-            }
+        public HealthRecord AddRecord(HealthRecord record)
+        {
+            record.HealthRecordId = _context.GetNextHealthRecordId();
+            _context.HealthRecords.Add(record);
+            return record;
+        }
 
-            public List<HealthRecord> GetRecordsByPatient(int patientId)
-            {
-                return _ContextDb.HealthRecords
-                    .Where(r => r.PatientId == patientId)
-                    .ToList();
-            }
+        public List<HealthRecord> GetRecordsByPatient(int patientId)
+        {
+            return _context.HealthRecords
+                .Where(r => r.Patient.PatientId == patientId)
+                .ToList();
+        }
 
-            public List<HealthRecord> GetRecordsByDoctor(int doctorId)
-            {
-                return _ContextDb.HealthRecords
-                    .Where(r => r.DoctorId == doctorId)
-                    .ToList();
-            }
+        public List<HealthRecord> GetRecordsByDoctor(int doctorId)
+        {
+            return _context.HealthRecords
+                .Where(r => r.Doctor.DoctorId == doctorId)
+                .ToList();
         }
     }
 }
