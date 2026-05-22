@@ -99,3 +99,17 @@ while (true)
             break;
     }
 }
+
+void ViewAllPatients()
+{
+    var patients = patientService.GetAllPatients();
+    if (!patients.Any())
+    {
+        Console.WriteLine("No Patients Found");
+        return;
+    }
+    foreach (var patient in patients)
+    {
+        Console.WriteLine(patient.GetProfileSummary());
+    }
+}
