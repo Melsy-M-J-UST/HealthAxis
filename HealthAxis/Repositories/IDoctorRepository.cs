@@ -5,7 +5,7 @@ namespace HealthAxis.Repositories
 {
     public interface IDoctorRepository
     {
-        string AddDoctor(Doctor doctor);
+        Doctor AddDoctor(Doctor doctor);
         List<Doctor> SearchDoctorBySpecialisation(Doctor.SpecialisationOption specialisation);
         List<Doctor> GetAllDoctors();
     }

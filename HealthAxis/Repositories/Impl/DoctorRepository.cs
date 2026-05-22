@@ -15,10 +15,10 @@ namespace HealthAxis.Repositories.Impl
             _ContextDb = contextDb;
         }
 
-        public string AddDoctor(Doctor doctor)
+        public Doctor AddDoctor(Doctor doctor)
         {
             _ContextDb.Doctors.Add(doctor);
-            return "Doctor Added Successfully";
+            return doctor;
         }
 
         public List<Doctor> GetAllDoctors()
