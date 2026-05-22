@@ -1,10 +1,14 @@
-﻿using System;
+﻿using HealthAxis.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace HealthAxis.Services
 {
-    internal class IDoctorService
+    public interface IDoctorService
     {
+        Doctor AddDoctor(Doctor doctor);
+        List<Doctor> GetAllDoctors();
+        List<Doctor> SearchDoctorBySpecialisation
     }
 }

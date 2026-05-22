@@ -5,7 +5,7 @@ using System.Text;
 
 namespace HealthAxis.Services
 {
-    public class IAppointmentService
+    public interface IAppointmentService
     {
         Appointment BookAppointment(Appointment newAppointment);
         bool CancelAppointment(int appointmentId, string reason);

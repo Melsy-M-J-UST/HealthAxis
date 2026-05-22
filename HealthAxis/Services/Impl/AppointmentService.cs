@@ -6,7 +6,7 @@ using System.Text;
 
 namespace HealthAxis.Services.Impl
 {
-    public class AppointmentService
+    public class AppointmentService : IAppointmentService
     {
         public Appointment BookAppointment(Appointment newAppointment)
         {
