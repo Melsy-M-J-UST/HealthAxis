@@ -260,3 +260,47 @@ void ConfirmCancelOrCompleteAppointment()
 
     }
 }
+
+void AddHealthRecord()
+{
+    Console.Write("Enter Appointment ID: ");
+
+    if (!int.TryParse(Console.ReadLine(), out int appointmentId))
+    {
+        Console.WriteLine("Invalid Appointment ID.");
+        return;
+    }
+
+    var appointment = appointmentService.GetAppointmentById(appointmentId);
+
+    if (appointment == null)
+    {
+        Console.WriteLine("Appointment not found.");
+        return;
+    }
+
+    if (appointment.Status != Appointment.StatusOption.Completed)
+    {
+        Console.WriteLine("Health records can only be added for completed appointments.");
+        return;
+    }
+
+    HealthRecord record = new HealthRecord();
+
+    record.Patient = appointment.Patient;
+    record.Doctor = appointment.Doctor;
+    record.VisitDate = appointment.ScheduledDate;
+
+    Console.Write("Enter Diagnosis: ");
+    record.Diagnosis = Console.ReadLine() ?? string.Empty;
+
+    Console.Write("Enter Prescription: ");
+    record.Prescription = Console.ReadLine() ?? string.Empty;
+
+    Console.Write("Enter Additional Notes: ");
+    record.Notes = Console.ReadLine() ?? string.Empty;
+
+    healthRecordService.AddRecord(record);
+
+    Console.WriteLine("Health record added successfully.");
+}
