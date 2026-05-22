@@ -1,4 +1,5 @@
 ﻿using HealthAxis.Models;
+using HealthAxis.Models;
 
 namespace HealthAxis.Data
 {
@@ -9,11 +10,19 @@ namespace HealthAxis.Data
         public List<Appointment> Appointments { get; set; } = new();
         public List<HealthRecord> HealthRecords { get; set; } = new();
 
+        public List<string> DailySlots { get; set; } = new()
+        {
+            "09:00 AM",
+            "10:00 AM",
+            "11:00 AM",
+            "02:00 PM",
+            "03:00 PM"
+        };
+
         private int _nextPatientId = 1;
         private int _nextDoctorId = 1;
         private int _nextAppointmentId = 1;
         private int _nextHealthRecordId = 1;
-        private int _nextSlotId = 1;
 
         public AppDbContext()
         {
@@ -40,25 +49,6 @@ namespace HealthAxis.Data
             return _nextHealthRecordId++;
         }
 
-        public int GetNextSlotId()
-        {
-            return _nextSlotId++;
-        }
-        public void Reset()
-        {
-            Patients.Clear();
-            Doctors.Clear();
-            Appointments.Clear();
-            HealthRecords.Clear();
-
-            _nextPatientId = 1;
-            _nextDoctorId = 1;
-            _nextAppointmentId = 1;
-            _nextHealthRecordId = 1;
-
-            SeedData();
-        }
-
         private void SeedData()
         {
             Patients.AddRange(new List<Patient>
@@ -71,7 +61,7 @@ namespace HealthAxis.Data
                     Gender = Patient.GenderOptions.Male,
                     PhoneNumber = "9876543210",
                     Email = "arun.kumar@example.com",
-                    InsuranceID = "INS1001",
+                    InsuranceId = "INS1001",
                     CreatedDate = DateTime.Now
                 },
                 new Patient
@@ -79,10 +69,10 @@ namespace HealthAxis.Data
                     PatientId = GetNextPatientId(),
                     FullName = "Meera Nair",
                     DateOfBirth = new DateTime(1988, 9, 22),
-                    Gender = Patient.GenderOptions.Male,
+                    Gender = Patient.GenderOptions.Female,
                     PhoneNumber = "9876543211",
                     Email = "meera.nair@example.com",
-                    InsuranceID = "INS1002",
+                    InsuranceId = "INS1002",
                     CreatedDate = DateTime.Now
                 },
                 new Patient
@@ -93,7 +83,7 @@ namespace HealthAxis.Data
                     Gender = Patient.GenderOptions.Male,
                     PhoneNumber = "9876543212",
                     Email = "rahul.menon@example.com",
-                    InsuranceID = "INS1003",
+                    InsuranceId = "INS1003",
                     CreatedDate = DateTime.Now
                 },
                 new Patient
@@ -101,10 +91,10 @@ namespace HealthAxis.Data
                     PatientId = GetNextPatientId(),
                     FullName = "Anjali Thomas",
                     DateOfBirth = new DateTime(1995, 12, 3),
-                    Gender = Patient.GenderOptions.Male,
+                    Gender = Patient.GenderOptions.Female,
                     PhoneNumber = "9876543213",
                     Email = "anjali.thomas@example.com",
-                    InsuranceID = "INS1004",
+                    InsuranceId = "INS1004",
                     CreatedDate = DateTime.Now
                 },
                 new Patient
@@ -115,7 +105,7 @@ namespace HealthAxis.Data
                     Gender = Patient.GenderOptions.Male,
                     PhoneNumber = "9876543214",
                     Email = "vivek.pillai@example.com",
-                    InsuranceID = "INS1005",
+                    InsuranceId = "INS1005",
                     CreatedDate = DateTime.Now
                 }
             });
@@ -180,7 +170,7 @@ namespace HealthAxis.Data
                 {
                     DoctorId = GetNextDoctorId(),
                     FullName = "Dr. Lakshmi Menon",
-                    Specialisation = Doctor.SpecialisationOption.Endocrinologist,
+                    Specialisation = Doctor.SpecialisationOption.Oncologist,
                     YearsOfExperience = 8,
                     ConsultationFee = 550,
                     IsActive = true
@@ -189,7 +179,7 @@ namespace HealthAxis.Data
                 {
                     DoctorId = GetNextDoctorId(),
                     FullName = "Dr. Rajesh Nambiar",
-                    Specialisation = Doctor.SpecialisationOption.Oncologist,
+                    Specialisation = Doctor.SpecialisationOption.Endocrinologist,
                     YearsOfExperience = 13,
                     ConsultationFee = 650,
                     IsActive = true

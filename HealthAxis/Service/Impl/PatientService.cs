@@ -1,12 +1,12 @@
-﻿using HealthAxis.Repositories.Impl;
-using HealthAxis.Models;
+﻿using HealthAxis.Models;
 using HealthAxis.Repositories;
-using HealthAxis.Service;
+using HealthAxis.Repositories.Impl;
+using HealthAxis.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace HealthAxis.Service.Impl
+namespace HealthAxis.Services.Impl
 {
     public class PatientService : IPatientService
     {

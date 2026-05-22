@@ -1,6 +1,5 @@
 ﻿using HealthAxis.Models;
-
-namespace HealthAxis.Service
+namespace HealthAxis.Services
 {
     public interface IPatientService
     {

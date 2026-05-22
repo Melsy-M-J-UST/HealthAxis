@@ -1,8 +1,10 @@
 ﻿using HealthAxis.Models;
 using HealthAxis.Repositories;
-using HealthAxis.Service;
+using HealthAxis.Services;
+using System;
+using System.Collections.Generic;
 
-namespace HealthAxis.Service.Impl
+namespace HealthAxis.Services.Impl
 {
     public class HealthRecordService : IHealthRecordService
     {

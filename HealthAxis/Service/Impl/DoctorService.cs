@@ -1,8 +1,12 @@
 ﻿using HealthAxis.Models;
 using HealthAxis.Repositories;
-using HealthAxis.Service;
+using HealthAxis.Repositories.Impl;
+using HealthAxis.Services;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace HealthAxis.Service.Impl
+namespace HealthAxis.Services.Impl
 {
     public class DoctorService : IDoctorService
     {
@@ -15,6 +19,17 @@ namespace HealthAxis.Service.Impl
         public Doctor AddDoctor(Doctor doctor)
         {
             return _repository.AddDoctor(doctor);
+        }
+
+
+        public Doctor? GetById(int doctorId)
+        {
+            if (doctorId <= 0)
+            {
+                throw new ArgumentException("Invalid doctor ID.");
+            }
+
+            return _repository.GetById(doctorId);
         }
 
         public List<Doctor> SearchDoctorBySpecialisation(Doctor.SpecialisationOption specialisation)

@@ -18,7 +18,9 @@ namespace HealthAxis.Models
 
         public bool IsActive { get; set; }
 
-        List<Appointment> Appointments { get; set; } = new List<Appointment>();
+        public List<Appointment> Appointments { get; set; } = new List<Appointment>();
+
+        public List<DayOfWeek>? SurgeryDays { get; set; } = new List<DayOfWeek>();
 
         public enum SpecialisationOption
         {
@@ -35,24 +37,30 @@ namespace HealthAxis.Models
         }
 
 
-        public bool IsAvailable()
+        public bool IsAvailable(DateTime date)
         {
-            return IsActive;
+            if (!IsActive)
+                return false;
+            int booked = Appointments.Count(a => a.ScheduledDate.Date == date.Date && a.Status != Appointment.StatusOption.Cancelled);
+
+
+            const int capacity = 5;
+
+            return booked < capacity;
         }
 
-        public string GetScheduleSummary()
-        {
-            int UpcomingCount = 0;
 
-            foreach (var a in Appointments)
-            {
-                if (a.ScheduledDate > DateTime.Now && a.Status == Appointment.StatusOption.Confirmed)
-                {
-                    UpcomingCount++;
-                }
-            }
-            return $"Dr. {FullName} ({Specialisation}) - Upcoming Appointments: {UpcomingCount}";
+        public string GetScheduleSummary(List<Appointment> allAppointments)
+        {
+            int upcomingCount = allAppointments.Count(a =>
+                a.Doctor.DoctorId == DoctorId &&
+                a.ScheduledDate.Date >= DateTime.Today &&
+                a.Status == Appointment.StatusOption.Confirmed
+            );
+
+            return $"Dr. {FullName} ({Specialisation}) - Upcoming Appointments: {upcomingCount}";
         }
+
 
         public string GetProfileSummary()
         {

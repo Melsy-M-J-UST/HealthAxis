@@ -1,6 +1,7 @@
-﻿using HealthAxis.Exceptions;
-using HealthAxis.Data;
+﻿using HealthAxis.Data;
+using HealthAxis.Exceptions;
 using HealthAxis.Models;
+using HealthAxis.Repositories;
 using HealthAxis.Repositories;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,13 @@ namespace HealthAxis.Repositories.Impl
             _ContextDb.Doctors.Add(doctor);
             return doctor;
         }
+
+        public Doctor? GetById(int doctorId)
+        {
+            return _ContextDb.Doctors
+                .FirstOrDefault(d => d.DoctorId == doctorId);
+        }
+
         public List<Doctor> SearchDoctorBySpecialisation(Doctor.SpecialisationOption specialisation)
         {
             var doctors = _ContextDb.Doctors

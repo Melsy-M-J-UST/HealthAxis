@@ -1,7 +1,7 @@
-﻿using System;
+﻿using HealthAxis.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using HealthAxis.Models;
 
 namespace HealthAxis.Models
 {

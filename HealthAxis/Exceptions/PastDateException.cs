@@ -4,7 +4,12 @@ using System.Text;
 
 namespace HealthAxis.Exceptions
 {
-    internal class PastDateException
+    public class PastDateException : Exception
     {
+        public PastDateException(string message) : base(message)
+        {
+
+
+        }
     }
 }

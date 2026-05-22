@@ -1,6 +1,7 @@
-﻿using HealthAxis.Exceptions;
-using HealthAxis.Data;
+﻿using HealthAxis.Data;
+using HealthAxis.Exceptions;
 using HealthAxis.Models;
+using HealthAxis.Repositories;
 using HealthAxis.Repositories;
 using System;
 using System.Collections.Generic;
