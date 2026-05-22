@@ -1,10 +1,17 @@
-﻿using System;
+﻿using HealthAxis.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace HealthAxis.Service
 {
-    internal class IAppointmentService
+    public interface IAppointmentService
     {
+        Appointment BookAppointment(Appointment newAppointment);
+        bool CancelAppointment(int appointmentId, string reason);
+        List<Appointment> GetAppointmentsBypatient(int patientId);
+        List<Appointment> GetAppointmentsByDoctor(int doctorId);
+        Appointment? GetAppointmentById(int appointmentId);
+        List<Appointment> GetAllAppointments();
     }
 }
