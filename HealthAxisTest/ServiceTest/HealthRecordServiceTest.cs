@@ -20,7 +20,7 @@ namespace HealthAxisTest.ServiceTests
             _service = new HealthRecordService(_repoMock.Object);
         }
 
-        private Patient CreatePatient(int id)
+        private static Patient CreatePatient(int id)
         {
             return new Patient
             {
@@ -29,7 +29,7 @@ namespace HealthAxisTest.ServiceTests
             };
         }
 
-        private Doctor CreateDoctor(int id)
+        private static Doctor CreateDoctor(int id)
         {
             return new Doctor
             {
@@ -69,9 +69,9 @@ namespace HealthAxisTest.ServiceTests
         [Fact]
         public void AddRecord_Null_ShouldThrowException()
         {
-             & Assert
+           
             var ex = Assert.Throws<Exception>(() =>
-                _service.AddRecord(null)
+                _service.AddRecord(null!)
             );
 
             Assert.Contains("cannot be null", ex.Message);

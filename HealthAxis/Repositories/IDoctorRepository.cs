@@ -10,7 +10,8 @@ namespace HealthAxis.Repositories
         Doctor AddDoctor(Doctor doctor);
         List<Doctor> GetAllDoctors();
         Doctor? GetById(int doctorId);
-
         List<Doctor> SearchDoctorBySpecialisation(Doctor.SpecialisationOption specialisation);
+        bool UpdateDoctor(Doctor doctor);
+
     }
 }

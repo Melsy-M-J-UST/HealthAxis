@@ -35,7 +35,7 @@ namespace HealthAxis.Models
             Oncologist,
             Endocrinologist
         }
-
+        
 
         public bool IsAvailable(DateTime date)
         {
@@ -64,7 +64,7 @@ namespace HealthAxis.Models
 
         public string GetProfileSummary()
         {
-            return $"DoctorId: {DoctorId}, FullName: {FullName}, Specialisation: {Specialisation}, YearsOfExperience: {YearsOfExperience}, ConsultationFee: {ConsultationFee}, IsActive: {IsActive}";
+            return $"\n===============================\nDoctorId: {DoctorId},\n FullName: Dr. {FullName},\n Specialisation: {Specialisation},\n YearsOfExperience: {YearsOfExperience},\n ConsultationFee: {ConsultationFee},\n IsActive: {IsActive}\n===============================\n";
         }
 
     }

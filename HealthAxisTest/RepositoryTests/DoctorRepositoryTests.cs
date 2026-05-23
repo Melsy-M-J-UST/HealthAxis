@@ -133,7 +133,7 @@ namespace HealthAxisTest.RepositoryTests
 
             _repo.AddDoctor(doc);
 
-             & Assert
+             
             Assert.Throws<DoctorNotFoundException>(() =>
                 _repo.SearchDoctorBySpecialisation(Doctor.SpecialisationOption.Neurologist)
             );

@@ -2,7 +2,6 @@
 using HealthAxis.Exceptions;
 using HealthAxis.Models;
 using HealthAxis.Repositories;
-using HealthAxis.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,6 +45,21 @@ namespace HealthAxis.Repositories.Impl
         public List<Doctor> GetAllDoctors()
         {
             return _ContextDb.Doctors.ToList();
+        }
+
+        public bool UpdateDoctor(Doctor doctor)
+        {
+            var existing = _ContextDb.Doctors.FirstOrDefault(d => d.DoctorId == doctor.DoctorId);
+            if (existing == null)
+            {
+                return false;
+            }
+            existing.FullName = doctor.FullName;
+            existing.Specialisation = doctor.Specialisation;
+            existing.YearsOfExperience = doctor.YearsOfExperience;
+            existing.ConsultationFee = doctor.ConsultationFee;
+            existing.IsActive = doctor.IsActive;
+            return true;
         }
     }
 }

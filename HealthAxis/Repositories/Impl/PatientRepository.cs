@@ -2,7 +2,6 @@
 using HealthAxis.Exceptions;
 using HealthAxis.Models;
 using HealthAxis.Repositories;
-using HealthAxis.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +35,24 @@ namespace HealthAxis.Repositories.Impl
                 throw new PatientNotFoundException($"Patient with id {patientid} not registered.");
             }
             return patient;
+        }
+        
+        public bool UpdatePatient(Patient updatedPatient)
+        {
+            var existingPatient = _db.Patients.FirstOrDefault(p => p.PatientId == updatedPatient.PatientId);
+
+            if (existingPatient == null)
+            {
+                return false;
+            }
+
+            existingPatient.FullName = updatedPatient.FullName;
+            existingPatient.DateOfBirth = updatedPatient.DateOfBirth;
+            existingPatient.PhoneNumber = updatedPatient.PhoneNumber;
+            existingPatient.Email = updatedPatient.Email;
+            existingPatient.InsuranceId = updatedPatient.InsuranceId;
+            existingPatient.Gender = updatedPatient.Gender;
+            return true;
         }
     }
 }

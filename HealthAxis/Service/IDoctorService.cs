@@ -11,5 +11,6 @@ namespace HealthAxis.Services
         Doctor? GetById(int doctorId);
         List<Doctor> GetAllDoctors();
         List<Doctor> SearchDoctorBySpecialisation(Doctor.SpecialisationOption specialisation);
+        bool UpdateDoctor(Doctor doctor);
     }
 }

@@ -42,6 +42,16 @@ namespace HealthAxis.Services.Impl
         {
             return _repository.GetAllDoctors();
         }
+        public bool UpdateDoctor(Doctor doctor)
+        {
+            if (doctor == null)
+                throw new ArgumentException("Patient is required.");
+
+            if (string.IsNullOrWhiteSpace(doctor.FullName))
+                throw new ArgumentException("Patient name is required.");
+
+            return _repository.UpdateDoctor(doctor);
+        }
 
     }
 }

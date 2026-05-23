@@ -22,7 +22,7 @@ namespace HealthAxisTest.RepositoryTests
             _db.Patients.Clear();
         }
 
-        private Patient CreatePatient(int id)
+        private static Patient CreatePatient(int id)
         {
             return new Patient
             {
@@ -36,7 +36,7 @@ namespace HealthAxisTest.RepositoryTests
             };
         }
 
-        private Doctor CreateDoctor(int id)
+        private static Doctor CreateDoctor(int id)
         {
             return new Doctor
             {

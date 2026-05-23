@@ -44,7 +44,7 @@ while (true)
     Console.WriteLine("8. View health history for a patient");
     Console.WriteLine("9. View all patients");
     Console.WriteLine("10. View all doctors");
-    Console.WriteLine("11. View upcoming confirmed appointments");
+    Console.WriteLine("11. Update Portal");
     Console.WriteLine("12. Make an Doctor Active/Inactive");
     Console.WriteLine("13. Exit");
     Console.Write("Choose an option: ");
@@ -85,7 +85,7 @@ while (true)
             ViewAllDoctors();
             break;
         case "11":
-            ViewUpcomingConfirmedAppointments();
+            Update();
             break;
         case "12":
             MakeDoctorActive();
@@ -250,7 +250,7 @@ Doctor.SpecialisationOption GetSpecialisationFromUser()
     }
 
     Console.Write("Enter Specialisation Name ");
-    string specialisationInput = Console.ReadLine();
+    string specialisationInput = Console.ReadLine() ?? string.Empty;
 
     if (int.TryParse(specialisationInput, out int choice))
     {
@@ -295,7 +295,7 @@ void BookAppointment()
         Console.WriteLine("\nAvailable Doctors:");
         foreach (var d in doctors)
         {
-            Console.WriteLine($"ID: {d.DoctorId}, Name: {d.FullName}, Exp: {d.YearsOfExperience} yrs, Fee: {d.ConsultationFee}");
+            Console.WriteLine($"ID: {d.DoctorId}, Name: Dr. {d.FullName}, Exp: {d.YearsOfExperience} yrs, Fee: {d.ConsultationFee}");
         }
         Console.Write("\nChoose Doctor ID: ");
         int doctorId = int.Parse(Console.ReadLine() ?? "0");
@@ -528,34 +528,6 @@ void ViewAllDoctors()
     }
 }
 
-//11th Function
-
-void ViewUpcomingConfirmedAppointments()
-{
-    var appointments = appointmentService.GetUpcomingAppointments();
-
-    if (!appointments.Any())
-    {
-        Console.WriteLine(" No upcoming confirmed appointments found.");
-        return;
-    }
-
-    Console.WriteLine("\nUpcoming Confirmed Appointments:\n");
-
-    foreach (var appointment in appointments)
-    {
-        Console.WriteLine("----------------------------------------");
-        Console.WriteLine($"Appointment ID : {appointment.AppointmentId}");
-        Console.WriteLine($"Patient        : {appointment.Patient.FullName}");
-        Console.WriteLine($"Doctor         : {appointment.Doctor.FullName} ({appointment.Doctor.Specialisation})");
-        Console.WriteLine($"Date           : {appointment.ScheduledDate:yyyy-MM-dd}");
-        Console.WriteLine($"Time Slot      : {appointment.TimeSlot}");
-        Console.WriteLine($"Status         : {appointment.Status}");
-    }
-
-    Console.WriteLine("----------------------------------------");
-}
-
 //12th Function
 void MakeDoctorActive()
 {
@@ -595,5 +567,156 @@ void MakeDoctorActive()
     else
     {
         Console.WriteLine("Invalid choice.");
+    }
+}
+void Update()
+{
+    Console.WriteLine("==================Updation===================");
+    Console.WriteLine("1.To Update Patient");
+    Console.WriteLine("2.To Update Doctor");
+    var choice = Console.ReadLine();
+    switch (choice)
+    {
+        case "1":
+            UpdatePatient();
+            break;
+        case "2":
+            UpdateDoctor();
+            break;
+        default:
+            Console.WriteLine("Invalid Choice");
+            break;
+    }
+    void UpdatePatient()
+    {
+        ViewAllPatients();
+        Console.WriteLine("\n");
+        Console.Write("Enter Patient ID: ");
+        int id = int.Parse(Console.ReadLine() ?? "0");
+
+        var patient = patientService.GetPatientById(id);
+
+        if (patient == null)
+        {
+            Console.WriteLine("Patient not found.");
+            return;
+        }
+
+        Console.WriteLine("Press ENTER to keep existing values");
+
+        Console.Write($"Name ({patient.FullName}): ");
+        string name = Console.ReadLine()!;
+        if (!string.IsNullOrWhiteSpace(name))
+            patient.FullName = name;
+
+        Console.Write($"Phone ({patient.PhoneNumber}): ");
+        string phone = Console.ReadLine()!;
+        if (!string.IsNullOrWhiteSpace(phone))
+            patient.PhoneNumber = phone;
+
+        Console.Write($"Email ({patient.Email}): ");
+        string email = Console.ReadLine()!;
+        if (!string.IsNullOrWhiteSpace(email))
+            patient.Email = email;
+
+        Console.WriteLine($@"Current Gender: {patient.Gender}
+            Enter your Gender:
+            Male
+            Female
+            Transgender
+            Other
+            (Press ENTER to keep existing)");
+
+        string input = Console.ReadLine()!;
+
+        if (!string.IsNullOrWhiteSpace(input))
+        {
+            bool isValid = Enum.TryParse(input, true, out Patient.GenderOptions gender);
+
+            if (isValid)
+            {
+                patient.Gender = gender;
+            }
+            else
+            {
+                Console.WriteLine("Enter valid gender from the list");
+                return;
+            }
+        }
+
+
+
+        Console.Write($"DOB ({patient.DateOfBirth:yyyy-MM-dd}): ");
+        string dobInput = Console.ReadLine()!;
+        if (!string.IsNullOrWhiteSpace(dobInput))
+            patient.DateOfBirth = DateTime.Parse(dobInput);
+
+        var result = patientService.UpdatePatient(patient);
+
+        Console.WriteLine(result ? "Patient updated " : "Update failed ");
+    }
+    void UpdateDoctor()
+    {
+        ViewAllDoctors();
+        Console.WriteLine("\n");
+        Console.Write("Enter Doctor ID: ");
+        int id = int.Parse(Console.ReadLine() ?? "0");
+
+        var doctor = doctorService.GetById(id);
+
+        if (doctor == null)
+        {
+            Console.WriteLine("Doctor not found.");
+            return;
+        }
+
+        Console.WriteLine("Press ENTER to keep existing values");
+
+        Console.Write($"Name ({doctor.FullName}): ");
+        string name = Console.ReadLine()!;
+        if (!string.IsNullOrWhiteSpace(name))
+            doctor.FullName = name;
+
+        Console.Write($"Specialisation ({doctor.Specialisation}): ");
+        string specInput = Console.ReadLine()!;
+        if (!string.IsNullOrWhiteSpace(specInput))
+        {
+            var specialisations = Enum.GetValues(typeof(Doctor.SpecialisationOption));
+            if (int.TryParse(specInput, out int specChoice))
+            {
+                if (specChoice >= 1 && specChoice <= specialisations.Length)
+                {
+                    doctor.Specialisation = (Doctor.SpecialisationOption)specialisations.GetValue(specChoice - 1)!;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid Specialisation choice.");
+                    return;
+                }
+            }
+            else if (Enum.TryParse(specInput, true, out Doctor.SpecialisationOption specEnum))
+            {
+                doctor.Specialisation = specEnum;
+            }
+            else
+            {
+                Console.WriteLine("Invalid Specialisation.");
+                return;
+            }
+        }
+
+        Console.Write($"Experience ({doctor.YearsOfExperience}): ");
+        string expInput = Console.ReadLine()!;
+        if (!string.IsNullOrWhiteSpace(expInput))
+            doctor.YearsOfExperience = int.Parse(expInput);
+
+        Console.Write($"Fee ({doctor.ConsultationFee}): ");
+        string feeInput = Console.ReadLine()!;
+        if (!string.IsNullOrWhiteSpace(feeInput))
+            doctor.ConsultationFee = int.Parse(feeInput);
+
+        var result = doctorService.UpdateDoctor(doctor);
+
+        Console.WriteLine(result ? "Doctor updated" : "Update failed");
     }
 }

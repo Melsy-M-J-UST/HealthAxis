@@ -1,5 +1,4 @@
 ﻿using HealthAxis.Models;
-using HealthAxis.Models;
 
 namespace HealthAxis.Data
 {
@@ -115,7 +114,7 @@ namespace HealthAxis.Data
                 new Doctor
                 {
                     DoctorId = GetNextDoctorId(),
-                    FullName = "Dr. Priya Sharma",
+                    FullName = "Priya Sharma",
                     Specialisation = Doctor.SpecialisationOption.Cardiologist,
                     YearsOfExperience = 12,
                     ConsultationFee = 800,
@@ -124,7 +123,7 @@ namespace HealthAxis.Data
                 new Doctor
                 {
                     DoctorId = GetNextDoctorId(),
-                    FullName = "Dr. Suresh Mathew",
+                    FullName = "Suresh Mathew",
                     Specialisation = Doctor.SpecialisationOption.Dermatologist,
                     YearsOfExperience = 9,
                     ConsultationFee = 600,
@@ -133,7 +132,7 @@ namespace HealthAxis.Data
                 new Doctor
                 {
                     DoctorId = GetNextDoctorId(),
-                    FullName = "Dr. Neha Iyer",
+                    FullName = "Neha Iyer",
                     Specialisation = Doctor.SpecialisationOption.Pediatrician,
                     YearsOfExperience = 10,
                     ConsultationFee = 700,
@@ -142,7 +141,7 @@ namespace HealthAxis.Data
                 new Doctor
                 {
                     DoctorId = GetNextDoctorId(),
-                    FullName = "Dr. Thomas George",
+                    FullName = "Thomas George",
                     Specialisation = Doctor.SpecialisationOption.OrthopedicSurgeon,
                     YearsOfExperience = 15,
                     ConsultationFee = 900,
@@ -151,7 +150,7 @@ namespace HealthAxis.Data
                 new Doctor
                 {
                     DoctorId = GetNextDoctorId(),
-                    FullName = "Dr. Kavitha Rao",
+                    FullName = "Kavitha Rao",
                     Specialisation = Doctor.SpecialisationOption.Neurologist,
                     YearsOfExperience = 14,
                     ConsultationFee = 1000,
@@ -160,7 +159,7 @@ namespace HealthAxis.Data
                 new Doctor
                 {
                     DoctorId = GetNextDoctorId(),
-                    FullName = "Dr. Mohammed Ali",
+                    FullName = "Mohammed Ali",
                     Specialisation = Doctor.SpecialisationOption.GeneralPractitioner,
                     YearsOfExperience = 11,
                     ConsultationFee = 500,
@@ -169,7 +168,7 @@ namespace HealthAxis.Data
                 new Doctor
                 {
                     DoctorId = GetNextDoctorId(),
-                    FullName = "Dr. Lakshmi Menon",
+                    FullName = "Lakshmi Menon",
                     Specialisation = Doctor.SpecialisationOption.Oncologist,
                     YearsOfExperience = 8,
                     ConsultationFee = 550,
@@ -178,7 +177,7 @@ namespace HealthAxis.Data
                 new Doctor
                 {
                     DoctorId = GetNextDoctorId(),
-                    FullName = "Dr. Rajesh Nambiar",
+                    FullName = "Rajesh Nambiar",
                     Specialisation = Doctor.SpecialisationOption.Endocrinologist,
                     YearsOfExperience = 13,
                     ConsultationFee = 650,

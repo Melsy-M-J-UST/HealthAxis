@@ -47,7 +47,7 @@ namespace HealthAxisTest.RepositoryTests
         [Fact]
         public void GetById_InvalidId_ShouldThrowException()
         {
-             & Assert
+            
             var ex = Assert.Throws<PatientNotFoundException>(() =>
                 _repo.GetPatientById(999)
             );

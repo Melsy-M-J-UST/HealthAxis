@@ -21,7 +21,7 @@ namespace HealthAxisTest.ServiceTests
             _service = new AppointmentService(_repoMock.Object);
         }
 
-        private Patient CreatePatient(int id)
+        private static Patient CreatePatient(int id)
         {
             return new Patient
             {
@@ -30,7 +30,7 @@ namespace HealthAxisTest.ServiceTests
             };
         }
 
-        private Doctor CreateDoctor(int id)
+        private static Doctor CreateDoctor(int id)
         {
             return new Doctor
             {
