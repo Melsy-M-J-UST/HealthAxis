@@ -531,6 +531,7 @@ void ViewAllDoctors()
 //12th Function
 void MakeDoctorActive()
 {
+    ViewAllDoctors();
     Console.Write("Enter Doctor ID: ");
 
     if (!int.TryParse(Console.ReadLine(), out int doctorId))

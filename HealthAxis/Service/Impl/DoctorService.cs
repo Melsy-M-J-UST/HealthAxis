@@ -29,14 +29,22 @@ namespace HealthAxis.Services.Impl
                 throw new ArgumentException("Invalid doctor ID.");
             }
 
-            return _repository.GetById(doctorId);
+            var doctor = _repository.GetById(doctorId);
+            if (doctor == null)
+            {
+                throw new HealthAxis.Exceptions.DoctorNotFoundException($"Doctor with id {doctorId} not found.");
+            }
+            return doctor;
         }
 
         public List<Doctor> SearchDoctorBySpecialisation(Doctor.SpecialisationOption specialisation)
         {
+            var doctors = _repository.SearchDoctorBySpecialisation(specialisation);
+            if (doctors == null || doctors.Count == 0)
             {
-                return _repository.SearchDoctorBySpecialisation(specialisation);
+                throw new HealthAxis.Exceptions.DoctorNotFoundException("No doctors found with the given specialization.");
             }
+            return doctors;
         }
         public List<Doctor> GetAllDoctors()
         {

@@ -29,11 +29,8 @@ namespace HealthAxis.Repositories.Impl
 
         public Patient? GetPatientById(int patientid)
         {
-            var patient = _db.Patients.FirstOrDefault(p => p.PatientId == patientid);//find also works but not with lambda expression
-            if (patient == null)
-            {
-                throw new PatientNotFoundException($"Patient with id {patientid} not registered.");
-            }
+            var patient = _db.Patients.FirstOrDefault(p => p.PatientId == patientid);
+            // Repository should not throw; return null and let service layer handle exceptions
             return patient;
         }
         

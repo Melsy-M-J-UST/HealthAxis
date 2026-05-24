@@ -34,12 +34,6 @@ namespace HealthAxis.Repositories.Impl
             var doctors = _ContextDb.Doctors
                 .Where(doc => doc.Specialisation == specialisation)
                 .ToList();
-
-            if (!doctors.Any())
-            {
-                throw new DoctorNotFoundException("No doctors found with the given specialization.");
-            }
-
             return doctors;
         }
         public List<Doctor> GetAllDoctors()

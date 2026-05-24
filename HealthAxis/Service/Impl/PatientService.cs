@@ -23,7 +23,12 @@ namespace HealthAxis.Services.Impl
 
         public Patient? GetPatientById(int patientId)
         {
-            return _repository.GetPatientById(patientId);
+            var patient = _repository.GetPatientById(patientId);
+            if (patient == null)
+            {
+                throw new HealthAxis.Exceptions.PatientNotFoundException($"Patient with id {patientId} not registered.");
+            }
+            return patient;
         }
         public Patient RegisterPatient(Patient patient)
         {
