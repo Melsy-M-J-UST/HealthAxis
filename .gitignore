@@ -427,3 +427,28 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+# SonarQube scanner working directory
+.sonar/
+
+# SonarQube scanner cache and temp files
+.sonar/cache/
+.sonar/report-task.txt
+
+# SonarQube scanner output folders (sometimes generated)
+sonar-report/
+sonar/
+
+# SonarLint (IDE plugin) files
+.vscode/.sonarlint/
+.idea/sonarlint/
+
+# Coverage reports often used by Sonar (optional if you don't want to track)
+coverage/
+*.lcov
+*.exec
+
+# Scanner logs
+sonar-scanner.log
+
+# Generic Sonar properties (optional: ignore if environment-specific)
+sonar-project.properties.local
