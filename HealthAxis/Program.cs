@@ -67,7 +67,7 @@ while (true)
             BookAppointment();
             break;
         case "5":
-            //ViewAppointmentsForPatient();
+            ViewAppointmentsForPatient();
             break;
         case "6":
             //ConfirmCancelOrCompleteAppointment();
@@ -352,6 +352,42 @@ void BookAppointment()
     {
         Console.WriteLine($"Booking failed: {ex.Message}");
     }
+}
+void ViewAppointmentsForPatient()
+{
+    Console.Write("Enter Patient ID: ");
+    int patientId = int.Parse(Console.ReadLine() ?? "0");
+
+    var patient = patientService.GetPatientById(patientId);
+
+    if (patient == null)
+    {
+        Console.WriteLine("Patient not found.");
+        return;
+    }
+
+    var appointments = appointmentService.GetAppointmentsByPatient(patientId);
+
+    if (!appointments.Any())
+    {
+        Console.WriteLine("No appointments found for this patient.");
+        return;
+    }
+
+    Console.WriteLine($"\nAppointments for {patient.PatientName}:\n");
+
+    foreach (var appointment in appointments)
+    {
+        Console.WriteLine("----------------------------------------");
+        Console.WriteLine($"Appointment ID : {appointment.AppointmentId}");
+        Console.WriteLine($"Doctor         : {appointment.Doctor.DoctorName} ({appointment.Doctor.Specialisation})");
+        Console.WriteLine($"Date           : {appointment.ScheduledDate:yyyy-MM-dd}");
+        Console.WriteLine($"Time Slot      : {appointment.Slot}");
+        Console.WriteLine($"Status         : {appointment.Status}");
+        Console.WriteLine($"Cancellation   : {(string.IsNullOrWhiteSpace(appointment.CancellationReason) ? "N/A" : appointment.CancellationReason)}");
+    }
+
+    Console.WriteLine("----------------------------------------");
 }
 void ViewAllPatients()
 {
