@@ -108,5 +108,41 @@ namespace HealthAxisTest.RepositoryTests
             Assert.Contains(patients, x => x.PatientId == 2);
             Assert.Contains(patients, x => x.PatientId == 3);
         }
+        [Fact]
+        public void GetPatientById_InvalidId_ShouldReturnNull()
+        {
+            var result = _repo.GetPatientById(999);
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void UpdatePatient_Existing_ShouldUpdateAndReturnTrue()
+        {
+            var patient = new Patient
+            {
+                PatientId = 1,
+                FullName = "Old Name"
+            };
+
+            _repo.RegisterPatient(patient);
+
+            var updated = new Patient
+            {
+                PatientId = 1,
+                FullName = "New Name"
+            };
+
+            var result = _repo.UpdatePatient(updated);
+
+            Assert.True(result);
+            Assert.Equal("New Name", _repo.GetPatientById(1).FullName);
+        }
+
+        [Fact]
+        public void UpdatePatient_NotExisting_ShouldReturnFalse()
+        {
+            var result = _repo.UpdatePatient(new Patient { PatientId = 999 });
+            Assert.False(result);
+        }
     }
 }

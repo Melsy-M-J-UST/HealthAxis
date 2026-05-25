@@ -1,9 +1,10 @@
-﻿using Moq;
-using Xunit;
-using System.Collections.Generic;
+﻿using HealthAxis.Exceptions;
 using HealthAxis.Models;
 using HealthAxis.Repositories;
 using HealthAxis.Services.Impl;
+using Moq;
+using System.Collections.Generic;
+using Xunit;
 
 namespace HealthAxisTests
 {
@@ -69,5 +70,24 @@ namespace HealthAxisTests
             Assert.Single(result);
             Assert.Equal("Cardio Doc", result[0].FullName);
         }
+       
+        [Fact]
+        public void GetById_NotFound_ShouldThrow()
+        {
+            _mockRepo.Setup(r => r.GetById(1)).Returns((Doctor?)null);
+
+            Assert.Throws<DoctorNotFoundException>(() => _service.GetById(1));
+        }
+
+        [Fact]
+        public void SearchDoctorBySpecialisation_NoDoctors_ShouldThrow()
+        {
+            _mockRepo.Setup(r => r.SearchDoctorBySpecialisation(It.IsAny<Doctor.SpecialisationOption>()))
+                     .Returns(new List<Doctor>());
+
+            Assert.Throws<DoctorNotFoundException>(() =>
+                _service.SearchDoctorBySpecialisation(Doctor.SpecialisationOption.Cardiologist));
+        }
+
     }
 }

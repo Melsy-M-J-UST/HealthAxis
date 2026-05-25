@@ -1,0 +1,13 @@
+﻿C:\Users\310030\source\repos\HealthAxis\HealthAxisTest\RepositoryTests\AppointmentRepositoryTest.cs
+C:\Users\310030\source\repos\HealthAxis\HealthAxisTest\RepositoryTests\DoctorRepositoryTests.cs
+C:\Users\310030\source\repos\HealthAxis\HealthAxisTest\RepositoryTests\HealthRecordRepositoryTest.cs
+C:\Users\310030\source\repos\HealthAxis\HealthAxisTest\RepositoryTests\PatientRepostitoryTest.cs
+C:\Users\310030\source\repos\HealthAxis\HealthAxisTest\ServiceTest\AppointmentServiceTest.cs
+C:\Users\310030\source\repos\HealthAxis\HealthAxisTest\ServiceTest\DoctorServiceTest.cs
+C:\Users\310030\source\repos\HealthAxis\HealthAxisTest\ServiceTest\HealthRecordServiceTest.cs
+C:\Users\310030\source\repos\HealthAxis\HealthAxisTest\ServiceTest\PatientServiceTest.cs
+C:\Users\310030\.nuget\packages\microsoft.net.test.sdk\17.14.1\build\net8.0\Microsoft.NET.Test.Sdk.Program.cs
+C:\Users\310030\.nuget\packages\microsoft.testplatform.testhost\17.14.1\build\net8.0\x64\testhost.exe
+C:\Users\310030\.nuget\packages\microsoft.testplatform.testhost\17.14.1\build\net8.0\x64\testhost.dll
+C:\Users\310030\.nuget\packages\xunit.runner.visualstudio\3.1.4\build\net8.0\xunit.abstractions.dll
+C:\Users\310030\.nuget\packages\xunit.runner.visualstudio\3.1.4\build\net8.0\xunit.runner.visualstudio.testadapter.dll

@@ -98,7 +98,9 @@ while (true)
             break;
     }
 }
+
 //1st function
+
 void RegisterPatient()
 {
     Patient p = new Patient();

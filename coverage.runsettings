@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+	<DataCollectionRunSettings>
+		<DataCollectors>
+			<DataCollector friendlyName="Code Coverage">
+				<Configuration>
+					<CodeCoverage>
+						<ModulePaths>
+							<Exclude>
+								<!-- Keep module, not needed for your case -->
+							</Exclude>
+						</ModulePaths>
+
+						<Functions>
+							<Exclude>
+								<!-- Exclude Models -->
+
+								<!-- Exclude Global Classes -->
+								<Function>.*GlobalClasses\..*</Function>
+							</Exclude>
+						</Functions>
+
+						<Sources>
+							<Exclude>
+								<!-- FOLDER-BASED exclusion (very important) -->
+								<Source>.*\\GlobalClasses\\.*</Source>
+								<Source>.*\\Program\.cs</Source>
+							</Exclude>
+						</Sources>
+
+					</CodeCoverage>
+				</Configuration>
+			</DataCollector>
+		</DataCollectors>
+	</DataCollectionRunSettings>
+</RunSettings>

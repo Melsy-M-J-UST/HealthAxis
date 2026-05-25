@@ -1,9 +1,10 @@
-﻿using Moq;
-using Xunit;
-using System.Collections.Generic;
+﻿using HealthAxis.Exceptions;
 using HealthAxis.Models;
 using HealthAxis.Repositories;
 using HealthAxis.Services.Impl;
+using Moq;
+using System.Collections.Generic;
+using Xunit;
 namespace HealthAxisTests
 {
     public class PatientServiceTests
@@ -58,5 +59,19 @@ namespace HealthAxisTests
             Assert.NotNull(result);
             Assert.Equal("Sam", result.FullName);
         }
+        [Fact]
+        public void GetPatientById_NotFound_ShouldThrow()
+        {
+            _mockRepo.Setup(r => r.GetPatientById(1)).Returns((Patient?)null);
+
+            Assert.Throws<PatientNotFoundException>(() => _service.GetPatientById(1));
+        }
+
+        [Fact]
+        public void UpdatePatient_Null_ShouldThrow()
+        {
+            Assert.Throws<ArgumentException>(() => _service.UpdatePatient(null!));
+        }
+
     }
 }

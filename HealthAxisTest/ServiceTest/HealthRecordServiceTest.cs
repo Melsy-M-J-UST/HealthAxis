@@ -121,29 +121,5 @@ namespace HealthAxisTest.ServiceTests
             Assert.Equal(2, result.Count);
             Assert.True(result[0].VisitDate >= result[1].VisitDate);
         }
-
-        
-        [Fact]
-        public void GetRecordsByDoctor_ShouldReturnSortedDescending()
-        {
-            
-            var doctor = CreateDoctor(1);
-
-            var records = new List<HealthRecord>
-            {
-                new HealthRecord { Doctor = doctor, VisitDate = DateTime.Today.AddDays(-5) },
-                new HealthRecord { Doctor = doctor, VisitDate = DateTime.Today.AddDays(-1) }
-            };
-
-            _repoMock.Setup(r => r.GetRecordsByDoctor(1))
-                .Returns(records);
-
-            
-            var result = _service.GetRecordsByDoctor(1);
-
-           
-            Assert.Equal(2, result.Count);
-            Assert.True(result[0].VisitDate >= result[1].VisitDate);
-        }
     }
 }

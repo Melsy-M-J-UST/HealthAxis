@@ -150,5 +150,25 @@ namespace HealthAxisTest.RepositoryTests
             Assert.NotNull(result);
             Assert.Equal(2, result.Count);
         }
+        [Fact]
+        public void UpdateDoctor_Existing_ShouldUpdate()
+        {
+            var doctor = new Doctor { DoctorId = 1, FullName = "Old" };
+            _repo.AddDoctor(doctor);
+
+            var updated = new Doctor { DoctorId = 1, FullName = "New" };
+
+            var result = _repo.UpdateDoctor(updated);
+
+            Assert.True(result);
+            Assert.Equal("New", _repo.GetById(1).FullName);
+        }
+
+        [Fact]
+        public void UpdateDoctor_NotFound_ShouldReturnFalse()
+        {
+            var result = _repo.UpdateDoctor(new Doctor { DoctorId = 999 });
+            Assert.False(result);
+        }
     }
 }
