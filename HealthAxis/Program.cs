@@ -88,7 +88,7 @@ while (true)
             Update();
             break;
         case "12":
-            //ToggleDoctorActiveStatus();
+            ToggleDoctorStatus();
             break;
         case "13":
             Console.WriteLine("Exiting application...");
@@ -668,5 +668,46 @@ void Update()
             doctor.Fees = int.Parse(feeInput);
         var result = doctorService.UpdateDoctor(doctor);
         Console.WriteLine(result ? "Doctor updated" : "Update failed");
+    }
+}
+void ToggleDoctorStatus()
+{
+    ViewAllDoctors();
+    Console.Write("Enter Doctor ID: ");
+
+    if (!int.TryParse(Console.ReadLine(), out int doctorId))
+    {
+        Console.WriteLine("Invalid ID.");
+        return;
+    }
+
+    var doctor = doctorService.GetDoctorById(doctorId);
+
+    if (doctor == null)
+    {
+        Console.WriteLine("Doctor not found.");
+        return;
+    }
+
+    Console.WriteLine($"Doctor: {doctor.DoctorName}");
+    Console.WriteLine("1. Activate");
+    Console.WriteLine("2. Deactivate");
+    Console.Write("Choose an option: ");
+
+    var choice = Console.ReadLine();
+
+    if (choice == "1")
+    {
+        doctor.IsPractising = true;
+        Console.WriteLine("Doctor is now ACTIVE.");
+    }
+    else if (choice == "2")
+    {
+        doctor.IsPractising = false;
+        Console.WriteLine("Doctor is now INACTIVE.");
+    }
+    else
+    {
+        Console.WriteLine("Invalid choice.");
     }
 }
