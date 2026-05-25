@@ -76,7 +76,7 @@ while (true)
             AddHealthRecord();
             break;
         case "8":
-            //ViewHealthHistory();
+            ViewHealthHistory();
             break;
         case "9":
             ViewAllPatients();
@@ -476,6 +476,33 @@ void AddHealthRecord()
     healthRecordService.AddRecord(record);
 
     Console.WriteLine("Health record added successfully.");
+}
+void ViewHealthHistory()
+{
+    Console.Write("Enter Patient ID: ");
+
+    if (!int.TryParse(Console.ReadLine(), out int patientId))
+    {
+        Console.WriteLine("Invalid Patient ID.");
+        return;
+    }
+
+    var records = healthRecordService.GetRecordsByPatient(patientId);
+
+    if (records == null || !records.Any())
+    {
+        Console.WriteLine("No health records found for this patient.");
+        return;
+    }
+
+    Console.WriteLine();
+    Console.WriteLine("===== Health History =====");
+
+    foreach (var record in records)
+    {
+        Console.WriteLine(record.GetHealthRecordSummary());
+        Console.WriteLine("-----------------------------------");
+    }
 }
 void ViewAllPatients()
 {
