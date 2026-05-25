@@ -103,9 +103,6 @@ namespace HealthAxis.Repositories
                 string.Equals(a.TimeSlot, timeSlot, StringComparison.OrdinalIgnoreCase) &&
                 a.Status != Appointment.StatusOption.Cancelled);
         }
-
-
-
         public string? GetNextAvailableSlotAvoidingPatientConflicts(int doctorId, DateTime date, int patientId)
         {
             var bookedSlotsForDoctor = _context.Appointments

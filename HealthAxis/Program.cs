@@ -682,7 +682,7 @@ void Update()
         string specInput = Console.ReadLine()!;
         if (!string.IsNullOrWhiteSpace(specInput))
         {
-            var specialisations = Enum.GetValues(typeof(Doctor.SpecialisationOption));
+            var specialisations = Enum.GetValues<Doctor.SpecialisationOption>();
             if (int.TryParse(specInput, out int specChoice))
             {
                 if (specChoice >= 1 && specChoice <= specialisations.Length)

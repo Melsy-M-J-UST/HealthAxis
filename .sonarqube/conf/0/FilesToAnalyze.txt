@@ -25,4 +25,3 @@ C:\Users\310030\source\repos\HealthAxis\HealthAxis\Service\Impl\DoctorService.cs
 C:\Users\310030\source\repos\HealthAxis\HealthAxis\Service\Impl\HealthRecordService.cs
 C:\Users\310030\source\repos\HealthAxis\HealthAxis\Service\Impl\PatientService.cs
 C:\Users\310030\source\repos\HealthAxis\HealthAxis\Service\IPatientService.cs
-C:\Users\310030\source\repos\HealthAxis\HealthAxis\HealthAxis.csproj.Backup.tmp

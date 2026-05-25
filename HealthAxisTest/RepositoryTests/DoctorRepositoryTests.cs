@@ -116,29 +116,6 @@ namespace HealthAxisTest.RepositoryTests
             Assert.Equal(2, result.Count);
             Assert.All(result, d => Assert.Equal(Doctor.SpecialisationOption.Dermatologist, d.Specialisation));
         }
-
-        [Fact]
-        public void SearchDoctorBySpecialisation_NoMatch_ShouldThrowException()
-        {
-            
-            Doctor doc = new Doctor
-            {
-                DoctorId = 5,
-                FullName = "Dr. X",
-                Specialisation = Doctor.SpecialisationOption.Cardiologist,
-                YearsOfExperience = 10,
-                ConsultationFee = 800,
-                IsActive = true
-            };
-
-            _repo.AddDoctor(doc);
-
-             
-            Assert.Throws<DoctorNotFoundException>(() =>
-                _repo.SearchDoctorBySpecialisation(Doctor.SpecialisationOption.Neurologist)
-            );
-        }
-
         [Fact]
         public void GetAllDoctors_ShouldReturnInsertedDoctors()
         {

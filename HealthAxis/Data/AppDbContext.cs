@@ -118,7 +118,13 @@ namespace HealthAxis.Data
                     Specialisation = Doctor.SpecialisationOption.Cardiologist,
                     YearsOfExperience = 12,
                     ConsultationFee = 800,
-                    IsActive = true
+                    IsActive = true,
+                    SurgeryDays = new List<DayOfWeek>
+                    {
+                        DayOfWeek.Monday,
+                        DayOfWeek.Wednesday,
+                        DayOfWeek.Friday
+                    }
                 },
                 new Doctor
                 {
@@ -145,7 +151,13 @@ namespace HealthAxis.Data
                     Specialisation = Doctor.SpecialisationOption.OrthopedicSurgeon,
                     YearsOfExperience = 15,
                     ConsultationFee = 900,
-                    IsActive = true
+                    IsActive = true,
+                    SurgeryDays = new List<DayOfWeek>
+                    {
+                        DayOfWeek.Tuesday,
+                        DayOfWeek.Thursday,
+                        DayOfWeek.Saturday
+                    }
                 },
                 new Doctor
                 {
@@ -154,7 +166,13 @@ namespace HealthAxis.Data
                     Specialisation = Doctor.SpecialisationOption.Neurologist,
                     YearsOfExperience = 14,
                     ConsultationFee = 1000,
-                    IsActive = true
+                    IsActive = true,
+                    SurgeryDays = new List<DayOfWeek>
+                    {
+                        DayOfWeek.Monday,
+                        DayOfWeek.Wednesday,
+                        DayOfWeek.Friday
+                    }
                 },
                 new Doctor
                 {
@@ -181,7 +199,13 @@ namespace HealthAxis.Data
                     Specialisation = Doctor.SpecialisationOption.Gynecologist,
                     YearsOfExperience = 7,
                     ConsultationFee = 600,
-                    IsActive = true
+                    IsActive = true,
+                    SurgeryDays = new List<DayOfWeek>
+                    {
+                        DayOfWeek.Tuesday,
+                        DayOfWeek.Thursday,
+                        DayOfWeek.Saturday
+                    }
                 },
                 new Doctor
                 {
