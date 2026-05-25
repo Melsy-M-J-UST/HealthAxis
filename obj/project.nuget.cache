@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "DXR5mlY6Vjk=",
+  "dgSpecHash": "/rWUmlhnoYE=",
   "success": true,
   "projectFilePath": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\HAP_Pod4_ConsoleApp_au.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\287766\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
+    "C:\\Users\\287766\\.nuget\\packages\\coverlet.collector\\10.0.1\\coverlet.collector.10.0.1.nupkg.sha512",
+    "C:\\Users\\287766\\.nuget\\packages\\moq\\4.20.72\\moq.4.20.72.nupkg.sha512",
+    "C:\\Users\\287766\\.nuget\\packages\\system.diagnostics.eventlog\\6.0.0\\system.diagnostics.eventlog.6.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

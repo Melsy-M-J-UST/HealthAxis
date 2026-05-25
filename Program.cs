@@ -4,8 +4,10 @@ using HAP_Pod4_ConsoleApp_au.Models;
 using HAP_Pod4_ConsoleApp_au.Repositories;
 using HAP_Pod4_ConsoleApp_au.Repository;
 using HAP_Pod4_ConsoleApp_au.Services.Impl;
-using System.Text.RegularExpressions;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 
 AppDbContext context = new AppDbContext();
@@ -27,6 +29,21 @@ DoctorService doctorService = new DoctorService(context);
 HealthRecordService healthRecordService = new HealthRecordService(healthRepository);
 
 
+SeedRepositories(context, patientRepository, doctorRepository);
+
+static void SeedRepositories(AppDbContext context, IPatientRepository patientRepository,IDoctorRepository doctorRepository)
+{ 
+    foreach (var patient in context.Patients)
+    {
+        patientRepository.RegisterPatient(patient);
+    }
+
+    foreach (var doctor in context.Doctors)
+    {
+        doctorRepository.AddDoctor(doctor);
+    }
+}
+
 bool exit = false;
 
 while (!exit)
@@ -43,7 +60,8 @@ while (!exit)
     Console.WriteLine("9. View all patients");
     Console.WriteLine("10. View all doctors");
     Console.WriteLine("11. View upcoming appointments");
-    Console.WriteLine("12. Exit");
+    Console.WriteLine("12. Clear");
+    Console.WriteLine("13. Exit");
     Console.Write("Enter choice: ");
 
     string? choice = Console.ReadLine();
@@ -63,11 +81,7 @@ while (!exit)
             break;
 
         case "4":
-            BookAppointment(
-                appointmentService,
-                patientService,
-                doctorService,
-                context);
+            BookAppointment(appointmentService,patientService,doctorService,context);
             break;
 
         case "5":
@@ -104,6 +118,10 @@ while (!exit)
             break;
 
         case "12":
+            Console.Clear();
+            break;
+
+        case "13":
             exit = true;
             Console.WriteLine("Application Closed.");
             break;
@@ -121,13 +139,15 @@ static void RegisterPatient(PatientService patientService, AppDbContext context)
         Console.Write("Enter Full Name: ");
         string name = ReadValidName();
 
-        Console.Write("Enter Date Of Birth (yyyy-mm-dd): ");
+        Console.Write("Enter Date Of Birth (dd-mm-yyyy): ");
         DateTime dob = ReadValidDOB();
 
         Console.WriteLine("Select Gender:");
-        foreach (var gender in Enum.GetValues(typeof(Patient.GenderOptions)))
+
+        foreach (Patient.GenderOptions gender in
+                 Enum.GetValues(typeof(Patient.GenderOptions)))
         {
-            Console.WriteLine($"{gender}");
+            Console.WriteLine($"{(int)gender + 1}. {gender}");
         }
 
         int genderChoice = ReadPositiveInteger();
@@ -175,7 +195,7 @@ static void AddDoctor(DoctorService doctorService)
 
         foreach (var spec in Enum.GetValues(typeof(Doctor.SpecialisationOption)))
         {
-            Console.WriteLine($"{(int)spec} - {spec}");
+            Console.WriteLine($"{(int)spec + 1} - {spec}");
         }
 
         int specChoice = ReadPositiveInteger();
@@ -218,8 +238,7 @@ static void SearchDoctors(DoctorService doctorService)
 
     int specChoice = ReadPositiveInteger();
 
-    var doctors = doctorService.SearchDoctorBySpecialisation(
-        (Doctor.SpecialisationOption)specChoice);
+    var doctors = doctorService.SearchDoctorBySpecialisation((Doctor.SpecialisationOption)specChoice);
 
     if (doctors.Count == 0)
     {
@@ -271,8 +290,8 @@ static void BookAppointment(
             return;
         }
 
-        Console.Write("Enter Appointment Date (yyyy-mm-dd): ");
-        DateTime appointmentDate = ReadValidFutureDate();
+        Console.Write("Enter Appointment Date (dd-mm-yyyy): ");
+        DateTime appointmentDate = ReadValidDate();
 
         Console.WriteLine("Select Time Slot:");
 
@@ -515,9 +534,7 @@ static string ReadValidEmail()
     {
         string? input = Console.ReadLine();
 
-        if (!string.IsNullOrWhiteSpace(input) &&
-            input.Contains("@") &&
-            input.Contains("."))
+        if (!string.IsNullOrWhiteSpace(input) && input.Contains("@") && input.Contains("."))
         {
             return input;
         }
@@ -542,22 +559,32 @@ static DateTime ReadValidDOB()
     }
 }
 
-static DateTime ReadValidFutureDate()
+
+static DateTime ReadValidDate()
 {
     while (true)
     {
-        if (DateTime.TryParse(Console.ReadLine(), out DateTime date))
+        if (!DateTime.TryParse(Console.ReadLine(), out DateTime date))
         {
-            if (date.Date > DateTime.Today)
-            {
-                return date;
-            }
+            Console.Write("Invalid Date. \nKindly Re-enter: ");
+            continue;
         }
 
-        Console.Write("Invalid Future Date. \nRe-enter: ");
+        if (date.Date <= DateTime.Today)
+        {
+            Console.Write("Appointment date must be in the future. \nKindly Re-enter: ");
+            continue;
+        }
+
+        if (date.Date > DateTime.Today.AddMonths(3))
+        {
+            Console.Write("Book an appointment date within 3 months \nKindly Re-enter: ");
+            continue;
+        }
+
+        return date;
     }
 }
-
 static int ReadPositiveInteger()
 {
     while (true)
@@ -640,37 +667,5 @@ static void ViewUpcomingAppointments(
     }
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-///
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-SeedRepositories(context, patientRepository, doctorRepository);
-
-static void SeedRepositories(
-    AppDbContext context,
-    IPatientRepository patientRepository,
-    IDoctorRepository doctorRepository)
-{
-    foreach (var patient in context.Patients)
-    {
-        patientRepository.RegisterPatient(patient);
-    }
-
-    foreach (var doctor in context.Doctors)
-    {
-        doctorRepository.AddDoctor(doctor);
-    }
-}
+[ExcludeFromCodeCoverage]
+public partial class Program { }

@@ -1,15 +1,22 @@
 ﻿using HAP_Pod4_ConsoleApp_au.Data;
 using HAP_Pod4_ConsoleApp_au.Models;
+using HAP_Pod4_ConsoleApp_au.Repositories;
 
 namespace HAP_Pod4_ConsoleApp_au.Services.Impl
 {
     public class DoctorService : IDoctorService
     {
         private readonly AppDbContext _context;
+        private IDoctorRepository @object;
 
         public DoctorService(AppDbContext context)
         {
             _context = context;
+        }
+
+        public DoctorService(IDoctorRepository @object)
+        {
+            this.@object = @object;
         }
 
         public Doctor AddDoctor(Doctor doctor)

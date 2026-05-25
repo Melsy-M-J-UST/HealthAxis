@@ -1,4 +1,5 @@
-﻿using HAP_Pod4_ConsoleApp_au.Models;
+﻿using HAP_Pod4_ConsoleApp_au.Data;
+using HAP_Pod4_ConsoleApp_au.Models;
 using System;
 using System.Collections.Generic;
 
@@ -12,6 +13,13 @@ namespace HAP_Pod4_ConsoleApp_au.Repositories
         {
             _doctors = new List<Doctor>();
         }
+
+        public DoctorRepository(AppDbContext dbcontext)
+        {
+            Dbcontext = dbcontext;
+        }
+
+        public AppDbContext Dbcontext { get; }
 
         public Doctor AddDoctor(Doctor doctor)
         {
