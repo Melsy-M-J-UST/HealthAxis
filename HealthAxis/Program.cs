@@ -39,14 +39,14 @@ while (true)
     Console.WriteLine("3. Search doctors by specialisation");
     Console.WriteLine("4. Book an appointment for a patient");
     Console.WriteLine("5. View all appointments for a patient");
-    Console.WriteLine("6. Confirm, cancel, or complete an appointment");
+    Console.WriteLine("6. Cancel or Complete an appointment");
     Console.WriteLine("7. Add a health record after a completed appointment");
     Console.WriteLine("8. View health history for a patient");
     Console.WriteLine("9. View all patients");
     Console.WriteLine("10. View all doctors");
-
-    Console.WriteLine("11. View upcoming confirmed appointments");
-    Console.WriteLine("12. Exit");
+    Console.WriteLine("11. Update Portal");
+    Console.WriteLine("12. Change Doctor status");
+    Console.WriteLine("13. Exit");
     Console.Write("Choose an option: ");
 
     var choice = Console.ReadLine();
@@ -64,7 +64,7 @@ while (true)
             SearchDoctorsBySpecialisation();
             break;
         case "4":
-            //BookAppointment();
+            BookAppointment();
             break;
         case "5":
             //ViewAppointmentsForPatient();
@@ -88,6 +88,9 @@ while (true)
             //ViewUpcomingConfirmedAppointments();
             break;
         case "12":
+            //ToggleDoctorActiveStatus();
+            break;
+        case "13":
             Console.WriteLine("Exiting application...");
             return;
         default:
@@ -281,7 +284,75 @@ Doctor.Specialisations GetSpecialisationFromUser()
 
     throw new Exception("Invalid Specialisation Entered");
 }
+void BookAppointment()
+{
+    try
+    {
+        Console.Write("Patient ID: ");
+        int patientId = int.Parse(Console.ReadLine() ?? "0");
 
+        var patient = patientService.GetPatientById(patientId);
+
+        if (patient == null)
+        {
+            Console.WriteLine("Patient not found.");
+            return;
+        }
+        var specialization = GetSpecialisationFromUser();
+
+        var doctors = doctorService.SearchDoctorBySpecialisation(specialization);
+
+        if (!doctors.Any())
+        {
+            Console.WriteLine("No doctors found for this specialisation.");
+            return;
+        }
+        Console.WriteLine("\nAvailable Doctors:");
+        foreach (var d in doctors)
+        {
+            Console.WriteLine($"ID: {d.DoctorId}, Name: Dr. {d.DoctorName}, Exp: {d.Experience} yrs, Fee: {d.Fees}");
+        }
+        Console.Write("\nChoose Doctor ID: ");
+        int doctorId = int.Parse(Console.ReadLine() ?? "0");
+
+        var doctor = doctorService.GetDoctorById(doctorId);
+
+        if (doctor == null)
+        {
+            Console.WriteLine("Invalid doctor selection.");
+            return;
+        }
+
+        Console.Write("Appointment date yyyy-MM-dd: ");
+        DateTime date = DateTime.Parse(Console.ReadLine() ?? string.Empty);
+        if (date < DateTime.Now.AddMonths(6))
+        {
+            var appointment = appointmentService.BookAppointment(patient, doctor, date);
+            var allAppointments = appointmentService.GetAllAppointments();
+            Console.WriteLine("\nAppointment booked successfully.");
+            Console.WriteLine($"Assigned Slot: {appointment.Slot}");
+            Console.WriteLine(appointment.GetAppointmentSummary(allAppointments));
+        }
+        else
+        {
+            Console.WriteLine("Appointments can only be booked within 6 months from today.");
+        }
+
+
+    }
+    catch (PastDateException ex)
+    {
+        Console.WriteLine($"Booking failed: {ex.Message}");
+    }
+    catch (DoctorUnavailableException ex)
+    {
+        Console.WriteLine($"Booking failed: {ex.Message}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Booking failed: {ex.Message}");
+    }
+}
 void ViewAllPatients()
 {
     var patients = patientService.GetAllPatients();
