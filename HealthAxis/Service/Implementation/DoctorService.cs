@@ -21,15 +21,35 @@ namespace HealthAxis.Service.Implementation
 
         public List<Doctor> SearchDoctorBySpecialisation(Doctor.Specialisations specialisation)
         {
-            return _repository.SearchDoctorBySpecialisation(specialisation);
+            var doctor=_repository.SearchDoctorBySpecialisation(specialisation);
+            if (doctor == null || doctor.Count == 0)
+            {
+                throw new HealthAxis.Exceptions.DoctorNotFoundException("No doctors found with the given specialization.");
+            }
+            return doctor;
         }
         public Doctor? GetDoctorById(int doctorId)
         {
-            return _repository.GetDoctorById(doctorId);
+            if (doctorId <= 0)
+            {
+                throw new ArgumentException("Invalid doctor ID.");
+            }
+            var doctor= _repository.GetDoctorById(doctorId);
+            return doctor ?? throw new HealthAxis.Exceptions.DoctorNotFoundException($"Doctor with id {doctorId} not found.");
         }
         public List<Doctor> GetAllDoctors()
         {
             return _repository.GetAllDoctors();
+        }
+        public bool UpdateDoctor(Doctor doctor)
+        {
+            if (doctor == null)
+                throw new ArgumentException("Patient is required.");
+
+            if (string.IsNullOrWhiteSpace(doctor.DoctorName))
+                throw new ArgumentException("Patient name is required.");
+
+            return _repository.UpdateDoctor(doctor);
         }
     }
 }

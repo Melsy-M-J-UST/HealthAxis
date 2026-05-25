@@ -8,7 +8,7 @@ namespace HealthAxis.Service.Implementation
 {
     public class PatientService : IPatientService
     {
-        private IPatientRepository _repository;
+        private readonly IPatientRepository _repository;
 
         public PatientService(IPatientRepository repository)
         {
@@ -21,11 +21,28 @@ namespace HealthAxis.Service.Implementation
 
         public Patient? GetPatientById(int patientId)
         {
-            return _repository.GetPatientById(patientId);
+            var patient = _repository.GetPatientById(patientId);
+            if (patient == null)
+            {
+                throw new HealthAxis.Exceptions.PatientNotFoundException($"Patient with id {patientId} not registered.");
+            }
+            return patient;
         }
         public Patient RegisterPatient(Patient patient)
         {
             return _repository.RegisterPatient(patient);
+        }
+        public bool UpdatePatient(Patient patient)
+        {
+
+            if (patient == null)
+                throw new ArgumentException("Patient is required.");
+
+            if (string.IsNullOrWhiteSpace(patient.PatientName))
+                throw new ArgumentException("Patient name is required.");
+
+            return _repository.UpdatePatient(patient);
+
         }
     }
 }

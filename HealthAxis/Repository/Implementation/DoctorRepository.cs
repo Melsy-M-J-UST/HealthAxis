@@ -22,29 +22,32 @@ namespace HealthAxis.Repository.Implementation
         }
         public List<Doctor> SearchDoctorBySpecialisation(Doctor.Specialisations specialisation)
         {
-            var doctors = _Db.Doctors
-                .Where(doc => doc.Specialisation == specialisation)
-                .ToList();
-
-            if (!doctors.Any())
-            {
-                throw new DoctorNotFoundException("No doctors found with the given specialization.");
-            }
-
+            var doctors = _Db.Doctors.Where(doc => doc.Specialisation == specialisation).ToList();
             return doctors;
         }
         public Doctor? GetDoctorById(int doctorid)
         {
             var doctor = _Db.Doctors.FirstOrDefault(p => p.DoctorId == doctorid);
-            if (doctor == null)
-            {
-                throw new DoctorNotFoundException($"Patient with id {doctorid} not registered.");
-            }
             return doctor;
         }
         public List<Doctor> GetAllDoctors()
         {
             return _Db.Doctors.ToList();
+        }
+
+        public bool UpdateDoctor(Doctor doctor)
+        {
+            var existing = _Db.Doctors.FirstOrDefault(d => d.DoctorId == doctor.DoctorId);
+            if (existing == null)
+            {
+                return false;
+            }
+            existing.DoctorName = doctor.DoctorName;
+            existing.Specialisation = doctor.Specialisation;
+            existing.Experience = doctor.Experience;
+            existing.Fees = doctor.Fees;
+            existing.IsPractising = doctor.IsPractising;
+            return true;
         }
     }
 }

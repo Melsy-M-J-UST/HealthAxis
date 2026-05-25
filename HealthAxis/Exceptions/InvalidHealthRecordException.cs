@@ -4,9 +4,9 @@ using System.Text;
 
 namespace HealthAxis.Exceptions
 {
-    public class PatientNotFoundException : Exception
+    public class InvalidHealthRecordException : Exception
     {
-        public PatientNotFoundException(string message) : base(message)
+        public InvalidHealthRecordException(string Message) : base(Message)
         {
         }
     }

@@ -32,7 +32,24 @@ namespace HealthAxis.Models
             }
             Status = AppointmentStatus.Confirmed;
         }
-        public  string GetAppointmentSummary()
+        public void Cancel(string reason)
+        {
+            if (Status == AppointmentStatus.Completed)
+            {
+                Console.WriteLine("Completed appointments cannot be cancelled");
+            }
+            Status = AppointmentStatus.Cancelled;
+            CancellationReason = reason;
+        }
+        public void Complete()
+        {
+            if (Status == AppointmentStatus.Cancelled)
+            {
+                Console.WriteLine("Cancelled appointments cannot be completed");
+            }
+            Status = AppointmentStatus.Completed;
+        }
+        public  string? GetAppointmentSummary(List<Appointment> appointment)
         {
             return $"Appointment ID: {AppointmentId}\n{Patient.GetPatientSummary}\n{Doctor.GetDoctorSummary}\nScheduled Date: {ScheduledDate}, Time Slot: {Slot}, Status: {Status}, Cancellation Reason(if any): {CancellationReason}";
         }

@@ -33,7 +33,7 @@ namespace HealthAxisTests.RepositoryTests
             var doctor = _repository.AddDoctor(d);
             Assert.NotNull(doctor);
             Assert.Equal(9, doctor.DoctorId);
-            Assert.Equal(9,_db.Doctors.Count);
+            Assert.Equal(9, _db.Doctors.Count);
         }
 
         [Fact]
@@ -53,6 +53,36 @@ namespace HealthAxisTests.RepositoryTests
             var result = _repository.SearchDoctorBySpecialisation(spec);
             Assert.NotNull(result);
             Assert.Equal("Dr. Neha Iyer", result[0].DoctorName);
+        }
+        [Fact]
+        public void GetDoctorById_GivenValidId_ShouldReturnDoctor()
+        {
+            var doctor = _repository.GetDoctorById(1);
+            Assert.NotNull(doctor);
+            Assert.Equal("Dr. Priya Sharma", doctor.DoctorName);
+        }
+        [Fact]
+        public void GetDoctorById_GivenInvalidId_ShouldReturnNull()
+        {
+            var doctor = _repository.GetDoctorById(999);
+            Assert.Null(doctor);
+        }
+        [Fact]
+        public void UpdateDoctor_GivenValidDoctor_ShouldUpdateDoctor()
+        {
+            Doctor updatedDoctor = new Doctor
+            {
+                DoctorId = 1,
+                DoctorName = "Dr. Priya Sharma Updated",
+                Specialisation = Doctor.Specialisations.Cardiologist,
+                Experience = 12,
+                Fees = 800,
+                IsPractising = true
+            };
+            var result = _repository.UpdateDoctor(updatedDoctor);
+            Assert.True(result);
+            var doctor = _repository.GetDoctorById(1);
+            Assert.Equal("Dr. Priya Sharma Updated", doctor?.DoctorName);
         }
     }
 }

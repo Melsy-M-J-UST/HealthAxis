@@ -17,16 +17,12 @@ namespace HealthAxis.Repository.Implementation
 
         public List<Patient> GetAllPatients()
         {
-            return _db.Patients.ToList();
+            return [.. _db.Patients];
         }
 
         public Patient? GetPatientById(int patientid)
         {
             var patient = _db.Patients.FirstOrDefault(p => p.PatientId == patientid);
-            if (patient == null)
-            {
-                throw new PatientNotFoundException($"Patient with id {patientid} not registered.");
-            }
             return patient;
         }
 
@@ -35,6 +31,23 @@ namespace HealthAxis.Repository.Implementation
             _db.Patients.Add(patient);
             Console.WriteLine("Patient Added successfully");
             return patient;
+        }
+        public bool UpdatePatient(Patient updatedPatient)
+        {
+            var existingPatient = _db.Patients.FirstOrDefault(p => p.PatientId == updatedPatient.PatientId);
+
+            if (existingPatient == null)
+            {
+                return false;
+            }
+
+            existingPatient.PatientName = updatedPatient.PatientName;
+            existingPatient.DateOfBirth = updatedPatient.DateOfBirth;
+            existingPatient.PhoneNumber = updatedPatient.PhoneNumber;
+            existingPatient.Email = updatedPatient.Email;
+            existingPatient.InsuranceId = updatedPatient.InsuranceId;
+            existingPatient.Gender = updatedPatient.Gender;
+            return true;
         }
     }
 }

@@ -10,5 +10,6 @@ namespace HealthAxis.Service
         Patient RegisterPatient(Patient patient);
         Patient? GetPatientById(int patientId);
         List<Patient> GetAllPatients();
+        bool UpdatePatient(Patient patient);
     }
 }

@@ -18,6 +18,15 @@ namespace HealthAxis.Data
         private int _nextHealthRecordId = 1;
         private int _nextSlotId = 1;
 
+        public List<string> DailySlots { get; set; } = new()
+        {
+            "09:00 AM",
+            "10:00 AM",
+            "11:00 AM",
+            "02:00 PM",
+            "03:00 PM"
+        };
+
         public Database()
         {
             SeedData();
@@ -70,7 +79,7 @@ namespace HealthAxis.Data
                 {
                     PatientId = GetNextPatientId(),
                     PatientName = "Arun Kumar",
-                    DateOfBirth = new DateTime(1992, 5, 14),
+                    DateOfBirth = new DateTime(1992, 5, 14, 12, 24, 33),
                     Gender = Patient.Genders.Male,
                     PhoneNumber = "9876543210",
                     Email = "arun.kumar@example.com",
@@ -81,7 +90,7 @@ namespace HealthAxis.Data
                 {
                     PatientId = GetNextPatientId(),
                     PatientName = "Meera Nair",
-                    DateOfBirth = new DateTime(1988, 9, 22),
+                    DateOfBirth = new DateTime(1988, 9, 22, 22, 15, 30),
                     Gender = Patient.Genders.Male,
                     PhoneNumber = "9876543211",
                     Email = "meera.nair@example.com",
@@ -92,7 +101,7 @@ namespace HealthAxis.Data
                 {
                     PatientId = GetNextPatientId(),
                     PatientName = "Rahul Menon",
-                    DateOfBirth = new DateTime(2000, 1, 10),
+                    DateOfBirth = new DateTime(2000, 1, 10, 16, 17, 18),
                     Gender = Patient.Genders.Male,
                     PhoneNumber = "9876543212",
                     Email = "rahul.menon@example.com",
@@ -103,7 +112,7 @@ namespace HealthAxis.Data
                 {
                     PatientId = GetNextPatientId(),
                     PatientName = "Anjali Thomas",
-                    DateOfBirth = new DateTime(1995, 12, 3),
+                    DateOfBirth = new DateTime(1995, 12, 3, 01, 02, 03),
                     Gender = Patient.Genders.Male,
                     PhoneNumber = "9876543213",
                     Email = "anjali.thomas@example.com",
@@ -114,7 +123,7 @@ namespace HealthAxis.Data
                 {
                     PatientId = GetNextPatientId(),
                     PatientName = "Vivek Pillai",
-                    DateOfBirth = new DateTime(1983, 7, 19),
+                    DateOfBirth = new DateTime(1983, 7, 19, 5,6,7),
                     Gender = Patient.Genders.Male,
                     PhoneNumber = "9876543214",
                     Email = "vivek.pillai@example.com",

@@ -49,5 +49,23 @@ namespace HealthAxisTests.RepositoryTests
             var patients = _repository.GetAllPatients();
             Assert.Equal(6, patients.Count);
         }
+        [Fact]
+        public void GetById_GivenInvalidId_ShouldReturnNull()
+        {
+            var patient = _repository.GetPatientById(999);
+            Assert.Null(patient);
+        }
+        [Fact]
+        public void UpdatePatient_GivenValidPatient_ShouldUpdatePatient()
+        {
+            Patient updatedPatient = new Patient
+            {
+                PatientId = 1,
+                PatientName = "Arun Kumar S",
+                DateOfBirth = new DateTime(1992, 5, 14),
+            };
+            var result = _repository.UpdatePatient(updatedPatient);
+            Assert.True(result);
+        }
     }
-}
+} 

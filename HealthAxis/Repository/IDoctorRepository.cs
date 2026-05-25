@@ -9,7 +9,8 @@ namespace HealthAxis.Repository
     {
         Doctor AddDoctor(Doctor doctor);
         List<Doctor> GetAllDoctors();
-        Doctor? GetDoctorById(int id);
+        Doctor? GetDoctorById(int doctorid);
         List<Doctor> SearchDoctorBySpecialisation(Doctor.Specialisations specialisation);
+        bool UpdateDoctor(Doctor doctor);
     }
 }

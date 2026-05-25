@@ -3,6 +3,7 @@ using HealthAxis.Repository;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using HealthAxis.Exceptions;
 
 namespace HealthAxis.Service.Implementation
 {
@@ -15,17 +16,17 @@ namespace HealthAxis.Service.Implementation
             _repository = repository;
         }
 
-        public HealthRecord AddRecord(HealthRecord record)
+        public HealthRecord AddRecord(HealthRecord? record)
         {
 
             if (record == null)
             {
-                throw new Exception("Health record cannot be null.");
+                throw new InvalidHealthRecordException("Health record cannot be null.");
             }
 
             if (string.IsNullOrWhiteSpace(record.Diagnosis))
             {
-                throw new Exception("Diagnosis cannot be empty.");
+                throw new InvalidHealthRecordException("Diagnosis cannot be empty.");
             }
 
             _repository.AddRecord(record);

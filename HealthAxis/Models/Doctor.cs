@@ -12,7 +12,8 @@ namespace HealthAxis.Models
         public int Experience { get; set; }
         public int Fees { get; set; }
         public bool IsPractising { get; set; }
-
+        public List<Appointment> Appointments { get; set; } = new List<Appointment>();
+        public List<DayOfWeek>? SurgeryDays { get; set; } = new List<DayOfWeek>();
         public enum Specialisations
         {
             GeneralPractitioner,
@@ -26,19 +27,23 @@ namespace HealthAxis.Models
             Pediatrician,
             Psychiatrist 
         }
-        //public string GetTodaysScheduledCount()
-        //{
-        //    int TodaysCount = 0;
-
-        //    foreach (var a in Appointments)
-        //    {
-        //        if (a.ScheduledDate == DateTime.Date && a.Status == Appointment.StatusOption.Confirmed)
-        //        {
-        //            TodaysCount++;
-        //        }
-        //    }
-        //    return $"Dr. {FullName} ({Specialisation}) - Today's Appointments: {TodaysCount}";
-        //}
+        public bool IsAvailable(DateTime date)
+        {
+            if (!IsPractising)
+                return false;
+            int booked = Appointments.Count(a => a.ScheduledDate.Date == date.Date && a.Status != Appointment.AppointmentStatus.Cancelled);
+            const int capacity = 5;
+            return booked < capacity;
+        }
+        public string GetScheduleSummary(List<Appointment> allAppointments)
+        {
+            int upcomingCount = allAppointments.Count(a =>
+                a.Doctor.DoctorId == DoctorId &&
+                a.ScheduledDate.Date >= DateTime.Today &&
+                a.Status == Appointment.AppointmentStatus.Confirmed
+            );
+            return $"Dr. {DoctorName} ({Specialisation}) - Upcoming Appointments: {upcomingCount}";
+        }
         public string GetDoctorSummary()
         {
             return $"DoctorId: {DoctorId}, FullName: {DoctorName}, Specialisation: {Specialisation}, Experience(in years): {Experience}, Consultation Fee: {Fees}";

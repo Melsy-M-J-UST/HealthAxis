@@ -8,7 +8,8 @@ namespace HealthAxis.Repository
     public interface IPatientRepository
     {
         List<Patient> GetAllPatients();
-        Patient? GetPatientById(int id);
+        Patient? GetPatientById(int patientid);
         Patient RegisterPatient(Patient patient);
+        bool UpdatePatient(Patient updatedPatient);
     }
 }

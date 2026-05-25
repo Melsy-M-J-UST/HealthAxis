@@ -1,4 +1,5 @@
-﻿using HealthAxis.Models;
+﻿using HealthAxis.Exceptions;
+using HealthAxis.Models;
 using HealthAxis.Repository;
 using HealthAxis.Service.Implementation;
 using Moq;
@@ -34,7 +35,7 @@ namespace HealthAxis.Tests.Services
         [Fact]
         public void AddRecord_NullRecord_ShouldThrowException()
         {
-            Assert.Throws<Exception>(() => _service.AddRecord(null));
+            Assert.Throws<InvalidHealthRecordException>(() => _service.AddRecord(null));
         }
         [Fact]
         public void GetRecordsByPatient_ShouldReturnSortedList()

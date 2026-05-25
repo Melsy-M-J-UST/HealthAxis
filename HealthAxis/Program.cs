@@ -6,6 +6,8 @@ using HealthAxis.Repository.Implementation;
 using HealthAxis.Service;
 using HealthAxis.Service.Implementation;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 var services = new ServiceCollection();
@@ -101,8 +103,7 @@ while (true)
 
 void RegisterPatient()
 {
-    Patient p = new Patient();
-    p.PatientId = db.GetNextPatientId();
+    Patient p = new();
 
     Console.Write("Enter your full name: ");
     string FullName = Console.ReadLine() ?? string.Empty;
@@ -122,14 +123,14 @@ void RegisterPatient()
     }
 
     Console.Write("Enter your Date of Birth:\n");
-    var inputDate = Console.ReadLine();
-    if ((DateTime.TryParse(inputDate, out DateTime dob)) && (dob < DateTime.Today))
+    string? inputDate = Console.ReadLine();
+    if (DateTime.TryParseExact(inputDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dob) && dob < DateTime.Today)
     {
         p.DateOfBirth = dob;
     }
     else
     {
-        Console.WriteLine("Invalid date format. Please enter a valid date.");
+        Console.WriteLine("Invalid date format. Please enter the date in \"yyyy-MM-dd\" Format.");
         return;
     }
 
@@ -183,7 +184,7 @@ void RegisterPatient()
 
     DateTime now = DateTime.Now;
     p.RegisteredDate = now;
-
+    p.PatientId = db.GetNextPatientId();
     patientService.RegisterPatient(p);
     Console.WriteLine();
 }
@@ -191,9 +192,7 @@ void AddDoctor()
 {
     try
     {
-        Doctor doctor = new Doctor();
-
-        doctor.DoctorId = db.GetNextDoctorId();
+        Doctor doctor = new();
 
         Console.Write("Enter Full Name: ");
         string FullName = Console.ReadLine() ?? string.Empty;
@@ -222,6 +221,8 @@ void AddDoctor()
 
         Console.Write("Is Active (true/false): ");
         doctor.IsPractising = Convert.ToBoolean(Console.ReadLine());
+
+        doctor.DoctorId = db.GetNextDoctorId();
 
         doctorService.AddDoctor(doctor);
 
@@ -258,7 +259,7 @@ Doctor.Specialisations GetSpecialisationFromUser()
 {
     Console.WriteLine("Choose Specialisation:");
 
-    var specialisations = Enum.GetValues(typeof(Doctor.Specialisations));
+    var specialisations = Enum.GetValues<Doctor.Specialisations>();
 
     for (int i = 0; i < specialisations.Length; i++)
     {
@@ -302,7 +303,7 @@ void BookAppointment()
 
         var doctors = doctorService.SearchDoctorBySpecialisation(specialization);
 
-        if (!doctors.Any())
+        if (doctors.Count==0)
         {
             Console.WriteLine("No doctors found for this specialisation.");
             return;
@@ -324,7 +325,9 @@ void BookAppointment()
         }
 
         Console.Write("Appointment date yyyy-MM-dd: ");
-        DateTime date = DateTime.Parse(Console.ReadLine() ?? string.Empty);
+
+        DateTime date = DateTime.ParseExact(Console.ReadLine() ?? string.Empty, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
         if (date < DateTime.Now.AddMonths(6))
         {
             var appointment = appointmentService.BookAppointment(patient, doctor, date);
@@ -368,7 +371,7 @@ void ViewAppointmentsForPatient()
 
     var appointments = appointmentService.GetAppointmentsByPatient(patientId);
 
-    if (!appointments.Any())
+    if (appointments.Count==0)
     {
         Console.WriteLine("No appointments found for this patient.");
         return;
@@ -458,11 +461,12 @@ void AddHealthRecord()
         return;
     }
 
-    HealthRecord record = new HealthRecord();
-
-    record.Patient = appointment.Patient;
-    record.Doctor = appointment.Doctor;
-    record.VisitedDate = appointment.ScheduledDate;
+    HealthRecord record = new()
+    {
+        Patient = appointment.Patient,
+        Doctor = appointment.Doctor,
+        VisitedDate = appointment.ScheduledDate
+    };
 
     Console.Write("Enter Diagnosis: ");
     record.Diagnosis = Console.ReadLine() ?? string.Empty;
@@ -489,7 +493,7 @@ void ViewHealthHistory()
 
     var records = healthRecordService.GetRecordsByPatient(patientId);
 
-    if (records == null || !records.Any())
+    if (records == null || records.Count==0)
     {
         Console.WriteLine("No health records found for this patient.");
         return;
@@ -508,7 +512,7 @@ void ViewHealthHistory()
 void ViewAllPatients()
 {
     var patients = patientService.GetAllPatients();
-    if (!patients.Any())
+    if (patients.Count == 0)
     {
         Console.WriteLine("No Patients Found");
         return;
@@ -521,7 +525,7 @@ void ViewAllPatients()
 void ViewAllDoctors()
 {
     var doctors = doctorService.GetAllDoctors();
-    if (!doctors.Any())
+    if (doctors.Count == 0)
     {
         Console.WriteLine("No Doctors Found");
         return;
@@ -607,8 +611,15 @@ void Update()
         }
         Console.Write($"DOB ({patient.DateOfBirth:yyyy-MM-dd}): ");
         string dobInput = Console.ReadLine()!;
-        if (!string.IsNullOrWhiteSpace(dobInput))
-            patient.DateOfBirth = DateTime.Parse(dobInput);
+        if (DateTime.TryParseExact(dobInput, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dob))
+        {
+            patient.DateOfBirth = dob;
+        }
+        else
+        {
+            Console.WriteLine("Invalid date format. Use yyyy-MM-dd.");
+            return;
+        }
         var result = patientService.UpdatePatient(patient);
         Console.WriteLine(result ? "Patient updated " : "Update failed ");
     }
@@ -635,7 +646,7 @@ void Update()
         string specInput = Console.ReadLine()!;
         if (!string.IsNullOrWhiteSpace(specInput))
         {
-            var specialisations = Enum.GetValues(typeof(Doctor.Specialisations));
+            var specialisations = Enum.GetValues<Doctor.Specialisations>();
             if (int.TryParse(specInput, out int specChoice))
             {
                 if (specChoice >= 1 && specChoice <= specialisations.Length)
@@ -710,4 +721,9 @@ void ToggleDoctorStatus()
     {
         Console.WriteLine("Invalid choice.");
     }
+}
+
+[ExcludeFromCodeCoverage]
+public static partial class Program
+{
 }
