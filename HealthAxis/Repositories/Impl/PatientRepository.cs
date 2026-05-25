@@ -18,6 +18,19 @@ namespace HealthAxis.Repositories.Impl
 
         public Patient RegisterPatient(Patient patient)
         {
+            // Ensure InsuranceId uniqueness if provided
+            if (!string.IsNullOrWhiteSpace(patient.InsuranceId))
+            {
+                var exists = _db.Patients.Any(p => !string.IsNullOrWhiteSpace(p.InsuranceId) &&
+                                                  p.InsuranceId.Equals(patient.InsuranceId, StringComparison.OrdinalIgnoreCase));
+
+                if (exists)
+                {
+                    // Return null to indicate repository-level conflict; service will translate to exception
+                    return null!;
+                }
+            }
+
             _db.Patients.Add(patient);
             Console.WriteLine("Patient Added successfully");
             return patient;

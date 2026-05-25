@@ -180,7 +180,7 @@ void RegisterPatient()
             }
         }
 
-        Console.Write("Enter your Insurance ID: ");
+        Console.Write("Enter your Insurance ID (optional): ");
         p.InsuranceId = Console.ReadLine() ?? string.Empty;
 
         p.CreatedDate = DateTime.Now;

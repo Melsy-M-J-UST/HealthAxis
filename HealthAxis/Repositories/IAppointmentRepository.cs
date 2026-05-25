@@ -14,5 +14,7 @@ namespace HealthAxis.Repositories
         void Remove(Appointment appointment);
         bool PatientHasAppointmentAt(int patientId, DateTime date, string timeSlot);
         string? GetNextAvailableSlotAvoidingPatientConflicts(int doctorId, DateTime date, int patientId);
+ 
+
     }
 }

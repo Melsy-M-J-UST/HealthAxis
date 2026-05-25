@@ -9,7 +9,7 @@ namespace HealthAxis.Repositories
     {
         List<Patient> GetAllPatients();
         Patient? GetPatientById(int id);
-        Patient RegisterPatient(Patient patient);
+        Patient? RegisterPatient(Patient patient);
         bool UpdatePatient(Patient patient);
 
     }
