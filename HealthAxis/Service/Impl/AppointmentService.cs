@@ -84,10 +84,20 @@ namespace HealthAxis.Services
             {
                 return false;
             }
+            if (appointment.Status == Appointment.StatusOption.Completed)
+            {
+                return false;
+            }
 
             appointment.Cancel(reason);
-            _appointmentRepository.Remove(appointment);
-            return true;
+
+            if (appointment.Status == Appointment.StatusOption.Cancelled)
+            {
+                _appointmentRepository.Remove(appointment);
+                return true;
+            }
+
+            return false;
         }
 
         public List<Appointment> GetAppointmentsByPatient(int patientId)

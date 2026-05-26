@@ -15,7 +15,7 @@ namespace HealthAxis.Services.Impl
             _repository = repository;
         }
 
-        public HealthRecord AddRecord(HealthRecord record)
+        public HealthRecord? AddRecord(HealthRecord record)
         {
 
             if (record == null)
@@ -28,8 +28,14 @@ namespace HealthAxis.Services.Impl
                 throw new Exception("Diagnosis cannot be empty.");
             }
 
-            _repository.AddRecord(record);
-            return record;
+            var result = _repository.AddRecord(record);
+
+            if (result == null)
+            {
+                throw new InvalidOperationException("A health record already exists for this appointment.");
+            }
+
+            return result;
         }
 
         public List<HealthRecord> GetRecordsByPatient(int patientId)

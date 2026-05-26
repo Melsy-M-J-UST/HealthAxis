@@ -54,6 +54,12 @@ namespace HealthAxis.Models
                 return;
             }
 
+            if (Status != StatusOption.Confirmed)
+            {
+                Console.WriteLine("Only confirmed appointments can be completed.");
+                return;
+            }
+
             Status = StatusOption.Completed;
             Console.WriteLine("Appointment marked as completed.");
         }

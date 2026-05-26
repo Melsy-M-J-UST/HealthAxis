@@ -7,7 +7,7 @@ namespace HealthAxis.Services
 {
     public interface IHealthRecordService
     {
-        HealthRecord AddRecord(HealthRecord record);
+        HealthRecord? AddRecord(HealthRecord record);
 
         List<HealthRecord> GetRecordsByPatient(int patientId);
 

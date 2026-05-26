@@ -11,3 +11,4 @@ C:\Users\310030\.nuget\packages\microsoft.testplatform.testhost\17.14.1\build\ne
 C:\Users\310030\.nuget\packages\microsoft.testplatform.testhost\17.14.1\build\net8.0\x64\testhost.dll
 C:\Users\310030\.nuget\packages\xunit.runner.visualstudio\3.1.4\build\net8.0\xunit.abstractions.dll
 C:\Users\310030\.nuget\packages\xunit.runner.visualstudio\3.1.4\build\net8.0\xunit.runner.visualstudio.testadapter.dll
+C:\Users\310030\source\repos\HealthAxis\HealthAxisTest\TestResults\coverage.opencover.xml
