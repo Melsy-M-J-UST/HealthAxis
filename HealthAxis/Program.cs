@@ -35,68 +35,158 @@ while (true)
     try
     {
         Console.WriteLine();
-        Console.WriteLine("===== Appointment Portal =====");
-        Console.WriteLine("1. Register a new patient");
-        Console.WriteLine("2. Add a new doctor");
-        Console.WriteLine("3. Search doctors by specialisation");
-        Console.WriteLine("4. Book an appointment for a patient");
-        Console.WriteLine("5. View all appointments for a patient");
-        Console.WriteLine("6. Cancel, or Complete an appointment");
-        Console.WriteLine("7. Add a health record after a completed appointment");
-        Console.WriteLine("8. View health history for a patient");
-        Console.WriteLine("9. View all patients");
-        Console.WriteLine("10. View all doctors");
-        Console.WriteLine("11. Update Portal");
-        Console.WriteLine("12. Make an Doctor Active/Inactive");
-        Console.WriteLine("13. Exit");
-        Console.Write("Choose an option: ");
+        Console.WriteLine("===== HealthAxis Portal - Select Role =====");
+        Console.WriteLine("1. Patient");
+        Console.WriteLine("2. Doctor");
+        Console.WriteLine("3. Admin");
+        Console.WriteLine("4. Exit");
+        Console.Write("Choose your role: ");
 
-        var choice = Console.ReadLine();
+        var roleChoice = Console.ReadLine();
         Console.WriteLine();
 
-        switch (choice)
+        switch (roleChoice)
         {
             case "1":
-                RegisterPatient();
+                while (true)
+                {
+                    try
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("===== Patient Menu =====");
+                        Console.WriteLine("1. Register Patient");
+                        Console.WriteLine("2. Search Doctor by specialisation");
+                        Console.WriteLine("3. Book appointment");
+                        Console.WriteLine("4. View all appointments for a patient");
+                        Console.WriteLine("5. Cancel Appointment");
+                        Console.WriteLine("6. View Health History");
+                        Console.WriteLine("7. View All doctors");
+                        Console.WriteLine("8. Back");
+                        Console.Write("Choose an option: ");
+
+                        var patientChoice = Console.ReadLine();
+                        Console.WriteLine();
+
+                        switch (patientChoice)
+                        {
+                            case "1": RegisterPatient(); break;
+                            case "2": SearchDoctorsBySpecialisation(); break;
+                            case "3": BookAppointment(); break;
+                            case "4": ViewAppointmentsForPatient(); break;
+                            case "5": CancelAppointmentOnly(); break;
+                            case "6": ViewHealthHistory(); break;
+                            case "7": ViewAllDoctors(); break;
+                            case "8": goto EndPatientMenu;
+                            default: Console.WriteLine("Invalid choice. Please try again."); break;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Patient action error: {ex.Message}");
+                    }
+                }
+            EndPatientMenu:
                 break;
+
             case "2":
-                AddDoctor();
+
+                while (true)
+                {
+                    try
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("===== Doctor Menu =====");
+                        Console.WriteLine("1. Register Doctor");
+                        Console.WriteLine("2. View all appointments for a patient");
+                        Console.WriteLine("3. Confirm/Cancel/Complete appointment");
+                        Console.WriteLine("4. Add Health Record after a completed appointment");
+                        Console.WriteLine("5. View health history for a patient");
+                        Console.WriteLine("6. View all patients");
+                        Console.WriteLine("7. Back");
+                        Console.Write("Choose an option: ");
+
+                        var docChoice = Console.ReadLine();
+                        Console.WriteLine();
+
+                        switch (docChoice)
+                        {
+                            case "1": AddDoctor(); break;
+                            case "2": ViewAppointmentsForPatient(); break;
+                            case "3": ConfirmCancelOrCompleteAppointment(); break;
+                            case "4": AddHealthRecord(); break;
+                            case "5": ViewHealthHistory(); break;
+                            case "6": ViewAllPatients(); break;
+                            case "7": goto EndDoctorMenu;
+                            default: Console.WriteLine("Invalid choice. Please try again."); break;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Doctor action error: {ex.Message}");
+                    }
+                }
+
+            EndDoctorMenu:
                 break;
+
             case "3":
-                SearchDoctorsBySpecialisation();
+                while (true)
+                {
+                    try
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("===== Admin Menu =====");
+                        Console.WriteLine("1. Register Patient");
+                        Console.WriteLine("2. Register Doctor");
+                        Console.WriteLine("3. Search Doctor by specialisation");
+                        Console.WriteLine("4. Book appointment");
+                        Console.WriteLine("5. View all appointments for a patient");
+                        Console.WriteLine("6. Confirm/Cancel/Complete appointment");
+                        Console.WriteLine("7. Add Health Record after a completed appointment");
+                        Console.WriteLine("8. View health history for a patient");
+                        Console.WriteLine("9. View all patients");
+                        Console.WriteLine("10. View all doctors");
+                        Console.WriteLine("11. Update Portal");
+                        Console.WriteLine("12. Make a Doctor Active/Inactive");
+                        Console.WriteLine("13. Back");
+                        Console.Write("Choose an option: ");
+
+                        var adminChoice = Console.ReadLine();
+                        Console.WriteLine();
+
+                        switch (adminChoice)
+                        {
+                            case "1": RegisterPatient(); break;
+                            case "2": AddDoctor(); break;
+                            case "3": SearchDoctorsBySpecialisation(); break;
+                            case "4": BookAppointment(); break;
+                            case "5": ViewAppointmentsForPatient(); break;
+                            case "6": ConfirmCancelOrCompleteAppointment(); break;
+                            case "7": AddHealthRecord(); break;
+                            case "8": ViewHealthHistory(); break;
+                            case "9": ViewAllPatients(); break;
+                            case "10": ViewAllDoctors(); break;
+                            case "11": Update(); break;
+                            case "12": MakeDoctorActive(); break;
+                            case "13": goto EndAdminMenu;
+                            default: Console.WriteLine("Invalid choice. Please try again."); break;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Admin action error: {ex.Message}");
+                    }
+                }
+
+            EndAdminMenu:
                 break;
+
             case "4":
-                BookAppointment();
-                break;
-            case "5":
-                ViewAppointmentsForPatient();
-                break;
-            case "6":
-                ConfirmCancelOrCompleteAppointment();
-                break;
-            case "7":
-                AddHealthRecord();
-                break;
-            case "8":
-                ViewHealthHistory();
-                break;
-            case "9":
-                ViewAllPatients();
-                break;
-            case "10":
-                ViewAllDoctors();
-                break;
-            case "11":
-                Update();
-                break;
-            case "12":
-                MakeDoctorActive();
-                break;
-            case "13":
                 Console.WriteLine("Exiting application...");
                 return;
+
             default:
-                Console.WriteLine("Invalid choice. Please try again.");
+                Console.WriteLine("Invalid role selected. Please try again.");
                 break;
         }
     }
@@ -514,6 +604,52 @@ void ViewAppointmentsForPatient()
     }
 }
 
+// Cancel appointment only (used by Patient menu)
+void CancelAppointmentOnly()
+{
+    try
+    {
+        Console.Write("Enter your Appointment ID: ");
+
+        if (!int.TryParse(Console.ReadLine(), out int appointmentId))
+        {
+            throw new FormatException("Invalid appointment ID.");
+        }
+
+        var appointment = appointmentService.GetAppointmentById(appointmentId);
+
+        if (appointment == null)
+        {
+            Console.WriteLine($"Appointment with Id {appointmentId} not found.");
+            return;
+        }
+
+        Console.Write("Cancellation reason: ");
+        string reason = Console.ReadLine() ?? string.Empty;
+
+        if (string.IsNullOrWhiteSpace(reason))
+        {
+            throw new ArgumentException("Cancellation reason cannot be empty.");
+        }
+
+        var success = appointmentService.CancelAppointment(appointmentId, reason);
+
+        Console.WriteLine(success ? "Appointment cancelled." : "Cancellation failed.");
+    }
+    catch (FormatException ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+    catch (ArgumentException ex)
+    {
+        Console.WriteLine($"Operation failed: {ex.Message}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error while cancelling appointment: {ex.Message}");
+    }
+}
+
 // 6th Function
 void ConfirmCancelOrCompleteAppointment()
 {
@@ -538,6 +674,7 @@ void ConfirmCancelOrCompleteAppointment()
         Console.WriteLine("Please choose the below option to make changes to the status of your appointment.");
         Console.WriteLine("Press 1 to Cancel your appointment");
         Console.WriteLine("Press 2 to Complete your appointment");
+        Console.WriteLine("Press 3 to Confirm your appointment");
 
         string action = Console.ReadLine() ?? string.Empty;
 
@@ -558,6 +695,10 @@ void ConfirmCancelOrCompleteAppointment()
         {
             appointment.Status = Appointment.StatusOption.Completed;
             Console.WriteLine("Appointment completed.");
+        }
+        else if (action == "3")
+        {
+            appointment.Confirm();
         }
         else
         {

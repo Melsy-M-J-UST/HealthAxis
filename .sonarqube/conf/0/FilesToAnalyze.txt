@@ -17,6 +17,7 @@ C:\Users\310030\source\repos\HealthAxis\HealthAxis\Repositories\Impl\DoctorRepos
 C:\Users\310030\source\repos\HealthAxis\HealthAxis\Repositories\Impl\HealthRepository.cs
 C:\Users\310030\source\repos\HealthAxis\HealthAxis\Repositories\Impl\PatientRepository.cs
 C:\Users\310030\source\repos\HealthAxis\HealthAxis\Repositories\IPatientRepository.cs
+C:\Users\310030\source\repos\HealthAxis\HealthAxis\Services\Impl\PatientService.cs
 C:\Users\310030\source\repos\HealthAxis\HealthAxis\Service\IAppointmentService.cs
 C:\Users\310030\source\repos\HealthAxis\HealthAxis\Service\IDoctorService.cs
 C:\Users\310030\source\repos\HealthAxis\HealthAxis\Service\IHealthRecordService.cs
@@ -25,3 +26,4 @@ C:\Users\310030\source\repos\HealthAxis\HealthAxis\Service\Impl\DoctorService.cs
 C:\Users\310030\source\repos\HealthAxis\HealthAxis\Service\Impl\HealthRecordService.cs
 C:\Users\310030\source\repos\HealthAxis\HealthAxis\Service\Impl\PatientService.cs
 C:\Users\310030\source\repos\HealthAxis\HealthAxis\Service\IPatientService.cs
+C:\Users\310030\source\repos\HealthAxis\HealthAxis\Properties\launchSettings.json

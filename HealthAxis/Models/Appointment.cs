@@ -12,7 +12,8 @@ namespace HealthAxis.Models
         public Doctor Doctor { get; set; } = null!;
         public DateTime ScheduledDate { get; set; }
         public string TimeSlot { get; set; } = string.Empty;
-        public StatusOption Status { get; set; } = StatusOption.Confirmed;
+        // New appointments are created as Pending. Pending appointments reserve slots until confirmed.
+        public StatusOption Status { get; set; } = StatusOption.Pending;
         public string CancellationReason { get; set; } = string.Empty;
 
         public void Confirm()
@@ -20,12 +21,16 @@ namespace HealthAxis.Models
             if (Status == StatusOption.Cancelled)
             {
                 Console.WriteLine("Cancelled appointments cannot be confirmed.");
+                return;
             }
-            else if (Status == StatusOption.Completed)
+            if (Status == StatusOption.Completed)
             {
-                Console.WriteLine("Appointment already Completed. Cannot be confirmed.");
+                Console.WriteLine("Appointment already completed. Cannot be confirmed.");
+                return;
             }
+
             Status = StatusOption.Confirmed;
+            Console.WriteLine("Appointment confirmed.");
 
         }
         public void Cancel(string reason)
@@ -33,9 +38,12 @@ namespace HealthAxis.Models
             if (Status == StatusOption.Completed)
             {
                 Console.WriteLine("Completed appointments cannot be cancelled");
+                return;
             }
+
             Status = StatusOption.Cancelled;
             CancellationReason = reason;
+            Console.WriteLine("Appointment cancelled.");
         }
 
         public void Complete()
@@ -43,12 +51,16 @@ namespace HealthAxis.Models
             if (Status == StatusOption.Cancelled)
             {
                 Console.WriteLine("Cancelled appointments cannot be completed");
+                return;
             }
+
             Status = StatusOption.Completed;
+            Console.WriteLine("Appointment marked as completed.");
         }
 
         public enum StatusOption
         {
+            Pending,
             Confirmed,
             Cancelled,
             Completed

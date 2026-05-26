@@ -66,7 +66,7 @@ namespace HealthAxisTest.ServiceTests
            
             Assert.NotNull(result);
             Assert.Equal("09:00 AM", result.TimeSlot);
-            Assert.Equal(Appointment.StatusOption.Confirmed, result.Status);
+            Assert.Equal(Appointment.StatusOption.Pending, result.Status);
 
             _repoMock.Verify(r => r.Add(It.IsAny<Appointment>()), Times.Once);
         }
@@ -184,8 +184,8 @@ namespace HealthAxisTest.ServiceTests
             var date = DateTime.Today.AddDays(1);
 
             _repoMock.Setup(r => r.GetByPatientId(1)).Returns(new List<Appointment>());
-            _repoMock.Setup(r => r.GetNextAvailableSlotAvoidingPatientConflicts(1, date, 1)).Returns((string)null);
-            _repoMock.Setup(r => r.GetNextAvailableSlot(1, date)).Returns((string)null);
+            _repoMock.Setup(r => r.GetNextAvailableSlotAvoidingPatientConflicts(1, date, 1)).Returns((string)null!);
+            _repoMock.Setup(r => r.GetNextAvailableSlot(1, date)).Returns((string)null!);
 
             Assert.Throws<DoctorUnavailableException>(() =>
                 _service.BookAppointment(patient, doctor, date));
