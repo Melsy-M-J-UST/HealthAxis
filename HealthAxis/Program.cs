@@ -842,7 +842,7 @@ void Update()
 
             if (!string.IsNullOrWhiteSpace(name))
             {
-                if (!Regex.IsMatch(name, @"^[A-Za-z]+( [A-Za-z]+)*$"))
+                if (!Regex.IsMatch(name, @"^[A-Za-z]+( [A-Za-z]+)*$", RegexOptions.None, TimeSpan.FromMilliseconds(500)))
                 {
                     throw new ArgumentException("Enter a valid name.");
                 }
@@ -855,7 +855,7 @@ void Update()
 
             if (!string.IsNullOrWhiteSpace(phone))
             {
-                if (!Regex.IsMatch(phone, @"^\d{10}$"))
+                if (!Regex.IsMatch(phone, @"^\d{10}$", RegexOptions.None, TimeSpan.FromMilliseconds(500)))
                 {
                     throw new ArgumentException("Enter a valid phone number.");
                 }
@@ -868,7 +868,7 @@ void Update()
 
             if (!string.IsNullOrWhiteSpace(email))
             {
-                if (!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                if (!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.None, TimeSpan.FromMilliseconds(500)))
                 {
                     throw new ArgumentException("Enter a valid email id.");
                 }
@@ -964,7 +964,7 @@ void Update()
 
             if (!string.IsNullOrWhiteSpace(name))
             {
-                if (!Regex.IsMatch(name, @"^[A-Za-z]+( [A-Za-z]+)*$"))
+                if (!Regex.IsMatch(name, @"^[A-Za-z]+( [A-Za-z]+)*$", RegexOptions.None, TimeSpan.FromMilliseconds(500)))
                 {
                     throw new ArgumentException("Enter a valid name.");
                 }
