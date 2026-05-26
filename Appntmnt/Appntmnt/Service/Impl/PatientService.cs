@@ -1,5 +1,6 @@
 ﻿using Appntmnt.Models;
 using Appntmnt.Repository;
+using Appntmnt.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,7 +25,7 @@ namespace Appntmnt.Service.Impl
             var patient = _repository.GetPatientById(patientId);
             if (patient == null)
             {
-                throw new HealthAxis.Exceptions.PatientNotFoundException($"Patient with id {patientId} not registered.");
+                throw new PatientNotFoundException($"Patient with id {patientId} not registered.");
             }
             return patient;
         }
