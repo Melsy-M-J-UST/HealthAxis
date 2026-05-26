@@ -4,7 +4,10 @@ using System.Text;
 
 namespace Appntmnt.Exceptions
 {
-    internal class PatientNotFoundException
+    public class PatientNotFoundException : Exception
     {
+        public PatientNotFoundException(string message) : base(message)
+        {
+        }
     }
 }

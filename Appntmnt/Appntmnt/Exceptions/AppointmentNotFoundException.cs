@@ -4,7 +4,10 @@ using System.Text;
 
 namespace Appntmnt.Exceptions
 {
-    internal class AppointmentNotFoundException
+    public class AppointmentNotFoundException : Exception
     {
+        public AppointmentNotFoundException(string message) : base(message)
+        {
+        }
     }
 }

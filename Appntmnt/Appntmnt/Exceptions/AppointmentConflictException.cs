@@ -4,7 +4,11 @@ using System.Text;
 
 namespace Appntmnt.Exceptions
 {
-    internal class AppointmentConflictException
+    public class AppointmentConflictException : Exception
     {
+        public AppointmentConflictException(string message) : base(message)
+        {
+
+        }
     }
 }

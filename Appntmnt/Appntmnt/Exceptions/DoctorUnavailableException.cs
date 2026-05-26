@@ -4,7 +4,10 @@ using System.Text;
 
 namespace Appntmnt.Exceptions
 {
-    internal class DoctorUnavailableException
+    public class DoctorUnavailableException : Exception
     {
+        public DoctorUnavailableException(string message) : base(message)
+        {
+        }
     }
 }
