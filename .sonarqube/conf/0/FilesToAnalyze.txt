@@ -5,6 +5,7 @@ C:\Users\310054\source\repos\HealthAxis\HealthAxis\Exceptions\DoctorNotFoundExce
 C:\Users\310054\source\repos\HealthAxis\HealthAxis\Exceptions\DoctorUnavailableException.cs
 C:\Users\310054\source\repos\HealthAxis\HealthAxis\Exceptions\HealthRecordNotFoundException.cs
 C:\Users\310054\source\repos\HealthAxis\HealthAxis\Exceptions\InvalidHealthRecordException.cs
+C:\Users\310054\source\repos\HealthAxis\HealthAxis\Exceptions\InvalidSpecialisationException.cs
 C:\Users\310054\source\repos\HealthAxis\HealthAxis\Exceptions\PastDateException.cs
 C:\Users\310054\source\repos\HealthAxis\HealthAxis\Exceptions\PatientNotFoundException.cs
 C:\Users\310054\source\repos\HealthAxis\HealthAxis\Models\Appointment.cs

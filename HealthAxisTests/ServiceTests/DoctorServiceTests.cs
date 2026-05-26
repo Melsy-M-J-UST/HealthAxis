@@ -72,6 +72,12 @@ namespace HealthAxisTests.ServiceTests
             Assert.Single(result);
             Assert.Equal("Cardio Doc", result[0].DoctorName);
         }
-        
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        public void GetDoctorById_InvalidId_ThrowsException(int doctorId)
+        {
+            Assert.Throws<ArgumentException>(() => _service.GetDoctorById(doctorId));
+        }
     }
 }

@@ -79,7 +79,7 @@ namespace HealthAxis.Data
                 {
                     PatientId = GetNextPatientId(),
                     PatientName = "Arun Kumar",
-                    DateOfBirth = new DateTime(1992, 5, 14, 12, 24, 33),
+                    DateOfBirth = new DateTime(1992, 5, 14, 12, 24, 33, DateTimeKind.Unspecified),
                     Gender = Patient.Genders.Male,
                     PhoneNumber = "9876543210",
                     Email = "arun.kumar@example.com",
@@ -90,7 +90,7 @@ namespace HealthAxis.Data
                 {
                     PatientId = GetNextPatientId(),
                     PatientName = "Meera Nair",
-                    DateOfBirth = new DateTime(1988, 9, 22, 22, 15, 30),
+                    DateOfBirth = new DateTime(1988, 9, 22, 22, 15, 30, DateTimeKind.Unspecified),
                     Gender = Patient.Genders.Male,
                     PhoneNumber = "9876543211",
                     Email = "meera.nair@example.com",
@@ -101,7 +101,7 @@ namespace HealthAxis.Data
                 {
                     PatientId = GetNextPatientId(),
                     PatientName = "Rahul Menon",
-                    DateOfBirth = new DateTime(2000, 1, 10, 16, 17, 18),
+                    DateOfBirth = new DateTime(2000, 1, 10, 16, 17, 18, DateTimeKind.Unspecified),
                     Gender = Patient.Genders.Male,
                     PhoneNumber = "9876543212",
                     Email = "rahul.menon@example.com",
@@ -112,7 +112,7 @@ namespace HealthAxis.Data
                 {
                     PatientId = GetNextPatientId(),
                     PatientName = "Anjali Thomas",
-                    DateOfBirth = new DateTime(1995, 12, 3, 01, 02, 03),
+                    DateOfBirth = new DateTime(1995, 12, 3, 01, 02, 03, DateTimeKind.Unspecified),
                     Gender = Patient.Genders.Male,
                     PhoneNumber = "9876543213",
                     Email = "anjali.thomas@example.com",
@@ -123,7 +123,7 @@ namespace HealthAxis.Data
                 {
                     PatientId = GetNextPatientId(),
                     PatientName = "Vivek Pillai",
-                    DateOfBirth = new DateTime(1983, 7, 19, 5,6,7),
+                    DateOfBirth = new DateTime(1983, 7, 19, 5,6,7, DateTimeKind.Unspecified),
                     Gender = Patient.Genders.Male,
                     PhoneNumber = "9876543214",
                     Email = "vivek.pillai@example.com",

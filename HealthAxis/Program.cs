@@ -34,6 +34,10 @@ IHealthRecordService healthRecordService = provider.GetRequiredService<IHealthRe
 
 while (true)
 {
+    ShowMenu();
+}
+void ShowMenu()
+{
     Console.WriteLine();
     Console.WriteLine("===== Appointment Portal =====");
     Console.WriteLine("1. Register a new patient");
@@ -107,36 +111,22 @@ void RegisterPatient()
 
     Console.Write("Enter your full name: ");
     string FullName = Console.ReadLine() ?? string.Empty;
-
-    if (Regex.IsMatch(
-            FullName,
-            @"^[A-Za-z]+( [A-Za-z]+)*$",
-            RegexOptions.None,
-            TimeSpan.FromMilliseconds(500)))
-    {
-        p.PatientName = FullName;
-    }
-    else
-    {
-        Console.WriteLine("Enter a Valid Name");
-        return;
-    }
+    p.PatientName=CheckValidName(FullName) ?? string.Empty;
 
     Console.Write("Enter your Date of Birth:\n");
     string? inputDate = Console.ReadLine();
-    if (DateTime.TryParseExact(inputDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dob) && dob < DateTime.Today)
-    {
-        p.DateOfBirth = dob;
-    }
-    else
-    {
-        Console.WriteLine("Invalid date format. Please enter the date in \"yyyy-MM-dd\" Format.");
-        return;
-    }
+    p.DateOfBirth = CheckValidDOB(inputDate);
 
     Console.Write("Enter your Gender: \nMale\nFemale\nTransgender\nOther\nKindly please enter the one among the four given above.\n");
-    bool G = Enum.TryParse(Console.ReadLine(), true, out Patient.Genders gender);
-    if (G)
+    string? input = Console.ReadLine();
+
+    if (int.TryParse(input, out _))
+    {
+        Console.WriteLine("Numbers are not allowed. Please enter a valid gender.");
+        return;
+    }
+    bool G = Enum.TryParse(input, true, out Patient.Genders gender);
+    if (G && Enum.IsDefined(gender))
     {
         p.Gender = gender;
     }
@@ -214,11 +204,29 @@ void AddDoctor()
         doctor.Specialisation = GetSpecialisationFromUser();
 
         Console.Write("Enter Years of Experience: ");
-        doctor.Experience = Convert.ToInt32(Console.ReadLine());
+        var Experience = Convert.ToInt32(Console.ReadLine());
+        if (Experience > 0)
+        {
+            doctor.Experience = Experience;
+
+        }
+        else
+        {
+            Console.WriteLine("Experience should be a positive number");
+            return;
+        }
 
         Console.Write("Enter Consultation Fee: ");
-        doctor.Fees = Convert.ToInt32(Console.ReadLine());
-
+        var Fees = Convert.ToInt32(Console.ReadLine());
+        if(Fees > 0)
+        {
+            doctor.Fees = Fees;
+        }
+        else
+        {
+            Console.WriteLine("Fees should be a positive number");
+            return;
+        }
         Console.Write("Is Active (true/false): ");
         doctor.IsPractising = Convert.ToBoolean(Console.ReadLine());
 
@@ -283,7 +291,7 @@ Doctor.Specialisations GetSpecialisationFromUser()
         return result;
     }
 
-    throw new Exception("Invalid Specialisation Entered");
+    throw new InvalidSpecialisationException("Invalid Specialisation Entered");
 }
 void BookAppointment()
 {
@@ -721,6 +729,29 @@ void ToggleDoctorStatus()
     {
         Console.WriteLine("Invalid choice.");
     }
+}
+
+string? CheckValidName(string name)
+{
+    while (!Regex.IsMatch(
+            name,
+            @"^[A-Za-z]+( [A-Za-z]+)*$",
+            RegexOptions.None,
+            TimeSpan.FromMilliseconds(500)))
+    {
+        Console.WriteLine("Enter a Valid Name");
+        name=Console.ReadLine()?? string.Empty;
+    }
+    return name;
+}
+DateTime CheckValidDOB(string? inputDate)
+{
+    while (!DateTime.TryParseExact(inputDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dob) || dob >= DateTime.Today)
+    {
+        Console.WriteLine("Invalid date format. Please enter the date in \"yyyy-MM-dd\" Format and ensure it's a past date.");
+        inputDate = Console.ReadLine();
+    }
+    return DateTime.ParseExact(inputDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
 }
 
 [ExcludeFromCodeCoverage]

@@ -67,5 +67,19 @@ namespace HealthAxisTests.RepositoryTests
             var result = _repository.UpdatePatient(updatedPatient);
             Assert.True(result);
         }
-    }
+        [Theory]
+        [InlineData(999, "Non Existent", "2000-01-01")]
+        [InlineData(0, "", "1992-05-14")]
+        public void UpdatePatient_GivenInvalidPatient_ShouldReturnFalse(int id, string name, string dob)
+        {
+            Patient updatedPatient = new Patient
+            {
+                PatientId = id,
+                PatientName = name,
+                DateOfBirth = DateTime.Parse(dob),
+            };
+            var result = _repository.UpdatePatient(updatedPatient);
+            Assert.False(result);
+        }
+        }
 } 
