@@ -33,10 +33,10 @@ namespace HAP_Pod4_ConsoleApp_au.Models
         // ENUM FOR TIME SLOTS
         public enum TimeSlotOption
         {
-            TenAMToTwelvePM,
-            TwelvePMToTwoPM,
-            TwoPMToFourPM,
-            FourPMToSixPM
+            TenAMToTwelvePM = 1,
+            TwelvePMToTwoPM = 2,
+            TwoPMToFourPM = 3,
+            FourPMToSixPM = 4
         }
 
         // CONFIRM APPOINTMENT
@@ -52,17 +52,33 @@ namespace HAP_Pod4_ConsoleApp_au.Models
         }
 
         // CANCEL APPOINTMENT
-        public void Cancel(string reason)
+        //public void Cancel(string reason)
+        //{
+        //    if (Status == StatusOption.Completed)
+        //    {
+        //        Console.WriteLine("Completed appointment cannot be cancelled.");
+        //        return;
+        //    }
+
+        //    Status = StatusOption.Cancelled;
+        //    CancellationReason = reason;
+        //}
+        public bool Cancel(string reason)
         {
             if (Status == StatusOption.Completed)
             {
-                Console.WriteLine("Completed appointment cannot be cancelled.");
-                return;
+                Console.WriteLine(
+                    "Completed appointment cannot be cancelled.");
+
+                return false;
             }
 
             Status = StatusOption.Cancelled;
             CancellationReason = reason;
+
+            return true;
         }
+
 
         // COMPLETE APPOINTMENT
         public void Complete()
@@ -102,7 +118,7 @@ namespace HAP_Pod4_ConsoleApp_au.Models
         // APPOINTMENT SUMMARY
         public string GetDetails()
         {
-            return $"Appointment ID: {AppointmentId}\n" +
+            return $"\nAppointment ID: {AppointmentId}\n" +
                    $"Patient Name: {Patient?.FullName ?? "N/A"}\n" +
                    $"Doctor Name: Dr. {Doctor?.FullName ?? "N/A"}\n" +
                    $"Specialisation: {Doctor?.Specialisation.ToString() ?? "N/A"}\n" +

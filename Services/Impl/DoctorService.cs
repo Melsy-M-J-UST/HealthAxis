@@ -39,9 +39,7 @@ namespace HAP_Pod4_ConsoleApp_au.Services.Impl
             }
 
             bool doctorExists = _context.Doctors
-                .Any(d =>
-                    d.FullName.ToLower() ==
-                    doctor.FullName.ToLower());
+                .Any(d => d.FullName.Equals(doctor.FullName, StringComparison.CurrentCultureIgnoreCase));
 
             if (doctorExists)
             {

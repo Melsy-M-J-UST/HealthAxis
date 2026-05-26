@@ -22,17 +22,14 @@ namespace HAP_Pod4_ConsoleApp_au.Repositories
 
         public bool CancelAppointment(int appointmentid, string reason)
         {
-            Appointment? appointment =
-                GetAppointmentById(appointmentid);
+            Appointment? appointment = GetAppointmentById(appointmentid);
 
             if (appointment == null)
             {
                 return false;
             }
 
-            appointment.Cancel(reason);
-
-            return true;
+            return appointment.Cancel(reason);
         }
 
         public List<Appointment> GetAppointmentsByPatient(int patientid)

@@ -37,7 +37,7 @@ namespace HAP_Pod4_ConsoleApp_au.Models
 
         public string GetProfileSummary()
         {
-            return $"Patient ID: {PatientId}, Name: {FullName}, Age: {GetAge()}, Gender: {Gender}, Phone: {PhoneNumber}, Email: {Email}";
+            return $"Patient ID: {PatientId}, \nName: {FullName}, \nAge: {GetAge()}, \nGender: {Gender}, \nPhone: {PhoneNumber}, \nEmail: {Email}";
         }
     }
 

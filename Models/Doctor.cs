@@ -22,16 +22,16 @@ namespace HAP_Pod4_ConsoleApp_au.Models
 
         public enum SpecialisationOption
         {
-            GeneralPractitioner,
-            Cardiologist,
-            Dermatologist,
-            Neurologist,
-            Pediatrician,
-            Psychiatrist,
-            OrthopedicSurgeon,
-            Gynecologist,
-            Oncologist,
-            Endocrinologist
+            GeneralPractitioner = 1,
+            Cardiologist = 2,
+            Dermatologist = 3,
+            Neurologist = 4,
+            Pediatrician = 5,
+            Psychiatrist = 6,
+            OrthopedicSurgeon = 7,
+            Gynecologist = 8,
+            Oncologist = 9,
+            Endocrinologist = 10
         }
 
 
@@ -56,7 +56,7 @@ namespace HAP_Pod4_ConsoleApp_au.Models
 
         public string GetProfileSummary()
         {
-            return $"DoctorId: {DoctorId}, FullName: {FullName}, Specialisation: {Specialisation}, YearsOfExperience: {YearsOfExperience}, ConsultationFee: {ConsultationFee}, IsActive: {IsActive}";
+            return $"DoctorId: {DoctorId}, \nFullName: {FullName}, \nSpecialisation: {Specialisation}, \nYearsOfExperience: {YearsOfExperience}, \nConsultationFee: {ConsultationFee}, \nIsActive: {IsActive}";
         }
 
     }

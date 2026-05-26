@@ -31,8 +31,8 @@ HealthRecordService healthRecordService = new HealthRecordService(healthReposito
 
 SeedRepositories(context, patientRepository, doctorRepository);
 
-static void SeedRepositories(AppDbContext context, IPatientRepository patientRepository,IDoctorRepository doctorRepository)
-{ 
+static void SeedRepositories(AppDbContext context, IPatientRepository patientRepository, IDoctorRepository doctorRepository)
+{
     foreach (var patient in context.Patients)
     {
         patientRepository.RegisterPatient(patient);
@@ -49,19 +49,10 @@ bool exit = false;
 while (!exit)
 {
     Console.WriteLine("\n===== HEALTH APPOINTMENT PORTAL =====");
-    Console.WriteLine("1. Register New Patient");
-    Console.WriteLine("2. Add New Doctor");
-    Console.WriteLine("3. Search Doctors By Specialisation");
-    Console.WriteLine("4. Book Appointment");
-    Console.WriteLine("5. View Patient Appointments");
-    Console.WriteLine("6. Confirm Or Cancel Appointment");
-    Console.WriteLine("7. Add Health Record After Completed Appointment");
-    Console.WriteLine("8. View Health History For Patient");
-    Console.WriteLine("9. View all patients");
-    Console.WriteLine("10. View all doctors");
-    Console.WriteLine("11. View upcoming appointments");
-    Console.WriteLine("12. Clear");
-    Console.WriteLine("13. Exit");
+    Console.WriteLine("1. Patient Menu");
+    Console.WriteLine("2. Doctor Menu");
+    //Console.WriteLine("3. Clear Screen");
+    Console.WriteLine("3. Exit");
     Console.Write("Enter choice: ");
 
     string? choice = Console.ReadLine();
@@ -69,59 +60,27 @@ while (!exit)
     switch (choice)
     {
         case "1":
-            RegisterPatient(patientService, context);
+            PatientMenu(
+                patientService,
+                appointmentService,
+                doctorService,
+                healthRecordService,
+                context);
             break;
 
         case "2":
-            AddDoctor(doctorService);
-            break;
-
-        case "3":
-            SearchDoctors(doctorService);
-            break;
-
-        case "4":
-            BookAppointment(appointmentService,patientService,doctorService,context);
-            break;
-
-        case "5":
-            ViewAppointments(
-                appointmentService,
-                patientService);
-            break;
-
-        case "6":
-            ManageAppointment(appointmentService);
-            break;
-
-        case "7":
-            AddHealthRecord(
+            DoctorMenu(
+                doctorService,
                 appointmentService,
                 healthRecordService,
                 context);
             break;
 
-        case "8":
-            ViewHealthHistory(healthRecordService, patientService);
-            break;
+        //case "3":
+        //    Console.Clear();
+        //    break;
 
-        case "9":
-            ViewAllPatients(patientService);
-            break;
-
-        case "10":
-            ViewAllDoctors(doctorService);
-            break;
-
-        case "11":
-            ViewUpcomingAppointments(appointmentService);
-            break;
-
-        case "12":
-            Console.Clear();
-            break;
-
-        case "13":
+        case "3":
             exit = true;
             Console.WriteLine("Application Closed.");
             break;
@@ -131,6 +90,231 @@ while (!exit)
             break;
     }
 }
+
+static void PatientMenu(
+    PatientService patientService,
+    AppointmentService appointmentService,
+    DoctorService doctorService,
+    HealthRecordService healthRecordService,
+    AppDbContext context)
+{
+    bool back = false;
+    Console.Clear();
+
+    while (!back)
+    {
+        Console.WriteLine("\n===== PATIENT MENU =====");
+        Console.WriteLine("1. Register New Patient");
+        Console.WriteLine("2. View All Patients");
+        Console.WriteLine("3. Search Doctors By Specialisation");
+        Console.WriteLine("4. Book Appointment");
+        Console.WriteLine("5. View Patient Appointments");
+        Console.WriteLine("6. Cancel Appointment");
+        Console.WriteLine("7. View Health History");
+        Console.WriteLine("8. Back");
+        Console.Write("Enter choice: ");
+
+        string? choice = Console.ReadLine();
+
+        switch (choice)
+        {
+            case "1":
+                RegisterPatient(patientService, context);
+                break;
+
+            case "2":
+                ViewAllPatients(patientService);
+                break;
+
+            case "3":
+                SearchDoctors(doctorService);
+                break;
+
+            case "4":
+                BookAppointment(
+                    appointmentService,
+                    patientService,
+                    doctorService,
+                    context);
+                break;
+
+            case "5":
+                ViewAppointments(
+                    appointmentService,
+                    patientService);
+                break;
+
+            case "6":
+                CancelAppointmentByPatient(appointmentService);
+                break;
+
+            case "7":
+                ViewHealthHistory(
+                    healthRecordService,
+                    patientService);
+                break;
+
+            case "8":
+                back = true;
+                break;
+            default:
+                Console.WriteLine("Invalid option.");
+                break;
+        }
+    }
+}
+
+static void DoctorMenu(
+    DoctorService doctorService,
+    AppointmentService appointmentService,
+    HealthRecordService healthRecordService,
+    AppDbContext context)
+{
+    bool back = false;
+    Console.Clear();
+
+    while (!back)
+    {
+        Console.WriteLine("\n===== DOCTOR MENU =====");
+        Console.WriteLine("1. Add New Doctor");
+        Console.WriteLine("2. View All Doctors");
+        Console.WriteLine("3. Search Doctors By Specialisation");
+        Console.WriteLine("4. View Upcoming Appointments");
+        Console.WriteLine("5. Confirm Or Cancel Appointment");
+        Console.WriteLine("6. Add Health Record");
+        Console.WriteLine("7. Back");
+
+        Console.Write("Enter choice: ");
+
+        string? choice = Console.ReadLine();
+
+        switch (choice)
+        {
+            case "1":
+                AddDoctor(doctorService);
+                break;
+
+            case "2":
+                ViewAllDoctors(doctorService);
+                break;
+
+            case "3":
+                SearchDoctors(doctorService);
+                break;
+
+            case "4":
+                ViewUpcomingAppointments(appointmentService);
+                break;
+
+            case "5":
+                ManageAppointment(appointmentService);
+                break;
+
+            case "6":
+                AddHealthRecord(
+                    appointmentService,
+                    healthRecordService,
+                    context);
+                break;
+
+            case "7":
+                back = true;
+                break;
+
+            default:
+                Console.WriteLine("Invalid option.");
+                break;
+        }
+    }
+}
+
+//bool exit = false;
+
+//while (!exit)
+//{
+//    Console.WriteLine("\n===== HEALTH APPOINTMENT PORTAL =====");
+//    Console.WriteLine("1. Register New Patient");
+//    Console.WriteLine("2. Add New Doctor");
+//    Console.WriteLine("3. Search Doctors By Specialisation");
+//    Console.WriteLine("4. Book Appointment");
+//    Console.WriteLine("5. View Patient Appointments");
+//    Console.WriteLine("6. Confirm Or Cancel Appointment");
+//    Console.WriteLine("7. Add Health Record After Completed Appointment");
+//    Console.WriteLine("8. View Health History For Patient");
+//    Console.WriteLine("9. View all patients");
+//    Console.WriteLine("10. View all doctors");
+//    Console.WriteLine("11. View upcoming appointments");
+//    Console.WriteLine("12. Clear");
+//    Console.WriteLine("13. Exit");
+//    Console.Write("Enter choice: ");
+
+//    string? choice = Console.ReadLine();
+
+//    switch (choice)
+//    {
+//        case "1":
+//            RegisterPatient(patientService, context);
+//            break;
+
+//        case "2":
+//            AddDoctor(doctorService);
+//            break;
+
+//        case "3":
+//            SearchDoctors(doctorService);
+//            break;
+
+//        case "4":
+//            BookAppointment(appointmentService,patientService,doctorService,context);
+//            break;
+
+//        case "5":
+//            ViewAppointments(
+//                appointmentService,
+//                patientService);
+//            break;
+
+//        case "6":
+//            ManageAppointment(appointmentService);
+//            break;
+
+//        case "7":
+//            AddHealthRecord(
+//                appointmentService,
+//                healthRecordService,
+//                context);
+//            break;
+
+//        case "8":
+//            ViewHealthHistory(healthRecordService, patientService);
+//            break;
+
+//        case "9":
+//            ViewAllPatients(patientService);
+//            break;
+
+//        case "10":
+//            ViewAllDoctors(doctorService);
+//            break;
+
+//        case "11":
+//            ViewUpcomingAppointments(appointmentService);
+//            break;
+
+//        case "12":
+//            Console.Clear();
+//            break;
+
+//        case "13":
+//            exit = true;
+//            Console.WriteLine("Application Closed.");
+//            break;
+
+//        default:
+//            Console.WriteLine("Invalid option.");
+//            break;
+//    }
+//}
 
 static void RegisterPatient(PatientService patientService, AppDbContext context)
 {
@@ -143,14 +327,31 @@ static void RegisterPatient(PatientService patientService, AppDbContext context)
         DateTime dob = ReadValidDOB();
 
         Console.WriteLine("Select Gender:");
+        Console.WriteLine("Male");
+        Console.WriteLine("Female");
+        Console.WriteLine("Transgender");
+        Console.WriteLine("Other");
+        Console.WriteLine();
 
-        foreach (Patient.GenderOptions gender in
-         Enum.GetValues<Patient.GenderOptions>())
+        Patient.GenderOptions gender;
+
+        while (true)
         {
-            Console.WriteLine($"{(int)gender + 1}. {gender}");
-        }
+            Console.Write("Enter Gender: ");
 
-        int genderChoice = ReadPositiveInteger();
+            string? input = Console.ReadLine();
+
+            if (Enum.TryParse<Patient.GenderOptions>(
+                    input,
+                    true,
+                    out gender))
+            {
+                break;
+            }
+
+            Console.WriteLine(
+                "Invalid Gender. \nPlease select from above options: ");
+        }
 
         Console.Write("Enter Phone Number: ");
         string phone = ReadValidPhone();
@@ -166,7 +367,7 @@ static void RegisterPatient(PatientService patientService, AppDbContext context)
             PatientId = context.GetNextPatientId(),
             FullName = name,
             DateOfBirth = dob,
-            Gender = (Patient.GenderOptions)genderChoice,
+            Gender = (Patient.GenderOptions)gender,
             PhoneNumber = phone,
             Email = email,
             InsuranceID = insuranceId,
@@ -245,10 +446,15 @@ static void SearchDoctors(DoctorService doctorService)
         Console.WriteLine("No Doctors Found.");
         return;
     }
+    Console.WriteLine();
 
     foreach (var doctor in doctors)
     {
+        Console.WriteLine("-----------------------------------------------------------------------------------------");
         Console.WriteLine(doctor.GetProfileSummary());
+        //Console.WriteLine();
+        Console.WriteLine("-----------------------------------------------------------------------------------------");
+        Console.WriteLine();
     }
 }
 
@@ -273,9 +479,12 @@ static void BookAppointment(
 
         Console.WriteLine("Available Doctors:");
 
+        Console.WriteLine("-------------------------------------------");
         foreach (var doc in doctorService.GetAllDoctors())
         {
             Console.WriteLine(doc.GetProfileSummary());
+            Console.WriteLine("-------------------------------------------");
+
         }
 
         Console.Write("Enter Doctor ID: ");
@@ -298,12 +507,12 @@ static void BookAppointment(
         foreach (Appointment.TimeSlotOption slot in
          Enum.GetValues<Appointment.TimeSlotOption>())
         {
-            Console.WriteLine($"{(int)slot + 1} - {slot}");
+            Console.WriteLine($"{(int)slot}. {slot}");
         }
 
         int slotChoice = ReadPositiveInteger();
 
-        Appointment appointment = new Appointment
+        Appointment appointment = new()
         {
             AppointmentId = context.GetNextAppointmentId(),
             Patient = patient,
@@ -390,13 +599,19 @@ static void ManageAppointment(
 
         case "2":
             Console.Write("Enter Cancellation Reason: ");
-            string reason = Console.ReadLine() ?? string.Empty;
 
-            appointmentService.CancelAppointment(
-                appointmentId,
-                reason);
+            string reason =
+                Console.ReadLine() ?? string.Empty;
 
-            Console.WriteLine("Appointment Cancelled.");
+            bool isCancelled =
+                appointmentService.CancelAppointment(appointmentId, reason);
+
+            if (isCancelled)
+            {
+                Console.WriteLine(
+                    "Appointment Cancelled.");
+            }
+
             break;
 
         case "3":
@@ -525,11 +740,13 @@ static string ReadValidPhone()
     {
         string? input = Console.ReadLine();
 
+#pragma warning disable SYSLIB1045 // Convert to 'GeneratedRegexAttribute'.
         if (!string.IsNullOrWhiteSpace(input) &&
             Regex.IsMatch(input, "^[6-9][0-9]{9}$"))
         {
             return input;
         }
+#pragma warning restore SYSLIB1045 // Convert to 'GeneratedRegexAttribute'.
 
         Console.Write("Invalid Phone Number. \n Please Re-enter: ");
     }
@@ -541,7 +758,7 @@ static string ReadValidEmail()
     {
         string? input = Console.ReadLine();
 
-        if (!string.IsNullOrWhiteSpace(input) && input.Contains("@") && input.Contains("."))
+        if (!string.IsNullOrWhiteSpace(input) && input.Contains('@') && input.Contains('.'))
         {
             return input;
         }
@@ -671,6 +888,44 @@ static void ViewUpcomingAppointments(
     {
         Console.WriteLine("--------------------------------");
         Console.WriteLine(appointment.GetDetails());
+    }
+}
+
+static void CancelAppointmentByPatient(
+    AppointmentService appointmentService)
+{
+    Console.Write("Enter Appointment ID: ");
+
+    int appointmentId = ReadPositiveInteger();
+
+    var appointment =
+        appointmentService.GetAppointmentById(appointmentId);
+
+    if (appointment == null)
+    {
+        Console.WriteLine("Appointment Not Found.");
+        return;
+    }
+
+    Console.Write("Enter Cancellation Reason: ");
+
+    string reason =
+        Console.ReadLine() ?? string.Empty;
+
+    bool isCancelled =
+        appointmentService.CancelAppointment(
+            appointmentId,
+            reason);
+
+    if (isCancelled)
+    {
+        Console.WriteLine(
+            "Appointment Cancelled Successfully.");
+    }
+    else
+    {
+        Console.WriteLine(
+            "Unable To Cancel Appointment.");
     }
 }
 
