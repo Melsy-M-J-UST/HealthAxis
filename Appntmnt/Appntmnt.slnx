@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="Appntmnt/Appntmnt.csproj" />
+  <Project Path="AppntmntTests/AppntmntTests.csproj" Id="2b78396f-2d06-4187-b4c6-fcac87ae89b0" />
 </Solution>

@@ -7,6 +7,7 @@ using Appntmnt.Service;
 using Appntmnt.Service.Impl;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.CodeAnalysis;
 
 var services = new ServiceCollection();
 
@@ -1222,3 +1223,6 @@ Press ENTER to keep existing");
         }
     }
 }
+
+[ExcludeFromCodeCoverage]
+public partial class Program { }
