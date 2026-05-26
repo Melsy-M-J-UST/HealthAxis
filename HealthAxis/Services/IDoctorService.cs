@@ -7,8 +7,8 @@ namespace HealthAxis.Services
     {
         Doctor AddDoctor(Doctor doctor);
         List<Doctor> GetAllDoctors();
-
         Doctor? GetById(int doctorId);
+        bool UpdateDoctor(Doctor doctor);
         List<Doctor> SearchDoctorBySpecialisation(Doctor.SpecialisationOption specialisation);
     }
 }

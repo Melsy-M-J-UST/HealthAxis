@@ -27,5 +27,18 @@ namespace HealthAxis.Services.Impl
         {
             return _repository.RegisterPatient(patient);
         }
+
+        public bool UpdatePatient(Patient patient)
+        {
+
+            if (patient == null)
+                throw new ArgumentException("Patient is required.");
+
+            if (string.IsNullOrWhiteSpace(patient.FullName))
+                throw new ArgumentException("Patient name is required.");
+
+            return _repository.UpdatePatient(patient);
+
+        }
     }
 }

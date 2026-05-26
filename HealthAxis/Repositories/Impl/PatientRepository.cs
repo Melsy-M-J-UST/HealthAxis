@@ -34,5 +34,23 @@ namespace HealthAxis.Repositories.Impl
 
             return patient;
         }
+
+        public bool UpdatePatient(Patient updatedPatient)
+        {
+            var existingPatient = _db.Patients.FirstOrDefault(p => p.PatientId == updatedPatient.PatientId);
+
+            if (existingPatient == null)
+            {
+                return false;
+            }
+
+            existingPatient.FullName = updatedPatient.FullName;
+            existingPatient.DateOfBirth = updatedPatient.DateOfBirth;
+            existingPatient.PhoneNumber = updatedPatient.PhoneNumber;
+            existingPatient.Email = updatedPatient.Email;
+            existingPatient.InsuranceID = updatedPatient.InsuranceId;
+            existingPatient.Gender = updatedPatient.Gender;
+            return true;
+        }
     }
 }

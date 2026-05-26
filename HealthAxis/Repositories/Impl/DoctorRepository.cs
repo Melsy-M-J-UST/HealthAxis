@@ -44,5 +44,19 @@ namespace HealthAxis.Repositories.Impl
 
             return doctors;
         }
+        public bool UpdateDoctor(Doctor doctor)
+        {
+            var existing = _ContextDb.Doctors.FirstOrDefault(d => d.DoctorId == doctor.DoctorId);
+            if (existing == null)
+            {
+                return false;
+            }
+            existing.FullName = doctor.FullName;
+            existing.Specialisation = doctor.Specialisation;
+            existing.YearsOfExperience = doctor.YearsOfExperience;
+            existing.ConsultationFee = doctor.ConsultationFee;
+            existing.IsActive = doctor.IsActive;
+            return true;
+        }
     }
 }
