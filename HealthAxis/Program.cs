@@ -332,7 +332,7 @@ void AddDoctor()
         {
             Console.Write("Enter Years of Experience: ");
 
-            if (int.TryParse(Console.ReadLine(), out int experience) && experience >= 0)
+            if (int.TryParse(Console.ReadLine(), out int experience) && experience >= 0 && experience<=50)
             {
                 doctor.YearsOfExperience = experience;
                 break;
@@ -724,9 +724,9 @@ void ConfirmCancelOrCompleteAppointment()
 
         Console.WriteLine($"We have your Appointment with Id {appointmentId}.");
         Console.WriteLine("Please choose the below option to make changes to the status of your appointment.");
-        Console.WriteLine("Press 1 to Cancel your appointment");
-        Console.WriteLine("Press 2 to Complete your appointment");
-        Console.WriteLine("Press 3 to Confirm your appointment");
+        Console.WriteLine("Press 1 to Cancel the appointment");
+        Console.WriteLine("Press 2 to Complete the appointment");
+        Console.WriteLine("Press 3 to Confirm the appointment");
 
         string action = Console.ReadLine() ?? string.Empty;
 
@@ -741,7 +741,7 @@ void ConfirmCancelOrCompleteAppointment()
             }
 
             appointmentService.CancelAppointment(appointmentId, reason);
-            Console.WriteLine("Appointment cancelled.");
+            
         }
     else if (action == "2")
     {
@@ -1205,7 +1205,7 @@ void UpdateDoctor()
 
         if (!string.IsNullOrWhiteSpace(expInput))
         {
-            if (!int.TryParse(expInput, out int experience) || experience < 0)
+            if (!int.TryParse(expInput, out int experience) || experience < 0||experience>50)
             {
                 throw new FormatException("Enter valid years of experience.");
             }

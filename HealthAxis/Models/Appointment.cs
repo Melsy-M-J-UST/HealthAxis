@@ -61,7 +61,6 @@ namespace HealthAxis.Models
             }
 
             Status = StatusOption.Completed;
-            Console.WriteLine("Appointment marked as completed.");
         }
 
         public enum StatusOption
