@@ -145,7 +145,7 @@ static void RegisterPatient(PatientService patientService, AppDbContext context)
         Console.WriteLine("Select Gender:");
 
         foreach (Patient.GenderOptions gender in
-                 Enum.GetValues(typeof(Patient.GenderOptions)))
+         Enum.GetValues<Patient.GenderOptions>())
         {
             Console.WriteLine($"{(int)gender + 1}. {gender}");
         }
@@ -193,7 +193,7 @@ static void AddDoctor(DoctorService doctorService)
 
         Console.WriteLine("Select Specialisation:");
 
-        foreach (var spec in Enum.GetValues(typeof(Doctor.SpecialisationOption)))
+        foreach (Doctor.SpecialisationOption spec in Enum.GetValues<Doctor.SpecialisationOption>())
         {
             Console.WriteLine($"{(int)spec + 1} - {spec}");
         }
@@ -231,7 +231,7 @@ static void SearchDoctors(DoctorService doctorService)
 {
     Console.WriteLine("Select Specialisation:");
 
-    foreach (var spec in Enum.GetValues(typeof(Doctor.SpecialisationOption)))
+    foreach (Doctor.SpecialisationOption spec in Enum.GetValues<Doctor.SpecialisationOption>())
     {
         Console.WriteLine($"{(int)spec} - {spec}");
     }
@@ -295,7 +295,8 @@ static void BookAppointment(
 
         Console.WriteLine("Select Time Slot:");
 
-        foreach (var slot in Enum.GetValues(typeof(Appointment.TimeSlotOption)))
+        foreach (Appointment.TimeSlotOption slot in
+         Enum.GetValues<Appointment.TimeSlotOption>())
         {
             Console.WriteLine($"{(int)slot + 1} - {slot}");
         }
@@ -443,6 +444,12 @@ static void AddHealthRecord(
 
         Console.Write("Enter Notes: ");
         string notes = Console.ReadLine() ?? string.Empty;
+
+        if (appointment.Patient == null || appointment.Doctor == null)
+        {
+            Console.WriteLine("Invalid appointment data.");
+            return;
+        }
 
         HealthRecord record = new HealthRecord
         {

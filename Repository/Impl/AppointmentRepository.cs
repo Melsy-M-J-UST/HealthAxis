@@ -42,10 +42,12 @@ namespace HAP_Pod4_ConsoleApp_au.Repositories
 
             foreach (var appointment in _appointments)
             {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                 if (appointment.Patient.PatientId == patientid)
                 {
                     patientAppointments.Add(appointment);
                 }
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
             }
 
             return patientAppointments;
@@ -58,10 +60,12 @@ namespace HAP_Pod4_ConsoleApp_au.Repositories
 
             foreach (var appointment in _appointments)
             {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                 if (appointment.Doctor.DoctorId == doctorid)
                 {
                     doctorAppointments.Add(appointment);
                 }
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
             }
 
             return doctorAppointments;

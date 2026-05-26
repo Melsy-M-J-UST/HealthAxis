@@ -9,9 +9,9 @@ namespace HAP_Pod4_ConsoleApp_au.Models
     {
         public int AppointmentId { get; set; }
 
-        public Patient Patient { get; set; }
+        public Patient? Patient { get; set; }
 
-        public Doctor Doctor { get; set; }
+        public Doctor? Doctor { get; set; }
 
         public DateTime ScheduledDate { get; set; }
 
@@ -99,16 +99,17 @@ namespace HAP_Pod4_ConsoleApp_au.Models
         }
 
         // APPOINTMENT SUMMARY
+        // APPOINTMENT SUMMARY
         public string GetDetails()
         {
             return $"Appointment ID: {AppointmentId}\n" +
-                   $"Patient Name: {Patient.FullName}\n" +
-                   $"Doctor Name: Dr. {Doctor.FullName}\n" +
-                   $"Specialisation: {Doctor.Specialisation}\n" +
+                   $"Patient Name: {Patient?.FullName ?? "N/A"}\n" +
+                   $"Doctor Name: Dr. {Doctor?.FullName ?? "N/A"}\n" +
+                   $"Specialisation: {Doctor?.Specialisation.ToString() ?? "N/A"}\n" +
                    $"Scheduled Date: {ScheduledDate.ToShortDateString()}\n" +
                    $"Time Slot: {GetFormattedTimeSlot()}\n" +
                    $"Status: {Status}\n" +
                    $"Cancellation Reason: {CancellationReason}";
         }
     }
-}
+    }

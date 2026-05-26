@@ -26,12 +26,14 @@ namespace HAP_Pod4_ConsoleApp_au.Services.Impl
 
             var existingAppointments = _repo.GetAllAppointments();
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             bool isSlotTaken = existingAppointments.Any(app =>
                 app.Doctor.DoctorId == newAppointment.Doctor.DoctorId &&
                 app.ScheduledDate.Date == newAppointment.ScheduledDate.Date &&
                 app.TimeSlot == newAppointment.TimeSlot &&
                 app.Status != Appointment.StatusOption.Cancelled
             );
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
             if (isSlotTaken)
             {

@@ -9,12 +9,16 @@ namespace HAP_Pod4_ConsoleApp_au.Services.Impl
         private readonly AppDbContext _context;
         private IDoctorRepository @object;
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
         public DoctorService(AppDbContext context)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
         {
             _context = context;
         }
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
         public DoctorService(IDoctorRepository @object)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
         {
             this.@object = @object;
         }

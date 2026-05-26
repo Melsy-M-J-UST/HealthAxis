@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\models\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:models\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\models\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|solutionrelative:models\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A77814F0-DA48-064F-FBDD-471784AF2939}|HAP_Pod4_ConsoleApp_au.csproj|c:\\users\\287766\\source\\repos\\hap_pod4_consoleapp_au\\repository\\impl\\appointmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -118,7 +118,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -142,8 +142,7 @@
               "RelativeToolTip": "..\\HealthAxisTests_au\\DoctorServiceTests.cs",
               "ViewState": "AgIAACsAAAAAAAAAAAArwC8AAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-25T09:01:37.5Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-25T09:01:37.5Z"
             },
             {
               "$type": "Document",
@@ -155,31 +154,29 @@
               "RelativeToolTip": "Models\\Patient.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T18:31:24.135Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T18:31:24.135Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Appointment.cs",
               "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Models\\Appointment.cs",
               "RelativeDocumentMoniker": "Models\\Appointment.cs",
               "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Models\\Appointment.cs",
               "RelativeToolTip": "Models\\Appointment.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAAABwAAAAWAAAAAAAAAA==",
+              "ViewState": "AgIAAGUAAAAAAAAAAAAAwHEAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T18:29:03.879Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T18:29:03.879Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Program.cs*",
-              "RelativeToolTip": "Program.cs*",
-              "ViewState": "AgIAADMBAAAAAAAAAAAAADMBAAANAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\287766\\source\\repos\\HAP_Pod4_ConsoleApp_au\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAJUBAAAAAAAAAAAkwLUAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-19T18:24:57.367Z",
               "EditorCaption": ""
@@ -194,8 +191,7 @@
               "RelativeToolTip": "Repository\\Impl\\AppointmentRepository.cs",
               "ViewState": "AgIAABgAAAAAAAAAAADgvzQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T19:06:01.847Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T19:06:01.847Z"
             },
             {
               "$type": "Document",
@@ -207,8 +203,7 @@
               "RelativeToolTip": "Repository\\Impl\\HealthRepoistory.cs",
               "ViewState": "AgIAABcAAAAAAAAAAAAmwDYAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T19:12:58.734Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T19:12:58.734Z"
             },
             {
               "$type": "Document",
@@ -220,8 +215,7 @@
               "RelativeToolTip": "..\\HealthAxisTests_au\\HealthRecordServiceTests.cs",
               "ViewState": "AgIAAB4AAAAAAAAAAAAYwDUAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-25T09:03:53.053Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-25T09:03:53.053Z"
             },
             {
               "$type": "Document",
@@ -245,8 +239,7 @@
               "RelativeToolTip": "..\\HealthAxisTests_au\\PatientService.cs",
               "ViewState": "AgIAAEUAAAAAAAAAAAAqwGUAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-25T09:06:24.775Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-25T09:06:24.775Z"
             },
             {
               "$type": "Document",
@@ -258,8 +251,7 @@
               "RelativeToolTip": "Services\\Impl\\PatientService.cs",
               "ViewState": "AgIAAAUAAAAAAAAAAAAIwCAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T06:01:45.925Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-22T06:01:45.925Z"
             },
             {
               "$type": "Document",
@@ -271,8 +263,7 @@
               "RelativeToolTip": "Services\\Impl\\AppointmentService.cs",
               "ViewState": "AgIAACoAAAAAAAAAAAAIwEUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T06:01:07.355Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-22T06:01:07.355Z"
             },
             {
               "$type": "Document",
@@ -284,8 +275,7 @@
               "RelativeToolTip": "Repository\\Impl\\DoctorRepository.cs",
               "ViewState": "AgIAABcAAAAAAAAAAAAcwDQAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T19:06:34.725Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T19:06:34.725Z"
             },
             {
               "$type": "Document",
@@ -297,8 +287,7 @@
               "RelativeToolTip": "..\\HealthAxisTests_au\\AppointmentServiceTests.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAOcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-25T08:47:30.776Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-25T08:47:30.776Z"
             },
             {
               "$type": "Document",
@@ -310,8 +299,7 @@
               "RelativeToolTip": "Services\\Impl\\DoctorService.cs",
               "ViewState": "AgIAAEkAAAAAAAAAAAAAAEkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T06:01:17.122Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-22T06:01:17.122Z"
             },
             {
               "$type": "Document",
@@ -323,8 +311,7 @@
               "RelativeToolTip": "..\\HealthAxisTests_au\\HealthRepositoryTests.cs",
               "ViewState": "AgIAAGMAAAAAAAAAAAAqwHcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-25T08:56:01.078Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-25T08:56:01.078Z"
             },
             {
               "$type": "Document",
@@ -336,8 +323,7 @@
               "RelativeToolTip": "..\\HealthAxisTests_au\\DoctorRepositoryTests.cs",
               "ViewState": "AgIAAFMAAAAAAAAAAAAAAFMAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-25T08:58:39.288Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-25T08:58:39.288Z"
             },
             {
               "$type": "Document",
@@ -349,8 +335,7 @@
               "RelativeToolTip": "..\\HealthAxisTests_au\\AppointmentRepoTests.cs",
               "ViewState": "AgIAADkAAAAAAAAAAAAqwFkAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-25T08:46:37.577Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-25T08:46:37.577Z"
             },
             {
               "$type": "Document",
@@ -362,8 +347,7 @@
               "RelativeToolTip": "..\\HealthAxisTests_au\\PatientRepositoryTests.cs",
               "ViewState": "AgIAADIAAAAAAAAAAAAqwFIAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-25T08:57:29.151Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-25T08:57:29.151Z"
             },
             {
               "$type": "Document",
@@ -375,8 +359,7 @@
               "RelativeToolTip": "Repository\\Impl\\PatientRepository.cs",
               "ViewState": "AgIAAAwAAAAAAAAAAAAcwCkAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T19:12:09.686Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T19:12:09.686Z"
             },
             {
               "$type": "Document",
@@ -388,8 +371,7 @@
               "RelativeToolTip": "Data\\AppDbContext.cs",
               "ViewState": "AgIAAKcAAAAAAAAAAAAqwMcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T18:27:06.96Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T18:27:06.96Z"
             },
             {
               "$type": "Document",
@@ -401,8 +383,7 @@
               "RelativeToolTip": "Services\\IAppointmentService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T05:59:28.063Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-22T05:59:28.063Z"
             },
             {
               "$type": "Document",
@@ -414,8 +395,7 @@
               "RelativeToolTip": "Services\\IHealthRecordService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T07:20:57.117Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-22T07:20:57.117Z"
             },
             {
               "$type": "Document",
@@ -427,8 +407,7 @@
               "RelativeToolTip": "Services\\IPatientService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T05:59:45.451Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-22T05:59:45.451Z"
             },
             {
               "$type": "Document",
@@ -440,8 +419,7 @@
               "RelativeToolTip": "Services\\IDoctorService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T05:59:59.248Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-22T05:59:59.248Z"
             },
             {
               "$type": "Document",
@@ -453,8 +431,7 @@
               "RelativeToolTip": "Repository\\IAppointmentRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T18:35:54.226Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T18:35:54.226Z"
             },
             {
               "$type": "Document",
@@ -466,8 +443,7 @@
               "RelativeToolTip": "Models\\HealthRecord.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T18:32:08.381Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T18:32:08.381Z"
             },
             {
               "$type": "Document",
@@ -479,8 +455,7 @@
               "RelativeToolTip": "Repository\\IPatientRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T18:37:29.965Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T18:37:29.965Z"
             },
             {
               "$type": "Document",
@@ -492,8 +467,7 @@
               "RelativeToolTip": "Repository\\IDoctorRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T18:36:38.776Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T18:36:38.776Z"
             },
             {
               "$type": "Document",
@@ -505,8 +479,7 @@
               "RelativeToolTip": "Models\\Doctor.cs",
               "ViewState": "AgIAAAwAAAAAAAAAAAA1wDgAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-19T18:33:45.657Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-19T18:33:45.657Z"
             }
           ]
         }

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HAP_Pod4_ConsoleApp_au")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eec47374d9b868764c024ac58d3faf7037d5bd18")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+07a73edb7f3aebdcb63bfd111fefb6ea326d62b2")]
 [assembly: System.Reflection.AssemblyProductAttribute("HAP_Pod4_ConsoleApp_au")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HAP_Pod4_ConsoleApp_au")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
