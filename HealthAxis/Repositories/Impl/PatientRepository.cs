@@ -17,24 +17,20 @@ namespace HealthAxis.Repositories.Impl
 
         public Patient RegisterPatient(Patient patient)
         {
-            _db.Patients.Add(patient); // ✅ FIXED
+            _db.Patients.Add(patient);
+            Console.WriteLine("Patient registered successfully.");
             return patient;
         }
 
         public List<Patient> GetAllPatients()
         {
-            return _db.Patients.ToList(); // ✅ FIXED
+            return _db.Patients.ToList();
         }
 
         public Patient? GetPatientById(int patientid)
         {
             var patient = _db.Patients
                 .FirstOrDefault(p => p.PatientId == patientid);
-
-            if (patient == null)
-            {
-                throw new PatientNotFoundException($"Patient with id {patientid} not registered.");
-            }
 
             return patient;
         }

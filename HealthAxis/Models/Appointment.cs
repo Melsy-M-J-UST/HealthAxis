@@ -28,10 +28,10 @@ namespace HealthAxis.Models
         public void Confirm()
         {
             if (Status == AppointmentStatus.Cancelled)
-                throw new InvalidOperationException("Cannot confirm a cancelled appointment.");
+                Console.WriteLine("Cannot confirm a cancelled appointment.");
 
             if (Status == AppointmentStatus.Completed)
-                throw new InvalidOperationException("Cannot confirm a completed appointment.");
+                Console.WriteLine("Cannot confirm a completed appointment.");
 
             Status = AppointmentStatus.Confirmed;
         }
@@ -45,13 +45,22 @@ namespace HealthAxis.Models
             }
             else
             {
-                throw new InvalidOperationException("Only Confirmed appointments can be cancelled.");
+                Console.WriteLine("Only Confirmed appointments can be cancelled.");
             }
         }
-
-        public string GetDetails()
+        public void Complete()
         {
-            return $"AppointmentId: {AppointmentId}, Date: {ScheduledDate}, Slot: {Slot}, Status: {Status}, Reason: {CancellationReason}";
+            if (Status == AppointmentStatus.Cancelled)
+            {
+                Console.WriteLine("Cancelled appointments cannot be completed");
+            }
+
+            Status = AppointmentStatus.Completed;
+        }
+
+        public string? GetDetails(List<Appointment> allAppointments)
+        {
+            return $"Appointment ID: {AppointmentId} \n{Patient.GetProfileSummary()} \n{Doctor.GetScheduleSummary(allAppointments)}\n Scheduled Date: {ScheduledDate:dd-MM-yyyy} \n Time Slot: {Slot}  Status: {Status} \n  Cancellation reason(if any): {CancellationReason}";
         }
     }
 }

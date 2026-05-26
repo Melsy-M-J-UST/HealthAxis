@@ -5,7 +5,7 @@ using HealthAxis.Models;
 using HealthAxis.Repositories;
 using HealthAxis.Services.Impl;
 
-namespace HealthAxisTests
+namespace HealthAxisTests.ServiceTests
 {
     public class PatientServiceTests
     {

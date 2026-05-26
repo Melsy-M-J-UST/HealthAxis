@@ -8,6 +8,7 @@ using HealthAxis.Services.Impl;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.RegularExpressions;
 using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 
 var services = new ServiceCollection();
 services.AddSingleton<Database>();
@@ -35,12 +36,12 @@ while (true)
     Console.WriteLine();
     Console.WriteLine("===== Appointment Portal =====");
     Console.WriteLine("1. Register a new patient");
-    Console.WriteLine("2. Add a new doctor");
+    Console.WriteLine("2. AddAppointment a new doctor");
     Console.WriteLine("3. Search doctors by specialisation");
     Console.WriteLine("4. Book an appointment for a patient");
     Console.WriteLine("5. View all appointments for a patient");
     Console.WriteLine("6. Confirm, cancel, or complete an appointment");
-    Console.WriteLine("7. Add a health record after a completed appointment");
+    Console.WriteLine("7. AddAppointment a health record after a completed appointment");
     Console.WriteLine("8. View health history for a patient");
     Console.WriteLine("9. View all patients");
     Console.WriteLine("10. View all doctors");
@@ -67,7 +68,7 @@ while (true)
             BookAppointment();
             break;
         case "5":
-            //ViewAppointmentsForPatient();
+            ViewAppointmentsForPatient();
             break;
         case "6":
             ConfirmCancelOrCompleteAppointment();
@@ -85,7 +86,7 @@ while (true)
             ViewAllDoctors();
             break;
         case "11":
-            //ViewUpcomingConfirmedAppointments();
+            //viewallAppointments();
             break;
         case "12":
             Console.WriteLine("Exiting application...");
@@ -99,12 +100,13 @@ while (true)
 void RegisterPatient()
 {
     Patient p = new Patient();
+
     p.PatientId = db.GetNextPatientId();
 
     Console.Write("Enter your full name: ");
     string fullName = Console.ReadLine() ?? string.Empty;
 
-    if (!Regex.IsMatch(fullName, @"^[A-Za-z]+( [A-Za-z]+)*$"))
+    if (!Regex.IsMatch(fullName, @"^[A-Za-z]+( [A-Za-z]+)*$", RegexOptions.None, TimeSpan.FromMilliseconds(500)))
     {
         Console.WriteLine("Invalid name.");
         return;
@@ -112,7 +114,7 @@ void RegisterPatient()
     p.FullName = fullName;
 
     Console.Write("Enter your Date of Birth (YYYY-MM-DD): ");
-    string dobInput = Console.ReadLine();
+    string? dobInput = Console.ReadLine();
 
     if (!DateTime.TryParse(dobInput, out DateTime dob) || dob > DateTime.Today)
     {
@@ -132,7 +134,7 @@ void RegisterPatient()
     Console.Write("Enter phone number: ");
     string phone = Console.ReadLine() ?? string.Empty;
 
-    if (!Regex.IsMatch(phone, @"^\d{10}$"))
+    if (!Regex.IsMatch(phone, @"^\d{10}$", RegexOptions.None, TimeSpan.FromMilliseconds(500)))
     {
         Console.WriteLine("Invalid phone number.");
         return;
@@ -142,7 +144,7 @@ void RegisterPatient()
     Console.Write("Enter email: ");
     string email = Console.ReadLine() ?? string.Empty;
 
-    if (!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+    if (!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.None, TimeSpan.FromMilliseconds(500)))
     {
         Console.WriteLine("Invalid email.");
         return;
@@ -167,7 +169,7 @@ void AddDoctor()
         Console.Write("Enter Full Name: ");
         string fullName = Console.ReadLine() ?? string.Empty;
 
-        if (!Regex.IsMatch(fullName, @"^[A-Za-z]+( [A-Za-z]+)*$"))
+        if (!Regex.IsMatch(fullName, @"^[A-Za-z]+( [A-Za-z]+)*$", RegexOptions.None, TimeSpan.FromMilliseconds(500)))
         {
             Console.WriteLine("Invalid name");
             return;
@@ -202,7 +204,7 @@ void AddDoctor()
 
         doctorService.AddDoctor(doctor);
 
-        Console.WriteLine("✅ Doctor added successfully!");
+        Console.WriteLine("Doctor AddAppointmented successfully!");
     }
     catch (Exception ex)
     {
@@ -262,80 +264,64 @@ void BookAppointment()
 {
     try
     {
-        Console.Write("Enter Patient ID: ");
-        if (!int.TryParse(Console.ReadLine(), out int patientId))
-        {
-            Console.WriteLine("Invalid Patient ID");
-            return;
-        }
+        Console.Write("Patient ID: ");
+        int patientId = int.Parse(Console.ReadLine() ?? "0");
 
         var patient = patientService.GetPatientById(patientId);
+
         if (patient == null)
         {
             Console.WriteLine("Patient not found.");
             return;
         }
-
+        Console.Write("Enter doctor specialisation: ");
         var specialization = GetSpecialisationFromUser();
 
         var doctors = doctorService.SearchDoctorBySpecialisation(specialization);
 
-        if (doctors == null || !doctors.Any())
+        if (!doctors.Any())
         {
-            Console.WriteLine("No doctors found.");
+            Console.WriteLine("No doctors found for this specialisation.");
             return;
         }
-
         Console.WriteLine("\nAvailable Doctors:");
         foreach (var d in doctors)
         {
-            Console.WriteLine($"ID: {d.DoctorId}, Name: {d.FullName}, Fee: {d.ConsultationFee}");
+            Console.WriteLine($"ID: {d.DoctorId}, Name: Dr. {d.FullName}, Exp: {d.YearsOfExperience} yrs, Fee: {d.ConsultationFee}");
         }
+        Console.Write("\nChoose Doctor ID: ");
+        int doctorId = int.Parse(Console.ReadLine() ?? "0");
 
-        Console.Write("Enter Doctor ID: ");
-        if (!int.TryParse(Console.ReadLine(), out int doctorId))
-        {
-            Console.WriteLine("Invalid Doctor ID");
-            return;
-        }
+        var doctor = doctorService.GetById(doctorId);
 
-        var doctor = doctors.FirstOrDefault(d => d.DoctorId == doctorId);
         if (doctor == null)
         {
             Console.WriteLine("Invalid doctor selection.");
             return;
         }
 
-        Console.Write("Enter appointment date (yyyy-MM-dd): ");
-        if (!DateTime.TryParse(Console.ReadLine(), out DateTime date) || date <= DateTime.Today)
-        {
-            Console.WriteLine("Invalid or past date");
-            return;
-        }
+        Console.Write("Appointment date yyyy-MM-dd: ");
+        DateTime date = DateTime.Parse(Console.ReadLine() ?? string.Empty);
+        //if (date < DateTime.Now.AddMonths(6))
+        //{
+        //    var appointment = appointmentService.BookAppointment(patient, doctor, date);
+        //    var allAppointments = appointmentService.GetAllAppointments();
+        //    Console.WriteLine("\nAppointment booked successfully.");
+        //    Console.WriteLine($"Assigned Slot: {appointment.Slot}");
+        //    Console.WriteLine(appointment.GetDetails(allAppointments));
+        //}
+        //else
+        //{
+        //    Console.WriteLine("Appointments can only be booked within 6 months from today.");
+        //}
 
-        Console.Write("Enter time slot (e.g., 10AM-11AM): ");
-        string slot = Console.ReadLine() ?? string.Empty;
 
-        if (string.IsNullOrWhiteSpace(slot))
-        {
-            Console.WriteLine("Invalid slot");
-            return;
-        }
-
-        var appointment = new Appointment
-        {
-            Patient = patient,
-            Doctor = doctor,
-            ScheduledDate = date,
-            Slot = slot
-        };
-
-        var result = appointmentService.BookAppointment(appointment);
-
-        Console.WriteLine("\n✅ Appointment booked successfully!");
-        Console.WriteLine(result.GetDetails());
     }
-    catch (AppointmentConflictException ex)
+    catch (PastDateException ex)
+    {
+        Console.WriteLine($"Booking failed: {ex.Message}");
+    }
+    catch (DoctorUnavailableException ex)
     {
         Console.WriteLine($"Booking failed: {ex.Message}");
     }
@@ -379,7 +365,7 @@ void ConfirmCancelOrCompleteAppointment()
         Console.Write("Enter your Appointment ID: ");
         int appointmentId = int.Parse(Console.ReadLine() ?? "0");
 
-        var appointment = appointmentService.GetAppointmentById(appointmentId);
+        var appointment = appointmentService.GetById(appointmentId);
 
         if (appointment == null)
         {
@@ -387,29 +373,23 @@ void ConfirmCancelOrCompleteAppointment()
             return;
         }
 
-        Console.Write($"We have your Apponintmentwith Id {appointmentId}. Please choose the below option to make changes to the status of your Appointment.");
-        Console.WriteLine("Press 1 to Confirm your appointment");
-        Console.WriteLine("Press 2 to Cancel your appointment");
-        Console.WriteLine("Press 3 to Complete your appointrment");
+        Console.Write($"We have your Apponintmentwith Id {appointmentId}. Please choose the below option to make changes to the status of your Appointment.\n");
+        Console.WriteLine("Press 1 to Cancel your appointment");
+        Console.WriteLine("Press 2 to Complete your appointrment");
 
         string action = Console.ReadLine() ?? string.Empty;
 
 
         if (action == "1")
         {
-            appointment.Confirm();
-            Console.WriteLine("Appointment confirmed.");
-        }
-        else if (action == "2")
-        {
             Console.Write("Cancellation reason: ");
             string reason = Console.ReadLine() ?? string.Empty;
             appointmentService.CancelAppointment(appointmentId, reason);
             Console.WriteLine("Appointment cancelled.");
         }
-        else if (action == "3")
+        if (action == "2")
         {
-            appointment.Status = Appointment.AppointmentStatus.Completed;
+            appointment.Complete();
             Console.WriteLine("Appointment completed.");
         }
         else
@@ -436,7 +416,7 @@ void AddHealthRecord()
         return;
     }
 
-    var appointment = appointmentService.GetAppointmentById(appointmentId);
+    var appointment = appointmentService.GetById(appointmentId);
 
     if (appointment == null)
     {
@@ -446,7 +426,7 @@ void AddHealthRecord()
 
     if (appointment.Status != Appointment.AppointmentStatus.Completed)
     {
-        Console.WriteLine("Health records can only be added for completed appointments.");
+        Console.WriteLine("Health records can only be AddAppointmented for completed appointments.");
         return;
     }
 
@@ -467,7 +447,7 @@ void AddHealthRecord()
 
     healthRecordService.AddRecord(record);
 
-    Console.WriteLine("Health record added successfully.");
+    Console.WriteLine("Health record Added successfully.");
 }
 
 void ViewHealthHistory()
@@ -496,4 +476,33 @@ void ViewHealthHistory()
         Console.WriteLine(record.GetRecordSummary());
         Console.WriteLine("-----------------------------------");
     }
+}
+
+void ViewAppointmentsForPatient()
+{
+    Console.Write("Enter Patient ID: ");
+
+    if (!int.TryParse(Console.ReadLine(), out int patientId))
+    {
+        Console.WriteLine("Invalid Patient ID.");
+        return;
+    }
+
+    try
+    {
+        var appointments = appointmentService.GetAppointmentsByPatient(patientId);
+
+        if (appointments == null || !appointments.Any())
+        {
+            Console.WriteLine("No appointments found for this patient.");
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+}
+[ExcludeFromCodeCoverage]
+public partial class Program
+{
 }

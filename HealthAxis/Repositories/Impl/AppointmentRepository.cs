@@ -15,73 +15,144 @@ namespace HealthAxis.Repositories.Impl
             _dbContext = dbContext;
         }
 
-        public Appointment BookAppointment(Patient patient, Doctor doctor, DateTime date, string slot)
+        public Appointment? GetAppointmentById(int appointmentId)
         {
-            var newAppointment = new Appointment
-            {
-                AppointmentId = _dbContext.GetNextAppointmentId(),
-                Patient = patient,
-                Doctor = doctor,
-                ScheduledDate = date,
-                Slot = slot
-            };
+            return _dbContext.Appointments.FirstOrDefault(a => a.AppointmentId == appointmentId);
+        }
 
-            _dbContext.Appointments.Add(newAppointment);
-            return newAppointment;
+
+        public bool PatientHasAppointmentAt(int patientId, DateTime date, string Slot)
+
+        {
+
+            return _dbContext.Appointments.Any(a =>
+                a.Patient.PatientId == patientId &&
+                a.ScheduledDate.Date == date.Date &&
+                string.Equals(a.Slot, Slot, StringComparison.OrdinalIgnoreCase) &&
+                a.Status != Appointment.AppointmentStatus.Cancelled);
+
+        }
+        public string GetNextAvailableSlot(int doctorId, DateTime date)
+        {
+            var bookedSlots = _dbContext.Appointments
+                .Where(a =>
+                    a.Doctor.DoctorId == doctorId &&
+                    a.ScheduledDate.Date == date.Date &&
+                    a.Status != Appointment.AppointmentStatus.Cancelled)
+                .Select(a => a.Slot)
+                .ToList();
+
+            foreach (var slot in _dbContext.DailySlots)
+            {
+                bool isSlotBooked = bookedSlots.Any(bookedSlot =>
+                    bookedSlot.Equals(slot, StringComparison.OrdinalIgnoreCase));
+
+                if (!isSlotBooked)
+                {
+                    return slot;
+                }
+            }
+
+            return null;
+        }
+
+        public Appointment AddAppointment(Appointment appointment)
+        {
+            appointment.AppointmentId = _dbContext.GetNextAppointmentId();
+            _dbContext.Appointments.Add(appointment);
+            appointment.Doctor.Appointments.Add(appointment);
+            return appointment;
+        }
+
+        public List<Appointment> GetByPatientId(int patientId)
+        {
+            return _dbContext.Appointments
+                .Where(a => a.Patient.PatientId == patientId)
+                .OrderBy(a => a.ScheduledDate)
+                .ThenBy(a => a.Slot)
+                .ToList();
+        }
+
+        public List<Appointment> GetByDoctorId(int doctorId)
+        {
+            return _dbContext.Appointments
+                .Where(a => a.Doctor.DoctorId == doctorId)
+                .OrderBy(a => a.ScheduledDate)
+                .ThenBy(a => a.Slot)
+                .ToList();
+        }
+
+        public void Remove(Appointment appointment)
+
+        {
+
+            if (appointment == null) return;
+
+
+            _dbContext.Appointments.Remove(appointment);
+
+            if (appointment.Doctor != null)
+
+            {
+
+                appointment.Doctor.Appointments.RemoveAll(a => a.AppointmentId == appointment.AppointmentId);
+
+            }
+
         }
 
         public bool CancelAppointment(int appointmentId, string reason)
         {
-            var appointment = _dbContext.Appointments
-                .FirstOrDefault(a => a.AppointmentId == appointmentId);
-
-            if (appointment == null)
-                throw new AppointmentConflictException("Appointment not found");
-
-            appointment.Cancel(reason);
+            var appointment = GetAppointmentById(appointmentId);
+            if (appointment == null || appointment.Status == Appointment.AppointmentStatus.Cancelled)
+            {
+                return false;
+            }
+            appointment.Status = Appointment.AppointmentStatus.Cancelled;
+            appointment.CancellationReason = reason;
             return true;
         }
-
-        public List<Appointment> GetAppointmentsByPatient(int patientId)
+        public int GetBookedSlotCount(int doctorId, DateTime date)
         {
-            var list = _dbContext.Appointments
-                .Where(a => a.Patient.PatientId == patientId)
-                .ToList();
-
-            if (!list.Any())
-                throw new AppointmentConflictException("No appointments for patient");
-
-            return list;
+            return _dbContext.Appointments.Count(a =>
+                a.Doctor.DoctorId == doctorId &&
+                a.ScheduledDate.Date == date.Date &&
+                a.Status != Appointment.AppointmentStatus.Cancelled);
         }
-
-        public List<Appointment> GetAppointmentsByDoctor(int doctorId)
-        {
-            var list = _dbContext.Appointments
-                .Where(a => a.Doctor.DoctorId == doctorId)
-                .ToList();
-
-            if (!list.Any())
-                throw new AppointmentConflictException("No appointments for doctor");
-
-            return list;
-        }
-
-        public List<Appointment> GetUpcomingAppointments()
-        {
-            return _dbContext.Appointments
-                .Where(a => a.ScheduledDate >= System.DateTime.Now)
-                .ToList();
-        }
-
-        public Appointment? GetAppointmentById(int appointmentId)
-        {
-            return _dbContext.Appointments
-                .FirstOrDefault(a => a.AppointmentId == appointmentId);
-        }
-
         public List<Appointment> GetAllAppointments()
         {
-            return _dbContext.Appointments;
+            return _dbContext.Appointments
+                .OrderBy(a => a.ScheduledDate)
+                .ThenBy(a => a.Slot)
+                .ToList();
+        }
+
+        public string? GetNextAvailableSlotAvoidingPatientConflicts(int doctorId, DateTime date, int patientId)
+        {
+            var bookedSlotsForDoctor = _dbContext.Appointments
+                .Where(a =>
+                    a.Doctor.DoctorId == doctorId &&
+                    a.ScheduledDate.Date == date.Date &&
+                    a.Status != Appointment.AppointmentStatus.Cancelled)
+                .Select(a => a.Slot)
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+            var patientBookedSlots = _dbContext.Appointments
+                .Where(a =>
+                    a.Patient.PatientId == patientId &&
+                    a.ScheduledDate.Date == date.Date &&
+                    a.Status != Appointment.AppointmentStatus.Cancelled)
+                .Select(a => a.Slot)
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+            foreach (var slot in _dbContext.DailySlots)
+            {
+                if (bookedSlotsForDoctor.Contains(slot)) continue;
+                if (patientBookedSlots.Contains(slot)) continue;
+                return slot;
+            }
+
+            return null;
         }
     }
 }

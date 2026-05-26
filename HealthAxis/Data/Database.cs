@@ -16,7 +16,6 @@ namespace HealthAxis.Data
         private int _nextDoctorId = 1;
         private int _nextAppointmentId = 1;
         private int _nextHealthRecordId = 1;
-        private int _nextSlotId = 1;
 
         public Database()
         {
@@ -42,11 +41,6 @@ namespace HealthAxis.Data
         {
             return _nextHealthRecordId++;
         }
-
-        public int GetNextSlotId()
-        {
-            return _nextSlotId++;
-        }
         public void Reset()
         {
             Patients.Clear();
@@ -62,6 +56,15 @@ namespace HealthAxis.Data
             SeedData();
         }
 
+        public List<string> DailySlots { get; set; } = new()
+        {
+        "09:00 AM",
+        "10:00 AM",
+        "11:00 AM",
+        "02:00 PM",
+        "03:00 PM"
+        };
+
         private void SeedData()
         {
             Patients.AddRange(new List<Patient>
@@ -70,7 +73,7 @@ namespace HealthAxis.Data
                 {
                     PatientId = GetNextPatientId(),
                     FullName = "Arun Kumar",
-                    DateOfBirth = new DateTime(1992, 5, 14),
+                    DateOfBirth = new DateTime(1992, 5, 14, 0, 0, 0, DateTimeKind.Utc),
                     Gender = Patient.GenderOptions.Male,
                     PhoneNumber = "9876543210",
                     Email = "arun.kumar@example.com",
@@ -81,7 +84,7 @@ namespace HealthAxis.Data
                 {
                     PatientId = GetNextPatientId(),
                     FullName = "Meera Nair",
-                    DateOfBirth = new DateTime(1988, 9, 22),
+                    DateOfBirth = new DateTime(1988, 9, 22, 0, 0, 0, DateTimeKind.Utc),
                     Gender = Patient.GenderOptions.Male,
                     PhoneNumber = "9876543211",
                     Email = "meera.nair@example.com",
@@ -92,7 +95,7 @@ namespace HealthAxis.Data
                 {
                     PatientId = GetNextPatientId(),
                     FullName = "Rahul Menon",
-                    DateOfBirth = new DateTime(2000, 1, 10),
+                    DateOfBirth = new DateTime(2000, 1, 10, 0, 0, 0, DateTimeKind.Utc),
                     Gender = Patient.GenderOptions.Male,
                     PhoneNumber = "9876543212",
                     Email = "rahul.menon@example.com",
@@ -103,7 +106,7 @@ namespace HealthAxis.Data
                 {
                     PatientId = GetNextPatientId(),
                     FullName = "Anjali Thomas",
-                    DateOfBirth = new DateTime(1995, 12, 3),
+                    DateOfBirth = new DateTime(1995, 12, 3, 0, 0, 0, DateTimeKind.Utc),
                     Gender = Patient.GenderOptions.Male,
                     PhoneNumber = "9876543213",
                     Email = "anjali.thomas@example.com",
@@ -114,7 +117,7 @@ namespace HealthAxis.Data
                 {
                     PatientId = GetNextPatientId(),
                     FullName = "Vivek Pillai",
-                    DateOfBirth = new DateTime(1983, 7, 19),
+                    DateOfBirth = new DateTime(1983, 7, 19, 0, 0, 0, DateTimeKind.Utc),
                     Gender = Patient.GenderOptions.Male,
                     PhoneNumber = "9876543214",
                     Email = "vivek.pillai@example.com",

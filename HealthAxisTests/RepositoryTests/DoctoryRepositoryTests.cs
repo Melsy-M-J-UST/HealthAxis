@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AppointmentPortal.Tests.RepositoryTests
+namespace HealthAxisTests.RepositoryTests
 {
     public class DoctorRepositoryTests
     {
@@ -19,7 +19,7 @@ namespace AppointmentPortal.Tests.RepositoryTests
         }
 
         [Fact]
-        public void AddDoctor_WhenDone_ShouldBeAdded()
+        public void AddAppointmentDoctor_WhenDone_ShouldBeAddAppointmented()
         {
             Doctor d = new Doctor
             {

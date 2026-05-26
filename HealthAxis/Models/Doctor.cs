@@ -18,6 +18,9 @@ namespace HealthAxis.Models
 
         public bool IsActive { get; set; }
 
+        public List<Appointment> Appointments { get; set; } = new List<Appointment>();
+
+
         public enum SpecialisationOption
         {
             GeneralPractitioner,
@@ -33,14 +36,26 @@ namespace HealthAxis.Models
 
         }
 
-        public string IsAvailableForConsultation()
+        public bool IsAvailable(DateTime date)
         {
-            return IsActive ? "Available for consultation" : "Not available for consultation";
+            if (!IsActive)
+                return false;
+            int booked = Appointments.Count(a => a.ScheduledDate.Date == date.Date && a.Status != Appointment.AppointmentStatus.Cancelled);
+
+
+            const int capacity = 5;
+
+            return booked < capacity;
         }
-        public string GetScheduleSummary()
+        public string GetScheduleSummary(List<Appointment> allAppointments)
         {
-            int upcomingCount = 0; // This would be calculated based on actual appointments in a real implementation
-            return $"DoctorId: {DoctorId}, FullName: {FullName}, Specialisation: {Specialisation}, UpcomingAppointments: {upcomingCount}";
+            int upcomingCount = allAppointments.Count(a =>
+                a.Doctor.DoctorId == DoctorId &&
+                a.ScheduledDate.Date >= DateTime.Today &&
+                a.Status == Appointment.AppointmentStatus.Confirmed
+            );
+
+            return $"Dr. {FullName} ({Specialisation}) - Upcoming Appointments: {upcomingCount}";
         }
         public string GetProfileSummary()
         {

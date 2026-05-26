@@ -7,30 +7,30 @@ namespace HealthAxis.Repositories.Impl
 {
     public class HealthRecordRepository : IHealthRecordRepository
     {
-        private readonly Database _context;
+        private readonly Database _dbContext;
 
-        public HealthRecordRepository(Database context)
+        public HealthRecordRepository(Database dbContext)
         {
-            _context = context;
+            _dbContext = dbContext;
         }
 
         public HealthRecord AddRecord(HealthRecord record)
         {
-            record.HealthRecordId = _context.GetNextHealthRecordId();
-            _context.HealthRecords.Add(record);
+            record.HealthRecordId = _dbContext.GetNextHealthRecordId();
+            _dbContext.HealthRecords.Add(record);
             return record;
         }
 
         public List<HealthRecord> GetRecordsByPatient(int patientId)
         {
-            return _context.HealthRecords
+            return _dbContext.HealthRecords
                 .Where(r => r.Patient.PatientId == patientId)
                 .ToList();
         }
 
         public List<HealthRecord> GetRecordsByDoctor(int doctorId)
         {
-            return _context.HealthRecords
+            return _dbContext.HealthRecords
                 .Where(r => r.Doctor.DoctorId == doctorId)
                 .ToList();
         }

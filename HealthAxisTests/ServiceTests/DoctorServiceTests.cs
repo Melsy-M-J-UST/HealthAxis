@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Timers;
 using Xunit;
 
-namespace HealthAxisTests
+namespace HealthAxisTests.ServiceTests
 {
     public class DoctorServiceTests
     {

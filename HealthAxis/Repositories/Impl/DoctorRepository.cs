@@ -26,7 +26,12 @@ namespace HealthAxis.Repositories.Impl
             return _ContextDb.Doctors;
         }
 
-        public List<Doctor> SearchDoctorBySpecialisation(Doctor.SpecialisationOption specialisation)
+		public Doctor? GetById(int doctorId)
+		{
+			return _ContextDb.Doctors
+				.FirstOrDefault(d => d.DoctorId == doctorId);
+		}
+		public List<Doctor> SearchDoctorBySpecialisation(Doctor.SpecialisationOption specialisation)
         {
             var doctors = _ContextDb.Doctors
                 .Where(doc => doc.Specialisation == specialisation)

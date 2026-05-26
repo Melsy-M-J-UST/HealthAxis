@@ -8,5 +8,7 @@ namespace HealthAxis.Repositories
         Doctor AddDoctor(Doctor doctor);
         List<Doctor> SearchDoctorBySpecialisation(Doctor.SpecialisationOption specialisation);
         List<Doctor> GetAllDoctors();
+
+        Doctor? GetById(int id);
     }
 }

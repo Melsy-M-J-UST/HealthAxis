@@ -1,69 +1,124 @@
 ﻿using HealthAxis.Exceptions;
 using HealthAxis.Models;
 using HealthAxis.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace HealthAxis.Services.Impl
+namespace HealthAxis.Services
 {
     public class AppointmentService : IAppointmentService
     {
-        private readonly IAppointmentRepository _repo;
+        private readonly IAppointmentRepository _appointmentRepository;
 
-        public AppointmentService(IAppointmentRepository repo)
+        public AppointmentService(IAppointmentRepository appointmentRepository)
         {
-            _repo = repo;
+            _appointmentRepository = appointmentRepository;
         }
 
-        public Appointment BookAppointment(Appointment newAppointment)
+        public Appointment BookAppointment(Patient patient, Doctor doctor, DateTime date)
         {
-            if (newAppointment.ScheduledDate <= DateTime.Now)
-                throw new AppointmentConflictException("Date must be future");
+            if (patient == null)
+            {
+                throw new ArgumentException("Patient is required.");
+            }
 
-            var existing = _repo.GetAllAppointments();
+            if (doctor == null)
+            {
+                throw new ArgumentException("Doctor is required.");
+            }
 
-            bool isTaken = existing.Any(a =>
-                a.Doctor.DoctorId == newAppointment.Doctor.DoctorId &&
-                a.ScheduledDate.Date == newAppointment.ScheduledDate.Date &&
-                a.Slot == newAppointment.Slot &&
-                a.Status != Appointment.AppointmentStatus.Cancelled
-            );
+            if (date.Date < DateTime.Today)
+            {
+                throw new PastDateException("Cannot book an appointment in the past.");
+            }
+            if (date.DayOfWeek == DayOfWeek.Sunday)
+            {
+                throw new DoctorUnavailableException("Doctor is unavailable on sundays.");
+            }
 
-            if (isTaken)
-                throw new AppointmentConflictException("Slot already booked");
+            if (!doctor.IsActive)
+            {
+                throw new DoctorUnavailableException("Doctor is not active.");
+            }
 
-            return _repo.BookAppointment(
-                newAppointment.Patient,
-                newAppointment.Doctor,
-                newAppointment.ScheduledDate,
-                newAppointment.Slot
-            );
+
+            var hasConflict = _appointmentRepository.GetByPatientId(patient.PatientId)
+                .Any(a => a.Doctor.DoctorId == doctor.DoctorId);
+
+            if (hasConflict)
+            {
+                throw new AppointmentConflictException("Patient already has an appointment with this doctor on the selected date.");
+            }
+
+            var availableSlot = _appointmentRepository.GetNextAvailableSlotAvoidingPatientConflicts(doctor.DoctorId, date, patient.PatientId);
+
+            if (availableSlot == null)
+            {
+                // fallback to any available slot for the doctor
+                availableSlot = _appointmentRepository.GetNextAvailableSlot(doctor.DoctorId, date);
+            }
+
+            if (availableSlot == null)
+            {
+                throw new DoctorUnavailableException("No available slots for this doctor on the selected date.");
+            }
+            if (_appointmentRepository.PatientHasAppointmentAt(patient.PatientId, date, availableSlot))
+            {
+                throw new AppointmentConflictException("Patient already has an appointment at the selected date and time slot.");
+            }
+
+            var appointment = new Appointment
+            {
+                Patient = patient,
+                Doctor = doctor,
+                ScheduledDate = date.Date,
+                Slot = availableSlot,
+                Status = Appointment.AppointmentStatus.Confirmed
+            };
+            return _appointmentRepository.AddAppointment(appointment);
         }
 
         public bool CancelAppointment(int appointmentId, string reason)
         {
-            return _repo.CancelAppointment(appointmentId, reason);
+            var appointment = _appointmentRepository.GetAppointmentById(appointmentId);
+
+            if (appointment == null)
+            {
+                return false;
+            }
+
+            appointment.Cancel(reason);
+            _appointmentRepository.Remove(appointment);
+            return true;
         }
 
-        public List<Appointment> GetAllAppointments()
+        public List<Appointment> GetAppointmentsByPatient(int patientId)
         {
-            return _repo.GetAllAppointments();
-        }
-
-        public Appointment? GetAppointmentById(int appointmentId)
-        {
-            return _repo.GetAppointmentById(appointmentId);
+            return _appointmentRepository.GetByPatientId(patientId);
         }
 
         public List<Appointment> GetAppointmentsByDoctor(int doctorId)
         {
-            return _repo.GetAppointmentsByDoctor(doctorId);
+            return _appointmentRepository.GetByDoctorId(doctorId);
         }
 
-        public List<Appointment> GetAppointmentsBypatient(int patientId)
+        public List<Appointment> GetUpcomingAppointments()
         {
-            return _repo.GetAppointmentsByPatient(patientId);
+            return _appointmentRepository.GetAllAppointments()
+                .Where(a =>
+                    a.ScheduledDate.Date >= DateTime.Today &&
+                    a.Status == Appointment.AppointmentStatus.Confirmed)
+                .OrderBy(a => a.ScheduledDate)
+                .ThenBy(a => a.Doctor.FullName)
+                .ToList();
+        }
+
+        public Appointment? GetById(int appointmentId)
+        {
+            return _appointmentRepository.GetAppointmentById(appointmentId);
+        }
+
+        public List<Appointment> GetAll()
+        {
+            return _appointmentRepository.GetAllAppointments();
         }
     }
 }

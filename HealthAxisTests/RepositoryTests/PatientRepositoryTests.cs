@@ -2,7 +2,7 @@
 using HealthAxis.Models;
 using HealthAxis.Repositories.Impl;
 
-namespace AppointmentPortal.Tests.RepositoryTests
+namespace HealthAxisTests.RepositoryTests
 {
     public class PatientRepositoryTests
     {
