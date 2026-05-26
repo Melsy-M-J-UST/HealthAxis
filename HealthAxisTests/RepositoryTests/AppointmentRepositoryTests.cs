@@ -181,7 +181,7 @@ namespace HealthAxisTests.RepositoryTests
             _repo.AddAppointment(new Appointment
             {
                 Patient = patient,
-                Doctor = doctor2,   
+                Doctor = doctor2,
                 ScheduledDate = DateTime.Today,
                 Slot = "10:00 AM"
             });
@@ -309,6 +309,65 @@ namespace HealthAxisTests.RepositoryTests
 
             Assert.NotNull(slot);
             Assert.NotEqual("09:00 AM", slot);
+        }
+        [Fact]
+        public void GetNextAvailableSlot_AllSlotsBooked_ShouldReturnNull()
+        {
+            var patient = CreatePatient(1);
+            var doctor = CreateDoctor(1);
+            var date = DateTime.Today;
+
+            foreach (var slot in _db.DailySlots)
+            {
+                _repo.AddAppointment(new Appointment
+                {
+                    Patient = patient,
+                    Doctor = doctor,
+                    ScheduledDate = date,
+                    Slot = slot
+                });
+            }
+
+            var result = _repo.GetNextAvailableSlot(1, date);
+
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void Remove_Null_ShouldNotThrow()
+        {
+            _repo.Remove(null);
+            Assert.True(true);
+        }
+
+        [Fact]
+        public void PatientHasAppointmentAt_NoMatch_ShouldReturnFalse()
+        {
+            var result = _repo.PatientHasAppointmentAt(1, DateTime.Today, "09:00 AM");
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void GetNextAvailableSlotAvoidingPatientConflicts_NoSlots_ShouldReturnNull()
+        {
+            var patient = CreatePatient(1);
+            var doctor = CreateDoctor(1);
+            var date = DateTime.Today;
+
+            foreach (var slot in _db.DailySlots)
+            {
+                _repo.AddAppointment(new Appointment
+                {
+                    Patient = patient,
+                    Doctor = doctor,
+                    ScheduledDate = date,
+                    Slot = slot
+                });
+            }
+
+            var result = _repo.GetNextAvailableSlotAvoidingPatientConflicts(1, date, 1);
+
+            Assert.Null(result);
         }
     }
 }

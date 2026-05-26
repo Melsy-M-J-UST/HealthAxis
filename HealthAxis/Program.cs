@@ -1058,3 +1058,7 @@ void Update()
         }
     }
 }
+
+public partial class Program
+{
+}

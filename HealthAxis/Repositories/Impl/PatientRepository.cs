@@ -48,7 +48,7 @@ namespace HealthAxis.Repositories.Impl
             existingPatient.DateOfBirth = updatedPatient.DateOfBirth;
             existingPatient.PhoneNumber = updatedPatient.PhoneNumber;
             existingPatient.Email = updatedPatient.Email;
-            existingPatient.InsuranceID = updatedPatient.InsuranceId;
+            existingPatient.InsuranceID = updatedPatient.InsuranceID;
             existingPatient.Gender = updatedPatient.Gender;
             return true;
         }

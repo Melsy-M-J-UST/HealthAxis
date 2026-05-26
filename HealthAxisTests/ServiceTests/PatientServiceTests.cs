@@ -1,9 +1,10 @@
-﻿using Moq;
-using Xunit;
-using System.Collections.Generic;
+﻿using HealthAxis.Exceptions;
 using HealthAxis.Models;
 using HealthAxis.Repositories;
 using HealthAxis.Services.Impl;
+using Moq;
+using System.Collections.Generic;
+using Xunit;
 
 namespace HealthAxisTests.ServiceTests
 {
@@ -59,5 +60,12 @@ namespace HealthAxisTests.ServiceTests
             Assert.NotNull(result);
             Assert.Equal("Sam", result.FullName);
         }
+
+        [Fact]
+        public void UpdatePatient_Null_ShouldThrow()
+        {
+            Assert.Throws<ArgumentException>(() => _service.UpdatePatient(null!));
+        }
+
     }
 }

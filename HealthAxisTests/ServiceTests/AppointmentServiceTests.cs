@@ -1,13 +1,12 @@
-﻿using HealthAxis.Exceptions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Moq;
+using Xunit;
 using HealthAxis.Models;
 using HealthAxis.Repositories;
 using HealthAxis.Services;
-using HealthAxis.Services.Impl;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Xunit;
+using HealthAxis.Exceptions;
 
 namespace HealthAxisTests.ServiceTests
 {
@@ -103,7 +102,9 @@ namespace HealthAxisTests.ServiceTests
                 .Returns(true);
 
 
-            Assert.Throws<AppointmentConflictException>(() => _service.BookAppointment(patient, doctor, date));
+            Assert.Throws<AppointmentConflictException>(() =>
+                _service.BookAppointment(patient, doctor, date)
+            );
         }
 
 
@@ -152,5 +153,45 @@ namespace HealthAxisTests.ServiceTests
             Assert.Equal(2, result.Count);
             Assert.All(result, a => Assert.Equal(1, a.Patient.PatientId));
         }
+        [Fact]
+        public void BookAppointment_DoctorInactive_ShouldThrow()
+        {
+            var patient = CreatePatient(1);
+            var doctor = CreateDoctor(1);
+            doctor.IsActive = false;
+
+            Assert.Throws<DoctorUnavailableException>(() =>
+                _service.BookAppointment(patient, doctor, DateTime.Today.AddDays(1)));
+        }
+
+        [Fact]
+        public void BookAppointment_OnSunday_ShouldThrow()
+        {
+            var patient = CreatePatient(1);
+            var doctor = CreateDoctor(1);
+
+            var sunday = DateTime.Today.AddDays((7 - (int)DateTime.Today.DayOfWeek) % 7);
+
+            Assert.Throws<DoctorUnavailableException>(() =>
+                _service.BookAppointment(patient, doctor, sunday));
+        }
+
+        [Fact]
+        public void BookAppointment_NoSlots_ShouldThrow()
+        {
+            var patient = CreatePatient(1);
+            var doctor = CreateDoctor(1);
+            var date = DateTime.Today.AddDays(1);
+
+            _repoMock.Setup(r => r.GetByPatientId(1)).Returns(new List<Appointment>());
+            _repoMock.Setup(r => r.GetNextAvailableSlotAvoidingPatientConflicts(1, date, 1)).Returns((string)null);
+            _repoMock.Setup(r => r.GetNextAvailableSlot(1, date)).Returns((string)null);
+
+            Assert.Throws<DoctorUnavailableException>(() =>
+                _service.BookAppointment(patient, doctor, date));
+        }
+
+
+
     }
 }
