@@ -115,7 +115,7 @@ void RegisterPatient()
         Console.Write("Enter your full name: ");
         string fullName = Console.ReadLine() ?? string.Empty;
 
-        if (Regex.IsMatch(fullName, @"^[A-Za-z]+( [A-Za-z]+)*$"))
+        if (Regex.IsMatch(fullName, @"^[A-Za-z]+( [A-Za-z]+)*$",RegexOptions.None,TimeSpan.FromMilliseconds(500)))
         {
             p.FullName = fullName;
         }
@@ -155,7 +155,7 @@ void RegisterPatient()
         Console.Write("Enter your Phone number: ");
         string phoneNumber = Console.ReadLine() ?? string.Empty;
 
-        if (Regex.IsMatch(phoneNumber, @"^\d{10}$"))
+        if (Regex.IsMatch(phoneNumber, @"^\d{10}$",RegexOptions.None,TimeSpan.FromMilliseconds(500)))
         {
             p.PhoneNumber = phoneNumber;
         }
@@ -169,7 +169,7 @@ void RegisterPatient()
 
         if (!string.IsNullOrWhiteSpace(email))
         {
-            if (Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            if (Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.None, TimeSpan.FromMilliseconds(500)))
             {
                 p.Email = email;
             }
@@ -186,8 +186,6 @@ void RegisterPatient()
         p.PatientId = db.GetNextPatientId();
 
         patientService.RegisterPatient(p);
-
-        Console.WriteLine("Patient registered successfully.");
     }
     catch (ArgumentException ex)
     {
@@ -211,7 +209,7 @@ void AddDoctor()
         Console.Write("Enter Full Name: ");
         string fullName = Console.ReadLine() ?? string.Empty;
 
-        if (Regex.IsMatch(fullName, @"^[A-Za-z]+( [A-Za-z]+)*$"))
+        if (Regex.IsMatch(fullName, @"^[A-Za-z]+( [A-Za-z]+)*$", RegexOptions.None, TimeSpan.FromMilliseconds(500)))
         {
             doctor.FullName = fullName;
         }
