@@ -1,4 +1,5 @@
-﻿using HealthAxis.Models;
+﻿using HealthAxis.Exceptions;
+using HealthAxis.Models;
 using HealthAxis.Repository;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace HealthAxis.Service.Implementation
         {
             if (doctorId <= 0)
             {
-                throw new ArgumentException("Invalid doctor ID.");
+                throw new DoctorNotFoundException("Invalid doctor ID.");
             }
             var doctor= _repository.GetDoctorById(doctorId);
             return doctor ?? throw new HealthAxis.Exceptions.DoctorNotFoundException($"Doctor with id {doctorId} not found.");

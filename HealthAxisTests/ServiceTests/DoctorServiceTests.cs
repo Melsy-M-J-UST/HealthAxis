@@ -7,6 +7,7 @@ using System.Text;
 using System.Timers;
 using Moq;
 using Xunit;
+using HealthAxis.Exceptions;
 
 namespace HealthAxisTests.ServiceTests
 {
@@ -72,12 +73,42 @@ namespace HealthAxisTests.ServiceTests
             Assert.Single(result);
             Assert.Equal("Cardio Doc", result[0].DoctorName);
         }
+        [Fact]
+        public void SearchDoctorBySpecialisation_NoDoctors_ReturnsEmptyList()
+        {
+            _mockRepo.Setup(r =>
+                r.SearchDoctorBySpecialisation(Doctor.Specialisations.Dermatologist))
+                .Returns(new List<Doctor>());
+            var result = _service.SearchDoctorBySpecialisation(Doctor.Specialisations.Dermatologist);
+            Assert.Empty(result);
+            Assert.NotNull(result);
+        }
+
         [Theory]
         [InlineData(0)]
         [InlineData(-1)]
+        [InlineData(111)]
+        [InlineData(999)]
+        [InlineData(11)]
+        [InlineData(56)]
         public void GetDoctorById_InvalidId_ThrowsException(int doctorId)
         {
-            Assert.Throws<ArgumentException>(() => _service.GetDoctorById(doctorId));
+            var exception = Assert.Throws<DoctorNotFoundException>(() => _service.GetDoctorById(doctorId));
+            Assert.NotNull(exception);
+        }
+        [Fact]
+        public void UpgradeDoctorBySpecialisation_ValidDoctor_ReturnsTrue()
+        {
+            var doctor = new Doctor { DoctorId = 1, DoctorName = "Dr Y" };
+            _mockRepo.Setup(r => r.UpdateDoctor(doctor)).Returns(true);
+            var result = _service.UpdateDoctor(doctor);
+            Assert.True(result);
+            _mockRepo.Verify(r => r.UpdateDoctor(doctor), Times.Once);
+        }
+        [Fact]
+        public void UpgradeDoctorBySpecialisation_NullDoctor_ThrowsException()
+        {
+            Assert.Throws<ArgumentException>(() => _service.UpdateDoctor(null!));
         }
     }
 }
