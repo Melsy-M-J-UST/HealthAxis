@@ -289,8 +289,34 @@ void RegisterPatient()
             }
             Console.WriteLine("Enter a valid email id.");
         }
-        Console.Write("Enter your Insurance ID (optional): ");
-        p.InsuranceId = Console.ReadLine() ?? string.Empty;
+        while (true)
+
+        {
+
+            Console.Write("Enter your Insurance ID (optional): ");
+
+            string InsuranceId = Console.ReadLine() ?? string.Empty;
+
+            if (string.IsNullOrWhiteSpace(InsuranceId))
+
+            {
+
+                p.InsuranceId = string.Empty;
+
+                break;
+
+            }
+            else if (System.Text.RegularExpressions.Regex.IsMatch(InsuranceId, "^INS\\d{4}$", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+
+            {
+                p.InsuranceId = InsuranceId.ToUpperInvariant();
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Insurance ID must follow format INSXXXX where X are digits.");
+            }
+        }
         p.CreatedDate = DateTime.Now;
         p.PatientId = db.GetNextPatientId();
         patientService.RegisterPatient(p);

@@ -21,8 +21,6 @@ namespace HealthAxis.Models
 
         public List<Appointment> Appointments { get; set; } = new List<Appointment>();
 
-        public List<DayOfWeek>? SurgeryDays { get; set; } = new List<DayOfWeek>();
-
         public enum SpecialisationOption
         {
             GeneralPractitioner,

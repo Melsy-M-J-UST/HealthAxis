@@ -429,7 +429,7 @@ FodyWeavers.xsd
 *.msp
 # SonarQube scanner working directory
 .sonar/
-
+.sonarqube/
 # SonarQube scanner cache and temp files
 .sonar/cache/
 .sonar/report-task.txt

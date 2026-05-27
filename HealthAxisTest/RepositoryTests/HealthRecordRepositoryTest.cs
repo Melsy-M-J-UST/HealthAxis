@@ -143,5 +143,69 @@ namespace HealthAxisTest.RepositoryTests
             Assert.Single(result);
             Assert.Equal(1, result[0].Doctor.DoctorId);
         }
+        [Fact]
+        public void AddRecord_DuplicateAppointment_ShouldReturnNull()
+        { 
+            var patient = CreatePatient(1);
+            var doctor = CreateDoctor(1);
+
+            var appointment = new Appointment
+            {
+                AppointmentId = 1
+            };
+
+            var existingRecord = new HealthRecord
+            {
+                Patient = patient,
+                Doctor = doctor,
+                Appointment = appointment,
+                VisitDate = DateTime.Today,
+                Diagnosis = "Old",
+                Prescription = "Old"
+            };
+
+            _repo.AddRecord(existingRecord);
+
+            var newRecord = new HealthRecord
+            {
+                Patient = patient,
+                Doctor = doctor,
+                Appointment = new Appointment
+                {
+                    AppointmentId = 1 
+                },
+                VisitDate = DateTime.Today,
+                Diagnosis = "New",
+                Prescription = "New"
+            };
+
+            
+            var result = _repo.AddRecord(newRecord);
+
+            
+            Assert.Null(result);
+            Assert.Single(_db.HealthRecords); 
+        }
+        [Fact]
+        public void AddRecord_WhenAppointmentIsNull_ShouldAddRecord()
+        {
+            
+            var patient = CreatePatient(1);
+            var doctor = CreateDoctor(1);
+
+            var record = new HealthRecord
+            {
+                Patient = patient,
+                Doctor = doctor,
+                Appointment = null!,
+                VisitDate = DateTime.Today,
+                Diagnosis = "Test",
+                Prescription = "Test"
+            };
+            var result = _repo.AddRecord(record);
+            Assert.NotNull(result);
+            Assert.Single(_db.HealthRecords);
+        }
+
     }
 }

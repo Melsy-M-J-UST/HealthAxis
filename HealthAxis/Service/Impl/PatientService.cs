@@ -35,25 +35,11 @@ namespace HealthAxis.Services.Impl
             if (patient == null)
                 throw new ArgumentException("Patient is required.");
 
-            // Validate InsuranceId format if provided
-            if (!string.IsNullOrWhiteSpace(patient.InsuranceId))
-            {
-                if (!System.Text.RegularExpressions.Regex.IsMatch(patient.InsuranceId, "^INS\\d{4}$", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
-                {
-                    throw new ArgumentException("Insurance ID must follow format INSXXXX where X are digits.");
-                }
-
-                // Normalize to uppercase
-                patient.InsuranceId = patient.InsuranceId.ToUpperInvariant();
-            }
-
             var result = _repository.RegisterPatient(patient);
-
             if (result == null)
             {
-                throw new InvalidOperationException("Insurance ID already exists. It must be unique for each patient.");
+                throw new InvalidOperationException("Failed to register patient.");
             }
-
             return result;
         }
         public bool UpdatePatient(Patient patient)
