@@ -39,28 +39,27 @@ namespace HealthAxis.Repositories.Impl
             return _db.Patients.ToList();
         }
 
-        public Patient? GetPatientById(int patientid)
+        public Patient? GetPatientById(int id)
         {
-            var patient = _db.Patients.FirstOrDefault(p => p.PatientId == patientid);
-            // Repository should not throw; return null and let service layer handle exceptions
+            var patient = _db.Patients.FirstOrDefault(p => p.PatientId == id);
             return patient;
         }
         
-        public bool UpdatePatient(Patient updatedPatient)
+        public bool UpdatePatient(Patient patient)
         {
-            var existingPatient = _db.Patients.FirstOrDefault(p => p.PatientId == updatedPatient.PatientId);
+            var existingPatient = _db.Patients.FirstOrDefault(p => p.PatientId == patient.PatientId);
 
             if (existingPatient == null)
             {
                 return false;
             }
 
-            existingPatient.FullName = updatedPatient.FullName;
-            existingPatient.DateOfBirth = updatedPatient.DateOfBirth;
-            existingPatient.PhoneNumber = updatedPatient.PhoneNumber;
-            existingPatient.Email = updatedPatient.Email;
-            existingPatient.InsuranceId = updatedPatient.InsuranceId;
-            existingPatient.Gender = updatedPatient.Gender;
+            existingPatient.FullName = patient.FullName;
+            existingPatient.DateOfBirth = patient.DateOfBirth;
+            existingPatient.PhoneNumber = patient.PhoneNumber;
+            existingPatient.Email = patient.Email;
+            existingPatient.InsuranceId = patient.InsuranceId;
+            existingPatient.Gender = patient.Gender;
             return true;
         }
     }

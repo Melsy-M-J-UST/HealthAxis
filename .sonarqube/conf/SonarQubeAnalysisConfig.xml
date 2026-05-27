@@ -13,6 +13,7 @@
   <SonarQubeHostUrl>http://localhost:9000</SonarQubeHostUrl>
   <SonarQubeVersion>26.1.0.118079</SonarQubeVersion>
   <SonarProjectKey>HealthAxis</SonarProjectKey>
+  <SonarProjectName>HealthAxis</SonarProjectName>
   <AdditionalConfig>
     <ConfigSetting Id="BuildUri" />
     <ConfigSetting Id="TfsUri" />
@@ -148,11 +149,13 @@
     <Property Name="sonaranalyzer-vbnet.pluginKey">vbnet</Property>
     <Property Name="sonar.java.jvmframeworkconfig.activate">true</Property>
     <Property Name="sonar.updatecenter.url">https://downloads.sonarsource.com/sonarqube/update/update-center.properties</Property>
-    <Property Name="sonar.core.startTime">26-05-2026 05:25:30 PM</Property>
     <Property Name="sonar.core.id">147B411E-AZ5kI9yWNAomB3NNvNxT</Property>
+    <Property Name="sonar.core.startTime">27-05-2026 09:01:41 AM</Property>
   </ServerSettings>
   <LocalSettings>
     <Property Name="sonar.host.url">http://localhost:9000</Property>
+    <Property Name="sonar.cs.vscoveragexml.reportsPaths">coverage.xml</Property>
+    <Property Name="sonar.exclusions">**/Data/**,**/Models/**,**/Exceptions/**,**/Program.cs,coverage.xml</Property>
   </LocalSettings>
   <ScannerOptsSettings />
   <AnalyzersSettings>

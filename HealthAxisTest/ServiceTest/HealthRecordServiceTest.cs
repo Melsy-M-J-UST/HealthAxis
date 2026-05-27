@@ -70,7 +70,7 @@ namespace HealthAxisTest.ServiceTests
         public void AddRecord_Null_ShouldThrowException()
         {
            
-            var ex = Assert.Throws<Exception>(() =>
+            var ex = Assert.Throws<ArgumentException>(() =>
                 _service.AddRecord(null!)
             );
 
@@ -91,7 +91,7 @@ namespace HealthAxisTest.ServiceTests
             };
 
           
-            var ex = Assert.Throws<Exception>(() =>
+            var ex = Assert.Throws<ArgumentException>(() =>
                 _service.AddRecord(record)
             );
 
@@ -120,6 +120,35 @@ namespace HealthAxisTest.ServiceTests
             
             Assert.Equal(2, result.Count);
             Assert.True(result[0].VisitDate >= result[1].VisitDate);
+        }
+        [Fact]
+        public void AddRecord_DuplicateAppointment_ShouldThrowException()
+        {
+            var appointment = new Appointment
+            {
+                AppointmentId = 1
+            };
+
+            var record = new HealthRecord
+            {
+                Patient = CreatePatient(1),
+                Doctor = CreateDoctor(1),
+                Appointment = appointment,
+                VisitDate = DateTime.Today,
+                Diagnosis = "Test",
+                Prescription = "Test"
+            };
+
+            _repoMock.Setup(r => r.AddRecord(record))
+                     .Throws(new InvalidOperationException("A health record already exists for this appointment."));
+
+            var ex = Assert.Throws<InvalidOperationException>(() =>
+                _service.AddRecord(record)
+            );
+
+            Assert.Contains("already exists", ex.Message);
+
+            _repoMock.Verify(r => r.AddRecord(record), Times.Once);
         }
     }
 }

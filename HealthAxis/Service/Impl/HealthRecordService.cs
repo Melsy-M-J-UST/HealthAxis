@@ -20,12 +20,12 @@ namespace HealthAxis.Services.Impl
 
             if (record == null)
             {
-                throw new Exception("Health record cannot be null.");
+                throw new ArgumentException("Health record cannot be null.");
             }
 
             if (string.IsNullOrWhiteSpace(record.Diagnosis))
             {
-                throw new Exception("Diagnosis cannot be empty.");
+                throw new ArgumentException("Diagnosis cannot be empty.");
             }
 
             var result = _repository.AddRecord(record);

@@ -1,8 +1,9 @@
-﻿using System;
-using System.Linq;
-using HealthAxis.Data;
+﻿using HealthAxis.Data;
 using HealthAxis.Models;
 using HealthAxis.Repositories.Impl;
+using HealthAxis.Services.Impl;
+using System;
+using System.Linq;
 using Xunit;
 
 namespace HealthAxisTest.RepositoryTests
