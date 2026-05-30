@@ -41,7 +41,8 @@ namespace HealthAxis.Services
 
 
             var hasConflict = _appointmentRepository.GetByPatientId(patient.PatientId)
-                .Any(a => a.Doctor.DoctorId == doctor.DoctorId);
+                .Any(a => a.Doctor.DoctorId == doctor.DoctorId &&
+                            a.ScheduledDate.Date == date.Date);
 
             if (hasConflict)
             {
@@ -51,8 +52,7 @@ namespace HealthAxis.Services
             var availableSlot = _appointmentRepository.GetNextAvailableSlotAvoidingPatientConflicts(doctor.DoctorId, date, patient.PatientId);
 
             if (availableSlot == null)
-            {
-                // fallback to any available slot for the doctor
+            { 
                 availableSlot = _appointmentRepository.GetNextAvailableSlot(doctor.DoctorId, date);
             }
 

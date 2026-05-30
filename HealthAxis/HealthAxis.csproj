@@ -21,8 +21,4 @@
 		<PackageReference Include="Moq" Version="4.20.72" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Folder Include="Utils\" />
-	</ItemGroup>
-
 </Project>

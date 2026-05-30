@@ -62,9 +62,8 @@ while (true)
                         Console.WriteLine("4. View all appointments for a patient");
                         Console.WriteLine("5. Cancel Appointment");
                         Console.WriteLine("6. View Health History");
-                        Console.WriteLine("7. View All doctors");
-                        Console.WriteLine("8. Update Patient");
-                        Console.WriteLine("9. Back");
+                        Console.WriteLine("7. Update Patient");
+                        Console.WriteLine("8. Back");
                         Console.Write("Choose an option: ");
 
                         var patientChoice = Console.ReadLine();
@@ -78,9 +77,8 @@ while (true)
                             case "4": ViewAppointmentsForPatient(); break;
                             case "5": CancelAppointmentOnly(); break;
                             case "6": ViewHealthHistory(); break;
-                            case "7": ViewAllDoctors(); break;
-                            case "8": UpdatePatient(); break;
-                            case "9": goto EndPatientMenu;
+                            case "7": UpdatePatient(); break;
+                            case "8": goto EndPatientMenu;
                             default: Console.WriteLine("Invalid choice. Please try again."); break;
                         }
                     }
@@ -105,7 +103,7 @@ while (true)
                         Console.WriteLine("3. Confirm/Cancel/Complete appointment");
                         Console.WriteLine("4. Add Health Record after a completed appointment");
                         Console.WriteLine("5. View health history for a patient");
-                        Console.WriteLine("6. View all patients");
+                        Console.WriteLine("6.View Patient");
                         Console.WriteLine("7. Update Doctor");
                         Console.WriteLine("8. Back");
                         Console.Write("Choose an option: ");
@@ -120,7 +118,7 @@ while (true)
                             case "3": ConfirmCancelOrCompleteAppointment(); break;
                             case "4": AddHealthRecord(); break;
                             case "5": ViewHealthHistory(); break;
-                            case "6": ViewAllPatients(); break;
+                            case "6": ViewPatientById(); break;
                             case "7": UpdateDoctor(); break;
                             case "8": goto EndDoctorMenu;
                             default: Console.WriteLine("Invalid choice. Please try again."); break;
@@ -150,11 +148,10 @@ while (true)
                         Console.WriteLine("6. Confirm/Cancel/Complete appointment");
                         Console.WriteLine("7. Add Health Record after a completed appointment");
                         Console.WriteLine("8. View health history for a patient");
-                        Console.WriteLine("9. View all patients");
-                        Console.WriteLine("10. View all doctors");
-                        Console.WriteLine("11. Update Portal");
-                        Console.WriteLine("12. Make a Doctor Active/Inactive");
-                        Console.WriteLine("13. Back");
+                        Console.WriteLine("9.View Patient");
+                        Console.WriteLine("10. Update Portal");
+                        Console.WriteLine("11. Make a Doctor Active/Inactive");
+                        Console.WriteLine("12. Back");
                         Console.Write("Choose an option: ");
 
                         var adminChoice = Console.ReadLine();
@@ -170,11 +167,10 @@ while (true)
                             case "6": ConfirmCancelOrCompleteAppointment(); break;
                             case "7": AddHealthRecord(); break;
                             case "8": ViewHealthHistory(); break;
-                            case "9": ViewAllPatients(); break;
-                            case "10": ViewAllDoctors(); break;
-                            case "11": Update(); break;
-                            case "12": MakeDoctorActive(); break;
-                            case "13": goto EndAdminMenu;
+                            case "9": ViewPatientById(); break;
+                            case "10": Update(); break;
+                            case "11": MakeDoctorActive(); break;
+                            case "12": goto EndAdminMenu;
                             default: Console.WriteLine("Invalid choice. Please try again."); break;
                         }
                     }
@@ -714,9 +710,9 @@ void CancelAppointmentOnly()
             Console.WriteLine("Cancellation reason cannot be empty. Please try again.");
         }
 
-        var success = appointmentService.CancelAppointment(appointmentId, reason);
+        appointmentService.CancelAppointment(appointmentId, reason);
 
-        Console.WriteLine(success ? "Appointment cancelled." : "Cancellation failed.");
+        
     }
     catch (ArgumentException ex)
     {
@@ -926,60 +922,10 @@ void ViewHealthHistory()
     }
 }
 
-// 9th Function
-void ViewAllPatients()
-{
-    try
-    {
-        var patients = patientService.GetAllPatients();
-
-        if (patients == null || !patients.Any())
-        {
-            Console.WriteLine("No Patients Found");
-            return;
-        }
-
-        foreach (var patient in patients)
-        {
-            Console.WriteLine(patient.GetProfileSummary());
-        }
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Error while viewing patients: {ex.Message}");
-    }
-}
-
-// 10th Function
-void ViewAllDoctors()
-{
-    try
-    {
-        var doctors = doctorService.GetAllDoctors();
-
-        if (doctors == null || !doctors.Any())
-        {
-            Console.WriteLine("No Doctors Found");
-            return;
-        }
-
-        foreach (var doctor in doctors)
-        {
-            Console.WriteLine(doctor.GetProfileSummary());
-        }
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Error while viewing doctors: {ex.Message}");
-    }
-}
-
-// 12th Function
 void MakeDoctorActive()
 {
     try
     {
-        ViewAllDoctors();
 
         Console.Write("Enter Doctor ID: ");
 
@@ -1282,7 +1228,6 @@ void Update()
         Console.WriteLine("1. To Update Patient");
         Console.WriteLine("2. To Update Doctor");
         Console.Write("Choose an option: ");
-
         var choice = Console.ReadLine();
 
         switch (choice)
@@ -1303,6 +1248,48 @@ void Update()
         Console.WriteLine($"Error while updating portal: {ex.Message}");
     }
 }
+void ViewPatientById()
+{
+    try
+    {
+        Console.Write("Enter Patient ID: ");
+
+        if (!int.TryParse(Console.ReadLine(), out int id))
+        {
+            throw new FormatException("Invalid patient ID.");
+        }
+
+        var patient = patientService.GetPatientById(id);
+
+        if (patient == null)
+        {
+            Console.WriteLine("Patient not found.");
+            return;
+        }
+
+        Console.WriteLine("\n===== Patient Details =====");
+        Console.WriteLine($"ID           : {patient.PatientId}");
+        Console.WriteLine($"Name         : {patient.FullName}");
+        Console.WriteLine($"DOB          : {patient.DateOfBirth:yyyy-MM-dd}");
+        Console.WriteLine($"Gender       : {patient.Gender}");
+        Console.WriteLine($"Phone        : {patient.PhoneNumber}");
+        Console.WriteLine($"Email        : {patient.Email ?? "N/A"}");
+        Console.WriteLine($"Insurance ID : {patient.InsuranceId ?? "N/A"}");
+    }
+    catch (FormatException ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+    catch (PatientNotFoundException ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error while retrieving patient: {ex.Message}");
+    }
+}
+
 [ExcludeFromCodeCoverage]
 public static partial class Program
 {

@@ -230,11 +230,11 @@ namespace HealthAxisTest.ServiceTests
             _repoMock.Setup(r => r.GetByPatientId(1))
                 .Returns(existingAppointments);
 
-            var ex = Assert.Throws<AppointmentConflictException>(() =>
+            var ex = Assert.Throws<DoctorUnavailableException>(() =>
                 _service.BookAppointment(patient, doctor, date)
             );
 
-            Assert.Contains("already has an appointment", ex.Message);
+            Assert.Contains("No available slots for this doctor on the selected date.", ex.Message);
         }
         [Fact]
         public void BookAppointment_FallbackSlot_ShouldUseAlternateSlot()
