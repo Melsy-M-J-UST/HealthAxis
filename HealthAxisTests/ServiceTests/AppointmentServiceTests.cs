@@ -21,7 +21,13 @@ namespace HealthAxisTest.ServiceTests
             _repoMock = new Mock<IAppointmentRepository>();
             _service = new AppointmentService(_repoMock.Object);
         }
-
+        private static DateTime GetNextWeekday()
+        {
+            var date = DateTime.Today.AddDays(1);
+            while (date.DayOfWeek == DayOfWeek.Sunday)
+                date = date.AddDays(1);
+            return date;
+        }
         private static Patient CreatePatient(int id)
         {
             return new Patient
@@ -47,7 +53,7 @@ namespace HealthAxisTest.ServiceTests
 
             var patient = CreatePatient(1);
             var doctor = CreateDoctor(1);
-            var date = DateTime.Today.AddDays(1);
+            var date = GetNextWeekday();
 
             _repoMock.Setup(r => r.GetAppointmentsByPatient(1))
                 .Returns(new List<Appointment>());
@@ -91,7 +97,7 @@ namespace HealthAxisTest.ServiceTests
 
             var patient = CreatePatient(1);
             var doctor = CreateDoctor(1);
-            var date = DateTime.Today.AddDays(1);
+            var date = GetNextWeekday();
 
             _repoMock.Setup(r => r.GetAppointmentsByPatient(1))
                 .Returns(new List<Appointment>());
@@ -196,7 +202,7 @@ namespace HealthAxisTest.ServiceTests
             var patient = CreatePatient(1);
             var doctor = CreateDoctor(1);
             doctor.IsPractising = false;
-            var date = DateTime.Today.AddDays(1);
+            var date = GetNextWeekday();
             Assert.Throws<DoctorUnavailableException>(() =>
                 _service.BookAppointment(patient, doctor, date)
             );
@@ -207,7 +213,7 @@ namespace HealthAxisTest.ServiceTests
         {
             var patient = CreatePatient(1);
             var doctor = CreateDoctor(1);
-            var date = DateTime.Today.AddDays(1);
+            var date = GetNextWeekday();
             _repoMock.Setup(r => r.GetAppointmentsByPatient(1))
                 .Returns(new List<Appointment>
                 {
@@ -218,11 +224,26 @@ namespace HealthAxisTest.ServiceTests
             );
         }
         [Fact]
+        public void BookAppointment_PatientHasConflictWithSameDoctor_ShouldThrowAppointmentConflictException()
+        {
+            var patient = CreatePatient(1);
+            var doctor = CreateDoctor(1);
+            var date = GetNextWeekday();
+            _repoMock.Setup(r => r.GetAppointmentsByPatient(1))
+                .Returns(new List<Appointment>
+                {
+                    new Appointment { Doctor = doctor }
+                });
+            Assert.Throws<AppointmentConflictException>(() =>
+                _service.BookAppointment(patient, doctor, date)
+            );
+        }
+        [Fact]
         public void GetAppointment_PatientHasConflict_ShouldThrowAppointmentConflictException()
         {
             var patient = CreatePatient(1);
             var doctor = CreateDoctor(1);
-            var date = DateTime.Today.AddDays(1);
+            var date = GetNextWeekday();
             _repoMock.Setup(r => r.GetAppointmentsByPatient(1))
                 .Returns(new List<Appointment>
                 {
