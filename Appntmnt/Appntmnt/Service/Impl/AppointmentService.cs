@@ -99,6 +99,7 @@ namespace Appntmnt.Service.Impl
             return false;
         }
 
+
         public List<Appointment> GetAppointmentsByPatient(int patientId)
         {
             return _appointmentRepository.GetByPatientId(patientId);

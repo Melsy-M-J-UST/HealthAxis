@@ -28,6 +28,7 @@ namespace Appntmnt.Service.Impl
                 throw new ArgumentException("Diagnosis cannot be empty.");
             }
 
+
             var result = _repository.AddRecord(record);
 
             if (result == null)

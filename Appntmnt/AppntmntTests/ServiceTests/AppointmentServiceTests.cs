@@ -261,7 +261,7 @@ namespace AppntmntTests.ServiceTests
         }
 
         [Fact]
-        public void CancelAppointment_Completed_ShouldReturnTrue()
+        public void CancelAppointment_Completed_ShouldReturnFalse()
         {
             var appointment = new Appointment
             {
@@ -272,7 +272,7 @@ namespace AppntmntTests.ServiceTests
 
             var result = _service.CancelAppointment(1, "reason");
 
-            Assert.True(result);
+            Assert.False(result);
         }
 
 

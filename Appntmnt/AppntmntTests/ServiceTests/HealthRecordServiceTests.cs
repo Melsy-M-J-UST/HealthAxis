@@ -68,8 +68,7 @@ namespace AppntmntTests.ServiceTests
         [Fact]
         public void AddRecord_Null_ShouldThrowException()
         {
-
-            var ex = Assert.Throws<Exception>(() =>
+            var ex = Assert.Throws<ArgumentException>(() =>
                 _service.AddRecord(null!)
             );
 
@@ -90,9 +89,8 @@ namespace AppntmntTests.ServiceTests
             };
 
 
-            var ex = Assert.Throws<Exception>(() =>
-                _service.AddRecord(record)
-            );
+            var ex = Assert.Throws<ArgumentException>(() =>
+                    _service.AddRecord(record));
 
             Assert.Contains("Diagnosis", ex.Message);
         }
