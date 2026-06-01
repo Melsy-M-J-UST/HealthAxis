@@ -50,5 +50,25 @@ namespace HealthAxis.Tests.Services
             Assert.Equal(2, result.Count);
             Assert.True(result[0].VisitedDate >= result[1].VisitedDate);
         }
+        [Fact]
+        public void GetRecordsByDoctor_ShouldReturnSortedList()
+        {
+            var records = new List<HealthRecord>
+            {
+                new HealthRecord { VisitedDate = DateTime.Now.AddDays(-1) },
+                new HealthRecord { VisitedDate = DateTime.Now }
+            };
+            _repoMock.Setup(r => r.GetRecordsByDoctor(1)).Returns(records);
+            var result = _service.GetRecordsByDoctor(1);
+            Assert.Equal(2, result.Count);
+            Assert.True(result[0].VisitedDate >= result[1].VisitedDate);
+        }
+        [Fact]
+        public void GetRecordsByDoctor_ShouldReturnEmptyList_WhenNoRecords()
+        {
+            _repoMock.Setup(r => r.GetRecordsByDoctor(1)).Returns(new List<HealthRecord>());
+            var result = _service.GetRecordsByDoctor(1);
+            Assert.Empty(result);
+        }
     }
 }

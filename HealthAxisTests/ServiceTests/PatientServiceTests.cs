@@ -48,5 +48,32 @@ namespace HealthAxisTests.ServiceTests
             Assert.NotNull(result);
             Assert.Equal("Sam", result.PatientName);
         }
+        [Fact]
+        public void GetPatientById_ThrowsException_WhenNotFound()
+        {
+            _mockRepo.Setup(r => r.GetPatientById(99)).Returns(null as Patient);
+            Assert.Throws<HealthAxis.Exceptions.PatientNotFoundException>(() => _service.GetPatientById(99));
+        }
+        [Theory]
+        [InlineData(1, "John", "2000-01-01", "1234567890")]
+        [InlineData(2, "Anna", "1995-05-15", "0987654321")]
+        public void UpdatePatient_ReturnsTrue_WhenValid(int id, string name, string dob, string contact)
+        {
+            var patient = new Patient
+            {
+                PatientId = id,
+                PatientName = name,
+                DateOfBirth = DateTime.Parse(dob),
+                PhoneNumber = contact
+            };
+            _mockRepo.Setup(r => r.UpdatePatient(patient)).Returns(true);
+            var result = _service.UpdatePatient(patient);
+            Assert.True(result);
+        }
+        [Fact]
+        public void UpdatePatient_ThrowsException_WhenInvalid()
+        {
+            Assert.Throws<ArgumentException>(() => _service.UpdatePatient(new Patient { PatientId = 1, DateOfBirth = DateTime.Now }));
+        }
     }
 }

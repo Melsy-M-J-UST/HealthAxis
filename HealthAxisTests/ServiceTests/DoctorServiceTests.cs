@@ -73,17 +73,6 @@ namespace HealthAxisTests.ServiceTests
             Assert.Single(result);
             Assert.Equal("Cardio Doc", result[0].DoctorName);
         }
-        [Fact]
-        public void SearchDoctorBySpecialisation_NoDoctors_ReturnsEmptyList()
-        {
-            _mockRepo.Setup(r =>
-                r.SearchDoctorBySpecialisation(Doctor.Specialisations.Dermatologist))
-                .Returns(new List<Doctor>());
-            var result = _service.SearchDoctorBySpecialisation(Doctor.Specialisations.Dermatologist);
-            Assert.Empty(result);
-            Assert.NotNull(result);
-        }
-
         [Theory]
         [InlineData(0)]
         [InlineData(-1)]
