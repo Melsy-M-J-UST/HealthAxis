@@ -39,7 +39,6 @@ namespace Appntmnt.Models
                 Console.WriteLine("Completed appointments cannot be cancelled");
                 return;
             }
-
             Status = StatusOption.Cancelled;
             CancellationReason = reason;
             Console.WriteLine("Appointment cancelled.");
@@ -53,8 +52,13 @@ namespace Appntmnt.Models
                 return;
             }
 
+            if (Status != StatusOption.Confirmed)
+            {
+                Console.WriteLine("Only confirmed appointments can be completed.");
+                return;
+            }
+
             Status = StatusOption.Completed;
-            Console.WriteLine("Appointment marked as completed.");
         }
 
         public enum StatusOption

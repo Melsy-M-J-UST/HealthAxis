@@ -122,12 +122,6 @@ namespace Appntmnt.Data
                     YearsOfExperience = 12,
                     ConsultationFee = 800,
                     IsActive = true,
-                    SurgeryDays = new List<DayOfWeek>
-                    {
-                        DayOfWeek.Monday,
-                        DayOfWeek.Wednesday,
-                        DayOfWeek.Friday
-                    }
                 },
                 new Doctor
                 {
@@ -155,12 +149,6 @@ namespace Appntmnt.Data
                     YearsOfExperience = 15,
                     ConsultationFee = 900,
                     IsActive = true,
-                    SurgeryDays = new List<DayOfWeek>
-                    {
-                        DayOfWeek.Tuesday,
-                        DayOfWeek.Thursday,
-                        DayOfWeek.Saturday
-                    }
                 },
                 new Doctor
                 {
@@ -169,13 +157,7 @@ namespace Appntmnt.Data
                     Specialisation = Doctor.SpecialisationOption.Neurologist,
                     YearsOfExperience = 14,
                     ConsultationFee = 1000,
-                    IsActive = true,
-                    SurgeryDays = new List<DayOfWeek>
-                    {
-                        DayOfWeek.Monday,
-                        DayOfWeek.Wednesday,
-                        DayOfWeek.Friday
-                    }
+                    IsActive = true
                 },
                 new Doctor
                 {
@@ -203,12 +185,7 @@ namespace Appntmnt.Data
                     YearsOfExperience = 7,
                     ConsultationFee = 600,
                     IsActive = true,
-                    SurgeryDays = new List<DayOfWeek>
-                    {
-                        DayOfWeek.Tuesday,
-                        DayOfWeek.Thursday,
-                        DayOfWeek.Saturday
-                    }
+
                 },
                 new Doctor
                 {

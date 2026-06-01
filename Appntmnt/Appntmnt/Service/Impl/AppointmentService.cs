@@ -44,7 +44,8 @@ namespace Appntmnt.Service.Impl
 
 
             var hasConflict = _appointmentRepository.GetByPatientId(patient.PatientId)
-                .Any(a => a.Doctor.DoctorId == doctor.DoctorId);
+                .Any(a => a.Doctor.DoctorId == doctor.DoctorId &&
+                            a.ScheduledDate.Date == date.Date);
 
             if (hasConflict)
             {
@@ -55,7 +56,6 @@ namespace Appntmnt.Service.Impl
 
             if (availableSlot == null)
             {
-                // fallback to any available slot for the doctor
                 availableSlot = _appointmentRepository.GetNextAvailableSlot(doctor.DoctorId, date);
             }
 
@@ -89,8 +89,14 @@ namespace Appntmnt.Service.Impl
             }
 
             appointment.Cancel(reason);
-            _appointmentRepository.Remove(appointment);
-            return true;
+
+            if (appointment.Status == Appointment.StatusOption.Cancelled)
+            {
+                _appointmentRepository.Remove(appointment);
+                return true;
+            }
+
+            return false;
         }
 
         public List<Appointment> GetAppointmentsByPatient(int patientId)

@@ -7,7 +7,7 @@ namespace Appntmnt.Repository
 {
     public interface IHealthRepository
     {
-        HealthRecord AddRecord(HealthRecord record);
+        HealthRecord? AddRecord(HealthRecord record);
 
         List<HealthRecord> GetRecordsByPatient(int patientId);
 

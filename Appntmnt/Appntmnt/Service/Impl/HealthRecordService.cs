@@ -15,21 +15,27 @@ namespace Appntmnt.Service.Impl
             _repository = repository;
         }
 
-        public HealthRecord AddRecord(HealthRecord record)
+        public HealthRecord? AddRecord(HealthRecord record)
         {
 
             if (record == null)
             {
-                throw new Exception("Health record cannot be null.");
+                throw new ArgumentException("Health record cannot be null.");
             }
 
             if (string.IsNullOrWhiteSpace(record.Diagnosis))
             {
-                throw new Exception("Diagnosis cannot be empty.");
+                throw new ArgumentException("Diagnosis cannot be empty.");
             }
 
-            _repository.AddRecord(record);
-            return record;
+            var result = _repository.AddRecord(record);
+
+            if (result == null)
+            {
+                throw new InvalidOperationException("A health record already exists for this appointment.");
+            }
+
+            return result;
         }
 
         public List<HealthRecord> GetRecordsByPatient(int patientId)
