@@ -37,7 +37,7 @@ namespace Appntmnt.Service.Impl
             // Validate InsuranceId format if provided
             if (!string.IsNullOrWhiteSpace(patient.InsuranceId))
             {
-                if (!System.Text.RegularExpressions.Regex.IsMatch(patient.InsuranceId, "^INS\\d{4}$", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+                if (!System.Text.RegularExpressions.Regex.IsMatch(patient.InsuranceId,"^INS\\d{4}$",System.Text.RegularExpressions.RegexOptions.IgnoreCase,TimeSpan.FromMilliseconds(100)))
                 {
                     throw new ArgumentException("Insurance ID must follow format INSXXXX where X are digits.");
                 }
