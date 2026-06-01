@@ -16,9 +16,9 @@ namespace HealthAxis.Models
 
         public string PhoneNumber { get; set; } = string.Empty;
 
-        public string Email { get; set; } = string.Empty;
+        public string? Email { get; set; } = string.Empty;
 
-        public string InsuranceID { get; set; } = string.Empty;
+        public string? InsuranceID { get; set; } = string.Empty;
 
         public DateTime CreatedDate { get; set; }
 
@@ -33,7 +33,9 @@ namespace HealthAxis.Models
         public int GetAge()
         {
             var today = DateTime.Today;
+
             var age = today.Year - DateOfBirth.Year;
+
             if (DateOfBirth.Date > today.AddYears(-age))
             {
                 age--;

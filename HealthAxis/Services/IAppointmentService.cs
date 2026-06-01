@@ -12,9 +12,7 @@ namespace HealthAxis.Services
         List<Appointment> GetAppointmentsByPatient(int patientId);
         List<Appointment> GetAppointmentsByDoctor(int doctorId);
         List<Appointment> GetUpcomingAppointments();
-
         List<Appointment> GetAll();
-
         Appointment? GetById(int id);
       
     }

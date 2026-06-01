@@ -8,7 +8,7 @@ namespace HealthAxis.Services.Impl
 {
     public class PatientService : IPatientService
     {
-        private IPatientRepository _repository;
+        private readonly IPatientRepository _repository;
 
         public PatientService(IPatientRepository repository)
         {

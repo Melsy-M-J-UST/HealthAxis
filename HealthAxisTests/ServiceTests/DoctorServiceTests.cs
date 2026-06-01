@@ -78,7 +78,21 @@ namespace HealthAxisTests.ServiceTests
 
             Assert.Throws<DoctorNotFoundException>(() => _service.GetById(1));
         }
+        [Fact]
+        public void GetById_ValidId_ShouldReturnDoctor()
+        {
+            var doctor = new Doctor { DoctorId = 1, FullName = "Dr A" };
 
+            _mockRepo.Setup(r => r.GetById(1))
+                     .Returns(doctor);
+
+            var result = _service.GetById(1);
+
+            Assert.NotNull(result);
+            Assert.Equal("Dr A", result.FullName);
+
+            _mockRepo.Verify(r => r.GetById(1), Times.Once);
+        }
         [Fact]
         public void SearchDoctorBySpecialisation_NoDoctors_ShouldThrow()
         {

@@ -1,8 +1,5 @@
 ﻿using HealthAxis.Models;
 using HealthAxis.Data;
-using HealthAxis.Exceptions;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace HealthAxis.Repositories.Impl
 {
@@ -19,18 +16,13 @@ namespace HealthAxis.Repositories.Impl
         {
             return _dbContext.Appointments.FirstOrDefault(a => a.AppointmentId == appointmentId);
         }
-
-
-        public bool PatientHasAppointmentAt(int patientId, DateTime date, string Slot)
-
+        public bool PatientHasAppointmentAt(int patientId, DateTime date, string slot)
         {
-
             return _dbContext.Appointments.Any(a =>
                 a.Patient.PatientId == patientId &&
                 a.ScheduledDate.Date == date.Date &&
-                string.Equals(a.Slot, Slot, StringComparison.OrdinalIgnoreCase) &&
+                string.Equals(a.Slot, slot, StringComparison.OrdinalIgnoreCase) &&
                 a.Status != Appointment.AppointmentStatus.Cancelled);
-
         }
         public string GetNextAvailableSlot(int doctorId, DateTime date)
         {
@@ -53,17 +45,18 @@ namespace HealthAxis.Repositories.Impl
                 }
             }
 
-            return null;
+            return null!;
         }
-
         public Appointment AddAppointment(Appointment appointment)
         {
             appointment.AppointmentId = _dbContext.GetNextAppointmentId();
+
             _dbContext.Appointments.Add(appointment);
+
             appointment.Doctor.Appointments.Add(appointment);
+
             return appointment;
         }
-
         public List<Appointment> GetByPatientId(int patientId)
         {
             return _dbContext.Appointments
@@ -72,7 +65,6 @@ namespace HealthAxis.Repositories.Impl
                 .ThenBy(a => a.Slot)
                 .ToList();
         }
-
         public List<Appointment> GetByDoctorId(int doctorId)
         {
             return _dbContext.Appointments
@@ -81,37 +73,18 @@ namespace HealthAxis.Repositories.Impl
                 .ThenBy(a => a.Slot)
                 .ToList();
         }
-
         public void Remove(Appointment appointment)
-
         {
-
             if (appointment == null) return;
-
 
             _dbContext.Appointments.Remove(appointment);
 
             if (appointment.Doctor != null)
-
             {
-
                 appointment.Doctor.Appointments.RemoveAll(a => a.AppointmentId == appointment.AppointmentId);
-
             }
-
         }
 
-        public bool CancelAppointment(int appointmentId, string reason)
-        {
-            var appointment = GetAppointmentById(appointmentId);
-            if (appointment == null || appointment.Status == Appointment.AppointmentStatus.Cancelled)
-            {
-                return false;
-            }
-            appointment.Status = Appointment.AppointmentStatus.Cancelled;
-            appointment.CancellationReason = reason;
-            return true;
-        }
         public int GetBookedSlotCount(int doctorId, DateTime date)
         {
             return _dbContext.Appointments.Count(a =>
@@ -152,7 +125,7 @@ namespace HealthAxis.Repositories.Impl
                 return slot;
             }
 
-            return null;
+            return null!;
         }
     }
 }

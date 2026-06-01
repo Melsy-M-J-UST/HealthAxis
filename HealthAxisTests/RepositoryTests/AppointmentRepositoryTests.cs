@@ -336,7 +336,7 @@ namespace HealthAxisTests.RepositoryTests
         [Fact]
         public void Remove_Null_ShouldNotThrow()
         {
-            _repo.Remove(null);
+            _repo.Remove(null!);
             Assert.True(true);
         }
 

@@ -135,7 +135,7 @@ namespace HealthAxisTests.RepositoryTests
             var result = _repo.UpdatePatient(updated);
 
             Assert.True(result);
-            Assert.Equal("New Name", _repo.GetPatientById(1).FullName);
+            Assert.Equal("New Name", _repo.GetPatientById(1)!.FullName);
         }
 
         [Fact]

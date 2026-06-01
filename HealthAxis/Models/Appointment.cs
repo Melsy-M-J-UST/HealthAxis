@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace HealthAxis.Models
 {
@@ -20,6 +22,7 @@ namespace HealthAxis.Models
 
         public enum AppointmentStatus
         {
+            Pending,
             Confirmed,
             Cancelled,
             Completed
@@ -28,31 +31,42 @@ namespace HealthAxis.Models
         public void Confirm()
         {
             if (Status == AppointmentStatus.Cancelled)
-                Console.WriteLine("Cannot confirm a cancelled appointment.");
-
+            {
+               Console.WriteLine("Cannot confirm a cancelled appointment.");
+               return;
+            }
             if (Status == AppointmentStatus.Completed)
+            {
                 Console.WriteLine("Cannot confirm a completed appointment.");
-
+                return;
+            }
             Status = AppointmentStatus.Confirmed;
+            Console.WriteLine("Appointment confirmed.");
         }
 
         public void Cancel(string reason)
         {
-            if (Status == AppointmentStatus.Confirmed)
+            if (Status == AppointmentStatus.Completed)
             {
-                Status = AppointmentStatus.Cancelled;
-                CancellationReason = reason;
+                Console.WriteLine("Completed appointments cannot be cancelled");
+                return;
             }
-            else
-            {
-                Console.WriteLine("Only Confirmed appointments can be cancelled.");
-            }
+
+            Status = AppointmentStatus.Cancelled;
+            CancellationReason = reason;
+            Console.WriteLine("Appointment cancelled.");
         }
         public void Complete()
         {
             if (Status == AppointmentStatus.Cancelled)
             {
                 Console.WriteLine("Cancelled appointments cannot be completed");
+                return;
+            }
+            if (Status != AppointmentStatus.Confirmed)
+            {
+                Console.WriteLine("Only confirmed appointments can be completed.");
+                return;
             }
 
             Status = AppointmentStatus.Completed;

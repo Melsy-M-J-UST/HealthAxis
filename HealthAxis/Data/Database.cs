@@ -199,6 +199,34 @@ namespace HealthAxis.Data
                     YearsOfExperience = 13,
                     ConsultationFee = 650,
                     IsActive = true
+                },
+                new Doctor
+                {
+                    DoctorId = GetNextDoctorId(),
+                    FullName = "Anita Joseph",
+                    Specialisation = Doctor.SpecialisationOption.Gynecologist,
+                    YearsOfExperience = 7,
+                    ConsultationFee = 600,
+                    IsActive = true,
+
+                },
+                new Doctor
+                {
+                    DoctorId = GetNextDoctorId(),
+                    FullName = "Vikram Patel",
+                    Specialisation = Doctor.SpecialisationOption.Psychiatrist,
+                    YearsOfExperience = 10,
+                    ConsultationFee = 700,
+                    IsActive = true
+                },
+                new Doctor
+                {
+                    DoctorId = GetNextDoctorId(),
+                    FullName = "Rajesh Nambiar",
+                    Specialisation = Doctor.SpecialisationOption.Endocrinologist,
+                    YearsOfExperience = 13,
+                    ConsultationFee = 650,
+                    IsActive = true
                 }
             });
         }

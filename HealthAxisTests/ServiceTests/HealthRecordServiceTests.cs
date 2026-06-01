@@ -65,23 +65,19 @@ namespace HealthAxisTests.ServiceTests
             _repoMock.Verify(r => r.AddRecord(record), Times.Once);
         }
 
-
         [Fact]
-        public void AddRecord_Null_ShouldThrowException()
+        public void AddRecord_NullRecord_ShouldThrowArgumentNullException()
         {
-
-            var ex = Assert.Throws<Exception>(() =>
+            var ex = Assert.Throws<ArgumentNullException>(() =>
                 _service.AddRecord(null!)
             );
-
-            Assert.Contains("cannot be null", ex.Message);
+            Assert.Contains("record", ex.ParamName);
         }
 
 
         [Fact]
-        public void AddRecord_EmptyDiagnosis_ShouldThrowException()
+        public void AddRecord_EmptyDiagnosis_ShouldThrowArgumentException()
         {
-
             var record = new HealthRecord
             {
                 Patient = CreatePatient(1),
@@ -90,8 +86,7 @@ namespace HealthAxisTests.ServiceTests
                 Diagnosis = ""
             };
 
-
-            var ex = Assert.Throws<Exception>(() =>
+            var ex = Assert.Throws<ArgumentException>(() =>
                 _service.AddRecord(record)
             );
 

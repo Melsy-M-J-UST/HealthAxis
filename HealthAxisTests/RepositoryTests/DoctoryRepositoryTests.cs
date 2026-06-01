@@ -161,7 +161,7 @@ namespace HealthAxisTests.RepositoryTests
             var result = _repo.UpdateDoctor(updated);
 
             Assert.True(result);
-            Assert.Equal("New", _repo.GetById(1).FullName);
+            Assert.Equal("New", _repo.GetById(1)!.FullName);
         }
 
         [Fact]

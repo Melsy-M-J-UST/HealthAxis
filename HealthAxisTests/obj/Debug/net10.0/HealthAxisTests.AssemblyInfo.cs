@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HealthAxisTests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+963a943b38fedbac24e3f9af2fc2d45395610a0c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8e991a114fd82e2e705a095055b4a69a6757bc04")]
 [assembly: System.Reflection.AssemblyProductAttribute("HealthAxisTests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HealthAxisTests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

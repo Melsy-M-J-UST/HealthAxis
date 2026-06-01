@@ -7,21 +7,12 @@ namespace HealthAxis.Models
     public class Doctor
     {
         public int DoctorId { get; set; }
-
         public string FullName { get; set; } = string.Empty;
-
         public SpecialisationOption Specialisation { get; set; }
-
         public int YearsOfExperience { get; set; }
-
         public int ConsultationFee { get; set; }
-
         public bool IsActive { get; set; }
-
         public List<Appointment> Appointments { get; set; } = new List<Appointment>();
-
-        public List<DayOfWeek>? SurgeryDays { get; set; } = new List<DayOfWeek>();
-
         public enum SpecialisationOption
         {
             GeneralPractitioner,

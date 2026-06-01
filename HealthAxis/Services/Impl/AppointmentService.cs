@@ -84,10 +84,14 @@ namespace HealthAxis.Services
             {
                 return false;
             }
-
             appointment.Cancel(reason);
-            _appointmentRepository.Remove(appointment);
-            return true;
+
+            if (appointment.Status == Appointment.AppointmentStatus.Cancelled)
+            {
+                _appointmentRepository.Remove(appointment);
+                return true;
+            }
+            return false;
         }
 
         public List<Appointment> GetAppointmentsByPatient(int patientId)
@@ -111,9 +115,9 @@ namespace HealthAxis.Services
                 .ToList();
         }
 
-        public Appointment? GetById(int appointmentId)
+        public Appointment? GetById(int id)
         {
-            return _appointmentRepository.GetAppointmentById(appointmentId);
+            return _appointmentRepository.GetAppointmentById(id);
         }
 
         public List<Appointment> GetAll()
