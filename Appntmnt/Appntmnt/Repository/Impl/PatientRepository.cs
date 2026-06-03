@@ -16,7 +16,7 @@ namespace Appntmnt.Repository.Impl
 
         public Patient RegisterPatient(Patient patient)
         {
-            // Ensure InsuranceId uniqueness if provided
+            // For ensuring InsuranceId is unique
             if (!string.IsNullOrWhiteSpace(patient.InsuranceId))
             {
                 var exists = _db.Patients.Any(p => !string.IsNullOrWhiteSpace(p.InsuranceId) &&
@@ -24,7 +24,6 @@ namespace Appntmnt.Repository.Impl
 
                 if (exists)
                 {
-                    // Return null to indicate repository-level conflict; service will translate to exception
                     return null!;
                 }
             }
@@ -41,7 +40,6 @@ namespace Appntmnt.Repository.Impl
         public Patient? GetPatientById(int id)
         {
             var patient = _db.Patients.FirstOrDefault(p => p.PatientId == id);
-            // Repository should not throw; return null and let service layer handle exceptions
             return patient;
         }
 

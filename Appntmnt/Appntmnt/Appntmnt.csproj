@@ -6,6 +6,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<IsTestProject>false</IsTestProject>
+		<SonarQubeTestProject>false</SonarQubeTestProject>
 	</PropertyGroup>
 
 	<ItemGroup>

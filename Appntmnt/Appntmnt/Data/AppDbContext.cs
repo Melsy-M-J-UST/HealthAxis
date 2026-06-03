@@ -28,184 +28,99 @@ namespace Appntmnt.Data
 
         public AppDbContext()
         {
-            SeedData();
+            AddData();
         }
 
-        public int GetNextPatientId()
-        {
-            return _nextPatientId++;
-        }
+        public int GetNextPatientId() => _nextPatientId++;
 
-        public int GetNextDoctorId()
-        {
-            return _nextDoctorId++;
-        }
+        public int GetNextDoctorId() => _nextDoctorId++;
 
-        public int GetNextAppointmentId()
-        {
-            return _nextAppointmentId++;
-        }
+        public int GetNextAppointmentId() => _nextAppointmentId++;
 
-        public int GetNextHealthRecordId()
-        {
-            return _nextHealthRecordId++;
-        }
+        public int GetNextHealthRecordId() => _nextHealthRecordId++;
 
-        private void SeedData()
+        private void AddData()
         {
-            Patients.AddRange(new List<Patient>
+            var patientAddData = new[]
             {
-                new Patient
-                {
-                    PatientId = GetNextPatientId(),
-                    FullName = "Arun Kumar",
-                    DateOfBirth = new DateTime(1992, 5, 14),
-                    Gender = Patient.GenderOptions.Male,
-                    PhoneNumber = "9876543210",
-                    Email = "arun.kumar@example.com",
-                    InsuranceId = "INS1001",
-                    CreatedDate = DateTime.Now
-                },
-                new Patient
-                {
-                    PatientId = GetNextPatientId(),
-                    FullName = "Meera Nair",
-                    DateOfBirth = new DateTime(1988, 9, 22),
-                    Gender = Patient.GenderOptions.Female,
-                    PhoneNumber = "9876543211",
-                    Email = "meera.nair@example.com",
-                    InsuranceId = "INS1002",
-                    CreatedDate = DateTime.Now
-                },
-                new Patient
-                {
-                    PatientId = GetNextPatientId(),
-                    FullName = "Rahul Menon",
-                    DateOfBirth = new DateTime(2000, 1, 10),
-                    Gender = Patient.GenderOptions.Male,
-                    PhoneNumber = "9876543212",
-                    Email = "rahul.menon@example.com",
-                    InsuranceId = "INS1003",
-                    CreatedDate = DateTime.Now
-                },
-                new Patient
-                {
-                    PatientId = GetNextPatientId(),
-                    FullName = "Anjali Thomas",
-                    DateOfBirth = new DateTime(1995, 12, 3),
-                    Gender = Patient.GenderOptions.Female,
-                    PhoneNumber = "9876543213",
-                    Email = "anjali.thomas@example.com",
-                    InsuranceId = "INS1004",
-                    CreatedDate = DateTime.Now
-                },
-                new Patient
-                {
-                    PatientId = GetNextPatientId(),
-                    FullName = "Vivek Pillai",
-                    DateOfBirth = new DateTime(1983, 7, 19),
-                    Gender = Patient.GenderOptions.Male,
-                    PhoneNumber = "9876543214",
-                    Email = "vivek.pillai@example.com",
-                    InsuranceId = "INS1005",
-                    CreatedDate = DateTime.Now
-                }
-            });
+                ("Arun Kumar", new DateTime(1992, 5, 14, 0, 0, 0, DateTimeKind.Local), Patient.GenderOptions.Male, "9876543210", "arun.kumar@example.com", "INS1001"),
+                ("Meera Nair", new DateTime(1988, 9, 22, 0, 0, 0, DateTimeKind.Local), Patient.GenderOptions.Female, "9876543211", "meera.nair@example.com", "INS1002"),
+                ("Rahul Menon", new DateTime(2000, 1, 10, 0, 0, 0, DateTimeKind.Local), Patient.GenderOptions.Male, "9876543212", "rahul.menon@example.com", "INS1003"),
+                ("Anjali Thomas", new DateTime(1995, 12, 3, 0, 0, 0, DateTimeKind.Local), Patient.GenderOptions.Female, "9876543213", "anjali.thomas@example.com", "INS1004"),
+                ("Vivek Pillai", new DateTime(1983, 7, 19, 0, 0, 0, DateTimeKind.Local), Patient.GenderOptions.Male, "9876543214", "vivek.pillai@example.com", "INS1005")
+            };
 
-            Doctors.AddRange(new List<Doctor>
+            Patients.AddRange(
+                patientAddData.Select(p => CreatePatient(
+                    p.Item1,
+                    p.Item2,
+                    p.Item3,
+                    p.Item4,
+                    p.Item5,
+                    p.Item6))
+            );
+
+            var doctorAddData = new[]
             {
-                new Doctor
-                {
-                    DoctorId = GetNextDoctorId(),
-                    FullName = "Priya Sharma",
-                    Specialisation = Doctor.SpecialisationOption.Cardiologist,
-                    YearsOfExperience = 12,
-                    ConsultationFee = 800,
-                    IsActive = true,
-                },
-                new Doctor
-                {
-                    DoctorId = GetNextDoctorId(),
-                    FullName = "Suresh Mathew",
-                    Specialisation = Doctor.SpecialisationOption.Dermatologist,
-                    YearsOfExperience = 9,
-                    ConsultationFee = 600,
-                    IsActive = true
-                },
-                new Doctor
-                {
-                    DoctorId = GetNextDoctorId(),
-                    FullName = "Neha Iyer",
-                    Specialisation = Doctor.SpecialisationOption.Pediatrician,
-                    YearsOfExperience = 10,
-                    ConsultationFee = 700,
-                    IsActive = true
-                },
-                new Doctor
-                {
-                    DoctorId = GetNextDoctorId(),
-                    FullName = "Thomas George",
-                    Specialisation = Doctor.SpecialisationOption.OrthopedicSurgeon,
-                    YearsOfExperience = 15,
-                    ConsultationFee = 900,
-                    IsActive = true,
-                },
-                new Doctor
-                {
-                    DoctorId = GetNextDoctorId(),
-                    FullName = "Kavitha Rao",
-                    Specialisation = Doctor.SpecialisationOption.Neurologist,
-                    YearsOfExperience = 14,
-                    ConsultationFee = 1000,
-                    IsActive = true
-                },
-                new Doctor
-                {
-                    DoctorId = GetNextDoctorId(),
-                    FullName = "Mohammed Ali",
-                    Specialisation = Doctor.SpecialisationOption.GeneralPractitioner,
-                    YearsOfExperience = 11,
-                    ConsultationFee = 500,
-                    IsActive = true
-                },
-                new Doctor
-                {
-                    DoctorId = GetNextDoctorId(),
-                    FullName = "Lakshmi Menon",
-                    Specialisation = Doctor.SpecialisationOption.Oncologist,
-                    YearsOfExperience = 8,
-                    ConsultationFee = 550,
-                    IsActive = true
-                },
-                new Doctor
-                {
-                    DoctorId = GetNextDoctorId(),
-                    FullName = "Anita Joseph",
-                    Specialisation = Doctor.SpecialisationOption.Gynecologist,
-                    YearsOfExperience = 7,
-                    ConsultationFee = 600,
-                    IsActive = true,
+                ("Priya Sharma", Doctor.SpecialisationOption.Cardiologist, 12, 800, true),
+                ("Suresh Mathew", Doctor.SpecialisationOption.Dermatologist, 9, 600, true),
+                ("Neha Iyer", Doctor.SpecialisationOption.Pediatrician, 10, 700, true),
+                ("Thomas George", Doctor.SpecialisationOption.OrthopedicSurgeon, 15, 900, true),
+                ("Kavitha Rao", Doctor.SpecialisationOption.Neurologist, 14, 1000, true),
+                ("Mohammed Ali", Doctor.SpecialisationOption.GeneralPractitioner, 11, 500, true),
+                ("Lakshmi Menon", Doctor.SpecialisationOption.Oncologist, 8, 550, true),
+                ("Anita Joseph", Doctor.SpecialisationOption.Gynecologist, 7, 600, true),
+                ("Vikram Patel", Doctor.SpecialisationOption.Psychiatrist, 10, 700, true),
+                ("Rajesh Nambiar", Doctor.SpecialisationOption.Endocrinologist, 13, 650, true)
+            };
 
-                },
-                new Doctor
-                {
-                    DoctorId = GetNextDoctorId(),
-                    FullName = "Vikram Patel",
-                    Specialisation = Doctor.SpecialisationOption.Psychiatrist,
-                    YearsOfExperience = 10,
-                    ConsultationFee = 700,
-                    IsActive = true
-                },
-                new Doctor
-                {
-                    DoctorId = GetNextDoctorId(),
-                    FullName = "Rajesh Nambiar",
-                    Specialisation = Doctor.SpecialisationOption.Endocrinologist,
-                    YearsOfExperience = 13,
-                    ConsultationFee = 650,
-                    IsActive = true
-                }
-            });
+            Doctors.AddRange(
+                doctorAddData.Select(d => CreateDoctor(
+                    d.Item1,
+                    d.Item2,
+                    d.Item3,
+                    d.Item4,
+                    d.Item5))
+            );
+        }
+
+        private Patient CreatePatient(
+            string fullName,
+            DateTime dateOfBirth,
+            Patient.GenderOptions gender,
+            string phoneNumber,
+            string email,
+            string insuranceId)
+        {
+            return new Patient
+            {
+                PatientId = GetNextPatientId(),
+                FullName = fullName,
+                DateOfBirth = dateOfBirth,
+                Gender = gender,
+                PhoneNumber = phoneNumber,
+                Email = email,
+                InsuranceId = insuranceId,
+                CreatedDate = DateTime.Now
+            };
+        }
+
+        private Doctor CreateDoctor(
+            string fullName,
+            Doctor.SpecialisationOption specialisation,
+            int yearsOfExperience,
+            int consultationFee,
+            bool isActive)
+        {
+            return new Doctor
+            {
+                DoctorId = GetNextDoctorId(),
+                FullName = fullName,
+                Specialisation = specialisation,
+                YearsOfExperience = yearsOfExperience,
+                ConsultationFee = consultationFee,
+                IsActive = isActive
+            };
         }
     }
 }
