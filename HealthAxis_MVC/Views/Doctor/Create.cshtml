@@ -1,0 +1,53 @@
+﻿@model HealthAxis_MVC.Models.Doctor
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2 class="text-success">Add Doctor</h2>
+
+<div class="col-4">
+    @using (Html.BeginForm())
+    {
+        <div class="mb-2">
+            @Html.LabelFor(m => m.DoctorId, new { @class = "fw-bold" })
+            @Html.TextBoxFor(m => m.DoctorId, new { @class = "form-control border-dark" })
+            @Html.ValidationMessageFor(m => m.DoctorId, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-2">
+            @Html.LabelFor(m => m.FullName, new { @class = "fw-bold" })
+            @Html.TextBoxFor(m => m.FullName, new { @class = "form-control border-dark" })
+            @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-2">
+            @Html.LabelFor(m => m.Specialisation, new { @class = "fw-bold" })
+            @Html.TextBoxFor(m => m.Specialisation, new { @class = "form-control border-dark" })
+            @Html.ValidationMessageFor(m => m.Specialisation, "", new { @class = "text-danger" })
+        </div>
+        <div class="mb-2">
+            @Html.LabelFor(m => m.YearsOfExperience, new { @class = "fw-bold" })
+            @Html.TextBoxFor(m => m.YearsOfExperience, new { @class = "form-control border-dark" })
+            @Html.ValidationMessageFor(m => m.YearsOfExperience, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-2">
+            @Html.LabelFor(m => m.ConsultationFee, new { @class = "fw-bold" })
+            @Html.TextBoxFor(m => m.ConsultationFee, new { @class = "form-control border-dark" })
+            @Html.ValidationMessageFor(m => m.ConsultationFee, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-2">
+            @Html.LabelFor(m => m.IsActive, new { @class = "fw-bold" })
+            @Html.TextBoxFor(m => m.IsActive, new { @class = "form-control border-dark" })
+            @Html.ValidationMessageFor(m => m.IsActive, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="d-flex">
+            <button type="submit" class="btn btn-primary me-2 w-50">Add Doctor</button>
+
+            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-secondary w-50" })
+        </div>
+    }
+</div>
