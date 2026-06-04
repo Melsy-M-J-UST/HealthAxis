@@ -33,27 +33,30 @@ namespace HealthAxis_MVC.Controllers
         [HttpPost]
         public ActionResult Create(Doctor doctor)
         {
-            return View(doctor);
+            if (!ModelState.IsValid)
+            {
+                return View(doctor);
+            }
+
+            _service.AddDoctor(doctor);
+            return RedirectToAction("Index");
         }
 
-        public ActionResult Update(int id)
+
+        public ActionResult Edit(int id)
 
         {
 
             var doctor = _service.GetById(id);
-
             return View(doctor);
 
         }
-
         [HttpPost]
-
-        public ActionResult Update(int id,Doctor Doctor)
+        public ActionResult Edit(Doctor doctor)
 
         {
 
-            _service.UpdateDoctor(id,Doctor);
-
+            _service.UpdateDoctor(doctor.DoctorId,doctor);
             return RedirectToAction("Index");
 
         }

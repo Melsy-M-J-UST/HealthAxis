@@ -1,7 +1,7 @@
 ﻿@model HealthAxis_MVC.Models.Doctor
 
 @{
-    ViewBag.Title = "Update";
+    ViewBag.Title = "Edit";
 }
 
 <h2 class="text-success">Update Doctor</h2>
@@ -41,14 +41,14 @@
 
         <div class="mb-2">
             @Html.LabelFor(m => m.IsActive, new { @class = "fw-bold" })
-            @Html.TextBoxFor(m => m.IsActive, new { @class = "form-control border-dark" })
+            @Html.CheckBoxFor(m => m.IsActive)
             @Html.ValidationMessageFor(m => m.IsActive, "", new { @class = "text-danger" })
         </div>
 
         <div class="d-flex">
-            <button type="submit" class="btn btn-primary me-2 w-50">Update Doctor</button>
-
+            <button class="btn btn-primary me-2 w-50">Update Doctor</button>
             @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-secondary w-50" })
         </div>
     }
 </div>
+``

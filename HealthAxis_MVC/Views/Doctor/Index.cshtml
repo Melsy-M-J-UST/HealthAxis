@@ -16,7 +16,7 @@
         <th>Years of Experience</th>
         <th>Consultation Fee</th>
         <th>Is Active</th>
-
+        <th class="text-center">Actions</th>
        </tr>
     </thead>
     <tbody>
@@ -29,6 +29,9 @@
                  <td>@doc.YearsOfExperience</td>
                  <td>@doc.ConsultationFee</td>
                  <td>@doc.IsActive</td>
+                 <td class="d-flex">
+                     @Html.ActionLink("Edit", "Edit", new { id = doc.DoctorId }, new { @class = "btn btn-outline-primary me-2 w-50" })
+                 </td>
              </tr>
          }
     </tbody>
