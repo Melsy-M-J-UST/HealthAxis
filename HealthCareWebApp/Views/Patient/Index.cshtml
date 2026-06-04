@@ -1,0 +1,41 @@
+﻿﻿@model List<HealthCareWebApp.Models.Patient>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="text-primary">Patient Details</h2>
+@Html.ActionLink("Add New", "Create", null, new { @class = "btn btn-primary" })
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Patient Id</th>
+            <th>Patient Name</th>
+            <th>Date of Birth</th>
+            <th>PhoneNumber</th>
+            <th>Email</th>
+            <th>Insurance ID</th>
+            <th>Gender</th>
+            <th>Registered Date</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var doc in Model)
+        {
+            <tr>
+                <td>@doc.PatientId</td>
+                <td>@doc.PatientName</td>
+                <td>@doc.DateOfBirth</td>
+                <td>@doc.PhoneNumber</td>
+                <td>@doc.Email</td>
+                <td>@doc.InsuranceId</td>
+                <td>@doc.Gender</td>
+                <td>@doc.RegisteredDate</td>
+                <td class="d-flex">
+                    @Html.ActionLink("Update", "Update", new { id = doc.PatientId }, new { @class = "btn btn-outline-primary me-2" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
