@@ -135,6 +135,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\DoctorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PatientController.cs" />
     <Compile Include="Database\AppContextDB.cs" />
     <Compile Include="Exceptions\AppointmentConflictException.cs" />
     <Compile Include="Exceptions\DoctorNotFoundException.cs" />
@@ -145,11 +146,16 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Doctor.cs" />
+    <Compile Include="Models\Patient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IDoctorRepository.cs" />
     <Compile Include="Repositories\Impl\DoctorRepository.cs" />
+    <Compile Include="Repositories\IPatientRepository.cs" />
+    <Compile Include="Repositories\Impl\PatientRepository.cs" />
     <Compile Include="Services\IDoctorService.cs" />
     <Compile Include="Services\Impl\DoctorService.cs" />
+    <Compile Include="Services\Impl\PatientService.cs" />
+    <Compile Include="Services\IPatientService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -205,6 +211,9 @@
     <Content Include="Views\Doctor\Index.cshtml" />
     <Content Include="Views\Doctor\Create.cshtml" />
     <Content Include="Views\Doctor\Edit.cshtml" />
+    <Content Include="Views\Patient\Index.cshtml" />
+    <Content Include="Views\Patient\Edit.cshtml" />
+    <Content Include="Views\Patient\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

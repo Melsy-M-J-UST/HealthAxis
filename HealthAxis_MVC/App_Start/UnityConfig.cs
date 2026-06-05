@@ -18,12 +18,14 @@ namespace HealthAxis_MVC
             container.RegisterType<AppContextDB>();
             container.RegisterType<IDoctorRepository, DoctorRepository>();
             container.RegisterType<IDoctorService , DoctorService>();
-            
+            container.RegisterType<IPatientRepository, PatientRepository>();
+            container.RegisterType<IPatientService, PatientService>();
+
             // register all your components with the container here
             // it is NOT necessary to register your controllers
-            
+
             // e.g. container.RegisterType<ITestService, TestService>();
-            
+
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }

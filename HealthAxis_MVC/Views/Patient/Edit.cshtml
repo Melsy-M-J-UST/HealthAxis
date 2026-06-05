@@ -1,0 +1,64 @@
+﻿@model HealthAxis_MVC.Models.Patient
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2 class="text-success">Update Patient</h2>
+
+<div class="col-4">
+    @using (Html.BeginForm())
+    {
+        <div class="mb-2">
+            @Html.LabelFor(m => m.PatientId, new { @class = "fw-bold" })
+            @Html.TextBoxFor(m => m.PatientId, new { @class = "form-control border-dark" })
+            @Html.ValidationMessageFor(m => m.PatientId, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-2">
+            @Html.LabelFor(m => m.FullName, new { @class = "fw-bold" })
+            @Html.TextBoxFor(m => m.FullName, new { @class = "form-control border-dark" })
+            @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-2">
+            @Html.LabelFor(m => m.DateOfBirth, new { @class = "fw-bold" })
+            @Html.TextBoxFor(m => m.DateOfBirth, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control border-dark" })
+            @Html.ValidationMessageFor(m => m.DateOfBirth, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-2">
+            @Html.Label("Gender", new { @class = "fw-bold" })<br />
+
+            @Html.RadioButtonFor(m => m.Gender, "Male") Male
+            @Html.RadioButtonFor(m => m.Gender, "Female") Female
+            @Html.RadioButtonFor(m => m.Gender, "Transgender") Transgender
+            @Html.RadioButtonFor(m => m.Gender, "Other") Other
+
+            @Html.ValidationMessageFor(m => m.Gender, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-2">
+            @Html.LabelFor(m => m.PhoneNumber, new { @class = "fw-bold" })
+            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control border-dark" })
+            @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-2">
+            @Html.LabelFor(m => m.Email, new { @class = "fw-bold" })
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control border-dark" })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-2">
+            @Html.LabelFor(m => m.InsuranceID, new { @class = "fw-bold" })
+            @Html.TextBoxFor(m => m.InsuranceID, new { @class = "form-control border-dark" })
+            @Html.ValidationMessageFor(m => m.InsuranceID, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="d-flex">
+            <button class="btn btn-primary me-2 w-50">Update Patient</button>
+            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-secondary w-50" })
+        </div>
+    }
+</div>
