@@ -1,13 +1,22 @@
 ﻿@{
-    ViewData["Title"] = "Home";
+    ViewBag.Title = "Home";
 }
 
-<div style="text-align:center; margin-top:50px;">
-    <h2>Health Axis</h2>
+<div class="container mt-5 text-center">
 
-    <form>
-        <button type="submit" formaction="/Doctor" style="margin:10px;">Doctor</button>
-        <button type="submit" formaction="/Patient" style="margin:10px;">Patient</button>
-        <button type="submit" formaction="/Admin" style="margin:10px;">Admin</button>
-    </form>
+    <h1 class="text-primary fw-bold">HealthAxis Management System</h1>
+    <p class="text-muted mb-4">Manage Doctors and Patients easily</p>
+
+    <hr />
+
+    <div class="mt-4">
+
+        @Html.ActionLink("View Doctors", "Index", "Doctor",
+            null, new { @class = "btn btn-success me-3 px-4" })
+
+        @Html.ActionLink("View Patients", "Index", "Patient",
+            null, new { @class = "btn btn-info px-4" })
+
+    </div>
+
 </div>

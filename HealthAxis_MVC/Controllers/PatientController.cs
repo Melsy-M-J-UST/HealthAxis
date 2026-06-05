@@ -1,7 +1,9 @@
 ﻿using HealthAxis_MVC.Database;
 using HealthAxis_MVC.Models;
 using HealthAxis_MVC.Repositories;
+using System.Linq;
 using System.Web.Mvc;
+using static HealthAxis_MVC.Database.AppContextDB;
 
 namespace HealthAxis_MVC.Controllers
 {
@@ -29,6 +31,15 @@ namespace HealthAxis_MVC.Controllers
             if (!ModelState.IsValid)
             {
                 return View(patient);
+            }
+            if (Patients.Any(x => x.PatientId == patient.PatientId))
+
+            {
+
+                ModelState.AddModelError("PatientId", "This Patient ID already exists");
+
+                return View(patient);
+
             }
 
             _service.AddPatient(patient);

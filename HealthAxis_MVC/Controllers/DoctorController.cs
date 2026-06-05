@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static HealthAxis_MVC.Database.AppContextDB;
 
 namespace HealthAxis_MVC.Controllers
 {
@@ -14,7 +15,7 @@ namespace HealthAxis_MVC.Controllers
 
         public DoctorController()
         {
-            
+
         }
         public DoctorController(IDoctorRepository service)
         {
@@ -37,6 +38,15 @@ namespace HealthAxis_MVC.Controllers
             {
                 return View(doctor);
             }
+            if (Doctors.Any(x => x.DoctorId == doctor.DoctorId))
+
+            {
+
+                ModelState.AddModelError("DoctorId", "This Doctor ID already exists");
+
+                return View(doctor);
+
+            }
 
             _service.AddDoctor(doctor);
             return RedirectToAction("Index");
@@ -56,7 +66,7 @@ namespace HealthAxis_MVC.Controllers
 
         {
 
-            _service.UpdateDoctor(doctor.DoctorId,doctor);
+            _service.UpdateDoctor(doctor.DoctorId, doctor);
             return RedirectToAction("Index");
 
         }

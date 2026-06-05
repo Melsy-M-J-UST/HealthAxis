@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace HealthAxis_MVC.Models
 {
@@ -10,7 +11,8 @@ namespace HealthAxis_MVC.Models
         public string FullName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Specialisation is required")]
-        public string Specialisation { get; set; }
+        //public string Specialisation { get; set; }
+        public SpecialisationType Specialisation { get; set; }
 
         [Required(ErrorMessage = "Years of Experience is required")]
         [Range(0, 50, ErrorMessage = "Enter valid experience")]
@@ -21,5 +23,24 @@ namespace HealthAxis_MVC.Models
         public int ConsultationFee { get; set; }
 
         public bool IsActive { get; set; }
+
+        public enum SpecialisationType
+        {
+            GeneralPractitioner,
+            Cardiologist,
+            Dermatologist,
+            Endocrinologist,
+            Gynecologist,
+            Neurologist,
+            Oncologist,
+            OrthopedicSurgeon,
+            Pediatrician,
+            Psychiatrist,
+            Neurology,
+            Cardiology,
+            Orthopedics,
+            Pediatrics
+        }
+
     }
 }

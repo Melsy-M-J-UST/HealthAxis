@@ -1,6 +1,7 @@
-﻿using System;
+﻿using HealthAxis_MVC.Models;
+using System;
 using System.Collections.Generic;
-using HealthAxis_MVC.Models;
+using static HealthAxis_MVC.Models.Doctor;
 
 namespace HealthAxis_MVC.Database
 {
@@ -12,13 +13,13 @@ namespace HealthAxis_MVC.Database
         static AppContextDB()
         {
             Doctors = new List<Doctor>
-            {
-                new Doctor { DoctorId = 1, FullName = "John", Specialisation = "Cardiologist", YearsOfExperience = 4, ConsultationFee = 1000, IsActive = true },
-                new Doctor { DoctorId = 2, FullName = "Jane", Specialisation = "General", YearsOfExperience = 4, ConsultationFee = 1500, IsActive = true },
-                new Doctor { DoctorId = 3, FullName = "Jack", Specialisation = "Oncologist", YearsOfExperience = 6, ConsultationFee = 1100, IsActive = true },
-                new Doctor { DoctorId = 4, FullName = "Jerry", Specialisation = "General", YearsOfExperience = 5, ConsultationFee = 1000, IsActive = true },
-                new Doctor { DoctorId = 5, FullName = "Jia", Specialisation = "General", YearsOfExperience = 4, ConsultationFee = 1200, IsActive = true }
-            };
+             {
+                 new Doctor { DoctorId = 1, FullName = "John", Specialisation = SpecialisationType.Cardiology, YearsOfExperience = 4, ConsultationFee = 1000, IsActive = true },
+                 new Doctor { DoctorId = 2, FullName = "Jane", Specialisation = SpecialisationType.Neurology, YearsOfExperience = 4, ConsultationFee = 1500, IsActive = true },
+                 new Doctor { DoctorId = 3, FullName = "Jack", Specialisation = SpecialisationType.Orthopedics, YearsOfExperience = 6, ConsultationFee = 1100, IsActive = true },
+                 new Doctor { DoctorId = 4, FullName = "Jerry", Specialisation = SpecialisationType.Pediatrics, YearsOfExperience = 5, ConsultationFee = 1000, IsActive = true },
+                 new Doctor { DoctorId = 5, FullName = "Jia", Specialisation = SpecialisationType.GeneralPractitioner, YearsOfExperience = 4, ConsultationFee = 1200, IsActive = true }
+             };
 
             Patients = new List<Patient>
             {
