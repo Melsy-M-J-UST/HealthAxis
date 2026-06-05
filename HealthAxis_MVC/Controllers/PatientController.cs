@@ -1,4 +1,5 @@
-﻿using HealthAxis_MVC.Models;
+﻿using HealthAxis_MVC.Database;
+using HealthAxis_MVC.Models;
 using HealthAxis_MVC.Repositories;
 using System.Web.Mvc;
 
@@ -17,7 +18,6 @@ namespace HealthAxis_MVC.Controllers
             var patients = _service.GetAllPatients();
             return View(patients);
         }
-
         public ActionResult Create()
         {
             return View();

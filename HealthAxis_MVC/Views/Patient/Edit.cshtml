@@ -23,7 +23,9 @@
 
         <div class="mb-2">
             @Html.LabelFor(m => m.DateOfBirth, new { @class = "fw-bold" })
-            @Html.TextBoxFor(m => m.DateOfBirth, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control border-dark" })
+
+            @Html.TextBoxFor(m => m.DateOfBirth, "{0:yyyy-MM-dd}", new
+            {@type = "text",@class = "form-control border-dark",@placeholder = "YYYY-MM-DD"})
             @Html.ValidationMessageFor(m => m.DateOfBirth, "", new { @class = "text-danger" })
         </div>
 
