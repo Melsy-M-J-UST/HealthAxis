@@ -28,7 +28,7 @@
             <tr>
                 <td>@pat.PatientId</td>
                 <td>@pat.FullName</td>
-                <td>@pat.DateOfBirth.ToString("yyyy-MM-dd")</td>
+                <td>@(pat.DateOfBirth.HasValue? pat.DateOfBirth.Value.ToString("yyyy-MM-dd"): "")</td>
                 <td>@pat.Gender</td>
                 <td>@pat.PhoneNumber</td>
                 <td>@pat.Email</td>

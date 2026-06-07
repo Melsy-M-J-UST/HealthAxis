@@ -15,7 +15,7 @@ namespace HealthAxis_MVC.Models
         public string FullName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Date of Birth is required")]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         [Required(ErrorMessage = "Gender is required")]
         public string Gender { get; set; } = string.Empty;

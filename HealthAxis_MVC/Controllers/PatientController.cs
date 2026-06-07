@@ -22,7 +22,14 @@ namespace HealthAxis_MVC.Controllers
         }
         public ActionResult Create()
         {
-            return View();
+            int nextId = Patients.Any() ? Patients.Max(d => d.PatientId) + 1 : 1;
+
+            var patient = new Patient
+            {
+                PatientId = nextId
+            };
+
+            return View(patient);
         }
 
         [HttpPost]
@@ -32,15 +39,8 @@ namespace HealthAxis_MVC.Controllers
             {
                 return View(patient);
             }
-            if (Patients.Any(x => x.PatientId == patient.PatientId))
 
-            {
-
-                ModelState.AddModelError("PatientId", "This Patient ID already exists");
-
-                return View(patient);
-
-            }
+            patient.PatientId = Patients.Any() ? Patients.Max(d => d.PatientId) + 1 : 1;
 
             _service.AddPatient(patient);
             return RedirectToAction("Index");

@@ -21,17 +21,13 @@ namespace HealthAxis_MVC.Controllers
             var doctors = _service.GetAllDoctors();
             return View(doctors);
         }
-
-        // ✅ FIXED CREATE GET
         public ActionResult Create()
         {
             int nextId = Doctors.Any() ? Doctors.Max(d => d.DoctorId) + 1 : 1;
 
             var doctor = new Doctor
             {
-                DoctorId = nextId,
-                Specialisation = (Doctor.SpecialisationType)(-1), // ✅ placeholder
-                IsActive = false
+                DoctorId = nextId
             };
 
             return View(doctor);

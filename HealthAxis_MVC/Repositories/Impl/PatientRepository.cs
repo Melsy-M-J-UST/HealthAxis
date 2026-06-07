@@ -9,6 +9,15 @@ namespace HealthAxis_MVC.Repositories.Impl
     {
         public void AddPatient(Patient patient)
         {
+            if (AppContextDB.Patients.Any())
+            {
+                patient.PatientId = AppContextDB.Patients.Max(d => d.PatientId) + 1;
+            }
+            else
+            {
+                patient.PatientId = 1;
+            }
+
             AppContextDB.Patients.Add(patient);
         }
 
