@@ -4,18 +4,42 @@
 
 <div class="container mt-5 text-center">
 
-    <h1 class="text-primary fw-bold">HealthAxis Management System</h1>
-    <p class="text-muted mb-4">Manage Doctors and Patients easily</p>
+    <h1 class="text-primary fw-bold mb-3">HealthAxis Management System</h1>
+    <p class="text-muted mb-5">Manage Doctors, Patients and Records efficiently</p>
 
-    <hr />
+    <div class="row justify-content-center g-4">
 
-    <div class="mt-4">
+        <div class="col-md-3">
+            <div class="card shadow-sm p-3">
+                <h5 class="mb-3">Doctors</h5>
+                @Html.ActionLink("View Doctors", "Index", "Doctor",
+                    null, new { @class = "btn btn-success w-100" })
+            </div>
+        </div>
 
-        @Html.ActionLink("View Doctors", "Index", "Doctor",
-            null, new { @class = "btn btn-success me-3 px-4" })
+        <div class="col-md-3">
+            <div class="card shadow-sm p-3">
+                <h5 class="mb-3">Patients</h5>
+                @Html.ActionLink("View Patients", "Index", "Patient",
+                    null, new { @class = "btn btn-info w-100 text-white" })
+            </div>
+        </div>
 
-        @Html.ActionLink("View Patients", "Index", "Patient",
-            null, new { @class = "btn btn-info px-4" })
+        <div class="col-md-3">
+            <div class="card shadow-sm p-3">
+                <h5 class="mb-3">Appointments</h5>
+                @Html.ActionLink("Book Appointment", "Index", "Appointment",
+                    null, new { @class = "btn btn-warning w-100 text-white" })
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm p-3">
+                <h5 class="mb-3">Health Records</h5>
+                @Html.ActionLink("View Records", "Index", "HealthRecord",
+                    null, new { @class = "btn btn-primary w-100" })
+            </div>
+        </div>
 
     </div>
 

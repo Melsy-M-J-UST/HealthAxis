@@ -10,7 +10,16 @@ namespace HealthAxis_MVC.Repositories.Impl
     {
         public void AddDoctor(Doctor doctor)
         {
-           AppContextDB.Doctors.Add(doctor);
+            if (AppContextDB.Doctors.Any())
+            {
+                doctor.DoctorId = AppContextDB.Doctors.Max(d => d.DoctorId) + 1;
+            }
+            else
+            {
+                doctor.DoctorId = 1;
+            }
+
+            AppContextDB.Doctors.Add(doctor);
         }
 
         public List<Doctor> GetAllDoctors()

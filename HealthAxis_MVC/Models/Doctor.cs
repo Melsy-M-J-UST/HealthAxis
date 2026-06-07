@@ -11,16 +11,15 @@ namespace HealthAxis_MVC.Models
         public string FullName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Specialisation is required")]
-        //public string Specialisation { get; set; }
         public SpecialisationType Specialisation { get; set; }
 
         [Required(ErrorMessage = "Years of Experience is required")]
         [Range(0, 50, ErrorMessage = "Enter valid experience")]
-        public int YearsOfExperience { get; set; }
+        public int? YearsOfExperience { get; set; }
 
         [Required(ErrorMessage = "Consultation Fee is required")]
         [Range(1, 10000, ErrorMessage = "Enter valid fee")]
-        public int ConsultationFee { get; set; }
+        public int? ConsultationFee { get; set; }
 
         public bool IsActive { get; set; }
 

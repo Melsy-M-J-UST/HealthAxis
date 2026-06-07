@@ -10,6 +10,8 @@ namespace HealthAxis_MVC.Database
         public static List<Doctor> Doctors { get; set; }
         public static List<Patient> Patients { get; set; }
 
+        public static List<HealthRecord> Records { get; set; }
+
         static AppContextDB()
         {
             Doctors = new List<Doctor>
@@ -27,6 +29,7 @@ namespace HealthAxis_MVC.Database
                 new Patient { PatientId = 2, FullName = "Rahul", DateOfBirth = DateTime.Now.AddYears(-30), Gender = "Male", PhoneNumber = "9123456780", Email = "rahul@test.com", CreatedDate = DateTime.Now },
                 new Patient { PatientId = 3, FullName = "Meera", DateOfBirth = DateTime.Now.AddYears(-40), Gender = "Female", PhoneNumber = "9000000000", Email = "meera@test.com", CreatedDate = DateTime.Now }
             };
+            Records = new List<HealthRecord>();
         }
     }
 }

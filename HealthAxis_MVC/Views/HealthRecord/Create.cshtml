@@ -1,0 +1,41 @@
+﻿@model HealthAxis_MVC.Models.HealthRecord
+
+<h2>Create Health Record</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <div>
+        @Html.LabelFor(m => m.PatientId)
+        @Html.DropDownListFor(m => m.PatientId, ViewBag.Patients as SelectList, "-- Select Patient --", new { @class = "form-control" })
+    </div>
+
+    <div>
+        @Html.LabelFor(m => m.DoctorId)
+        @Html.DropDownListFor(m => m.DoctorId, ViewBag.Doctors as SelectList, "-- Select Doctor --", new { @class = "form-control" })
+    </div>
+
+    <div>
+        @Html.LabelFor(m => m.VisitDate)
+        @Html.TextBoxFor(m => m.VisitDate, "{0:yyyy-MM-dd}", new { type = "date" })
+    </div>
+
+    <div>
+        @Html.LabelFor(m => m.Diagnosis)
+        @Html.TextBoxFor(m => m.Diagnosis)
+    </div>
+
+    <div>
+        @Html.LabelFor(m => m.Prescription)
+        @Html.TextBoxFor(m => m.Prescription)
+    </div>
+
+    <div>
+        @Html.LabelFor(m => m.Notes)
+        @Html.TextBoxFor(m => m.Notes)
+    </div>
+
+    <br />
+    <button type="submit">Save</button>
+}

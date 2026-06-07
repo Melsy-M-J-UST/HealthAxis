@@ -134,6 +134,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\DoctorController.cs" />
+    <Compile Include="Controllers\HealthRecordController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PatientController.cs" />
     <Compile Include="Database\AppContextDB.cs" />
@@ -146,14 +147,19 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Doctor.cs" />
+    <Compile Include="Models\HealthRecord.cs" />
     <Compile Include="Models\Patient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IDoctorRepository.cs" />
+    <Compile Include="Repositories\IHealthRecordRepository.cs" />
     <Compile Include="Repositories\Impl\DoctorRepository.cs" />
+    <Compile Include="Repositories\Impl\HealthRecordRepository.cs" />
     <Compile Include="Repositories\IPatientRepository.cs" />
     <Compile Include="Repositories\Impl\PatientRepository.cs" />
     <Compile Include="Services\IDoctorService.cs" />
+    <Compile Include="Services\IHealthRecordService.cs" />
     <Compile Include="Services\Impl\DoctorService.cs" />
+    <Compile Include="Services\Impl\HealthRecordService.cs" />
     <Compile Include="Services\Impl\PatientService.cs" />
     <Compile Include="Services\IPatientService.cs" />
   </ItemGroup>
@@ -214,6 +220,9 @@
     <Content Include="Views\Patient\Index.cshtml" />
     <Content Include="Views\Patient\Edit.cshtml" />
     <Content Include="Views\Patient\Create.cshtml" />
+    <Content Include="Views\HealthRecord\Create.cshtml" />
+    <Content Include="Views\HealthRecord\Index.cshtml" />
+    <Content Include="Views\HealthRecord\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

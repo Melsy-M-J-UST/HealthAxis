@@ -1,0 +1,52 @@
+﻿@model List<HealthAxis_MVC.Models.HealthRecord>
+@using HealthAxis_MVC.Database
+
+@{
+    ViewBag.Title = "Health Records";
+}
+
+<h2 class="text-primary">Health Records</h2>
+
+@Html.ActionLink("Add New", "Create", null, new { @class = "btn btn-primary mb-3" })
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Record Id</th>
+            <th>Patient</th>
+            <th>Doctor</th>
+            <th>Visit Date</th>
+            <th>Diagnosis</th>
+            <th>Prescription</th>
+            <th>Notes</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var r in Model)
+        {
+            <tr>
+                <td>@r.HealthRecordId</td>
+
+                <td>
+                @(AppContextDB.Patients.FirstOrDefault(p => p.PatientId == r.PatientId)?.FullName)
+                </td>
+
+                <td>
+                @(AppContextDB.Doctors.FirstOrDefault(d => d.DoctorId == r.DoctorId)?.FullName)
+                </td>
+
+
+                <td>@r.VisitDate.ToShortDateString()</td>
+                <td>@r.Diagnosis</td>
+                <td>@r.Prescription</td>
+                <td>@r.Notes</td>
+
+                <td class="text-center">
+                    @Html.ActionLink("Edit", "Edit", new { id = r.HealthRecordId }, new { @class = "btn btn-outline-primary btn-sm" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
