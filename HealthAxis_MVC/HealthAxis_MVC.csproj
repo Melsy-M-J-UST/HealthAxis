@@ -133,6 +133,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="Controllers\AppointmentController.cs" />
     <Compile Include="Controllers\DoctorController.cs" />
     <Compile Include="Controllers\HealthRecordController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -146,12 +147,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Appointment.cs" />
     <Compile Include="Models\Doctor.cs" />
     <Compile Include="Models\HealthRecord.cs" />
     <Compile Include="Models\Patient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IAppointmentRepository.cs" />
     <Compile Include="Repositories\IDoctorRepository.cs" />
     <Compile Include="Repositories\IHealthRecordRepository.cs" />
+    <Compile Include="Repositories\Impl\AppointmentRepository.cs" />
     <Compile Include="Repositories\Impl\DoctorRepository.cs" />
     <Compile Include="Repositories\Impl\HealthRecordRepository.cs" />
     <Compile Include="Repositories\IPatientRepository.cs" />
@@ -223,6 +227,8 @@
     <Content Include="Views\HealthRecord\Create.cshtml" />
     <Content Include="Views\HealthRecord\Index.cshtml" />
     <Content Include="Views\HealthRecord\Edit.cshtml" />
+    <Content Include="Views\Appointment\Create.cshtml" />
+    <Content Include="Views\Appointment\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

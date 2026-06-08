@@ -1,0 +1,104 @@
+﻿@model HealthAxis_MVC.Models.Appointment
+
+<h2>>Book Appointment</h2>
+
+<div class="col-4">
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="mb-2">
+            @Html.LabelFor(m => m.AppointmentId)
+            @Html.TextBoxFor(m => m.AppointmentId, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+
+        <div class="mb-2">
+            @Html.LabelFor(m => m.PatientId)
+            @Html.DropDownListFor(m => m.PatientId,
+                ViewBag.Patients as SelectList,
+                "--Select Patient--",
+                new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PatientId)
+        </div>
+
+        <div class="mb-2">
+            @Html.LabelFor(m => m.Specialisation)
+
+            @Html.DropDownListFor(m => m.Specialisation,
+                ViewBag.Specialisations as SelectList,
+                "--Select Specialisation--",
+                new { @class = "form-control", id = "specialisationDropdown" })
+
+            @Html.ValidationMessageFor(m => m.Specialisation)
+        </div>
+
+        <div class="mb-2">
+            @Html.LabelFor(m => m.DoctorId)
+
+            @Html.DropDownListFor(m => m.DoctorId,
+                ViewBag.Doctors as SelectList,
+                "--Select Doctor--",
+                new { @class = "form-control", id = "doctorDropdown" })
+
+            @Html.ValidationMessageFor(m => m.DoctorId)
+        </div>
+
+        <div class="mb-2">
+            @Html.LabelFor(m => m.ScheduledDate)
+            @Html.TextBoxFor(m => m.ScheduledDate, "{0:yyyy-MM-dd}",
+                new { type = "date", @class = "form-control", id = "dateInput" })
+            @Html.ValidationMessageFor(m => m.ScheduledDate)
+        </div>
+
+        <div class="mb-2">
+            @Html.LabelFor(m => m.Slot)
+            @Html.DropDownListFor(m => m.Slot,
+                ViewBag.Slots as List<SelectListItem>,
+                "--Select Slot--",
+                new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Slot)
+        </div>
+
+        <button class="btn btn-primary w-50">Book</button>
+    }
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+    $(document").change(function () {    $(document).ready(function () {
+
+            var specId = $(this).val();
+
+    if (!specId) return;
+
+    $("#doctorDropdown").empty().append('<option>Loading...</option>');
+
+    $.ajax({
+        url: '/Appointment/GetDoctorsBySpecialisation',
+        type: 'GET',
+        data: { specialisation: specId },
+
+        success: function (data) {
+
+            $("#doctorDropdown").empty();
+            $("#doctorDropdown").append('<option value="">--Select Doctor--</option>');
+
+            $.each(data, function (i, doctor) {
+                $("#doctorDropdown").append(
+                    '<option value="' + doctor.DoctorId + '">' + doctor.FullName + '</option>'
+                );
+            });
+        },
+
+        error: function (xhr) {
+            console.log(xhr.responseText);
+            alert("Failed to load doctors");
+        }
+    });
+        });
+
+    });
+</script>
+
+

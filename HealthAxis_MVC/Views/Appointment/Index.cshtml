@@ -1,0 +1,44 @@
+﻿@model List<HealthAxis_MVC.Models.Appointment>
+
+<h2>Appointments</h2>
+
+@Html.ActionLink("Book Appointment", "Create", null, new { @class = "btn btn-primary mb-3" })
+
+<table class="table table-bordered">
+    <tr>
+        <th>ID</th>
+        <th>Patient</th>
+        <th>Doctor</th>
+        <th>Date</th>
+        <th>Slot</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+
+    @if (Model.Count == 0)
+    {
+        <tr>
+            <td colspan="7" class="text-center">No Appointments</td>
+        </tr>
+    }
+    else
+    {
+        foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.AppointmentId</td>
+                <td>@(a.Patient != null ? a.Patient.FullName : "")</td>
+                <td>@(a.Doctor != null ? a.Doctor.FullName : "")</td>
+                <td>@(a.ScheduledDate?.ToString("yyyy-MM-dd"))</td>
+                <td>@a.Slot</td>
+                <td>@a.Status</td>
+                <td>
+                    @if (a.Status == HealthAxis_MVC.Models.Appointment.AppointmentStatus.Pending)
+                    {
+                        @Html.ActionLink("Confirm", "Confirm", new { id = a.AppointmentId })
+                    }
+                </td>
+            </tr>
+        }
+    }
+</table>

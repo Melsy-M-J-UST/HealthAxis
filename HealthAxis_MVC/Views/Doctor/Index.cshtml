@@ -32,6 +32,9 @@
                  <td class="d-flex">
                      @Html.ActionLink("Edit", "Edit", new { id = doc.DoctorId }, new { @class = "btn btn-outline-primary me-2 w-50" })
                  </td>
+                 <td>
+                     @Html.ActionLink("Appointments", "DoctorAppointments", "Appointment",new { id = doc.DoctorId }, null)
+                 </td>
              </tr>
          }
     </tbody>

@@ -28,13 +28,35 @@
             <tr>
                 <td>@pat.PatientId</td>
                 <td>@pat.FullName</td>
-                <td>@(pat.DateOfBirth.HasValue? pat.DateOfBirth.Value.ToString("yyyy-MM-dd"): "")</td>
+                <td>
+                    @{
+                        if (pat.DateOfBirth.HasValue)
+                        {
+                            var today = DateTime.Today;
+                            var age = today.Year - pat.DateOfBirth.Value.Year;
+
+                            if (pat.DateOfBirth.Value.Date > today.AddYears(-age))
+                            {
+                                age--;
+                            }
+
+                            @age
+                        }
+                        else
+                        {
+                            @("")
+                        }
+                    }
+                </td>
                 <td>@pat.Gender</td>
                 <td>@pat.PhoneNumber</td>
                 <td>@pat.Email</td>
                 <td>@pat.InsuranceID</td>
                 <td class="d-flex">
                     @Html.ActionLink("Edit", "Edit", new { id = pat.PatientId }, new { @class = "btn btn-outline-primary me-2 w-50" })
+                </td>
+                <td>
+                    @Html.ActionLink("Appointments", "PatientAppointments", "Appointment",new { id = pat.PatientId }, null)
                 </td>
             </tr>
         }

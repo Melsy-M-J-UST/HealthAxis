@@ -28,18 +28,11 @@ namespace HealthAxis_MVC.Models
             GeneralPractitioner,
             Cardiologist,
             Dermatologist,
-            Endocrinologist,
-            Gynecologist,
             Neurologist,
-            Oncologist,
             OrthopedicSurgeon,
-            Pediatrician,
-            Psychiatrist,
-            Neurology,
-            Cardiology,
-            Orthopedics,
-            Pediatrics
+            Pediatrician
         }
+
 
     }
 }
