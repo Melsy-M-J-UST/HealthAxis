@@ -1,0 +1,64 @@
+﻿@model IEnumerable<HealthAxis.Shared.DTOs.AppointmentDto>
+
+@{
+    ViewBag.Title = "Doctor Appointments";
+}
+
+<h2>My Doctor Appointments</h2>
+
+@if (Session["Email"] != null)
+{
+    <div class="alert alert-info">Logged in as Doctor: <strong>@Session["Email"]</strong></div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">You do not have any appointments yet.</div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <tr><th>Patient</th><th>Date</th><th>Time Slot</th><th>Status</th><th>Cancellation Reason</th><th>Action</th></tr>
+        @foreach (var appointment in Model)
+        {
+            <tr>
+                <td>@appointment.PatientName</td>
+                <td>@appointment.ScheduledDate.ToString("dd-MMM-yyyy")</td>
+                <td>@appointment.TimeSlot</td>
+                <td>@appointment.Status</td>
+                <td>@(string.IsNullOrWhiteSpace(appointment.CancellationReason) ? "-" : appointment.CancellationReason)</td>
+                <td>
+                    @using (Html.BeginForm("UpdateStatus", "Appointments", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("AppointmentId", appointment.AppointmentId)
+                        <div class="form-group">
+                            <select name="Status" class="form-control">
+                                <option value="Confirmed">Confirmed</option>
+                                <option value="Cancelled">Cancelled</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="CancellationReason" class="form-control" placeholder="Reason if cancelled" />
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm">Update</button>
+
+                        if (appointment.Status == "Completed")
+                        {
+                            @Html.ActionLink("Add Health Record", "Create", "HealthRecords", new { patientId = appointment.PatientId, doctorId = appointment.DoctorId, appointmentId = appointment.AppointmentId }, new { @class = "btn btn-success btn-sm" })
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+}

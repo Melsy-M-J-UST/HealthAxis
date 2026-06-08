@@ -1,0 +1,41 @@
+﻿@model HealthAxis.Shared.DTOs.HealthRecordDto
+
+@{
+    ViewBag.Title = "Add Health Record";
+}
+
+<h2>Add Health Record</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => m.PatientId)
+    @Html.HiddenFor(m => m.DoctorId)
+    @Html.HiddenFor(m => m.AppointmentId)
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Diagnosis)
+        @Html.TextAreaFor(m => m.Diagnosis, new { @class = "form-control", rows = 3, placeholder = "Enter diagnosis" })
+        @Html.ValidationMessageFor(m => m.Diagnosis, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Prescription)
+        @Html.TextAreaFor(m => m.Prescription, new { @class = "form-control", rows = 3, placeholder = "Enter prescription" })
+        @Html.ValidationMessageFor(m => m.Prescription, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Notes)
+        @Html.TextAreaFor(m => m.Notes, new { @class = "form-control", rows = 3, placeholder = "Additional notes" })
+        @Html.ValidationMessageFor(m => m.Notes, "", new { @class = "text-danger" })
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-success">Save Record</button>
+    @Html.ActionLink("Back", "DoctorAppointments", "Appointments", null, new { @class = "btn btn-outline-dark" })
+}

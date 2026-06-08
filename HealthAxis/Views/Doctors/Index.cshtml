@@ -1,0 +1,73 @@
+﻿@model IEnumerable<HealthAxis.Shared.DTOs.DoctorDto>
+
+@{
+    ViewBag.Title = "Doctors";
+}
+
+<h2>Doctors</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+@using (Html.BeginForm("Index", "Doctors", FormMethod.Get))
+{
+    <div class="form-inline">
+        @Html.DropDownList(
+            "specialisation",
+            ViewBag.SpecialisationList as SelectList,
+            "-- All Specialisations --",
+            new { @class = "form-control" })
+
+        <button type="submit" class="btn btn-primary">Filter</button>
+        @Html.ActionLink("Clear", "Index", null, new { @class = "btn btn-outline-dark" })
+    </div>
+}
+
+<br />
+
+<p>
+    @Html.ActionLink("Add Doctor", "Create", null, new { @class = "btn btn-primary" })
+</p>
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>Full Name</th>
+        <th>Specialisation</th>
+        <th>Experience</th>
+        <th>Fee</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var doctor in Model)
+    {
+        <tr>
+            <td>@doctor.FullName</td>
+            <td>@doctor.Specialisation</td>
+            <td>@doctor.YearsOfExperience years</td>
+            <td>@doctor.ConsultationFee</td>
+            <td>
+                @if (doctor.IsActive)
+                {
+                    <span class="label label-success">Active</span>
+                }
+                else
+                {
+                    <span class="label label-danger">Inactive</span>
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = doctor.DoctorId }) |
+                @Html.ActionLink("Edit", "Edit", new { id = doctor.DoctorId }) |
+                @Html.ActionLink(
+                    doctor.IsActive ? "Deactivate" : "Activate",
+                    "ToggleStatus",
+                    new { id = doctor.DoctorId })
+            </td>
+        </tr>
+    }
+</table>

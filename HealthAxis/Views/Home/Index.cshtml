@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "HealthAxis Home";
+}
+
+<div class="container mt-5">
+    <div class="text-center">
+        <h1>Welcome to HealthAxis</h1>
+        <p class="lead">Please choose your role to continue.</p>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6 text-center">
+            <div class="card p-4">
+                <h3>Patient</h3>
+                <p>Book appointments and view health records.</p>
+                @Html.ActionLink("Continue as Patient", "Login", "Account", new { role = "Patient" }, new { @class = "btn btn-primary" })
+            </div>
+        </div>
+
+        <div class="col-md-6 text-center">
+            <div class="card p-4">
+                <h3>Doctor</h3>
+                <p>View schedules and manage appointments.</p>
+                @Html.ActionLink("Continue as Doctor", "Login", "Account", new { role = "Doctor" }, new { @class = "btn btn-success" })
+            </div>
+        </div>
+    </div>
+</div>

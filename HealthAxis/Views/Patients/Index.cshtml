@@ -1,0 +1,57 @@
+﻿@model IEnumerable<HealthAxis.Shared.DTOs.PatientDto>
+
+@{
+    ViewBag.Title = "Patients";
+}
+
+<h2>Patients</h2>
+
+<p>
+    @Html.ActionLink("Register Patient", "Create", null, new { @class = "btn btn-primary" })
+</p>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>Full Name</th>
+        <th>Date of Birth</th>
+        <th>Gender</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Insurance</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var patient in Model)
+    {
+        <tr>
+            <td>@patient.FullName</td>
+            <td>@patient.DateOfBirth.ToString("dd-MMM-yyyy")</td>
+            <td>@patient.Gender</td>
+            <td>@patient.Email</td>
+            <td>@patient.PhoneNumber</td>
+            <td>
+                @if (!string.IsNullOrEmpty(patient.InsuranceID))
+                {
+                    <span class="label label-success">Insured</span>
+                }
+                else
+                {
+                    <span class="label label-warning">No Insurance</span>
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = patient.PatientId }) |
+                @Html.ActionLink("Edit", "Edit", new { id = patient.PatientId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = patient.PatientId }) |
+                @Html.ActionLink("History", "PatientHistory", "HealthRecords", new { patientId = patient.PatientId }, null)
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,31 @@
+﻿@model IEnumerable<HealthAxis.Shared.DTOs.AppointmentDto>
+
+@{
+    ViewBag.Title = "My Appointments";
+}
+
+<h2>My Appointments</h2>
+
+<p>@Html.ActionLink("Book New Appointment", "Book", "Appointments", null, new { @class = "btn btn-primary" })</p>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">You do not have any appointments yet.</div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <tr><th>Doctor</th><th>Specialisation</th><th>Date</th><th>Time Slot</th><th>Status</th><th>Cancellation Reason</th></tr>
+        @foreach (var appointment in Model)
+        {
+            <tr>
+                <td>@appointment.DoctorName</td>
+                <td>@appointment.DoctorSpecialisation</td>
+                <td>@appointment.ScheduledDate.ToString("dd-MMM-yyyy")</td>
+                <td>@appointment.TimeSlot</td>
+                <td>@appointment.Status</td>
+                <td>@(string.IsNullOrWhiteSpace(appointment.CancellationReason) ? "-" : appointment.CancellationReason)</td>
+            </tr>
+        }
+    </table>
+}

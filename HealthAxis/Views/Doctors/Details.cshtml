@@ -1,0 +1,42 @@
+﻿@model HealthAxis.Shared.DTOs.DoctorDto
+
+@{
+    ViewBag.Title = "Doctor Details";
+}
+
+<h2>Doctor Details</h2>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Full Name</th>
+        <td>@Model.FullName</td>
+    </tr>
+    <tr>
+        <th>Specialisation</th>
+        <td>@Model.Specialisation</td>
+    </tr>
+    <tr>
+        <th>Years of Experience</th>
+        <td>@Model.YearsOfExperience</td>
+    </tr>
+    <tr>
+        <th>Consultation Fee</th>
+        <td>@Model.ConsultationFee</td>
+    </tr>
+    <tr>
+        <th>Status</th>
+        <td>
+            @if (Model.IsActive)
+            {
+                <span class="label label-success">Active</span>
+            }
+            else
+            {
+                <span class="label label-danger">Inactive</span>
+            }
+        </td>
+    </tr>
+</table>
+
+@Html.ActionLink("Edit", "Edit", new { id = Model.DoctorId }, new { @class = "btn btn-primary" })
+@Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-outline-dark" })

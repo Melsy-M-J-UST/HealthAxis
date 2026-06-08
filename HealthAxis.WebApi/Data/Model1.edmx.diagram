@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3b3ac0e4f14540c3b80c2f6b29fca23d" Name="Diagram1">
+        <EntityTypeShape EntityType="HealthAxisModel.Appointment" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthAxisModel.Doctor" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthAxisModel.HealthRecord" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthAxisModel.Patient" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthAxisModel.sysdiagram" Width="1.5" PointX="2.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HealthAxisModel.User1" Width="1.5" PointX="4.75" PointY="5.75" IsExpanded="true" />
+        <AssociationConnector Association="HealthAxisModel.FK__Appointme__Docto__66603565" ManuallyRouted="false" />
+        <AssociationConnector Association="HealthAxisModel.FK__Appointme__Patie__656C112C" ManuallyRouted="false" />
+        <AssociationConnector Association="HealthAxisModel.FK__HealthRec__Appoi__778AC167" ManuallyRouted="false" />
+        <AssociationConnector Association="HealthAxisModel.FK__HealthRec__Docto__6C190EBB" ManuallyRouted="false" />
+        <AssociationConnector Association="HealthAxisModel.FK__HealthRec__Patie__6B24EA82" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

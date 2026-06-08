@@ -1,0 +1,81 @@
+﻿@model IEnumerable<HealthAxis.Shared.DTOs.DoctorDto>
+
+@{
+    ViewBag.Title = "Search Doctors";
+}
+
+<h2>Search Doctors</h2>
+
+@using (Html.BeginForm("SearchDoctors", "Patients", FormMethod.Get))
+{
+    <div class="form-group">
+        <label>Specialisation</label>
+
+        @Html.DropDownList(
+            "specialisation",
+            ViewBag.SpecialisationList as SelectList,
+            "-- Select Specialisation --",
+            new { @class = "form-control" })
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-primary">Search</button>
+
+    @Html.ActionLink(
+        "Back to Dashboard",
+        "Index",
+        "Patients",
+        null,
+        new { @class = "btn btn-outline-dark" })
+}
+
+<hr />
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">
+        No doctors found.
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>Doctor Name</th>
+            <th>Specialisation</th>
+            <th>Experience</th>
+            <th>Consultation Fee</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+
+        @foreach (var doctor in Model)
+        {
+            <tr>
+                <td>@doctor.FullName</td>
+                <td>@doctor.Specialisation</td>
+                <td>@doctor.YearsOfExperience years</td>
+                <td>@doctor.ConsultationFee</td>
+                <td>
+                    @if (doctor.IsActive)
+                    {
+                        <span class="label label-success">Active</span>
+                    }
+                    else
+                    {
+                        <span class="label label-danger">Inactive</span>
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink(
+                        "Book Appointment",
+                        "Book",
+                        "Appointments",
+                        null,
+                        new { @class = "btn btn-primary btn-sm" })
+                </td>
+            </tr>
+        }
+    </table>
+}

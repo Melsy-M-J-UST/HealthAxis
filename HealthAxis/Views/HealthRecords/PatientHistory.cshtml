@@ -1,0 +1,39 @@
+﻿@model IEnumerable<HealthAxis.Shared.DTOs.HealthRecordDto>
+
+@{
+    ViewBag.Title = "Patient Health History";
+}
+
+<h2>Patient Health History</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">
+        No health records found.
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>Doctor</th>
+            <th>Specialisation</th>
+            <th>Visit Date</th>
+            <th>Diagnosis</th>
+            <th>Prescription</th>
+            <th>Notes</th>
+        </tr>
+
+        @foreach (var record in Model)
+        {
+            <tr>
+                <td>@record.DoctorName</td>
+                <td>@record.DoctorSpecialisation</td>
+                <td>@record.VisitDate.ToString("dd-MMM-yyyy hh:mm tt")</td>
+                <td>@record.Diagnosis</td>
+                <td>@record.Prescription</td>
+                <td>@record.Notes</td>
+            </tr>
+        }
+    </table>
+}

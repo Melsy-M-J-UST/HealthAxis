@@ -1,0 +1,47 @@
+﻿@model HealthAxis.Shared.DTOs.DoctorDto
+
+@{
+    ViewBag.Title = "Add Doctor";
+}
+
+<h2>Add Doctor</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.FullName)
+        @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", placeholder = "Enter doctor name" })
+        @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Specialisation)
+        @Html.DropDownListFor(
+            m => m.Specialisation,
+            ViewBag.SpecialisationList as SelectList,
+            "-- Select Specialisation --",
+            new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Specialisation, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.YearsOfExperience)
+        @Html.TextBoxFor(m => m.YearsOfExperience, new { @class = "form-control", type = "number" })
+        @Html.ValidationMessageFor(m => m.YearsOfExperience, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConsultationFee)
+        @Html.TextBoxFor(m => m.ConsultationFee, new { @class = "form-control", type = "number", step = "0.01" })
+        @Html.ValidationMessageFor(m => m.ConsultationFee, "", new { @class = "text-danger" })
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-success">Save</button>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-outline-dark" })
+}

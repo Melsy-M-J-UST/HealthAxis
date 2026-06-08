@@ -1,0 +1,103 @@
+﻿@model HealthAxis.Shared.DTOs.PatientDto
+
+@{
+    ViewBag.Title = "Patient Profile";
+}
+
+<h2>Patient Profile</h2>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Full Name</th>
+        <td>@Model.FullName</td>
+    </tr>
+
+    <tr>
+        <th>Date of Birth</th>
+        <td>@Model.DateOfBirth.ToString("dd-MMM-yyyy")</td>
+    </tr>
+
+    <tr>
+        <th>Gender</th>
+        <td>@Model.Gender</td>
+    </tr>
+
+    <tr>
+        <th>Email</th>
+        <td>@Model.Email</td>
+    </tr>
+
+    <tr>
+        <th>Phone</th>
+        <td>@Model.PhoneNumber</td>
+    </tr>
+
+    <tr>
+        <th>Insurance</th>
+        <td>
+            @if (!string.IsNullOrWhiteSpace(Model.InsuranceID))
+            {
+                <span class="label label-success">@Model.InsuranceID</span>
+            }
+            else
+            {
+                <span class="label label-warning">No Insurance</span>
+            }
+        </td>
+    </tr>
+
+    <tr>
+        <th>Appointment Count</th>
+        <td>@Model.AppointmentCount</td>
+    </tr>
+
+    <tr>
+        <th>Status</th>
+        <td>
+            @if (Model.IsActive)
+            {
+                <span class="label label-success">Active</span>
+            }
+            else
+            {
+                <span class="label label-danger">Inactive</span>
+            }
+        </td>
+    </tr>
+
+    <tr>
+        <th>Created Date</th>
+        <td>@Model.CreatedDate.ToString("dd-MMM-yyyy")</td>
+    </tr>
+</table>
+
+@if (Session["Role"] != null && Session["Role"].ToString() == "Patient")
+{
+    @Html.ActionLink(
+        "Update Profile",
+        "EditMyProfile",
+        "Patients",
+        null,
+        new { @class = "btn btn-primary" })
+
+    @Html.ActionLink(
+        "Back to Dashboard",
+        "Index",
+        "Patients",
+        null,
+        new { @class = "btn btn-outline-dark" })
+}
+else
+{
+    @Html.ActionLink(
+        "Edit",
+        "Edit",
+        new { id = Model.PatientId },
+        new { @class = "btn btn-primary" })
+
+    @Html.ActionLink(
+        "Back to List",
+        "Index",
+        null,
+        new { @class = "btn btn-outline-dark" })
+}

@@ -1,0 +1,42 @@
+﻿@model HealthAxis.Shared.DTOs.AppointmentDto
+@using System.Collections.Generic
+@using System.Web.Mvc
+
+@{
+    ViewBag.Title = "Book Appointment";
+}
+
+<h2>Book Appointment</h2>
+
+@if (Session["Email"] != null)
+{
+    <div class="alert alert-info">Booking as: <strong>@Session["Email"]</strong></div>
+}
+
+@using (Html.BeginForm("Book", "Appointments", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.DoctorId)
+        @Html.DropDownListFor(m => m.DoctorId, ViewBag.DoctorId as IEnumerable<SelectListItem>, "-- Select Doctor --", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.DoctorId, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.ScheduledDate)
+        @Html.TextBoxFor(m => m.ScheduledDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", min = DateTime.Now.ToString("yyyy-MM-dd") })
+        @Html.ValidationMessageFor(m => m.ScheduledDate, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.TimeSlot)
+        @Html.DropDownListFor(m => m.TimeSlot, ViewBag.TimeSlots as IEnumerable<SelectListItem>, "-- Select Time Slot --", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.TimeSlot, "", new { @class = "text-danger" })
+    </div>
+
+    <br />
+    <button type="submit" class="btn btn-success">Book Appointment</button>
+    @Html.ActionLink("My Appointments", "MyAppointments", "Appointments", null, new { @class = "btn btn-primary" })
+}

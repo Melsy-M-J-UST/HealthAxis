@@ -1,0 +1,39 @@
+﻿@model HealthAxis.Shared.DTOs.LoginDto
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>@Model.Role Login</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => m.Role)
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email)
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", type = "email" })
+        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password)
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-primary">Login</button>
+
+    @Html.ActionLink(
+        "Create an account",
+        "SignUp",
+        "Account",
+        new { role = Model.Role },
+        new { @class = "btn btn-link" })
+}

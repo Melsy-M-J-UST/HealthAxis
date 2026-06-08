@@ -1,0 +1,22 @@
+﻿@using HealthAxis.Shared.DTOs
+
+@{
+    ViewBag.Title = "Sign Up";
+    var role = ViewBag.Role as string;
+}
+
+<h2>@role Sign Up</h2>
+
+@if (role == "Patient")
+{
+    @Html.Partial("_SignUpPatient", new PatientDto())
+}
+else if (role == "Doctor")
+{
+    @Html.Partial("_SignUpDoctor", new DoctorDto())
+}
+else
+{
+    <div class="alert alert-danger">Invalid role selected.</div>
+    @Html.ActionLink("Back to Home", "Index", "Home", null, new { @class = "btn btn-outline-dark" })
+}
