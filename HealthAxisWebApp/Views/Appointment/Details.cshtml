@@ -1,0 +1,67 @@
+﻿@model HealthAxis.Shared.DTOs.AppointmentDto
+
+@{
+    ViewBag.Title = "Appointment Details";
+}
+
+<div class="container mt-4">
+    <h2>Appointment Details</h2>
+    <hr />
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <div class="card">
+        <div class="card-body">
+
+            <dl class="row">
+                <dt class="col-sm-3">Appointment ID</dt>
+                <dd class="col-sm-9">@Model.AppointmentId</dd>
+
+                <dt class="col-sm-3">Patient</dt>
+                <dd class="col-sm-9">@Model.PatientName</dd>
+
+                <dt class="col-sm-3">Doctor</dt>
+                <dd class="col-sm-9">@Model.DoctorName</dd>
+
+                <dt class="col-sm-3">Scheduled Date</dt>
+                <dd class="col-sm-9">@Model.ScheduledDate.ToString("yyyy-MM-dd")</dd>
+
+                <dt class="col-sm-3">Time Slot</dt>
+                <dd class="col-sm-9">@Model.TimeSlotName</dd>
+
+                <dt class="col-sm-3">Status</dt>
+                <dd class="col-sm-9">@Model.StatusName</dd>
+
+                <dt class="col-sm-3">Cancellation Reason</dt>
+                <dd class="col-sm-9">@Model.CancellationReason</dd>
+            </dl>
+
+            <div class="mt-3 d-flex gap-2">
+
+                @Html.ActionLink("Edit", "Edit", "Appointment", new { id = Model.AppointmentId }, new { @class = "btn btn-warning" })
+
+                @using (Html.BeginForm("Confirm", "Appointment", new { id = Model.AppointmentId }, FormMethod.Post, new { style = "display:inline;" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-primary">Confirm</button>
+                }
+
+                @using (Html.BeginForm("Complete", "Appointment", new { id = Model.AppointmentId }, FormMethod.Post, new { style = "display:inline;" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-success">Complete</button>
+                }
+
+                @Html.ActionLink("Cancel Appointment", "Cancel", "Appointment", new { id = Model.AppointmentId }, new { @class = "btn btn-secondary" })
+
+                @Html.ActionLink("Back to List", "ApiIndex", "Appointment", null, new { @class = "btn btn-outline-secondary" })
+            </div>
+
+        </div>
+    </div>
+</div>

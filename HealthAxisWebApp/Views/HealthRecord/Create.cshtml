@@ -1,0 +1,106 @@
+﻿@model HealthAxis.Shared.DTOs.HealthRecordDto
+
+@{
+    ViewBag.Title = "Create Health Record";
+}
+
+<div class="container mt-4">
+    <h2>Create Health Record</h2>
+    <hr />
+
+    @using (Html.BeginForm("Create", "HealthRecord", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="card">
+            <div class="card-body">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.AppointmentId, "Appointment", new { @class = "form-label" })
+
+                    @Html.DropDownListFor(
+                        model => model.AppointmentId,
+                        (SelectList)ViewBag.AppointmentList,
+                        "-- Select Appointment --",
+                        new { @class = "form-control" }
+                    )
+
+                    @Html.ValidationMessageFor(model => model.AppointmentId, "", new { @class = "text-danger" })
+
+                    <small class="text-muted">
+                        Patient, doctor, and visit date will be automatically populated from the selected appointment.
+                    </small>
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Diagnosis, "Diagnosis", new { @class = "form-label" })
+
+                    @Html.TextAreaFor(
+                        model => model.Diagnosis,
+                        new
+                        {
+                            @class = "form-control",
+                            rows = "3",
+                            placeholder = "Enter diagnosis"
+                        }
+                    )
+
+                    @Html.ValidationMessageFor(model => model.Diagnosis, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Prescription, "Prescription", new { @class = "form-label" })
+
+                    @Html.TextAreaFor(
+                        model => model.Prescription,
+                        new
+                        {
+                            @class = "form-control",
+                            rows = "3",
+                            placeholder = "Enter prescription"
+                        }
+                    )
+
+                    @Html.ValidationMessageFor(model => model.Prescription, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Notes, "Notes", new { @class = "form-label" })
+
+                    @Html.TextAreaFor(
+                        model => model.Notes,
+                        new
+                        {
+                            @class = "form-control",
+                            rows = "4",
+                            placeholder = "Enter notes"
+                        }
+                    )
+
+                    @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-success">
+                        Create
+                    </button>
+
+                    @Html.ActionLink(
+                        "Back to List",
+                        "ApiIndex",
+                        "HealthRecord",
+                        null,
+                        new { @class = "btn btn-secondary ms-2" }
+                    )
+                </div>
+
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

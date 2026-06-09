@@ -1,0 +1,79 @@
+﻿@model HealthAxis.Shared.DTOs.AppointmentDto
+
+@{
+    ViewBag.Title = "Create Appointment";
+}
+
+<div class="container mt-4">
+    <h2>Create Appointment</h2>
+    <hr />
+
+    @using (Html.BeginForm("Create", "Appointment", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="card">
+            <div class="card-body">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.PatientId, "Patient", new { @class = "form-label" })
+                    @Html.DropDownListFor(
+                        model => model.PatientId,
+                        (SelectList)ViewBag.PatientList,
+                        "-- Select Patient --",
+                        new { @class = "form-control" }
+                    )
+                    @Html.ValidationMessageFor(model => model.PatientId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.DoctorId, "Doctor", new { @class = "form-label" })
+                    @Html.DropDownListFor(
+                        model => model.DoctorId,
+                        (SelectList)ViewBag.DoctorList,
+                        "-- Select Doctor --",
+                        new { @class = "form-control" }
+                    )
+                    @Html.ValidationMessageFor(model => model.DoctorId, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.ScheduledDate, "Scheduled Date", new { @class = "form-label" })
+                    @Html.TextBoxFor(model => model.ScheduledDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                    @Html.ValidationMessageFor(model => model.ScheduledDate, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.TimeSlot, "Time Slot", new { @class = "form-label" })
+                    @Html.DropDownListFor(
+                        model => model.TimeSlot,
+                        (SelectList)ViewBag.TimeSlotList,
+                        "-- Select Time Slot --",
+                        new { @class = "form-control" }
+                    )
+                    @Html.ValidationMessageFor(model => model.TimeSlot, "", new { @class = "text-danger" })
+                </div>
+
+                @Html.HiddenFor(model => model.Status)
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.CancellationReason, "Cancellation Reason", new { @class = "form-label" })
+                    @Html.TextBoxFor(model => model.CancellationReason, new { @class = "form-control", placeholder = "Optional" })
+                    @Html.ValidationMessageFor(model => model.CancellationReason, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-success">Create</button>
+                    @Html.ActionLink("Back to List", "ApiIndex", "Appointment", null, new { @class = "btn btn-secondary ms-2" })
+                </div>
+
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

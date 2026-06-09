@@ -1,0 +1,86 @@
+﻿@using System.Linq
+@model IEnumerable<HealthAxis.Shared.DTOs.HealthRecordDto>
+
+@{
+    ViewBag.Title = "Health Records";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Health Records</h2>
+
+        @Html.ActionLink(
+            "Create Health Record",
+            "Create",
+            "HealthRecord",
+            null,
+            new { @class = "btn btn-primary" }
+        )
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            No health records found.
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Record ID</th>
+                    <th>Appointment ID</th>
+                    <th>Patient ID</th>
+                    <th>Doctor ID</th>
+                    <th>Visit Date</th>
+                    <th>Diagnosis</th>
+                    <th>Prescription</th>
+                    <th style="width: 230px;">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var record in Model)
+                {
+                    <tr>
+                        <td>@record.RecordId</td>
+                        <td>@record.AppointmentId</td>
+                        <td>@record.PatientId</td>
+                        <td>@record.DoctorId</td>
+                        <td>@record.VisitDate.ToString("yyyy-MM-dd")</td>
+                        <td>@record.Diagnosis</td>
+                        <td>@record.Prescription</td>
+                        <td>
+                            @Html.ActionLink(
+                                "Details",
+                                "Details",
+                                "HealthRecord",
+                                new { id = record.RecordId },
+                                new { @class = "btn btn-sm btn-info me-1" }
+                            )
+
+                            @Html.ActionLink(
+                                "Edit",
+                                "Edit",
+                                "HealthRecord",
+                                new { id = record.RecordId },
+                                new { @class = "btn btn-sm btn-warning me-1" }
+                            )
+
+                            @Html.ActionLink(
+                                "Delete",
+                                "Delete",
+                                "HealthRecord",
+                                new { id = record.RecordId },
+                                new { @class = "btn btn-sm btn-danger" }
+                            )
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</div>

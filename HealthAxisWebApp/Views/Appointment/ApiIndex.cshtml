@@ -1,0 +1,89 @@
+﻿@using System.Linq
+@model IEnumerable<HealthAxis.Shared.DTOs.AppointmentDto>
+
+@{
+    ViewBag.Title = "Appointments";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Appointments</h2>
+
+        @Html.ActionLink("Create Appointment", "Create", "Appointment", null, new { @class = "btn btn-primary" })
+    </div>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            No appointments found.
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Date</th>
+                    <th>Time Slot</th>
+                    <th>Status</th>
+                    <th>Cancellation Reason</th>
+                    <th style="width: 330px;">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var appointment in Model)
+                {
+                    <tr>
+                        <td>@appointment.AppointmentId</td>
+                        <td>@appointment.PatientName</td>
+                        <td>@appointment.DoctorName</td>
+                        <td>@appointment.ScheduledDate.ToString("yyyy-MM-dd")</td>
+                        <td>@appointment.TimeSlotName</td>
+                        <td>
+                            @if (appointment.Status == 0)
+                            {
+                                <span class="badge bg-warning text-dark">@appointment.StatusName</span>
+                            }
+                            else if (appointment.Status == 1)
+                            {
+                                <span class="badge bg-primary">@appointment.StatusName</span>
+                            }
+                            else if (appointment.Status == 2)
+                            {
+                                <span class="badge bg-danger">@appointment.StatusName</span>
+                            }
+                            else if (appointment.Status == 3)
+                            {
+                                <span class="badge bg-success">@appointment.StatusName</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">@appointment.StatusName</span>
+                            }
+                        </td>
+                        <td>@appointment.CancellationReason</td>
+                        <td>
+                            @Html.ActionLink("Details", "Details", "Appointment", new { id = appointment.AppointmentId }, new { @class = "btn btn-sm btn-info me-1" })
+                            @Html.ActionLink("Edit", "Edit", "Appointment", new { id = appointment.AppointmentId }, new { @class = "btn btn-sm btn-warning me-1" })
+                            @Html.ActionLink("Cancel", "Cancel", "Appointment", new { id = appointment.AppointmentId }, new { @class = "btn btn-sm btn-secondary me-1" })
+                            @Html.ActionLink("Delete", "Delete", "Appointment", new { id = appointment.AppointmentId }, new { @class = "btn btn-sm btn-danger" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</div>

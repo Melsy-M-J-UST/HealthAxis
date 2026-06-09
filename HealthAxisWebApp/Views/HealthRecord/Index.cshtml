@@ -1,0 +1,85 @@
+﻿@model IEnumerable<HealthAxisWebApp.HealthRecord>
+
+@{
+    ViewBag.Title = "Health Records";
+}
+
+<h2>Health Records</h2>
+
+<p>
+    @Html.ActionLink(
+        "Add Health Record",
+        "Create",
+        null,
+        new { @class = "btn btn-primary" })
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Record ID</th>
+            <th>Patient</th>
+            <th>Doctor</th>
+            <th>Visit Date</th>
+            <th>Diagnosis</th>
+            <th>Prescription</th>
+            <th>Notes</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.RecordId</td>
+
+                <td>
+                    @(item.Patient != null
+                        ? item.Patient.FullName
+                        : "")
+                </td>
+
+                <td>
+                    @(item.Doctor != null
+                        ? item.Doctor.FullName
+                        : "")
+                </td>
+
+                <td>
+                    @item.VisitDate.ToString("dd-MMM-yyyy")
+                </td>
+
+                <td>@item.Diagnosis</td>
+
+                <td>@item.Prescription</td>
+
+                <td>@item.Notes</td>
+
+                <td>
+                    @Html.ActionLink(
+                        "Details",
+                        "Details",
+                        new { id = item.RecordId },
+                        new { @class = "btn btn-info btn-sm" })
+
+                    @Html.Raw(" ")
+
+                    @Html.ActionLink(
+                        "Edit",
+                        "Edit",
+                        new { id = item.RecordId },
+                        new { @class = "btn btn-warning btn-sm" })
+
+                    @Html.Raw(" ")
+
+                    @Html.ActionLink(
+                        "Delete",
+                        "Delete",
+                        new { id = item.RecordId },
+                        new { @class = "btn btn-danger btn-sm" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

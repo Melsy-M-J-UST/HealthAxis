@@ -1,0 +1,56 @@
+﻿@model IEnumerable<HealthAxis.Shared.DTOs.PatientDto>
+
+@{
+    ViewBag.Title = "Patients";
+}
+
+<h2>Patients</h2>
+
+<p>
+    <a href="@Url.Action("Create", "Patient")"
+       class="btn btn-primary">
+        Add Patient
+    </a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>DOB</th>
+            <th>Gender</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Insurance</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.PatientId</td>
+                <td>@item.FullName</td>
+                <td>@item.DateOfBirth.ToShortDateString()</td>
+                <td>@item.GenderName</td>
+                <td>@item.Email</td>
+                <td>@item.PhoneNumber</td>
+                <td>@item.InsuranceID</td>
+
+                <td>
+                    <a href="@Url.Action("Edit", "Patient", new { id = item.PatientId })"
+                       class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+
+                    <a href="@Url.Action("Delete", "Patient", new { id = item.PatientId })"
+                       class="btn btn-danger btn-sm">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

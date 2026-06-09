@@ -1,0 +1,104 @@
+﻿@model HealthAxis.Shared.DTOs.HealthRecordDto
+
+@{
+    <div class="container mt-4">
+        ViewBag.Title = "Delete Health Record";
+        <h2>Delete Health Record</h2>
+        <hr />
+
+        <div class="alert alert-warning">
+            Are you sure you want to delete this health record?
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <dl class="row">
+
+                    <dt class="col-sm-3">Record ID</dt>
+                    <dd class="col-sm-9">
+                        @Model.RecordId
+                    </dd>
+
+                    <dt class="col-sm-3">Appointment ID</dt>
+                    <dd class="col-sm-9">
+                        @Model.AppointmentId
+                    </dd>
+
+                    <dt class="col-sm-3">Patient ID</dt>
+                    <dd class="col-sm-9">
+                        @Model.PatientId
+                    </dd>
+
+                    <dt class="col-sm-3">Doctor ID</dt>
+                    <dd class="col-sm-9">
+                        @Model.DoctorId
+                    </dd>
+
+                    <dt class="col-sm-3">Visit Date</dt>
+                    <dd class="col-sm-9">
+                        @Model.VisitDate.ToString("yyyy-MM-dd")
+                    </dd>
+
+                    <dt class="col-sm-3">Diagnosis</dt>
+                    <dd class="col-sm-9">
+                        @if (!string.IsNullOrWhiteSpace(Model.Diagnosis))
+                        {
+                            @Model.Diagnosis
+                        }
+                        else
+                        {
+                            <span class="text-muted">N/A</span>
+                        }
+                    </dd>
+
+                    <dt class="col-sm-3">Prescription</dt>
+                    <dd class="col-sm-9">
+                        @if (!string.IsNullOrWhiteSpace(Model.Prescription))
+                        {
+                            @Model.Prescription
+                        }
+                        else
+                        {
+                            <span class="text-muted">N/A</span>
+                        }
+                    </dd>
+
+                    <dt class="col-sm-3">Notes</dt>
+                    <dd class="col-sm-9">
+                        @if (!string.IsNullOrWhiteSpace(Model.Notes))
+                        {
+                            @Model.Notes
+                        }
+                        else
+                        {
+                            <span class="text-muted">N/A</span>
+                        }
+                    </dd>
+
+                </dl>
+
+                @using (Html.BeginForm("Delete", "HealthRecord", new { id = Model.RecordId }, FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit" class="btn btn-danger">
+                        Delete
+                    </button>
+
+                    @Html.ActionLink(
+                        "Cancel",
+                        "ApiIndex",
+                        "HealthRecord",
+                        null,
+                        new { @class = "btn btn-secondary ms-2" }
+                    )
+                }
+
+            </div>
+        </div>
+    </div>
+}
+

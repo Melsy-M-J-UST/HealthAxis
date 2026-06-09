@@ -1,0 +1,51 @@
+﻿@model HealthAxis.Shared.DTOs.AppointmentDto
+
+@{
+    ViewBag.Title = "Cancel Appointment";
+}
+
+<div class="container mt-4">
+    <h2>Cancel Appointment</h2>
+    <hr />
+
+    <div class="card">
+        <div class="card-body">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <dl class="row">
+                <dt class="col-sm-3">Appointment ID</dt>
+                <dd class="col-sm-9">@Model.AppointmentId</dd>
+
+                <dt class="col-sm-3">Patient</dt>
+                <dd class="col-sm-9">@Model.PatientName</dd>
+
+                <dt class="col-sm-3">Doctor</dt>
+                <dd class="col-sm-9">@Model.DoctorName</dd>
+
+                <dt class="col-sm-3">Scheduled Date</dt>
+                <dd class="col-sm-9">@Model.ScheduledDate.ToString("yyyy-MM-dd")</dd>
+
+                <dt class="col-sm-3">Time Slot</dt>
+                <dd class="col-sm-9">@Model.TimeSlotName</dd>
+
+                <dt class="col-sm-3">Current Status</dt>
+                <dd class="col-sm-9">@Model.StatusName</dd>
+            </dl>
+
+            @using (Html.BeginForm("Cancel", "Appointment", new { id = Model.AppointmentId }, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="mb-3">
+                    <label class="form-label">Cancellation Reason</label>
+                    <textarea name="cancellationReason" class="form-control" rows="4" placeholder="Enter reason for cancellation"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-danger">Cancel Appointment</button>
+                @Html.ActionLink("Back to List", "ApiIndex", "Appointment", null, new { @class = "btn btn-secondary ms-2" })
+            }
+
+        </div>
+    </div>
+</div>

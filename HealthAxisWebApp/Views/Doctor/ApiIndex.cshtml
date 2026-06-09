@@ -1,0 +1,93 @@
+﻿@using System.Linq
+@model IEnumerable<HealthAxis.Shared.DTOs.DoctorDto>
+
+@{
+    ViewBag.Title = "Doctors";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Doctors</h2>
+
+        @Html.ActionLink(
+            "Add New Doctor",
+            "Create",
+            "Doctor",
+            null,
+            new { @class = "btn btn-primary" }
+        )
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            No doctors found.
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Doctor ID</th>
+                    <th>Full Name</th>
+                    <th>Specialisation</th>
+                    <th>Experience</th>
+                    <th>Consultation Fee</th>
+                    <th>Status</th>
+                    <th style="width: 230px;">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var doctor in Model)
+                {
+                    <tr>
+                        <td>@doctor.DoctorId</td>
+                        <td>@doctor.FullName</td>
+                        <td>@doctor.SpecialisationName</td>
+                        <td>@doctor.YearsOfExperience years</td>
+                        <td>@doctor.ConsultationFee.ToString("0.00")</td>
+                        <td>
+                            @if (doctor.IsActive)
+                            {
+                                <span class="badge bg-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Inactive</span>
+                            }
+                        </td>
+                        <td>
+                            @Html.ActionLink(
+                                "Details",
+                                "Details",
+                                "Doctor",
+                                new { id = doctor.DoctorId },
+                                new { @class = "btn btn-sm btn-info me-1" }
+                            )
+
+                            @Html.ActionLink(
+                                "Edit",
+                                "Edit",
+                                "Doctor",
+                                new { id = doctor.DoctorId },
+                                new { @class = "btn btn-sm btn-warning me-1" }
+                            )
+
+                            @Html.ActionLink(
+                                "Delete",
+                                "Delete",
+                                "Doctor",
+                                new { id = doctor.DoctorId },
+                                new { @class = "btn btn-sm btn-danger" }
+                            )
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</div>

@@ -1,0 +1,53 @@
+﻿@model IEnumerable<HealthAxisWebApp.Doctor>
+
+@{
+    ViewBag.Title = "Doctors";
+}
+
+<h2>Doctors</h2>
+
+<p>
+    @Html.ActionLink(
+        "Add Doctor",
+        "Create",
+        null,
+        new { @class = "btn btn-primary" })
+</p>
+
+<table class="table table-bordered">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Specialisation</th>
+        <th>Experience</th>
+        <th>Fee</th>
+        <th>Active</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.DoctorId</td>
+            <td>@item.FullName</td>
+            <td>@item.Specialisation</td>
+            <td>@item.YearsOfExperience</td>
+            <td>@item.ConsultationFee</td>
+            <td>@item.IsActive</td>
+
+            <td>
+                @Html.ActionLink(
+                    "Edit",
+                    "Edit",
+                    new { id = item.DoctorId },
+                    new { @class = "btn btn-warning btn-sm" })
+
+                @Html.ActionLink(
+                    "Delete",
+                    "Delete",
+                    new { id = item.DoctorId },
+                    new { @class = "btn btn-danger btn-sm" })
+            </td>
+        </tr>
+    }
+</table>

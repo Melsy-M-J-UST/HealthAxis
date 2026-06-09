@@ -1,0 +1,130 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+}
+
+<main class="container mt-4">
+
+    <div class="p-5 mb-5 bg-light rounded-3 shadow-sm border border-light">
+        <div class="container-fluid py-2 text-center">
+
+            <h1 class="display-5 fw-bold" style="color: #0f4c75;">
+                HealthAxis Portal
+            </h1>
+
+            <p class="col-md-8 mx-auto fs-5 text-muted mt-3">
+                Your comprehensive hospital management system. Easily track patient records, manage doctor schedules, and streamline medical appointments.
+            </p>
+
+            <div class="mt-4">
+                <a href="/Patients/Create"
+                   class="btn btn-primary btn-lg px-4 shadow-sm"
+                   style="background-color: #3282b8; border-color: #3282b8;">
+                    Register New Patient &raquo;
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- DASHBOARD CARDS -->
+    <div class="row g-4 text-center">
+
+        <!-- Patients -->
+        <section class="col-md-3" aria-labelledby="patientsTitle">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column p-4">
+
+                    <h2 id="patientsTitle"
+                        class="card-title h4 mb-3"
+                        style="color: #0f4c75;">
+                        Patients
+                    </h2>
+
+                    <p class="card-text text-muted flex-grow-1">
+                        Securely manage patient profiles, view medical histories, check insurance validity, and monitor upcoming treatments.
+                    </p>
+
+                    <a class="btn btn-outline-primary mt-3 w-100"
+                       href="/Patients">
+                        Manage Patients &raquo;
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Doctors -->
+        <section class="col-md-3" aria-labelledby="doctorsTitle">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column p-4">
+
+                    <h2 id="doctorsTitle"
+                        class="card-title h4 mb-3"
+                        style="color: #0f4c75;">
+                        Doctors
+                    </h2>
+
+                    <p class="card-text text-muted flex-grow-1">
+                        Browse the active directory of medical professionals. Update specializations, consultation fees, and availability status.
+                    </p>
+
+                    <a class="btn btn-outline-primary mt-3 w-100"
+                       href="/Doctor">
+                        View Doctors &raquo;
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Appointments -->
+        <section class="col-md-3" aria-labelledby="appointmentsTitle">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column p-4">
+
+                    <h2 id="appointmentsTitle"
+                        class="card-title h4 mb-3"
+                        style="color: #0f4c75;">
+                        Appointments
+                    </h2>
+
+                    <p class="card-text text-muted flex-grow-1">
+                        Book, reschedule, and track consultations. Prevent double bookings and manage daily schedules efficiently.
+                    </p>
+
+                    <a class="btn btn-outline-primary mt-3 w-100"
+                       href="/Appointment">
+                        Manage Appointments &raquo;
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Health Records (NEW) -->
+        <section class="col-md-3" aria-labelledby="healthRecordsTitle">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column p-4">
+
+                    <h2 id="healthRecordsTitle"
+                        class="card-title h4 mb-3"
+                        style="color: #0f4c75;">
+                        Health Records
+                    </h2>
+
+                    <p class="card-text text-muted flex-grow-1">
+                        View and manage patient health records including diagnosis, prescriptions, and visit history.
+                    </p>
+
+                    <a class="btn btn-outline-primary mt-3 w-100"
+                       href="/HealthRecord/ApiIndex">
+                        Manage Health Records &raquo;
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</main>

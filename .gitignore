@@ -1,0 +1,46 @@
+# Visual Studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build output
+bin/
+obj/
+[Bb]in/
+[Oo]bj/
+
+# NuGet packages
+packages/
+*.nupkg
+
+# Logs
+*.log
+
+# Windows files
+Thumbs.db
+Desktop.ini
+
+# Publish files
+*.Publish.xml
+*.pubxml.user
+
+# IIS Express
+.vs/config/applicationhost.config
+
+# SQL Server local database files
+*.mdf
+*.ldf
+
+# Test results
+TestResults/
+
+# ReSharper / Rider
+_ReSharper*/
+*.DotSettings.user
+.idea/
+
+# Temporary files
+*.tmp
+*.temp
