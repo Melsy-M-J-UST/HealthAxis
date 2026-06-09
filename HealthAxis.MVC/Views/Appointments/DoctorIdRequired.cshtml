@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Enter Doctor ID";
+}
+
+<div class="ha-page" style="display:flex; align-items:center;">
+    <div class="container">
+
+        <div class="ha-card" style="max-width:500px; margin:0 auto; padding:34px; text-align:center;">
+
+            <div class="ha-action-icon"
+                 style="background:linear-gradient(135deg,#16a34a,#4ade80); margin-bottom:20px;">
+                <svg viewBox="0 0 24 24">
+                    <path d="M6 3v5a4 4 0 0 0 8 0V3"></path>
+                    <path d="M6 3H4"></path>
+                    <path d="M14 3h2"></path>
+                    <path d="M10 12v2a5 5 0 0 0 10 0v-1"></path>
+                    <circle cx="20" cy="10" r="2"></circle>
+                </svg>
+            </div>
+
+            <h2 class="ha-title">Enter Doctor ID</h2>
+
+            <p class="ha-muted">
+                Enter a doctor ID to view appointments or schedule details.
+            </p>
+
+            @using (Html.BeginForm("DoctorAppointments", "Appointments", FormMethod.Get))
+            {
+                <input name="doctorId"
+                       type="number"
+                       class="form-control"
+                       placeholder="Enter Doctor ID"
+                       required
+                       min="1"
+                       style="max-width:420px; text-align:center; margin:25px auto;" />
+
+                <div class="ha-actions">
+                    <button type="submit" class="btn btn-success pill-btn">
+                        View Schedule
+                    </button>
+
+                    @Html.ActionLink(
+                        "Back",
+                        "Index",
+                        "Doctors",
+                        null,
+                        new { @class = "btn btn-dark-back" })
+                </div>
+            }
+
+        </div>
+
+    </div>
+</div>

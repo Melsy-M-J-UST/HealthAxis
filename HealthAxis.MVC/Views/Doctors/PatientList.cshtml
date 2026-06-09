@@ -1,0 +1,119 @@
+﻿@model IEnumerable<HealthAxis.Shared.DTOs.PatientDto>
+
+@{
+    ViewBag.Title = "Patient List";
+}
+
+<div class="ha-page">
+    <div class="container">
+
+        <div class="ha-card" style="padding:30px">
+
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;border-bottom:1px solid #334155;padding-bottom:18px">
+                <div>
+                    <h2 class="ha-title" style="margin:0">Patient List</h2>
+                    <p class="ha-muted" style="margin:6px 0 0 0">
+                        Patients sorted by name with insurance status filter.
+                    </p>
+                </div>
+
+                @Html.ActionLink(
+                    "Back to Doctors",
+                    "Index",
+                    "Doctors",
+                    null,
+                    new { @class = "btn btn-dark-back" })
+            </div>
+
+            @using (Html.BeginForm("PatientList", "Doctors", FormMethod.Get))
+            {
+                <div style="margin-bottom:20px">
+                    <label style="color:#f8fafc;font-weight:700;margin-right:8px">
+                        Insurance Status
+                    </label>
+
+                    <select name="insuranceStatus"
+                            class="form-control"
+                            style="display:inline-block;width:240px;margin-right:8px">
+                        <option value="">All Patients</option>
+                        <option value="Insured" @(ViewBag.InsuranceStatus == "Insured" ? "selected" : "")>
+                            Insured
+                        </option>
+                        <option value="NotInsured" @(ViewBag.InsuranceStatus == "NotInsured" ? "selected" : "")>
+                            No Insurance
+                        </option>
+                    </select>
+
+                    <select name="sortOrder"
+                            class="form-control"
+                            style="display:inline-block;width:220px;margin-right:8px">
+                        <option value="">Name A-Z</option>
+                        <option value="name_desc" @(ViewBag.SortOrder == "name_desc" ? "selected" : "")>
+                            Name Z-A
+                        </option>
+                    </select>
+
+                    <button type="submit" class="btn btn-primary pill-btn">
+                        Apply
+                    </button>
+                </div>
+            }
+
+            @if (Model == null || !Model.Any())
+            {
+                <div class="alert alert-info">
+                    No patients found.
+                </div>
+            }
+            else
+            {
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Patient ID</th>
+                            <th>Name</th>
+                            <th>Gender</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Insurance</th>
+                            <th>Profile</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var patient in Model)
+                        {
+                            <tr>
+                                <td>@patient.PatientId</td>
+                                <td>@patient.FullName</td>
+                                <td>@patient.Gender</td>
+                                <td>@patient.Email</td>
+                                <td>@patient.PhoneNumber</td>
+                                <td>
+                                    @if (!string.IsNullOrWhiteSpace(patient.InsuranceID))
+                                    {
+                                        @patient.InsuranceID
+                                    }
+                                    else
+                                    {
+                                        <span>No Insurance</span>
+                                    }
+                                </td>
+                                <td>
+                                    @Html.ActionLink(
+                                        "View",
+                                        "Details",
+                                        "Patients",
+                                        new { id = patient.PatientId },
+                                        new { @class = "btn btn-info btn-sm" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+
+        </div>
+
+    </div>
+</div>

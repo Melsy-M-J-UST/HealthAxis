@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="HealthAxis.Api/HealthAxis.Api.csproj" Id="d2e3c22e-7b51-4c9f-8346-257c89227f0a" />
+  <Project Path="HealthAxis.MVC/HealthAxis.Mvc.csproj" Id="c8ab6b9a-ddaf-4b92-b8f7-fe975b62e505" />
+  <Project Path="HealthAxis.Shared/HealthAxis.Shared.csproj" Id="6f39c785-d125-4791-8b15-f10f02dbfdf7" />
+</Solution>

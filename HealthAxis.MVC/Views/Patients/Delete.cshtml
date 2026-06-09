@@ -1,0 +1,51 @@
+﻿@model HealthAxis.Shared.DTOs.PatientDto
+
+@{
+    ViewBag.Title = "Deactivate Patient";
+}
+
+<div class="ha-page" style="display:flex; align-items:center;">
+    <div class="container">
+
+        <div class="ha-card" style="max-width:600px; margin:0 auto; padding:34px; text-align:center;">
+
+            <div class="ha-action-icon"
+                 style="background:linear-gradient(135deg,#dc2626,#fb7185); margin-bottom:20px;">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 9v4"></path>
+                    <path d="M12 17h.01"></path>
+                    <path d="M10.3 4.3 2.8 17.5A2 2 0 0 0 4.5 20h15a2 2 0 0 0 1.7-2.5L13.7 4.3a2 2 0 0 0-3.4 0z"></path>
+                </svg>
+            </div>
+
+            <h2 class="ha-title">Deactivate Patient</h2>
+
+            <p class="ha-muted">
+                Are you sure you want to deactivate
+                <strong>@Model.FullName</strong>?
+            </p>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.HiddenFor(m => m.PatientId)
+
+                <div class="ha-actions">
+                    <button type="submit" class="btn btn-danger pill-btn">
+                        Deactivate
+                    </button>
+
+                    @Html.ActionLink(
+                        "Cancel",
+                        "Index",
+                        "Patients",
+                        null,
+                        new { @class = "btn btn-dark-back" })
+                </div>
+            }
+
+        </div>
+
+    </div>
+</div>

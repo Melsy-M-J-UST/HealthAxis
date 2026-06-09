@@ -1,0 +1,104 @@
+﻿@model HealthAxis.Shared.DTOs.PatientDto
+
+@{
+    ViewBag.Title = "Patient Details";
+}
+
+<div class="ha-page">
+    <div class="container">
+
+        <div class="ha-card" style="max-width:900px; margin:0 auto; padding:34px;">
+
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #334155; padding-bottom:20px; margin-bottom:28px;">
+                <div>
+                    <h2 class="ha-title">
+                        Patient Profile
+                    </h2>
+
+                    <p class="ha-muted">
+                        Read-only patient summary with appointment count.
+                    </p>
+                </div>
+
+                <div style="background:linear-gradient(135deg,#1769ff,#38bdf8); border-radius:20px; padding:18px 22px; text-align:center; min-width:165px;">
+                    <span style="display:block; font-size:32px; font-weight:800; color:white;">
+                        @Model.AppointmentCount
+                    </span>
+
+                    <span style="color:white; font-weight:700; font-size:13px;">
+                        Appointments
+                    </span>
+                </div>
+            </div>
+
+            <table class="table table-bordered">
+                <tr>
+                    <th>Patient ID</th>
+                    <td>@Model.PatientId</td>
+                </tr>
+
+                <tr>
+                    <th>Full Name</th>
+                    <td>@Model.FullName</td>
+                </tr>
+
+                <tr>
+                    <th>Date of Birth</th>
+                    <td>@Model.DateOfBirth.ToString("dd-MMM-yyyy")</td>
+                </tr>
+
+                <tr>
+                    <th>Gender</th>
+                    <td>@Model.Gender</td>
+                </tr>
+
+                <tr>
+                    <th>Phone Number</th>
+                    <td>@Model.PhoneNumber</td>
+                </tr>
+
+                <tr>
+                    <th>Email</th>
+                    <td>@Model.Email</td>
+                </tr>
+
+                <tr>
+                    <th>Insurance</th>
+                    <td>
+                        @if (!string.IsNullOrWhiteSpace(Model.InsuranceID))
+                        {
+                            @Model.InsuranceID
+                        }
+                        else
+                        {
+                            <span>No Insurance</span>
+                        }
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Created Date</th>
+                    <td>@Model.CreatedDate.ToString("dd-MMM-yyyy")</td>
+                </tr>
+            </table>
+
+            <div class="ha-actions">
+                @Html.ActionLink(
+                    "Edit Profile",
+                    "Edit",
+                    "Patients",
+                    new { id = Model.PatientId },
+                    new { @class = "btn btn-primary pill-btn" })
+
+                @Html.ActionLink(
+                    "Back",
+                    "Index",
+                    "Patients",
+                    null,
+                    new { @class = "btn btn-dark-back" })
+            </div>
+
+        </div>
+
+    </div>
+</div>

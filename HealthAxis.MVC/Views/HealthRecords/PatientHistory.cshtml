@@ -1,0 +1,79 @@
+﻿@model IEnumerable<HealthAxis.Shared.DTOs.HealthRecordDto>
+
+@{
+    ViewBag.Title = "Patient Health History";
+}
+
+<div class="ha-page">
+    <div class="container">
+
+        <div class="ha-card" style="padding: 30px;">
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid #334155; padding-bottom: 18px;">
+                <div>
+                    <h2 class="ha-title" style="margin: 0;">
+                        Patient Health History
+                    </h2>
+
+                    <p class="ha-muted" style="margin: 6px 0 0 0;">
+                        View diagnosis, prescription, doctor details, and visit history.
+                    </p>
+                </div>
+
+                @Html.ActionLink(
+                    "Back to Patients",
+                    "Index",
+                    "Patients",
+                    null,
+                    new { @class = "btn btn-dark-back" })
+            </div>
+
+            @if (Model == null || !Model.Any())
+            {
+                <div class="alert alert-info">
+                    No health records found.
+                </div>
+            }
+            else
+            {
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Doctor</th>
+                            <th>Specialisation</th>
+                            <th>Visit Date</th>
+                            <th>Diagnosis</th>
+                            <th>Prescription</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var record in Model)
+                        {
+                            <tr>
+                                <td>@record.DoctorName</td>
+                                <td>@record.DoctorSpecialisation</td>
+                                <td>@record.VisitDate.ToString("dd-MMM-yyyy")</td>
+                                <td>@record.Diagnosis</td>
+                                <td>@record.Prescription</td>
+                                <td>
+                                    @if (!string.IsNullOrWhiteSpace(record.Notes))
+                                    {
+                                        @record.Notes
+                                    }
+                                    else
+                                    {
+                                        <span>-</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+
+        </div>
+
+    </div>
+</div>

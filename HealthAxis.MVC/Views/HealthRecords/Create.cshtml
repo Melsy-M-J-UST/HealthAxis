@@ -1,0 +1,102 @@
+﻿@model HealthAxis.Shared.DTOs.HealthRecordDto
+
+@{
+    ViewBag.Title = "Add Health Record";
+}
+
+<div class="ha-page">
+    <div class="container">
+
+        <div class="ha-card" style="max-width: 760px; margin: 0 auto; padding: 34px;">
+
+            <div style="text-align: center; border-bottom: 1px solid #334155; padding-bottom: 22px; margin-bottom: 30px;">
+                <h2 class="ha-title">Add Health Record</h2>
+
+                <p class="ha-muted">
+                    Add diagnosis, prescription, and notes for the selected patient visit.
+                </p>
+            </div>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.HiddenFor(m => m.PatientId)
+                @Html.HiddenFor(m => m.DoctorId)
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="ha-section-title">
+                    Medical Information
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Diagnosis)
+
+                    @Html.TextAreaFor(m => m.Diagnosis, new
+                    {
+                        @class = "form-control",
+                        style = "height:100px",
+                        placeholder = "Enter diagnosis"
+                    })
+
+                    @Html.ValidationMessageFor(
+                        m => m.Diagnosis,
+                        "",
+                        new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Prescription)
+
+                    @Html.TextAreaFor(m => m.Prescription, new
+                    {
+                        @class = "form-control",
+                        style = "height:100px",
+                        placeholder = "Enter prescription"
+                    })
+
+                    @Html.ValidationMessageFor(
+                        m => m.Prescription,
+                        "",
+                        new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Notes)
+
+                    @Html.TextAreaFor(m => m.Notes, new
+                    {
+                        @class = "form-control",
+                        style = "height:100px",
+                        placeholder = "Enter additional notes"
+                    })
+
+                    @Html.ValidationMessageFor(
+                        m => m.Notes,
+                        "",
+                        new { @class = "text-danger" })
+                </div>
+
+                <div class="ha-actions">
+                    <button type="submit" class="btn btn-purple pill-btn">
+                        Save Record
+                    </button>
+
+                    @Html.ActionLink(
+                        "Back",
+                        "PatientHistory",
+                        "HealthRecords",
+                        new { patientId = Model.PatientId },
+                        new { @class = "btn btn-dark-back" })
+                </div>
+            }
+
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

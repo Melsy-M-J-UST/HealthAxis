@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>@ViewBag.Title - HealthAxis</title>
+
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/healthaxis-dark.css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @*<style>
+        .navbar-custom {
+            background-color: black;
+            min-height: 80px;
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+        }
+
+            .navbar-custom .navbar-brand {
+                color: #ffffff !important;
+                font-weight: 700;
+                font-size: 22px;
+            }
+
+            .navbar-custom .nav-link {
+                color: #ffffff !important;
+                font-weight: 500;
+                margin-left: 18px;
+                transition: color 0.2s ease-in-out;
+            }
+
+                .navbar-custom .nav-link:hover {
+                    color: #9ddcff !important;
+                }
+
+            .navbar-custom .navbar-toggler {
+                border-color: rgba(255, 255, 255, 0.6);
+            }
+
+        .body-content {
+            margin-top: 30px;
+        }
+    </style>*@
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark navbar-custom h-100">
+        <div class="container">
+
+            @Html.ActionLink(
+                "HEALTHAXIS",
+                "Index",
+                "Home",
+                new { area = "" },
+                new { @class = "navbar-brand" })
+
+            <button type="button"
+                    class="navbar-toggler"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#mainNavbar"
+                    aria-controls="mainNavbar"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto ml-auto">
+                    <li class="nav-item">
+                        @Html.ActionLink(
+                            "HOME",
+                            "Index",
+                            "Home",
+                            new { area = "" },
+                            new { @class = "nav-link" })
+                    </li>
+
+                    <li class="nav-item">
+                        @Html.ActionLink(
+                            "ABOUT",
+                            "About",
+                            "Home",
+                            new { area = "" },
+                            new { @class = "nav-link" })
+                    </li>
+
+                    <li class="nav-item">
+                        @Html.ActionLink(
+                            "CONTACT",
+                            "Contact",
+                            "Home",
+                            new { area = "" },
+                            new { @class = "nav-link" })
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container body-content">
+        @RenderBody()
+
+        <hr />
+
+        <footer>
+            <p>&copy; @DateTime.Now.Year - HealthAxis</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

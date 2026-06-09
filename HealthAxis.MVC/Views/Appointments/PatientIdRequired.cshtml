@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Enter Patient ID";
+}
+
+<div class="ha-page" style="display:flex; align-items:center;">
+    <div class="container">
+
+        <div class="ha-card" style="max-width:500px; margin:0 auto; padding:34px; text-align:center;">
+
+            <div class="ha-action-icon"
+                 style="background:linear-gradient(135deg,#7c3aed,#a78bfa); margin-bottom:20px;">
+                <svg viewBox="0 0 24 24">
+                    <path d="M7 3h10l4 4v14H7z"></path>
+                    <path d="M17 3v5h5"></path>
+                    <path d="M10 13h7"></path>
+                    <path d="M10 17h7"></path>
+                    <path d="M10 9h2"></path>
+                </svg>
+            </div>
+
+            <h2 class="ha-title">Enter Patient ID</h2>
+
+            <p class="ha-muted">
+                Enter a patient ID to view diagnosis, prescription, notes, and visit history.
+            </p>
+
+            @using (Html.BeginForm("PatientHistory", "HealthRecords", FormMethod.Get))
+            {
+                <input name="patientId"
+                       type="number"
+                       class="form-control"
+                       placeholder="Enter Patient ID"
+                       required
+                       min="1"
+                       style="max-width:420px; text-align:center; margin:25px auto;" />
+
+                <div class="ha-actions">
+                    <button type="submit" class="btn btn-purple pill-btn">
+                        View Records
+                    </button>
+
+                    @Html.ActionLink(
+                        "Back",
+                        "Index",
+                        "Patients",
+                        null,
+                        new { @class = "btn btn-dark-back" })
+                </div>
+            }
+
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,86 @@
+﻿@model IEnumerable<HealthAxis.Shared.DTOs.AppointmentDto>
+
+@{
+    ViewBag.Title = "Doctor Schedule";
+}
+
+<div class="ha-page">
+    <div class="container">
+
+        <div class="ha-card" style="padding: 30px;">
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid #334155; padding-bottom: 18px;">
+                <div>
+                    <h2 class="ha-title" style="margin: 0;">Doctor Schedule</h2>
+                    <p class="ha-muted" style="margin: 6px 0 0 0;">
+                        View appointments assigned to the doctor.
+                    </p>
+                </div>
+
+                @Html.ActionLink(
+                    "Back to Doctors",
+                    "Index",
+                    "Doctors",
+                    null,
+                    new { @class = "btn btn-dark-back" })
+            </div>
+
+            @if (Model == null || !Model.Any())
+            {
+                <div class="alert alert-info">
+                    No appointments found.
+                </div>
+            }
+            else
+            {
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Appointment ID</th>
+                            <th>Patient</th>
+                            <th>Date</th>
+                            <th>Slot</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var appointment in Model)
+                        {
+                            <tr>
+                                <td>@appointment.AppointmentId</td>
+                                <td>@appointment.PatientName</td>
+                                <td>@appointment.ScheduledDate.ToString("dd-MMM-yyyy")</td>
+                                <td>@appointment.TimeSlot</td>
+                                <td>
+                                    @if (appointment.Status == "Pending")
+                                    {
+                                        <span class="label label-warning">Pending</span>
+                                    }
+                                    else if (appointment.Status == "Confirmed")
+                                    {
+                                        <span class="label label-success">Confirmed</span>
+                                    }
+                                    else if (appointment.Status == "Cancelled")
+                                    {
+                                        <span class="label label-danger">Cancelled</span>
+                                    }
+                                    else if (appointment.Status == "Completed")
+                                    {
+                                        <span class="label label-info">Completed</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="label label-default">@appointment.Status</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+
+        </div>
+
+    </div>
+</div>

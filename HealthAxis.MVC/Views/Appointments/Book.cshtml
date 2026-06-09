@@ -1,0 +1,128 @@
+﻿@model HealthAxis.Shared.DTOs.AppointmentDto
+
+@{
+    ViewBag.Title = "Book Appointment";
+}
+
+<div class="ha-page">
+    <div class="container">
+
+        <div class="ha-card" style="max-width: 760px; margin: 0 auto; padding: 34px;">
+
+            <div style="text-align: center; border-bottom: 1px solid #334155; padding-bottom: 22px; margin-bottom: 30px;">
+                <h2 class="ha-title">Book Appointment</h2>
+                <p class="ha-muted">
+                    Select patient, doctor, date, and available time slot.
+                </p>
+            </div>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="ha-section-title">
+                    Appointment Details
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.PatientId)
+
+                            @Html.TextBoxFor(m => m.PatientId, new
+                            {
+                                @class = "form-control",
+                                type = "number",
+                                placeholder = "Enter Patient ID"
+                            })
+
+                            @Html.ValidationMessageFor(
+                                m => m.PatientId,
+                                "",
+                                new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.DoctorId)
+
+                            @Html.DropDownListFor(
+                                m => m.DoctorId,
+                                ViewBag.DoctorId as SelectList,
+                                "Select Doctor",
+                                new { @class = "form-control" })
+
+                            @Html.ValidationMessageFor(
+                                m => m.DoctorId,
+                                "",
+                                new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ha-section-title">
+                    Schedule Information
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.ScheduledDate)
+
+                            @Html.TextBoxFor(m => m.ScheduledDate, "{0:yyyy-MM-dd}", new
+                            {
+                                @class = "form-control",
+                                type = "date",
+                                min = DateTime.Today.ToString("yyyy-MM-dd")
+                            })
+
+                            @Html.ValidationMessageFor(
+                                m => m.ScheduledDate,
+                                "",
+                                new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.TimeSlot)
+
+                            @Html.DropDownListFor(
+                                m => m.TimeSlot,
+                                ViewBag.TimeSlots as SelectList,
+                                "Select Slot",
+                                new { @class = "form-control" })
+
+                            @Html.ValidationMessageFor(
+                                m => m.TimeSlot,
+                                "",
+                                new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ha-actions">
+                    <button type="submit" class="btn btn-success pill-btn">
+                        Book Appointment
+                    </button>
+
+                    @Html.ActionLink(
+                        "Back",
+                        "Index",
+                        "Patients",
+                        null,
+                        new { @class = "btn btn-dark-back" })
+                </div>
+            }
+
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "HealthAxis Home";
+}
+
+<div class="ha-page" style="display:flex; align-items:center;">
+    <div class="container">
+
+        <div style="text-align:center; margin-bottom:42px;">
+            <h1 class="ha-title" style="font-size:42px;">
+                Welcome to HealthAxis
+            </h1>
+
+            <p class="ha-muted" style="font-size:18px;">
+                Select your section to continue
+            </p>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="ha-card"
+                     style="padding:38px; text-align:center; min-height:330px; display:flex; flex-direction:column; justify-content:space-between;">
+
+                    <div>
+                        <div class="ha-action-icon"
+                             style="background:linear-gradient(135deg,#1677ff,#38bdf8); margin-bottom:20px;">
+                            <svg viewBox="0 0 24 24">
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M3 21c0-4 2.8-7 6-7s6 3 6 7"></path>
+                                <path d="M18 8v6"></path>
+                                <path d="M15 11h6"></path>
+                            </svg>
+                        </div>
+
+                        <h2 class="ha-title">
+                            Patient
+                        </h2>
+
+                        <p class="ha-muted">
+                            Register patients, manage patient profile, book appointments,
+                            view appointments, search doctors, and view health records.
+                        </p>
+                    </div>
+
+                    @Html.ActionLink(
+                        "Go to Patient",
+                        "Index",
+                        "Patients",
+                        null,
+                        new { @class = "btn btn-primary pill-btn" })
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="ha-card"
+                     style="padding:38px; text-align:center; min-height:330px; display:flex; flex-direction:column; justify-content:space-between;">
+
+                    <div>
+                        <div class="ha-action-icon"
+                             style="background:linear-gradient(135deg,#16a34a,#4ade80); margin-bottom:20px;">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M6 3v5a4 4 0 0 0 8 0V3"></path>
+                                <path d="M6 3H4"></path>
+                                <path d="M14 3h2"></path>
+                                <path d="M10 12v2a5 5 0 0 0 10 0v-1"></path>
+                                <circle cx="20" cy="10" r="2"></circle>
+                            </svg>
+                        </div>
+
+                        <h2 class="ha-title">
+                            Doctor
+                        </h2>
+
+                        <p class="ha-muted">
+                            Manage doctors, view doctor profiles, update doctor status,
+                            view schedules, and manage appointment status.
+                        </p>
+                    </div>
+
+                    @Html.ActionLink(
+                        "Go to Doctor",
+                        "Index",
+                        "Doctors",
+                        null,
+                        new { @class = "btn btn-success pill-btn" })
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

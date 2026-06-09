@@ -1,0 +1,85 @@
+﻿@model HealthAxis.Shared.DTOs.DoctorDto
+
+@{
+    ViewBag.Title = "Doctor Profile";
+}
+
+<div class="ha-page">
+    <div class="container">
+
+        <div class="ha-card" style="max-width: 850px; margin: 0 auto; padding: 34px;">
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 20px; margin-bottom: 28px;">
+                <div>
+                    <h2 class="ha-title" style="margin: 0;">
+                        Doctor Profile
+                    </h2>
+
+                    <p class="ha-muted" style="margin: 6px 0 0 0;">
+                        View doctor information, consultation fee, and upcoming appointment count.
+                    </p>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #16a34a, #4ade80); border-radius: 20px; padding: 18px 22px; text-align: center; min-width: 170px;">
+                    <span style="display: block; font-size: 32px; font-weight: 800; color: #ffffff; line-height: 1;">
+                        @Model.UpcomingAppointmentCount
+                    </span>
+
+                    <span style="display: block; margin-top: 5px; color: #ffffff; font-weight: 700; font-size: 13px;">
+                        Upcoming Appointments
+                    </span>
+                </div>
+            </div>
+
+            <table class="table table-bordered">
+                <tr>
+                    <th>Doctor ID</th>
+                    <td>@Model.DoctorId</td>
+                </tr>
+
+                <tr>
+                    <th>Full Name</th>
+                    <td>@Model.FullName</td>
+                </tr>
+
+                <tr>
+                    <th>Specialisation</th>
+                    <td>@Model.Specialisation</td>
+                </tr>
+
+                <tr>
+                    <th>Years of Experience</th>
+                    <td>@Model.YearsOfExperience</td>
+                </tr>
+
+                <tr>
+                    <th>Consultation Fee</th>
+                    <td>@Model.ConsultationFee</td>
+                </tr>
+
+                <tr>
+                    <th>Upcoming Appointments</th>
+                    <td>@Model.UpcomingAppointmentCount</td>
+                </tr>
+            </table>
+
+            <div class="ha-actions">
+                @Html.ActionLink(
+                    "Edit Doctor",
+                    "Edit",
+                    "Doctors",
+                    new { id = Model.DoctorId },
+                    new { @class = "btn btn-primary pill-btn" })
+
+                @Html.ActionLink(
+                    "Back",
+                    "Index",
+                    "Doctors",
+                    null,
+                    new { @class = "btn btn-dark-back" })
+            </div>
+
+        </div>
+
+    </div>
+</div>

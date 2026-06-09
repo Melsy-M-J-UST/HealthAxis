@@ -1,0 +1,178 @@
+﻿@model IEnumerable<HealthAxis.Shared.DTOs.PatientDto>
+
+@{
+    ViewBag.Title = "Patients";
+}
+
+<div class="ha-page">
+    <div class="container">
+
+        <div class="ha-card"
+             style="padding:30px;margin-bottom:30px;background:linear-gradient(135deg,#1769ff,#51b4ff)">
+            <h2 style="color:white;font-weight:800">
+                Patient Management
+            </h2>
+
+            <p style="color:#e0f2fe">
+                Register patients, manage profiles, book appointments, and view health history.
+            </p>
+        </div>
+
+        <div class="ha-grid">
+
+            <div class="ha-action-card">
+                <div class="ha-action-content">
+                    <div class="ha-action-icon"
+                         style="background:linear-gradient(135deg,#1677ff,#00b7ff)">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M3 21c0-4 2.8-7 6-7s6 3 6 7"></path>
+                            <path d="M18 8v6"></path>
+                            <path d="M15 11h6"></path>
+                        </svg>
+                    </div>
+
+                    <h4>Register Patient</h4>
+                    <p>Add a new patient with contact, profile, and insurance details.</p>
+                </div>
+
+                @Html.ActionLink(
+                    "Register",
+                    "Create",
+                    "Patients",
+                    null,
+                    new { @class = "btn btn-primary" })
+            </div>
+
+            <div class="ha-action-card">
+                <div class="ha-action-content">
+                    <div class="ha-action-icon"
+                         style="background:linear-gradient(135deg,#0f766e,#2dd4bf)">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="8" r="4"></circle>
+                            <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"></path>
+                            <path d="M16 19h4"></path>
+                            <path d="M18 17v4"></path>
+                        </svg>
+                    </div>
+
+                    <h4>Patient Profile</h4>
+                    <p>View profile details, appointment count, and update patient information.</p>
+                </div>
+
+                @Html.ActionLink(
+                    "View Profile",
+                    "Profile",
+                    "Patients",
+                    null,
+                    new
+                    {
+                        @class = "btn",
+                        style = "background:#0f766e;color:white"
+                    })
+            </div>
+
+            <div class="ha-action-card">
+                <div class="ha-action-content">
+                    <div class="ha-action-icon"
+                         style="background:linear-gradient(135deg,#16a34a,#4ade80)">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+                            <path d="M16 3v4"></path>
+                            <path d="M8 3v4"></path>
+                            <path d="M3 11h18"></path>
+                            <path d="M9 16l2 2 4-4"></path>
+                        </svg>
+                    </div>
+
+                    <h4>Book Appointment</h4>
+                    <p>Select a doctor, appointment date, and available time slot.</p>
+                </div>
+
+                @Html.ActionLink(
+                    "Book Now",
+                    "Book",
+                    "Appointments",
+                    null,
+                    new { @class = "btn btn-success" })
+            </div>
+
+            <div class="ha-action-card">
+                <div class="ha-action-content">
+                    <div class="ha-action-icon"
+                         style="background:linear-gradient(135deg,#06b6d4,#67e8f9)">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M8 6h13"></path>
+                            <path d="M8 12h13"></path>
+                            <path d="M8 18h13"></path>
+                            <path d="M3 6h.01"></path>
+                            <path d="M3 12h.01"></path>
+                            <path d="M3 18h.01"></path>
+                        </svg>
+                    </div>
+
+                    <h4>My Appointments</h4>
+                    <p>View appointments for a patient using the Patient ID.</p>
+                </div>
+
+                @Html.ActionLink(
+                    "View",
+                    "MyAppointments",
+                    "Appointments",
+                    null,
+                    new { @class = "btn btn-info" })
+            </div>
+
+            <div class="ha-action-card">
+                <div class="ha-action-content">
+                    <div class="ha-action-icon"
+                         style="background:linear-gradient(135deg,#f59e0b,#facc15)">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="7"></circle>
+                            <path d="M21 21l-4.3-4.3"></path>
+                            <path d="M11 8v6"></path>
+                            <path d="M8 11h6"></path>
+                        </svg>
+                    </div>
+
+                    <h4>Search Doctors</h4>
+                    <p>Find active doctors by specialisation before booking.</p>
+                </div>
+
+                @Html.ActionLink(
+                    "Search",
+                    "SearchDoctors",
+                    "Patients",
+                    null,
+                    new { @class = "btn btn-warning" })
+            </div>
+
+            <div class="ha-action-card">
+                <div class="ha-action-content">
+                    <div class="ha-action-icon"
+                         style="background:linear-gradient(135deg,#7c3aed,#a78bfa)">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M7 3h10l4 4v14H7z"></path>
+                            <path d="M17 3v5h5"></path>
+                            <path d="M10 13h7"></path>
+                            <path d="M10 17h7"></path>
+                            <path d="M10 9h2"></path>
+                        </svg>
+                    </div>
+
+                    <h4>Health Records</h4>
+                    <p>View diagnosis, prescription, and visit history.</p>
+                </div>
+
+                @Html.ActionLink(
+                    "View Records",
+                    "PatientHistory",
+                    "HealthRecords",
+                    null,
+                    new { @class = "btn btn-purple" })
+            </div>
+
+        </div>
+
+    </div>
+</div>

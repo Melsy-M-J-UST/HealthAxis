@@ -1,0 +1,178 @@
+﻿@model HealthAxis.Shared.DTOs.PatientDto
+
+@{
+    ViewBag.Title = "Patient";
+    ViewBag.FormTitle = "Edit Patient";
+    ViewBag.SubmitText = "Update Patient";
+}
+
+<div class="ha-page">
+    <div class="container">
+
+        <div class="ha-card" style="max-width:850px; margin:0 auto; padding:34px 38px;">
+
+            <div style="text-align:center; border-bottom:1px solid #334155; padding-bottom:22px; margin-bottom:30px;">
+                <h2 class="ha-title">
+                    @ViewBag.FormTitle
+                </h2>
+
+                <p class="ha-muted">
+                    Manage patient profile, contact, and insurance information.
+                </p>
+            </div>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.HiddenFor(m => m.PatientId)
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="ha-section-title">
+                    Personal Information
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.FullName)
+
+                            @Html.TextBoxFor(m => m.FullName, new
+                            {
+                                @class = "form-control",
+                                placeholder = "Enter full name"
+                            })
+
+                            @Html.ValidationMessageFor(
+                                m => m.FullName,
+                                "",
+                                new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.DateOfBirth)
+
+                            @Html.TextBoxFor(m => m.DateOfBirth, "{0:yyyy-MM-dd}", new
+                            {
+                                @class = "form-control",
+                                type = "date"
+                            })
+
+                            @Html.ValidationMessageFor(
+                                m => m.DateOfBirth,
+                                "",
+                                new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Gender)
+
+                    @Html.DropDownListFor(
+                        m => m.Gender,
+                        new SelectList(
+                            new[]
+                            {
+                                "Male",
+                                "Female",
+                                "Transgender",
+                                "Other"
+                            },
+                            Model == null ? null : Model.Gender.ToString()),
+                        "Select gender",
+                        new { @class = "form-control" })
+
+                    @Html.ValidationMessageFor(
+                        m => m.Gender,
+                        "",
+                        new { @class = "text-danger" })
+                </div>
+
+                <div class="ha-section-title">
+                    Contact Information
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.PhoneNumber)
+
+                            @Html.TextBoxFor(m => m.PhoneNumber, new
+                            {
+                                @class = "form-control",
+                                placeholder = "Enter phone",
+                                maxlength = "10"
+                            })
+
+                            @Html.ValidationMessageFor(
+                                m => m.PhoneNumber,
+                                "",
+                                new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Email)
+
+                            @Html.TextBoxFor(m => m.Email, new
+                            {
+                                @class = "form-control",
+                                type = "email",
+                                placeholder = "Enter email"
+                            })
+
+                            @Html.ValidationMessageFor(
+                                m => m.Email,
+                                "",
+                                new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ha-section-title">
+                    Insurance Information
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.InsuranceID)
+
+                    @Html.TextBoxFor(m => m.InsuranceID, new
+                    {
+                        @class = "form-control",
+                        placeholder = "Insurance ID",
+                        maxlength = "10"
+                    })
+
+                    @Html.ValidationMessageFor(
+                        m => m.InsuranceID,
+                        "",
+                        new { @class = "text-danger" })
+                </div>
+
+                <div class="ha-actions">
+                    <button type="submit" class="btn btn-primary pill-btn">
+                        @ViewBag.SubmitText
+                    </button>
+
+                    @Html.ActionLink(
+                        "Back",
+                        "Index",
+                        "Patients",
+                        null,
+                        new { @class = "btn btn-dark-back" })
+                </div>
+            }
+
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
