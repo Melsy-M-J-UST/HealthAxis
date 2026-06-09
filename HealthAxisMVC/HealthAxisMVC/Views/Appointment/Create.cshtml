@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "Book Appointment";
+}
+
+<h2 class="text-primary">Book Appointment</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@using (Html.BeginForm())
+{
+    <div class="mb-2">
+        <label class="fw-bold">Patient</label>
+        @Html.DropDownList("patientId",
+            new SelectList(
+                ((List<HealthAxisMVC.Models.Patient>)ViewBag.Patients)
+                .Select(p => new
+                     {
+                    p.PatientId,
+                    Display = p.FullName + " (" + p.PatientId + ")"
+                }),
+                "PatientId",
+                "Display"
+            ),
+            "Select Patient",
+            new { @class = "form-control" })
+    </div>
+
+    <div class="mb-2">
+        <label class="fw-bold">Doctor</label>
+        @Html.DropDownList("doctorId",
+            new SelectList(
+                ((List<HealthAxisMVC.Models.Doctor>)ViewBag.Doctors)
+                .Select(d => new
+                     {
+                    d.DoctorId,
+                    Display = "Dr. " + d.FullName + " - " + d.Specialisation
+                }),
+                "DoctorId",
+                "Display"
+            ),
+            "Select Doctor",
+            new { @class = "form-control" })
+    </div>
+
+    <div class="mb-2">
+        <label class="fw-bold">Date</label>
+        <input type="date" name="scheduledDate" class="form-control" required />
+    </div>
+
+    <div class="d-flex">
+        <button class="btn btn-primary me-2 w-50">Book Appointment</button>
+        @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-secondary w-50" })
+    </div>
+}

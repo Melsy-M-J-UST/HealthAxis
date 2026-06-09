@@ -1,0 +1,19 @@
+﻿@model HealthAxisMVC.Models.Doctor
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Doctor Details</h2>
+
+<p><b>ID:</b> @Model.DoctorId</p>
+<p><b>Name:</b> @Model.FullName</p>
+<p><b>Specialisation:</b> @Model.Specialisation</p>
+<p><b>Experience:</b> @Model.YearsOfExperience years</p>
+<p><b>Fee:</b> @Model.ConsultationFee</p>
+<p><b>Active:</b> @(Model.IsActive)</p>
+
+@Html.ActionLink("Back", "Index", null, new { @class = "btn btn-secondary" })
+
+
+

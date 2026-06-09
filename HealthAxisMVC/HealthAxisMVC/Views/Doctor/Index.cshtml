@@ -1,0 +1,69 @@
+﻿@model List<HealthAxisMVC.Models.Doctor>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="text-danger">Doctor Details</h2>
+@Html.ActionLink("Add Doctor", "Create", null, new { @class = "btn btn-primary mb-2" })
+@using (Html.BeginForm("Details", "Doctor", FormMethod.Get))
+{
+    <div class="mb-3 d-flex">
+        <input type="number" name="id"
+               class="form-control me-2 w-25"
+               placeholder="Enter Doctor ID"
+               required />
+
+        <button type="submit" class="btn btn-primary">
+            Search
+        </button>
+    </div>
+}
+
+@using (Html.BeginForm("SearchBySpecialisation", "Doctor", FormMethod.Get))
+{
+    <div class="mb-3 d-flex">
+        @Html.DropDownList(
+            "specialisation",
+            new SelectList(Enum.GetValues(typeof(HealthAxisMVC.Models.Doctor.SpecialisationOption))),
+            "-- All Specialisations --",
+            new { @class = "form-control me-2 w-25" }
+        )
+
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+}
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Doctor Id</th>
+            <th>Doctor name</th>
+            <th>Specialisation</th>
+            <th>Years of Experience</th>
+            <th>Consultation fee</th>
+            <th>Active</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var d in Model)
+        {
+            <tr>
+                <td>@d.DoctorId</td>
+                <td>@d.FullName</td>
+                <td>@d.Specialisation</td>
+                <td>@d.YearsOfExperience</td>
+                <td>@d.ConsultationFee</td>
+                <td>@d.IsActive</td>
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit",
+                        new { id = d.DoctorId },
+                        new { @class = "btn btn-warning btn-sm" })
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+

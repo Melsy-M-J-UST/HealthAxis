@@ -1,0 +1,21 @@
+﻿@model HealthAxisMVC.Models.Patient
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2> Patient Details</h2>
+
+<div class="mb-2"><b>Name:</b> @Model.PatientId</div>
+<div class="mb-2"><b>Name:</b> @Model.FullName</div>
+<div class="mb-2"><b>DOB:</b> @Model.DateOfBirth.ToShortDateString()</div>
+<div class="mb-2"><b>Gender:</b> @Model.Gender</div>
+<div class="mb-2"><b>Phone:</b> @Model.PhoneNumber</div>
+<div class="mb-2"><b>Email:</b> @Model.Email</div>
+<div class="mb-2"><b>Insurance ID:</b> @Model.InsuranceId</div>
+<div class="mb-2"><b>Created:</b> @Model.CreatedDate</div>
+
+<div>
+    @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-secondary" })
+</div>
+
+

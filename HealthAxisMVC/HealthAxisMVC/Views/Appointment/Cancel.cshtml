@@ -1,0 +1,38 @@
+﻿@model HealthAxisMVC.Models.Appointment
+
+@{
+    ViewBag.Title = "Cancel Appointment";
+}
+
+<h2 class="text-danger">Cancel Appointment</h2>
+
+<div class="mb-2">
+    <strong>Patient:</strong> @Model.Patient.FullName
+</div>
+
+<div class="mb-2">
+    <strong>Doctor:</strong> @Model.Doctor.FullName
+</div>
+
+<div class="mb-2">
+    <strong>Date:</strong> @Model.ScheduledDate.ToString("dd-MM-yyyy")
+</div>
+
+<div class="mb-2">
+    <strong>Time Slot:</strong> @Model.TimeSlot
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.Hidden("id", Model.AppointmentId)
+
+    <div class="mb-2">
+        <label class="fw-bold">Cancellation Reason</label>
+        <input type="text" name="reason" class="form-control" required />
+    </div>
+
+    <div class="d-flex">
+        <button class="btn btn-danger me-2 w-50">Confirm Cancel</button>
+        @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-secondary w-50" })
+    </div>
+}

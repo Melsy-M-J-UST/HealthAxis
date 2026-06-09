@@ -1,0 +1,72 @@
+﻿@model List<HealthAxisMVC.Models.Appointment>
+
+@{
+    ViewBag.Title = "Appointments";
+}
+
+<h2 class="text-primary">Appointments</h2>
+
+@Html.ActionLink("Book Appointment", "Create", null, new { @class = "btn btn-primary mb-1" })
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Patient</th>
+            <th>Doctor</th>
+            <th>Date</th>
+            <th>Time Slot</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.AppointmentId</td>
+                <td>@a.Patient.FullName</td>
+                <td>@a.Doctor.FullName</td>
+                <td>@a.ScheduledDate.ToString("dd-MM-yyyy")</td>
+                <td>@a.TimeSlot</td>
+                <td>@a.Status</td>
+
+                <td>
+                    @if (a.Status != HealthAxisMVC.Models.Appointment.StatusOption.Cancelled &&
+                         a.Status != HealthAxisMVC.Models.Appointment.StatusOption.Completed)
+                    {
+                        @Html.ActionLink("Cancel", "Cancel",
+                            new { id = a.AppointmentId },
+                            new { @class = "btn btn-danger btn-sm me-1" })
+                    }
+
+                    @if (a.Status == HealthAxisMVC.Models.Appointment.StatusOption.Pending)
+                    {
+                        @Html.ActionLink("Confirm", "Confirm",
+                            new { id = a.AppointmentId },
+                            new { @class = "btn btn-success btn-sm me-1" })
+                    }
+
+                    @if (a.Status == HealthAxisMVC.Models.Appointment.StatusOption.Confirmed)
+                    {
+                        @Html.ActionLink("Complete", "Complete",
+                            new { id = a.AppointmentId },
+                            new { @class = "btn btn-primary btn-sm" })
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

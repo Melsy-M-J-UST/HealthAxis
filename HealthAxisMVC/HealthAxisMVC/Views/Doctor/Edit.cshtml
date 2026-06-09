@@ -1,0 +1,44 @@
+﻿@model HealthAxisMVC.Models.Doctor
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Update doctor</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.DoctorId)
+
+    <div class="mb-2">
+        @Html.LabelFor(m => m.FullName)
+        @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+    </div>
+
+    <div class="mb-2">
+        @Html.LabelFor(m => m.Specialisation)
+        @Html.DropDownListFor(m => m.Specialisation,
+            new SelectList(Enum.GetValues(typeof(HealthAxisMVC.Models.Doctor.SpecialisationOption))),
+            new { @class = "form-control" })
+    </div>
+
+    <div class="mb-2">
+        @Html.LabelFor(m => m.YearsOfExperience)
+        @Html.TextBoxFor(m => m.YearsOfExperience, new { @class = "form-control" })
+    </div>
+
+    <div class="mb-2">
+        @Html.LabelFor(m => m.ConsultationFee)
+        @Html.TextBoxFor(m => m.ConsultationFee, new { @class = "form-control" })
+    </div>
+
+    <div class="mb-2">
+        @Html.LabelFor(m => m.IsActive)
+        @Html.CheckBoxFor(m => m.IsActive)
+    </div>
+
+    <button class="btn btn-primary">Update Doctor</button>
+    @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-secondary" })
+}
+
+
