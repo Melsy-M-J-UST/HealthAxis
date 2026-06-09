@@ -53,19 +53,19 @@
                                 <td>@appointment.ScheduledDate.ToString("dd-MMM-yyyy")</td>
                                 <td>@appointment.TimeSlot</td>
                                 <td>
-                                    @if (appointment.Status == "Pending")
+                                    @if (appointment.Status == HealthAxis.Shared.Enums.AppointmentStatusEnum.Pending)
                                     {
                                         <span class="label label-warning">Pending</span>
                                     }
-                                    else if (appointment.Status == "Confirmed")
+                                    else if (appointment.Status == HealthAxis.Shared.Enums.AppointmentStatusEnum.Confirmed)
                                     {
                                         <span class="label label-success">Confirmed</span>
                                     }
-                                    else if (appointment.Status == "Cancelled")
+                                    else if (appointment.Status == HealthAxis.Shared.Enums.AppointmentStatusEnum.Cancelled)
                                     {
                                         <span class="label label-danger">Cancelled</span>
                                     }
-                                    else if (appointment.Status == "Completed")
+                                    else if (appointment.Status == HealthAxis.Shared.Enums.AppointmentStatusEnum.Completed)
                                     {
                                         <span class="label label-info">Completed</span>
                                     }
