@@ -14,10 +14,9 @@ namespace HealthAxisWebApi
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
             UnityConfig.RegisterComponents();
-            //SwaggerConfig.Register();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
     }
-}
+}   

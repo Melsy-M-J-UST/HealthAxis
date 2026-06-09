@@ -11,6 +11,9 @@ namespace HealthAxis.Shared.Services.Impl
     {
         private readonly IDoctorRepository repository;
 
+        private static readonly TimeSpan RegexTimeout =
+            TimeSpan.FromMilliseconds(250);
+
         public DoctorService(IDoctorRepository repository)
         {
             this.repository = repository;
@@ -42,43 +45,61 @@ namespace HealthAxis.Shared.Services.Impl
 
         public void DeleteDoctor(int id)
         {
+            Doctor doctor = repository.GetById(id);
+
+            if (doctor == null)
+            {
+                throw new KeyNotFoundException("Doctor not found.");
+            }
+
             repository.Delete(id);
         }
 
-        private void ValidateDoctor(Doctor doctor)
+        private static void ValidateDoctor(Doctor doctor)
         {
+            if (doctor == null)
+            {
+                throw new ArgumentNullException(nameof(doctor));
+            }
+
             if (string.IsNullOrWhiteSpace(doctor.FullName))
             {
-                throw new Exception(
-                    "Doctor name is required.");
+                throw new ArgumentException(
+                    "Doctor name is required.",
+                    nameof(doctor));
             }
 
             if (!Regex.IsMatch(
                 doctor.FullName,
-                @"^[a-zA-Z\s]+$"))
+                @"^[a-zA-Z\s]+$",
+                RegexOptions.None,
+                RegexTimeout))
             {
-                throw new Exception(
-                    "Doctor name can contain only letters.");
+                throw new ArgumentException(
+                    "Doctor name can contain only letters and spaces.",
+                    nameof(doctor));
             }
 
             if (doctor.YearsOfExperience < 0)
             {
-                throw new Exception(
-                    "Years of experience cannot be negative.");
+                throw new ArgumentException(
+                    "Years of experience cannot be negative.",
+                    nameof(doctor));
             }
 
             if (doctor.ConsultationFee <= 0)
             {
-                throw new Exception(
-                    "Consultation fee must be greater than zero.");
+                throw new ArgumentException(
+                    "Consultation fee must be greater than zero.",
+                    nameof(doctor));
             }
 
             if (doctor.Specialisation <= 0)
             {
-                throw new Exception(
-                    "Please select a valid specialisation.");
+                throw new ArgumentException(
+                    "Please select a valid specialisation.",
+                    nameof(doctor));
             }
         }
     }
-
 }

@@ -53,7 +53,7 @@ namespace HealthAxisWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(HealthRecordDto healthRecord)
         {
-            if (healthRecord.AppointmentId == null || healthRecord.AppointmentId <= 0)
+            if (healthRecord.AppointmentId <= 0)
             {
                 ModelState.AddModelError("AppointmentId", "Appointment is required.");
             }

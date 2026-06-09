@@ -1,0 +1,17 @@
+†
+{C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.csutf-8b
+YC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Properties\AssemblyInfo.csutf-8V
+MC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Global.asax.csutf-8h
+_C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Controllers\PatientController.csutf-8e
+\C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Controllers\HomeController.csutf-8m
+dC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Controllers\HealthRecordController.csutf-8g
+^C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Controllers\DoctorController.csutf-8k
+bC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\ApiClients\HealthRecordApiClient.csutf-8`
+WC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\App_Start\UnityConfig.csutf-8l
+cC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Controllers\AppointmentController.csutf-8j
+aC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\ApiClients\AppointmentApiClient.csutf-8f
+]C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\ApiClients\PatientApiClient.csutf-8e
+\C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\ApiClients\DoctorApiClient.csutf-8a
+XC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\App_Start\BundleConfig.csutf-8`
+WC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\App_Start\RouteConfig.csutf-8a
+XC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\App_Start\FilterConfig.csutf-8

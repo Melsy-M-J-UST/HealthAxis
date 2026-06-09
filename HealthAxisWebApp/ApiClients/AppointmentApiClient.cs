@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -12,38 +13,35 @@ namespace HealthAxisWebApp.ApiClients
 {
     public class AppointmentApiClient
     {
-        private readonly HttpClient _client;
+        private const string ApiBaseUrlSettingKey = "HealthAxisApiBaseUrl";
+        private const string JsonMediaType = "application/json";
+        private const string AppointmentsEndpoint = "api/appointments";
+        private const string ConfirmAction = "confirm";
+        private const string CompleteAction = "complete";
+        private const string CancelAction = "cancel";
 
-        public AppointmentApiClient()
-        {
-            _client = new HttpClient();
-
-            // Web API base URL
-            _client.BaseAddress = new Uri("https://localhost:44366/");
-
-            _client.DefaultRequestHeaders.Accept.Clear();
-            _client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-        }
+        private static readonly HttpClient Client = CreateHttpClient();
 
         public async Task<List<AppointmentDto>> GetAllAppointments()
         {
-            var response = await _client.GetAsync("api/appointments");
+            HttpResponseMessage response = await Client.GetAsync(AppointmentsEndpoint);
 
             if (!response.IsSuccessStatusCode)
             {
-                var error = await response.Content.ReadAsStringAsync();
-                throw new Exception("Failed to load appointments. " + error);
+                await ThrowHttpRequestException(
+                    response,
+                    "Failed to load appointments.");
             }
 
-            var json = await response.Content.ReadAsStringAsync();
+            string json = await response.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<List<AppointmentDto>>(json);
         }
 
         public async Task<AppointmentDto> GetAppointmentById(int id)
         {
-            var response = await _client.GetAsync("api/appointments/" + id);
+            HttpResponseMessage response = await Client.GetAsync(
+                GetAppointmentByIdEndpoint(id));
 
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
@@ -52,120 +50,191 @@ namespace HealthAxisWebApp.ApiClients
 
             if (!response.IsSuccessStatusCode)
             {
-                var error = await response.Content.ReadAsStringAsync();
-                throw new Exception("Failed to load appointment. " + error);
+                await ThrowHttpRequestException(
+                    response,
+                    "Failed to load appointment.");
             }
 
-            var json = await response.Content.ReadAsStringAsync();
+            string json = await response.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<AppointmentDto>(json);
         }
 
         public async Task CreateAppointment(AppointmentDto appointment)
         {
-            var json = JsonConvert.SerializeObject(appointment);
+            if (appointment == null)
+            {
+                throw new ArgumentNullException(nameof(appointment));
+            }
 
-            var content = new StringContent(
-                json,
-                Encoding.UTF8,
-                "application/json"
-            );
+            StringContent content = CreateJsonContent(appointment);
 
-            var response = await _client.PostAsync("api/appointments", content);
+            HttpResponseMessage response = await Client.PostAsync(
+                AppointmentsEndpoint,
+                content);
 
             if (!response.IsSuccessStatusCode)
             {
-                var error = await response.Content.ReadAsStringAsync();
-                throw new Exception(error);
+                await ThrowHttpRequestException(
+                    response,
+                    "Failed to create appointment.");
             }
         }
 
         public async Task UpdateAppointment(AppointmentDto appointment)
         {
-            var json = JsonConvert.SerializeObject(appointment);
+            if (appointment == null)
+            {
+                throw new ArgumentNullException(nameof(appointment));
+            }
 
-            var content = new StringContent(
-                json,
-                Encoding.UTF8,
-                "application/json"
-            );
+            StringContent content = CreateJsonContent(appointment);
 
-            var response = await _client.PutAsync(
-                "api/appointments/" + appointment.AppointmentId,
-                content
-            );
+            HttpResponseMessage response = await Client.PutAsync(
+                GetAppointmentByIdEndpoint(appointment.AppointmentId),
+                content);
 
             if (!response.IsSuccessStatusCode)
             {
-                var error = await response.Content.ReadAsStringAsync();
-                throw new Exception(error);
+                await ThrowHttpRequestException(
+                    response,
+                    "Failed to update appointment.");
             }
         }
 
         public async Task ConfirmAppointment(int id)
         {
-            var response = await _client.PutAsync(
-                "api/appointments/" + id + "/confirm",
-                null
-            );
+            HttpResponseMessage response = await Client.PutAsync(
+                GetAppointmentActionEndpoint(id, ConfirmAction),
+                CreateEmptyJsonContent());
 
             if (!response.IsSuccessStatusCode)
             {
-                var error = await response.Content.ReadAsStringAsync();
-                throw new Exception(error);
+                await ThrowHttpRequestException(
+                    response,
+                    "Failed to confirm appointment.");
             }
         }
 
         public async Task CompleteAppointment(int id)
         {
-            var response = await _client.PutAsync(
-                "api/appointments/" + id + "/complete",
-                null
-            );
+            HttpResponseMessage response = await Client.PutAsync(
+                GetAppointmentActionEndpoint(id, CompleteAction),
+                CreateEmptyJsonContent());
 
             if (!response.IsSuccessStatusCode)
             {
-                var error = await response.Content.ReadAsStringAsync();
-                throw new Exception(error);
+                await ThrowHttpRequestException(
+                    response,
+                    "Failed to complete appointment.");
             }
         }
 
         public async Task CancelAppointment(int id, string cancellationReason)
         {
+            if (string.IsNullOrWhiteSpace(cancellationReason))
+            {
+                throw new ArgumentException(
+                    "Cancellation reason is required.",
+                    nameof(cancellationReason));
+            }
+
             var request = new
             {
                 CancellationReason = cancellationReason
             };
 
-            var json = JsonConvert.SerializeObject(request);
+            StringContent content = CreateJsonContent(request);
 
-            var content = new StringContent(
-                json,
-                Encoding.UTF8,
-                "application/json"
-            );
-
-            var response = await _client.PutAsync(
-                "api/appointments/" + id + "/cancel",
-                content
-            );
+            HttpResponseMessage response = await Client.PutAsync(
+                GetAppointmentActionEndpoint(id, CancelAction),
+                content);
 
             if (!response.IsSuccessStatusCode)
             {
-                var error = await response.Content.ReadAsStringAsync();
-                throw new Exception(error);
+                await ThrowHttpRequestException(
+                    response,
+                    "Failed to cancel appointment.");
             }
         }
 
         public async Task DeleteAppointment(int id)
         {
-            var response = await _client.DeleteAsync("api/appointments/" + id);
+            HttpResponseMessage response = await Client.DeleteAsync(
+                GetAppointmentByIdEndpoint(id));
 
             if (!response.IsSuccessStatusCode)
             {
-                var error = await response.Content.ReadAsStringAsync();
-                throw new Exception(error);
+                await ThrowHttpRequestException(
+                    response,
+                    "Failed to delete appointment.");
             }
+        }
+
+        private static HttpClient CreateHttpClient()
+        {
+            string apiBaseUrl = ConfigurationManager.AppSettings[ApiBaseUrlSettingKey];
+
+            if (string.IsNullOrWhiteSpace(apiBaseUrl))
+            {
+                throw new InvalidOperationException(
+                    "API base URL is missing from Web.config appSettings.");
+            }
+
+            HttpClient client = new HttpClient
+            {
+                BaseAddress = new Uri(apiBaseUrl, UriKind.Absolute)
+            };
+
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue(JsonMediaType));
+
+            return client;
+        }
+
+        private static string GetAppointmentByIdEndpoint(int id)
+        {
+            return string.Format("{0}/{1}", AppointmentsEndpoint, id);
+        }
+
+        private static string GetAppointmentActionEndpoint(int id, string action)
+        {
+            return string.Format(
+                "{0}/{1}",
+                GetAppointmentByIdEndpoint(id),
+                action);
+        }
+
+        private static StringContent CreateJsonContent(object value)
+        {
+            string json = JsonConvert.SerializeObject(value);
+
+            return new StringContent(
+                json,
+                Encoding.UTF8,
+                JsonMediaType);
+        }
+
+        private static StringContent CreateEmptyJsonContent()
+        {
+            return new StringContent(
+                string.Empty,
+                Encoding.UTF8,
+                JsonMediaType);
+        }
+
+        private static async Task ThrowHttpRequestException(
+            HttpResponseMessage response,
+            string message)
+        {
+            string error = await response.Content.ReadAsStringAsync();
+
+            throw new HttpRequestException(
+                string.Format("{0} Status Code: {1}. Details: {2}",
+                    message,
+                    response.StatusCode,
+                    error));
         }
     }
 }

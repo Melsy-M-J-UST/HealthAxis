@@ -1,0 +1,9 @@
+﻿C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWeb.Tests\Properties\AssemblyInfo.cs
+C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWeb.Tests\ServiceTests\AppointmentServiceTests.cs
+C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWeb.Tests\ServiceTests\DoctorServiceTests.cs
+C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWeb.Tests\ServiceTests\HealthRecordServiceTests.cs
+C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWeb.Tests\ServiceTests\PatientServiceTests.cs
+C:\Users\287766\source\repos\S2_HealthAxisWeb\packages\xunit.runner.visualstudio.3.1.5\build\net472\xunit.abstractions.dll
+C:\Users\287766\source\repos\S2_HealthAxisWeb\packages\xunit.runner.visualstudio.3.1.5\build\net472\xunit.runner.visualstudio.testadapter.dll
+C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWeb.Tests\app.config
+C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWeb.Tests\packages.config

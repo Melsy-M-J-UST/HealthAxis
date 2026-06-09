@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using HealthAxisWebApp.Repositories.Interfaces;
-using HealthAxis.Shared.Services;
 using HealthAxisWebApp;
 using HealthAxis.Shared.Services.Interfaces;
 
@@ -11,6 +10,9 @@ namespace HealthAxis.Shared.Services.Impl
     public class PatientService : IPatientService
     {
         private readonly IPatientRepository repository;
+
+        private static readonly TimeSpan RegexTimeout =
+            TimeSpan.FromMilliseconds(250);
 
         public PatientService(IPatientRepository repository)
         {
@@ -45,57 +47,82 @@ namespace HealthAxis.Shared.Services.Impl
 
         public void DeletePatient(int id)
         {
+            Patient patient = repository.GetById(id);
+
+            if (patient == null)
+            {
+                throw new KeyNotFoundException("Patient not found.");
+            }
+
             repository.Delete(id);
         }
 
-        private void ValidatePatient(Patient patient)
+        private static void ValidatePatient(Patient patient)
         {
+            if (patient == null)
+            {
+                throw new ArgumentNullException(nameof(patient));
+            }
+
             if (string.IsNullOrWhiteSpace(patient.FullName))
             {
-                throw new Exception(
-                    "Patient name is required.");
+                throw new ArgumentException(
+                    "Patient name is required.",
+                    nameof(patient));
             }
 
             if (!Regex.IsMatch(
                 patient.FullName,
-                @"^[a-zA-Z\s]+$"))
+                @"^[a-zA-Z\s]+$",
+                RegexOptions.None,
+                RegexTimeout))
             {
-                throw new Exception(
-                    "Patient name can contain only letters.");
+                throw new ArgumentException(
+                    "Patient name can contain only letters and spaces.",
+                    nameof(patient));
             }
 
             if (string.IsNullOrWhiteSpace(patient.Email))
             {
-                throw new Exception(
-                    "Email is required.");
+                throw new ArgumentException(
+                    "Email is required.",
+                    nameof(patient));
             }
 
             if (!Regex.IsMatch(
                 patient.Email,
-                @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+                RegexOptions.None,
+                RegexTimeout))
             {
-                throw new Exception(
-                    "Invalid email format.");
+                throw new ArgumentException(
+                    "Invalid email format.",
+                    nameof(patient));
             }
 
             if (string.IsNullOrWhiteSpace(patient.PhoneNumber))
             {
-                throw new Exception(
-                    "Phone number is required.");
+                throw new ArgumentException(
+                    "Phone number is required.",
+                    nameof(patient));
             }
 
             if (!Regex.IsMatch(
                 patient.PhoneNumber,
-                @"^\d{10}$"))
+                @"^\d{10}$",
+                RegexOptions.None,
+                RegexTimeout))
             {
-                throw new Exception(
-                    "Phone number must contain 10 digits.");
+                throw new ArgumentException(
+                    "Phone number must contain 10 digits.",
+                    nameof(patient));
             }
 
             if (patient.DateOfBirth >= DateTime.Today)
             {
-                throw new Exception(
-                    "Invalid date of birth.");
+                throw new ArgumentException(
+                    "Invalid date of birth.",
+                    nameof(patient));
             }
         }
     }

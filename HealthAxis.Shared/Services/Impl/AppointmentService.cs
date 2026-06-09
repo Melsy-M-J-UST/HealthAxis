@@ -9,6 +9,9 @@ namespace HealthAxis.Shared.Services.Impl
 {
     public class AppointmentService : IAppointmentService
     {
+        private const string AppointmentNotFoundMessage = "Appointment not found.";
+        private const string DoctorNotFoundMessage = "Doctor not found.";
+
         private readonly IAppointmentRepository appointmentRepository;
         private readonly IDoctorRepository doctorRepository;
 
@@ -16,11 +19,8 @@ namespace HealthAxis.Shared.Services.Impl
             IAppointmentRepository appointmentRepository,
             IDoctorRepository doctorRepository)
         {
-            this.appointmentRepository =
-                appointmentRepository;
-
-            this.doctorRepository =
-                doctorRepository;
+            this.appointmentRepository = appointmentRepository;
+            this.doctorRepository = doctorRepository;
         }
 
         public List<Appointment> GetAllAppointments()
@@ -33,96 +33,102 @@ namespace HealthAxis.Shared.Services.Impl
             return appointmentRepository.GetById(id);
         }
 
-        public void AddAppointment(
-            Appointment appointment)
+        public void AddAppointment(Appointment appointment)
         {
+            if (appointment == null)
+            {
+                throw new ArgumentNullException(nameof(appointment));
+            }
+
             ValidateAppointment(appointment);
 
             appointment.Status = 0;
 
             if (appointment.CancellationReason == null)
             {
-                appointment.CancellationReason =
-                    string.Empty;
+                appointment.CancellationReason = string.Empty;
             }
 
             appointmentRepository.Add(appointment);
         }
 
-        public void UpdateAppointment(
-            Appointment appointment)
+        public void UpdateAppointment(Appointment appointment)
         {
+            if (appointment == null)
+            {
+                throw new ArgumentNullException(nameof(appointment));
+            }
+
             ValidateAppointment(appointment);
 
-            appointmentRepository.Update(
-                appointment);
+            appointmentRepository.Update(appointment);
         }
 
         public void ConfirmAppointment(int id)
         {
-            Appointment appointment =
-                appointmentRepository.GetById(id);
+            Appointment appointment = appointmentRepository.GetById(id);
 
             if (appointment == null)
             {
-                throw new Exception(
-                    "Appointment not found.");
+                throw new KeyNotFoundException(AppointmentNotFoundMessage);
             }
 
             if (appointment.Status != 0)
             {
-                throw new Exception(
+                throw new InvalidOperationException(
                     "Only pending appointments can be confirmed.");
             }
 
             appointment.Status = 1;
 
-            appointmentRepository.Update(
-                appointment);
+            appointmentRepository.Update(appointment);
         }
 
         public void CompleteAppointment(int id)
         {
-            Appointment appointment =
-                appointmentRepository.GetById(id);
+            Appointment appointment = appointmentRepository.GetById(id);
 
             if (appointment == null)
             {
-                throw new Exception(
-                    "Appointment not found.");
+                throw new KeyNotFoundException(AppointmentNotFoundMessage);
             }
 
             if (appointment.Status != 1)
             {
-                throw new Exception(
+                throw new InvalidOperationException(
                     "Only confirmed appointments can be completed.");
             }
 
             appointment.Status = 3;
 
-            appointmentRepository.Update(
-                appointment);
+            appointmentRepository.Update(appointment);
         }
 
         public void CancelAppointment(int id, string reason)
         {
-            Appointment appointment =
-                appointmentRepository.GetById(id);
+            Appointment appointment = appointmentRepository.GetById(id);
 
             if (appointment == null)
             {
-                throw new Exception("Appointment not found.");
+                throw new KeyNotFoundException(AppointmentNotFoundMessage);
+            }
+
+            if (string.IsNullOrWhiteSpace(reason))
+            {
+                throw new ArgumentException(
+                    "Cancellation reason is required.",
+                    nameof(reason));
             }
 
             if (appointment.Status == 3)
             {
-                throw new Exception(
+                throw new InvalidOperationException(
                     "Completed appointments cannot be cancelled.");
             }
 
             if (appointment.Status == 2)
             {
-                throw new Exception(
+                throw new InvalidOperationException(
                     "Appointment is already cancelled.");
             }
 
@@ -134,73 +140,65 @@ namespace HealthAxis.Shared.Services.Impl
 
         public void DeleteAppointment(int id)
         {
+            Appointment appointment = appointmentRepository.GetById(id);
+
+            if (appointment == null)
+            {
+                throw new KeyNotFoundException(AppointmentNotFoundMessage);
+            }
+
             appointmentRepository.Delete(id);
         }
 
-        private void ValidateAppointment(
-            Appointment appointment)
+        private void ValidateAppointment(Appointment appointment)
         {
             if (appointment.PatientId <= 0)
             {
-                throw new Exception(
-                    "Invalid Patient.");
+                throw new ArgumentException(
+                    "Invalid Patient.",
+                    nameof(appointment));
             }
 
             if (appointment.DoctorId <= 0)
             {
-                throw new Exception(
-                    "Invalid Doctor.");
+                throw new ArgumentException(
+                    "Invalid Doctor.",
+                    nameof(appointment));
             }
 
-            if (appointment.ScheduledDate.Date <
-                DateTime.Today)
+            if (appointment.ScheduledDate.Date < DateTime.Today)
             {
-                throw new Exception(
-                    "Past dates are not allowed.");
+                throw new ArgumentException(
+                    "Past dates are not allowed.",
+                    nameof(appointment));
             }
 
-
-
-            Doctor doctor =
-                doctorRepository.GetById(
-                    appointment.DoctorId);
+            Doctor doctor = doctorRepository.GetById(appointment.DoctorId);
 
             if (doctor == null)
             {
-                throw new Exception(
-                    "Doctor not found.");
+                throw new KeyNotFoundException(DoctorNotFoundMessage);
             }
 
             if (!doctor.IsActive)
             {
-                throw new Exception(
-                    "Doctor is inactive.");
+                throw new InvalidOperationException("Doctor is inactive.");
             }
 
-            bool alreadyBooked =
-                appointmentRepository
+            bool alreadyBooked = appointmentRepository
                 .GetAll()
                 .Any(a =>
-                    a.AppointmentId !=
-                        appointment.AppointmentId
-                    &&
-                    a.DoctorId ==
-                        appointment.DoctorId
-                    &&
-                    a.ScheduledDate ==
-                        appointment.ScheduledDate
-                    &&
-                    a.TimeSlot ==
-                        appointment.TimeSlot
-                    &&
-                    a.Status != 2);
+                    a.AppointmentId != appointment.AppointmentId
+                    && a.DoctorId == appointment.DoctorId
+                    && a.ScheduledDate == appointment.ScheduledDate
+                    && a.TimeSlot == appointment.TimeSlot
+                    && a.Status != 2);
 
             if (alreadyBooked)
             {
-                throw new Exception(
+                throw new InvalidOperationException(
                     "Doctor already has an appointment in this slot.");
             }
         }
     }
-
 }

@@ -10,8 +10,7 @@ namespace HealthAxis.Shared.Services.Impl
     {
         private readonly IHealthRecordRepository repository;
 
-        public HealthRecordService(
-            IHealthRecordRepository repository)
+        public HealthRecordService(IHealthRecordRepository repository)
         {
             this.repository = repository;
         }
@@ -42,44 +41,57 @@ namespace HealthAxis.Shared.Services.Impl
 
         public void DeleteRecord(int id)
         {
+            HealthRecord record = repository.GetById(id);
+
+            if (record == null)
+            {
+                throw new KeyNotFoundException("Health record not found.");
+            }
+
             repository.Delete(id);
         }
 
-        private void ValidateRecord(
-            HealthRecord record)
+        private static void ValidateRecord(HealthRecord record)
         {
+            if (record == null)
+            {
+                throw new ArgumentNullException(nameof(record));
+            }
+
             if (record.PatientId <= 0)
             {
-                throw new Exception(
-                    "Invalid Patient.");
+                throw new ArgumentException(
+                    "Invalid Patient.",
+                    nameof(record));
             }
 
             if (record.DoctorId <= 0)
             {
-                throw new Exception(
-                    "Invalid Doctor.");
+                throw new ArgumentException(
+                    "Invalid Doctor.",
+                    nameof(record));
             }
 
             if (record.VisitDate < DateTime.Now)
             {
-                throw new Exception(
-                    "Visit Date cannot be in the past.");
+                throw new ArgumentException(
+                    "Visit Date cannot be in the past.",
+                    nameof(record));
             }
 
-            if (string.IsNullOrWhiteSpace(
-                record.Diagnosis))
+            if (string.IsNullOrWhiteSpace(record.Diagnosis))
             {
-                throw new Exception(
-                    "Diagnosis is required.");
+                throw new ArgumentException(
+                    "Diagnosis is required.",
+                    nameof(record));
             }
 
-            if (string.IsNullOrWhiteSpace(
-                record.Prescription))
+            if (string.IsNullOrWhiteSpace(record.Prescription))
             {
-                throw new Exception(
-                    "Prescription is required.");
+                throw new ArgumentException(
+                    "Prescription is required.",
+                    nameof(record));
             }
         }
     }
-
 }

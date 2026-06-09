@@ -5,7 +5,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using HealthAxisWebApp.ApiClients;
 
 namespace HealthAxisWebApp.Controllers
 {
