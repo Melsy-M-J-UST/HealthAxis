@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using HealthAxis.Shared.Models;
+using System;
+using System.Collections.Generic;
 
 namespace HealthAxisWebApp.Repositories.Interfaces
 {
@@ -13,5 +15,14 @@ namespace HealthAxisWebApp.Repositories.Interfaces
         void Update(Appointment appointment);
 
         void Delete(int id);
+
+        List<Appointment> GetByPatientId(int patientId);
+
+        List<Appointment> GetTodayAppointments(int doctorId);
+
+        List<Appointment> GetWeeklyAppointments(int doctorId);
+
+        bool IsSlotAvailable(int doctorId, DateTime date, int timeSlot);
+
     }
 }

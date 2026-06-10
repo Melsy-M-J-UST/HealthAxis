@@ -1,6 +1,6 @@
 ﻿using HealthAxis.Shared.DTOs;
 using HealthAxis.Shared.Enums;
-using HealthAxisWebApp.ApiClients;
+using HealthAxisWebApp.Services;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,20 +17,23 @@ namespace HealthAxisWebApp.Controllers
             _apiClient = new DoctorApiClient();
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index(
+            string sortBy = "name",
+            string specialisation = "all")
         {
-            return RedirectToAction("ApiIndex");
-        }
+            var doctors = await _apiClient.GetDoctors(sortBy, specialisation);
 
-        public async Task<ActionResult> ApiIndex()
-        {
-            var doctors = await _apiClient.GetAllDoctors();
+            ViewBag.SortBy = sortBy;
+            ViewBag.Specialisation = specialisation;
+
+            LoadSpecialisationDropdown(null, includeAll: false);
+
             return View(doctors);
         }
 
-        public async Task<ActionResult> Details(int id)
+        public async Task<ActionResult> DoctorProfile(int id)
         {
-            var doctor = await _apiClient.GetDoctorById(id);
+            var doctor = await _apiClient.GetDoctorProfile(id);
 
             if (doctor == null)
             {
@@ -62,7 +65,7 @@ namespace HealthAxisWebApp.Controllers
             try
             {
                 await _apiClient.CreateDoctor(doctor);
-                return RedirectToAction("ApiIndex");
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
@@ -102,8 +105,17 @@ namespace HealthAxisWebApp.Controllers
 
             try
             {
+                var existingDoctor = await _apiClient.GetDoctorById(id);
+
+                if (existingDoctor == null)
+                {
+                    return HttpNotFound();
+                }
+
+                doctor.IsActive = existingDoctor.IsActive;
+
                 await _apiClient.UpdateDoctor(doctor);
-                return RedirectToAction("ApiIndex");
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
@@ -113,38 +125,15 @@ namespace HealthAxisWebApp.Controllers
             }
         }
 
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> Toggle(int id)
         {
-            var doctor = await _apiClient.GetDoctorById(id);
-
-            if (doctor == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(doctor);
+            await _apiClient.ToggleDoctorStatus(id);
+            return RedirectToAction("Index");
         }
 
-        [HttpPost]
-        [ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
-            try
-            {
-                await _apiClient.DeleteDoctor(id);
-                return RedirectToAction("ApiIndex");
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", ex.Message);
-
-                var doctor = await _apiClient.GetDoctorById(id);
-                return View(doctor);
-            }
-        }
-
-        private void LoadSpecialisationDropdown(int? selectedSpecialisation = null)
+        private void LoadSpecialisationDropdown(
+            int? selectedSpecialisation = null,
+            bool includeAll = false)
         {
             var specialisations = Enum.GetValues(typeof(DoctorSpecialisation))
                 .Cast<DoctorSpecialisation>()
@@ -154,6 +143,15 @@ namespace HealthAxisWebApp.Controllers
                     Text = s.ToString()
                 })
                 .ToList();
+
+            if (includeAll)
+            {
+                specialisations.Insert(0, new
+                {
+                    Value = -1,
+                    Text = "All"
+                });
+            }
 
             ViewBag.SpecialisationList = new SelectList(
                 specialisations,

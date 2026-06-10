@@ -23,6 +23,7 @@ namespace HealthAxis.Shared.DTOs
         [Range(0, 10000, ErrorMessage = "Fee must be between 0 and 10,000.")]
         public decimal ConsultationFee { get; set; }
 
+        public int UpcomingAppointmentCount{get; set;}
         public bool IsActive { get; set; }
     }
 }

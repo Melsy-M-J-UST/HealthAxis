@@ -1,6 +1,7 @@
 ﻿using HealthAxis.Shared.DTOs;
-using HealthAxisWebApp.ApiClients;
+using HealthAxisWebApp.Services;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -10,183 +11,119 @@ namespace HealthAxisWebApp.Controllers
     public class HealthRecordController : Controller
     {
         private readonly HealthRecordApiClient _healthRecordApiClient;
-        private readonly AppointmentApiClient _appointmentApiClient;
 
         public HealthRecordController()
         {
             _healthRecordApiClient = new HealthRecordApiClient();
-            _appointmentApiClient = new AppointmentApiClient();
         }
 
         public ActionResult Index()
         {
-            return RedirectToAction("ApiIndex");
+            return View();
         }
 
-        public async Task<ActionResult> ApiIndex()
+        public async Task<ActionResult> List()
         {
-            var healthRecords = await _healthRecordApiClient.GetAllHealthRecords();
+            var records = await _healthRecordApiClient.GetAllHealthRecords();
 
-            return View(healthRecords);
+            var orderedRecords = records
+                .OrderByDescending(r => r.VisitDate)
+                .ToList();
+
+            return View(orderedRecords);
+        }
+
+        public ActionResult Create(int? appointmentId, int? patientId, int? doctorId)
+        {
+            if (!appointmentId.HasValue || !patientId.HasValue || !doctorId.HasValue)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var model = new HealthRecordDto
+            {
+                AppointmentId = appointmentId.Value,
+                PatientId = patientId.Value,
+                DoctorId = doctorId.Value,
+                VisitDate = DateTime.Now
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(HealthRecordDto model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                await _healthRecordApiClient.CreateHealthRecord(model);
+                return RedirectToAction("List");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View(model);
+            }
         }
 
         public async Task<ActionResult> Details(int id)
         {
-            var healthRecord = await _healthRecordApiClient.GetHealthRecordById(id);
+            var record = await _healthRecordApiClient.GetHealthRecordById(id);
 
-            if (healthRecord == null)
+            if (record == null)
             {
                 return HttpNotFound();
             }
 
-            return View(healthRecord);
+            return View(record);
         }
 
-        public async Task<ActionResult> Create()
+        public async Task<ActionResult> PatientHistory(int? patientId)
         {
-            await LoadAppointmentDropdown();
+            ViewBag.HasSearched = false;
 
-            return View(new HealthRecordDto());
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(HealthRecordDto healthRecord)
-        {
-            if (healthRecord.AppointmentId <= 0)
+            if (!patientId.HasValue)
             {
-                ModelState.AddModelError("AppointmentId", "Appointment is required.");
+                return View(new List<HealthRecordDto>());
             }
 
-            if (string.IsNullOrWhiteSpace(healthRecord.Diagnosis))
-            {
-                ModelState.AddModelError("Diagnosis", "Diagnosis is required.");
-            }
+            var records = await _healthRecordApiClient.GetAllHealthRecords();
 
-            if (!ModelState.IsValid)
-            {
-                await LoadAppointmentDropdown(healthRecord.AppointmentId);
-
-                return View(healthRecord);
-            }
-
-            try
-            {
-                await _healthRecordApiClient.CreateHealthRecord(healthRecord);
-
-                return RedirectToAction("ApiIndex");
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", ex.Message);
-
-                await LoadAppointmentDropdown(healthRecord.AppointmentId);
-
-                return View(healthRecord);
-            }
-        }
-
-        public async Task<ActionResult> Edit(int id)
-        {
-            var healthRecord = await _healthRecordApiClient.GetHealthRecordById(id);
-
-            if (healthRecord == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(healthRecord);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, HealthRecordDto healthRecord)
-        {
-            if (id != healthRecord.RecordId)
-            {
-                return new HttpStatusCodeResult(400, "Health record ID mismatch.");
-            }
-
-            if (string.IsNullOrWhiteSpace(healthRecord.Diagnosis))
-            {
-                ModelState.AddModelError("Diagnosis", "Diagnosis is required.");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return View(healthRecord);
-            }
-
-            try
-            {
-                await _healthRecordApiClient.UpdateHealthRecord(healthRecord);
-
-                return RedirectToAction("ApiIndex");
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", ex.Message);
-
-                return View(healthRecord);
-            }
-        }
-
-        public async Task<ActionResult> Delete(int id)
-        {
-            var healthRecord = await _healthRecordApiClient.GetHealthRecordById(id);
-
-            if (healthRecord == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(healthRecord);
-        }
-
-        [HttpPost]
-        [ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
-            try
-            {
-                await _healthRecordApiClient.DeleteHealthRecord(id);
-
-                return RedirectToAction("ApiIndex");
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", ex.Message);
-
-                var healthRecord = await _healthRecordApiClient.GetHealthRecordById(id);
-
-                return View(healthRecord);
-            }
-        }
-
-        private async Task LoadAppointmentDropdown(int? selectedAppointmentId = null)
-        {
-            var appointments = await _appointmentApiClient.GetAllAppointments();
-
-            var appointmentItems = appointments
-                .Select(a => new
-                {
-                    Value = a.AppointmentId,
-                    Text = "Appointment #" + a.AppointmentId
-                           + " | " + a.PatientName
-                           + " | " + a.DoctorName
-                           + " | " + a.ScheduledDate.ToString("yyyy-MM-dd")
-                           + " | " + a.TimeSlotName
-                           + " | " + a.StatusName
-                })
+            var result = records
+                .Where(r => r.PatientId == patientId.Value)
+                .OrderByDescending(r => r.VisitDate)
                 .ToList();
 
-            ViewBag.AppointmentList = new SelectList(
-                appointmentItems,
-                "Value",
-                "Text",
-                selectedAppointmentId
-            );
+            ViewBag.HasSearched = true;
+
+            return View(result);
         }
+
+        //public async Task<ActionResult> DoctorView(int? patientId)
+        //{
+        //    ViewBag.HasSearched = false;
+
+        //    if (!patientId.HasValue)
+        //    {
+        //        return View(new List<HealthRecordDto>());
+        //    }
+
+        //    var records = await _healthRecordApiClient.GetAllHealthRecords();
+
+        //    var result = records
+        //        .Where(r => r.PatientId == patientId.Value)
+        //        .OrderByDescending(r => r.VisitDate)
+        //        .ToList();
+
+        //    ViewBag.HasSearched = true;
+
+        //    return View(result);
+        //}
     }
 }

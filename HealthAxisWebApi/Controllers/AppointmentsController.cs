@@ -1,5 +1,6 @@
 ﻿using HealthAxis.Shared.DTOs;
 using HealthAxis.Shared.Enums;
+using HealthAxis.Shared.Models;
 using HealthAxis.Shared.Services.Interfaces;
 using HealthAxisWebApp;
 using System;
@@ -370,6 +371,117 @@ namespace HealthAxisWebApi.Controllers
         }
 
         // ==========================================
+        // GET APPOINTMENTS BY PATIENT
+        // ==========================================
+        [HttpGet]
+        [Route("patient/{patientId:int}")]
+        public IHttpActionResult GetByPatient(
+            int patientId)
+        {
+            var appointments =
+                _appointmentService
+                .GetAllAppointments()
+                .Where(a =>
+                    a.PatientId == patientId)
+                .Select(a => new AppointmentDto
+                {
+                    AppointmentId = a.AppointmentId,
+                    PatientId = a.PatientId,
+                    PatientName = a.Patient.FullName,
+                    DoctorId = a.DoctorId,
+                    DoctorName = a.Doctor.FullName,
+                    ScheduledDate = a.ScheduledDate,
+                    TimeSlot = a.TimeSlot,
+                    TimeSlotName = GetTimeSlotName(a.TimeSlot),
+                    Status = a.Status,
+                    StatusName = GetStatusName(a.Status),
+                    CancellationReason = a.CancellationReason
+                })
+                .ToList();
+
+            return Ok(appointments);
+        }
+
+        // ==========================================
+        // GET TODAY APPOINTMENTS FOR DOCTOR
+        // ==========================================
+        [HttpGet]
+        [Route("doctor/{doctorId:int}/today")]
+        public IHttpActionResult GetTodayAppointments(
+            int doctorId)
+        {
+            DateTime today =
+                DateTime.Today;
+
+            var appointments =
+                _appointmentService
+                .GetAllAppointments()
+                .Where(a =>
+                    a.DoctorId == doctorId
+                    &&
+                    a.ScheduledDate.Date == today)
+                .Select(a => new AppointmentDto
+                {
+                    AppointmentId = a.AppointmentId,
+                    PatientId = a.PatientId,
+                    PatientName = a.Patient.FullName,
+                    DoctorId = a.DoctorId,
+                    DoctorName = a.Doctor.FullName,
+                    ScheduledDate = a.ScheduledDate,
+                    TimeSlot = a.TimeSlot,
+                    TimeSlotName = GetTimeSlotName(a.TimeSlot),
+                    Status = a.Status,
+                    StatusName = GetStatusName(a.Status),
+                    CancellationReason = a.CancellationReason
+                })
+                .ToList();
+
+            return Ok(appointments);
+        }
+
+        // ==========================================
+        // GET WEEKLY APPOINTMENTS FOR DOCTOR
+        // ==========================================
+        [HttpGet]
+        [Route("doctor/{doctorId:int}/week")]
+        public IHttpActionResult GetWeeklyAppointments(
+            int doctorId)
+        {
+            DateTime start =
+                DateTime.Today;
+
+            DateTime end =
+                DateTime.Today.AddDays(7);
+
+            var appointments =
+                _appointmentService
+                .GetAllAppointments()
+                .Where(a =>
+                    a.DoctorId == doctorId
+                    &&
+                    a.ScheduledDate.Date >= start
+                    &&
+                    a.ScheduledDate.Date <= end)
+                .Select(a => new AppointmentDto
+                {
+                    AppointmentId = a.AppointmentId,
+                    PatientId = a.PatientId,
+                    PatientName = a.Patient.FullName,
+                    DoctorId = a.DoctorId,
+                    DoctorName = a.Doctor.FullName,
+                    ScheduledDate = a.ScheduledDate,
+                    TimeSlot = a.TimeSlot,
+                    TimeSlotName = GetTimeSlotName(a.TimeSlot),
+                    Status = a.Status,
+                    StatusName = GetStatusName(a.Status),
+                    CancellationReason = a.CancellationReason
+                })
+                .ToList();
+
+            return Ok(appointments);
+        }
+
+        // ==========================================
         // DELETE APPOINTMENT
         // ==========================================
         [HttpDelete]
@@ -432,6 +544,8 @@ namespace HealthAxisWebApi.Controllers
             return "Unknown";
         }
     }
+
+
 
     public class CancelAppointmentRequest
     {

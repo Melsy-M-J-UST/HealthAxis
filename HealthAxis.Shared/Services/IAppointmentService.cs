@@ -1,4 +1,5 @@
-﻿using HealthAxisWebApp;
+﻿using HealthAxis.Shared.Models;
+using HealthAxisWebApp;
 using System.Collections.Generic;
 
 namespace HealthAxis.Shared.Services.Interfaces

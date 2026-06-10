@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using HealthAxis.Shared.Models;
 using HealthAxis.Shared.Services.Impl;
 using HealthAxisWebApp;
 using HealthAxisWebApp.Repositories.Interfaces;

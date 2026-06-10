@@ -1,53 +1,135 @@
-﻿@model IEnumerable<HealthAxisWebApp.Doctor>
+﻿@using System.Linq
+@model IEnumerable<HealthAxis.Shared.DTOs.DoctorDto>
 
 @{
     ViewBag.Title = "Doctors";
+
+    var currentSort = ViewBag.SortBy as string ?? "name";
+    var currentSpec = ViewBag.Specialisation as string ?? "all";
 }
 
-<h2>Doctors</h2>
+<div class="container mt-4">
 
-<p>
-    @Html.ActionLink(
-        "Add Doctor",
-        "Create",
-        null,
-        new { @class = "btn btn-primary" })
-</p>
+    <div class="page-header-card d-flex justify-content-between align-items-center">
+        <div>
+            <h2>Doctors</h2>
+            <p>Manage doctor profiles and availability.</p>
+        </div>
 
-<table class="table table-bordered">
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Specialisation</th>
-        <th>Experience</th>
-        <th>Fee</th>
-        <th>Active</th>
-        <th>Actions</th>
-    </tr>
+        @Html.ActionLink(
+            "Add Doctor",
+            "Create",
+            "Doctor",
+            null,
+            new { @class = "btn btn-primary" }
+        )
+    </div>
 
-    @foreach (var item in Model)
+    <form method="get" class="row g-3 mb-3">
+
+        <div class="col-md-3">
+            <label class="form-label">Sort By</label>
+            <select name="sortBy" class="form-select">
+                <option value="name" @(currentSort == "name" ? "selected" : null)>Name (A-Z)</option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label">Specialisation</label>
+            <select name="specialisation" class="form-select">
+                <option value="all">All</option>
+                @if (ViewBag.SpecialisationList != null)
+                {
+                    foreach (var item in (SelectList)ViewBag.SpecialisationList)
+                    {
+                        <option value="@item.Value" @(item.Value.ToString() == currentSpec ? "selected" : null)>
+                            @item.Text
+                        </option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="col-md-2 align-self-end">
+            <button type="submit" class="btn btn-success w-100">
+                Apply
+            </button>
+        </div>
+    </form>
+
+    @if (Model == null || !Model.Any())
     {
-        <tr>
-            <td>@item.DoctorId</td>
-            <td>@item.FullName</td>
-            <td>@item.Specialisation</td>
-            <td>@item.YearsOfExperience</td>
-            <td>@item.ConsultationFee</td>
-            <td>@item.IsActive</td>
-
-            <td>
-                @Html.ActionLink(
-                    "Edit",
-                    "Edit",
-                    new { id = item.DoctorId },
-                    new { @class = "btn btn-warning btn-sm" })
-
-                @Html.ActionLink(
-                    "Delete",
-                    "Delete",
-                    new { id = item.DoctorId },
-                    new { @class = "btn btn-danger btn-sm" })
-            </td>
-        </tr>
+        <div class="alert alert-info">
+            No doctors found.
+        </div>
     }
-</table>
+    else
+    {
+        <div class="data-table-wrap">
+            <table class="table data-table table-bordered align-middle">
+                <thead>
+                    <tr>
+                        <th style="width: 6%;">ID</th>
+                        <th style="width: 20%;">Name</th>
+                        <th style="width: 16%;">Specialisation</th>
+                        <th style="width: 11%;">Experience</th>
+                        <th style="width: 12%;">Fee</th>
+                        <th style="width: 10%;">Status</th>
+                        <th style="width: 25%;">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.DoctorId</td>
+                            <td class="truncate-cell" title="@item.FullName">@item.FullName</td>
+                            <td class="truncate-cell" title="@item.SpecialisationName">@item.SpecialisationName</td>
+                            <td>@item.YearsOfExperience yrs</td>
+                            <td>₹@item.ConsultationFee</td>
+                            <td>
+                                @if (item.IsActive)
+                                {
+                                    <span class="badge-soft-success">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="badge-soft-secondary">Inactive</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="action-bar">
+                                    @Html.ActionLink(
+                                        "Profile",
+                                        "DoctorProfile",
+                                        "Doctor",
+                                        new { id = item.DoctorId },
+                                        new { @class = "btn btn-info btn-sm" }
+                                    )
+
+                                    @Html.ActionLink(
+                                        "Edit",
+                                        "Edit",
+                                        "Doctor",
+                                        new { id = item.DoctorId },
+                                        new { @class = "btn btn-warning btn-sm" }
+                                    )
+
+                                    @Html.ActionLink(
+                                        item.IsActive ? "Deactivate" : "Activate",
+                                        "Toggle",
+                                        "Doctor",
+                                        new { id = item.DoctorId },
+                                        new { @class = "btn btn-danger btn-sm" }
+                                    )
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+</div>

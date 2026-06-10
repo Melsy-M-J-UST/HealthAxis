@@ -1,0 +1,72 @@
+﻿@model HealthAxis.Shared.DTOs.DoctorDto
+
+@{
+    ViewBag.Title = "Doctor Profile";
+}
+
+<div class="container mt-4">
+
+    <!-- HEADER -->
+    <div class="page-header-card">
+        <h2>Doctor Profile</h2>
+        <p>View complete doctor details.</p>
+    </div>
+
+    <!-- PROFILE CARD -->
+    <div class="card">
+        <div class="card-body">
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p><strong>Name:</strong> @Model.FullName</p>
+                </div>
+
+                <div class="col-md-6">
+                    <p><strong>Specialisation:</strong> @Model.SpecialisationName</p>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p><strong>Experience:</strong> @Model.YearsOfExperience years</p>
+                </div>
+
+                <div class="col-md-6">
+                    <p><strong>Consultation Fee:</strong> ₹@Model.ConsultationFee</p>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p>
+                        <strong>Status:</strong>
+                        @if (Model.IsActive)
+                        {
+                            <span class="badge bg-success">Active</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Inactive</span>
+                        }
+                    </p>
+                </div>
+
+                <div class="col-md-6">
+                    <p>
+                        <strong>Upcoming Appointments:</strong>
+                        @Model.UpcomingAppointmentCount
+                    </p>
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="mt-3">
+                @Html.ActionLink("Back to List", "Index", null,
+                    new { @class = "btn btn-secondary" })
+            </div>
+
+        </div>
+    </div>
+
+</div>

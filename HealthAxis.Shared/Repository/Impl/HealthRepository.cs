@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using HealthAxis.Shared.Models;
 using HealthAxisWebApp.Repositories.Interfaces;
 
 namespace HealthAxisWebApp.Repositories

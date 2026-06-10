@@ -1,85 +1,84 @@
-﻿@model IEnumerable<HealthAxisWebApp.HealthRecord>
-
-@{
+﻿@{
     ViewBag.Title = "Health Records";
 }
 
-<h2>Health Records</h2>
+<style>
+    .health-card {
+        border-radius: 12px;
+        transition: all 0.2s ease-in-out;
+        height: 220px;
+    }
 
-<p>
-    @Html.ActionLink(
-        "Add Health Record",
-        "Create",
-        null,
-        new { @class = "btn btn-primary" })
-</p>
-
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Record ID</th>
-            <th>Patient</th>
-            <th>Doctor</th>
-            <th>Visit Date</th>
-            <th>Diagnosis</th>
-            <th>Prescription</th>
-            <th>Notes</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.RecordId</td>
-
-                <td>
-                    @(item.Patient != null
-                        ? item.Patient.FullName
-                        : "")
-                </td>
-
-                <td>
-                    @(item.Doctor != null
-                        ? item.Doctor.FullName
-                        : "")
-                </td>
-
-                <td>
-                    @item.VisitDate.ToString("dd-MMM-yyyy")
-                </td>
-
-                <td>@item.Diagnosis</td>
-
-                <td>@item.Prescription</td>
-
-                <td>@item.Notes</td>
-
-                <td>
-                    @Html.ActionLink(
-                        "Details",
-                        "Details",
-                        new { id = item.RecordId },
-                        new { @class = "btn btn-info btn-sm" })
-
-                    @Html.Raw(" ")
-
-                    @Html.ActionLink(
-                        "Edit",
-                        "Edit",
-                        new { id = item.RecordId },
-                        new { @class = "btn btn-warning btn-sm" })
-
-                    @Html.Raw(" ")
-
-                    @Html.ActionLink(
-                        "Delete",
-                        "Delete",
-                        new { id = item.RecordId },
-                        new { @class = "btn btn-danger btn-sm" })
-                </td>
-            </tr>
+        .health-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
         }
-    </tbody>
-</table>
+
+        .health-card .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: center;
+        }
+
+    .btn-health {
+        background: linear-gradient(135deg, #6ee7b7, #34d399);
+        border: none;
+        color: white;
+        border-radius: 8px;
+        padding: 10px 14px;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+        .btn-health:hover {
+            background: linear-gradient(135deg, #34d399, #10b981);
+            color: white;
+        }
+</style>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-5">Health Records</h2>
+
+    <div class="row justify-content-center g-4">
+
+        <div class="col-md-5">
+            <div class="card shadow-sm health-card">
+                <div class="card-body">
+                    <div>
+                        <h4>All Health Records</h4>
+                        <p class="text-muted">Browse all records ordered by latest visit date.</p>
+                    </div>
+
+                    @Html.ActionLink(
+                        "Open",
+                        "List",
+                        "HealthRecord",
+                        null,
+                        new { @class = "btn btn-health w-100" }
+                    )
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="card shadow-sm health-card">
+                <div class="card-body">
+                    <div>
+                        <h4>Patient Health History</h4>
+                        <p class="text-muted">View all health records for a specific patient.</p>
+                    </div>
+
+                    @Html.ActionLink(
+                        "Open",
+                        "PatientHistory",
+                        "HealthRecord",
+                        null,
+                        new { @class = "btn btn-health w-100" }
+                    )
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

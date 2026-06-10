@@ -1,56 +1,236 @@
-﻿@model IEnumerable<HealthAxis.Shared.DTOs.PatientDto>
+﻿@using System.Linq
+@model IEnumerable<HealthAxis.Shared.DTOs.PatientDto>
 
 @{
     ViewBag.Title = "Patients";
+
+    var currentSort = ViewBag.SortBy as string ?? "name";
+    var currentFilter = ViewBag.Filter as string ?? "all";
 }
 
-<h2>Patients</h2>
+<style>
+    .patients-table-wrap {
+        background: rgba(255, 255, 255, 0.80);
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 6px 18px rgba(31, 42, 68, 0.08);
+    }
 
-<p>
-    <a href="@Url.Action("Create", "Patient")"
-       class="btn btn-primary">
-        Add Patient
-    </a>
-</p>
+    .patients-table {
+        width: 100%;
+        margin-bottom: 0;
+        table-layout: fixed;
+    }
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>DOB</th>
-            <th>Gender</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Insurance</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.PatientId</td>
-                <td>@item.FullName</td>
-                <td>@item.DateOfBirth.ToShortDateString()</td>
-                <td>@item.GenderName</td>
-                <td>@item.Email</td>
-                <td>@item.PhoneNumber</td>
-                <td>@item.InsuranceID</td>
-
-                <td>
-                    <a href="@Url.Action("Edit", "Patient", new { id = item.PatientId })"
-                       class="btn btn-warning btn-sm">
-                        Edit
-                    </a>
-
-                    <a href="@Url.Action("Delete", "Patient", new { id = item.PatientId })"
-                       class="btn btn-danger btn-sm">
-                        Delete
-                    </a>
-                </td>
-            </tr>
+        .patients-table thead th {
+            background: linear-gradient(135deg, #315e78, #3c6d87);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.90rem;
+            padding: 11px 10px;
+            border-color: rgba(255,255,255,0.12);
+            vertical-align: middle;
         }
-    </tbody>
-</table>
+
+        .patients-table tbody td {
+            padding: 11px 10px;
+            vertical-align: middle;
+            border-color: #dbe3e8;
+            color: #33414f;
+            background-color: rgba(255,255,255,0.92);
+            font-size: 0.90rem;
+        }
+
+        .patients-table tbody tr:nth-child(even) td {
+            background-color: rgba(245, 248, 250, 0.97);
+        }
+
+        .patients-table tbody tr:hover td {
+            background-color: #edf6f7;
+        }
+
+    .truncate-cell {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .badge-insured {
+        background-color: #1f8f5a;
+        color: #fff;
+        font-size: 0.76rem;
+        padding: 4px 7px;
+        border-radius: 7px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .badge-uninsured {
+        background-color: #6c757d;
+        color: #fff;
+        font-size: 0.76rem;
+        padding: 4px 7px;
+        border-radius: 7px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .patient-actions {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 4px;
+        align-items: center;
+    }
+
+        .patient-actions .btn {
+            white-space: nowrap;
+            border-radius: 7px;
+            padding: 4px 7px;
+            font-weight: 600;
+            font-size: 0.74rem;
+            line-height: 1.1;
+        }
+
+            .patient-actions .btn i {
+                margin-right: 3px;
+            }
+
+    .page-header-card {
+        margin-bottom: 20px;
+    }
+
+    @@media (max-width: 1200px) {
+        .patient-actions .btn {
+            font-size: 0.70rem;
+            padding: 4px 6px;
+        }
+
+        .patients-table thead th,
+        .patients-table tbody td {
+            font-size: 0.85rem;
+            padding: 10px 8px;
+        }
+    }
+</style>
+
+<div class="container mt-4">
+
+    <div class="page-header-card d-flex justify-content-between align-items-center">
+        <div>
+            <h2>Patients</h2>
+            <p>Manage registered patient information.</p>
+        </div>
+
+        <a href="@Url.Action("Create","Patient")" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i> Add Patient
+        </a>
+    </div>
+
+    <form method="get" class="row g-3 mb-3">
+
+        <div class="col-md-3">
+            <label class="form-label">Sort By</label>
+            <select name="sortBy" class="form-select">
+                <option value="name" @(currentSort == "name" ? "selected" : "")>
+                    Name (A-Z)
+                </option>
+                <option value="id" @(currentSort == "id" ? "selected" : "")>
+                    ID (Ascending)
+                </option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label">Insurance Filter</label>
+            <select name="filter" class="form-select">
+                <option value="all" @(currentFilter == "all" ? "selected" : "")>
+                    All
+                </option>
+                <option value="insured" @(currentFilter == "insured" ? "selected" : "")>
+                    Insured
+                </option>
+                <option value="uninsured" @(currentFilter == "uninsured" ? "selected" : "")>
+                    Uninsured
+                </option>
+            </select>
+        </div>
+
+        <div class="col-md-2 align-self-end">
+            <button type="submit" class="btn btn-success w-100">
+                Apply
+            </button>
+        </div>
+
+    </form>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            No patients found.
+        </div>
+    }
+    else
+    {
+        <div class="patients-table-wrap">
+            <table class="table patients-table table-bordered align-middle">
+                <thead>
+                    <tr>
+                        <th style="width: 4%;">ID</th>
+                        <th style="width: 16%;">Name</th>
+                        <th style="width: 10%;">DOB</th>
+                        <th style="width: 8%;">Gender</th>
+                        <th style="width: 15%;">Email</th>
+                        <th style="width: 10%;">Phone</th>
+                        <th style="width: 8%;">Insurance</th>
+                        <th style="width: 29%;">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.PatientId</td>
+                            <td class="truncate-cell" title="@item.FullName">@item.FullName</td>
+                            <td>@item.DateOfBirth.ToString("yyyy-MM-dd")</td>
+                            <td>@item.GenderName</td>
+                            <td class="truncate-cell" title="@item.Email">@item.Email</td>
+                            <td>@item.PhoneNumber</td>
+
+                            <td>
+                                @if (string.IsNullOrEmpty(item.InsuranceID))
+                                {
+                                    <span class="badge-uninsured">Uninsured</span>
+                                }
+                                else
+                                {
+                                    <span class="badge-insured">@item.InsuranceID</span>
+                                }
+                            </td>
+
+                            <td>
+                                <div class="patient-actions">
+                                    <a href="@Url.Action("Profile","Patient", new { id = item.PatientId })"
+                                       class="btn btn-info btn-sm">
+                                        <i class="bi bi-person-lines-fill"></i>Profile
+                                    </a>
+
+                                    <a href="@Url.Action("Edit","Patient", new { id = item.PatientId })"
+                                       class="btn btn-warning btn-sm">
+                                        <i class="bi bi-pencil-square"></i>Edit
+                                    </a>
+
+                                    <a href="@Url.Action("Deactivate","Patient", new { id = item.PatientId })"
+                                       class="btn btn-danger btn-sm">
+                                        <i class="bi bi-x-circle"></i>Deactivate
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+</div>

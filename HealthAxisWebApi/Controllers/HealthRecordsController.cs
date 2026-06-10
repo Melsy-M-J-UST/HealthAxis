@@ -1,4 +1,5 @@
 ﻿using HealthAxis.Shared.DTOs;
+using HealthAxis.Shared.Models;
 using HealthAxis.Shared.Services.Interfaces;
 using HealthAxisWebApp;
 using System;

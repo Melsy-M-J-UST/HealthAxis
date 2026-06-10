@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using HealthAxis.Shared.Models;
+using HealthAxisWebApp.Repositories.Interfaces;
+using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using HealthAxisWebApp.Repositories.Interfaces;
 
 namespace HealthAxisWebApp.Repositories
 {
@@ -44,6 +46,48 @@ namespace HealthAxisWebApp.Repositories
 
             db.SaveChanges();
         }
+        public bool IsSlotAvailable(int doctorId, DateTime date, int timeSlot)
+        {
+            return !db.Appointments.Any(a =>
+                a.DoctorId == doctorId &&
+                a.ScheduledDate == date &&
+                a.TimeSlot == timeSlot &&
+                a.Status != 2); // not cancelled
+        }
+
+        public List<Appointment> GetByPatientId(int patientId)
+        {
+            return db.Appointments
+                .Include(a => a.Doctor)
+                .Where(a => a.PatientId == patientId)
+                .OrderByDescending(a => a.ScheduledDate)
+                .ToList();
+        }
+
+        public List<Appointment> GetTodayAppointments(int doctorId)
+        {
+            return db.Appointments
+                .Include(a => a.Patient)
+                .Where(a =>
+                    a.DoctorId == doctorId &&
+                    a.ScheduledDate == System.DateTime.Today)
+                .ToList();
+        }
+
+        public List<Appointment> GetWeeklyAppointments(int doctorId)
+        {
+            var today = System.DateTime.Today;
+            var weekEnd = today.AddDays(7);
+
+            return db.Appointments
+                .Include(a => a.Patient)
+                .Where(a =>
+                    a.DoctorId == doctorId &&
+                    a.ScheduledDate >= today &&
+                    a.ScheduledDate <= weekEnd)
+                .ToList();
+        }
+
 
         public void Delete(int id)
         {

@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using HealthAxisWebApp.Repositories.Interfaces;
 using HealthAxis.Shared.Services.Interfaces;
 using HealthAxisWebApp;
+using HealthAxis.Shared.Models;
 
 namespace HealthAxis.Shared.Services.Impl
 {
@@ -54,7 +55,10 @@ namespace HealthAxis.Shared.Services.Impl
 
             repository.Delete(id);
         }
-
+        public int GetUpcomingAppointmentCount(int doctorId)
+        {
+            return repository.GetUpcomingAppointmentCount(doctorId);
+        }
         private static void ValidateDoctor(Doctor doctor)
         {
             if (doctor == null)

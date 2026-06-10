@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using HealthAxis.Shared.Models;
 using HealthAxisWebApp.Repositories.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HealthAxisWebApp.Repositories
 {
@@ -34,6 +36,13 @@ namespace HealthAxisWebApp.Repositories
                 System.Data.Entity.EntityState.Modified;
 
             db.SaveChanges();
+        }
+
+        public int GetUpcomingAppointmentCount(int doctorId)
+        {
+            return db.Appointments.Count(a =>
+                a.DoctorId == doctorId &&
+                a.ScheduledDate >= DateTime.Today);
         }
 
         public void Delete(int id)

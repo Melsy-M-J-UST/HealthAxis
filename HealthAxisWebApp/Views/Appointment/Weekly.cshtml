@@ -1,0 +1,62 @@
+﻿@model IEnumerable<HealthAxis.Shared.DTOs.AppointmentDto>
+
+@{
+    ViewBag.Title = "Weekly Schedule";
+}
+
+<div class="container mt-4">
+
+    <div class="page-header-card">
+        <h2>Weekly Schedule</h2>
+        <p>Appointments for the upcoming week.</p>
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">No appointments this week.</div>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Patient</th>
+                    <th>Date</th>
+                    <th>Time Slot</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.PatientName</td>
+                        <td>@item.ScheduledDate.ToString("yyyy-MM-dd")</td>
+                        <td>@item.TimeSlotName</td>
+
+                        <td>
+                            @if (item.Status == 0)
+                            {
+                                <span class="badge bg-warning">Pending</span>
+                            }
+                            else if (item.Status == 1)
+                            {
+                                <span class="badge bg-primary">Confirmed</span>
+                            }
+                            else if (item.Status == 2)
+                            {
+                                <span class="badge bg-danger">Cancelled</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">Completed</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</div>

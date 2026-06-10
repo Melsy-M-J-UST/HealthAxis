@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using HealthAxis.Shared.Models;
+using System.Collections.Generic;
 
 namespace HealthAxisWebApp.Repositories.Interfaces
 {

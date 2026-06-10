@@ -1,104 +1,118 @@
 ﻿@model HealthAxis.Shared.DTOs.HealthRecordDto
 
 @{
-    ViewBag.Title = "Create Health Record";
+    ViewBag.Title = "Add Health Record";
 }
 
 <div class="container mt-4">
-    <h2>Create Health Record</h2>
+
+    <h2>Add Health Record</h2>
+
     <hr />
 
-    @using (Html.BeginForm("Create", "HealthRecord", FormMethod.Post))
+    @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
 
-        <div class="card">
+        @Html.ValidationSummary(
+            true,
+            "",
+            new { @class = "text-danger" })
+
+        @Html.HiddenFor(m => m.AppointmentId)
+        @Html.HiddenFor(m => m.PatientId)
+        @Html.HiddenFor(m => m.DoctorId)
+        @Html.HiddenFor(m => m.VisitDate)
+
+        <div class="card shadow-sm">
             <div class="card-body">
 
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
                 <div class="mb-3">
-                    @Html.LabelFor(model => model.AppointmentId, "Appointment", new { @class = "form-label" })
+                    <label class="form-label">
+                        Appointment ID
+                    </label>
 
-                    @Html.DropDownListFor(
-                        model => model.AppointmentId,
-                        (SelectList)ViewBag.AppointmentList,
-                        "-- Select Appointment --",
-                        new { @class = "form-control" }
-                    )
-
-                    @Html.ValidationMessageFor(model => model.AppointmentId, "", new { @class = "text-danger" })
-
-                    <small class="text-muted">
-                        Patient, doctor, and visit date will be automatically populated from the selected appointment.
-                    </small>
+                    <input class="form-control"
+                           value="@Model.AppointmentId"
+                           readonly />
                 </div>
 
                 <div class="mb-3">
-                    @Html.LabelFor(model => model.Diagnosis, "Diagnosis", new { @class = "form-label" })
+                    <label class="form-label">
+                        Diagnosis
+                    </label>
 
                     @Html.TextAreaFor(
-                        model => model.Diagnosis,
+                        m => m.Diagnosis,
                         new
                         {
                             @class = "form-control",
-                            rows = "3",
-                            placeholder = "Enter diagnosis"
-                        }
-                    )
+                            rows = 3
+                        })
 
-                    @Html.ValidationMessageFor(model => model.Diagnosis, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(
+                        m => m.Diagnosis,
+                        "",
+                        new { @class = "text-danger" })
                 </div>
 
                 <div class="mb-3">
-                    @Html.LabelFor(model => model.Prescription, "Prescription", new { @class = "form-label" })
+                    <label class="form-label">
+                        Prescription
+                    </label>
 
                     @Html.TextAreaFor(
-                        model => model.Prescription,
+                        m => m.Prescription,
                         new
                         {
                             @class = "form-control",
-                            rows = "3",
-                            placeholder = "Enter prescription"
-                        }
-                    )
+                            rows = 3
+                        })
 
-                    @Html.ValidationMessageFor(model => model.Prescription, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(
+                        m => m.Prescription,
+                        "",
+                        new { @class = "text-danger" })
                 </div>
 
                 <div class="mb-3">
-                    @Html.LabelFor(model => model.Notes, "Notes", new { @class = "form-label" })
+                    <label class="form-label">
+                        Notes
+                    </label>
 
                     @Html.TextAreaFor(
-                        model => model.Notes,
+                        m => m.Notes,
                         new
                         {
                             @class = "form-control",
-                            rows = "4",
-                            placeholder = "Enter notes"
-                        }
-                    )
+                            rows = 4
+                        })
 
-                    @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(
+                        m => m.Notes,
+                        "",
+                        new { @class = "text-danger" })
                 </div>
 
-                <div class="mt-3">
-                    <button type="submit" class="btn btn-success">
-                        Create
-                    </button>
+                <button type="submit"
+                        class="btn btn-success">
+                    Save Health Record
+                </button>
 
-                    @Html.ActionLink(
-                        "Back to List",
-                        "ApiIndex",
-                        "HealthRecord",
-                        null,
-                        new { @class = "btn btn-secondary ms-2" }
-                    )
-                </div>
+                @Html.ActionLink(
+                    "Back",
+                    "Dashboard",
+                    "Appointment",
+                    null,
+                    new
+                    {
+                        @class = "btn btn-secondary ms-2"
+                    })
 
             </div>
         </div>
     }
+
 </div>
 
 @section Scripts {

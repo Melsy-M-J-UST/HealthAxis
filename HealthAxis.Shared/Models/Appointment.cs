@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HealthAxisWebApp
+namespace HealthAxis.Shared.Models
 {
     using System;
     using System.Collections.Generic;

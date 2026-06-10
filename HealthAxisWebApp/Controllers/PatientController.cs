@@ -1,5 +1,5 @@
 ﻿using HealthAxis.Shared.DTOs;
-using HealthAxisWebApp.ApiClients;
+using HealthAxisWebApp.Services;
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -15,25 +15,22 @@ namespace HealthAxisWebApp.Controllers
             _apiClient = new PatientApiClient();
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index(string sortBy = "name", string filter = "all")
         {
-            return RedirectToAction("ApiIndex");
-        }
+            var patients = await _apiClient.GetPatients(sortBy, filter);
 
-        public async Task<ActionResult> ApiIndex()
-        {
-            var patients = await _apiClient.GetAllPatients();
+            ViewBag.SortBy = sortBy;
+            ViewBag.Filter = filter;
+
             return View(patients);
         }
 
-        public async Task<ActionResult> Details(int id)
+        public new async Task<ActionResult> Profile(int id)
         {
-            var patient = await _apiClient.GetPatientById(id);
+            var patient = await _apiClient.GetPatientProfile(id);
 
             if (patient == null)
-            {
                 return HttpNotFound();
-            }
 
             return View(patient);
         }
@@ -48,6 +45,10 @@ namespace HealthAxisWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(PatientDto patient)
         {
+            patient.InsuranceID = string.IsNullOrWhiteSpace(patient.InsuranceID)
+                ? null
+                : patient.InsuranceID.Trim();
+
             if (!ModelState.IsValid)
             {
                 LoadGenderDropdown(patient.Gender);
@@ -57,7 +58,7 @@ namespace HealthAxisWebApp.Controllers
             try
             {
                 await _apiClient.CreatePatient(patient);
-                return RedirectToAction("ApiIndex");
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
@@ -72,9 +73,7 @@ namespace HealthAxisWebApp.Controllers
             var patient = await _apiClient.GetPatientById(id);
 
             if (patient == null)
-            {
                 return HttpNotFound();
-            }
 
             LoadGenderDropdown(patient.Gender);
             return View(patient);
@@ -84,10 +83,12 @@ namespace HealthAxisWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(int id, PatientDto patient)
         {
+            patient.InsuranceID = string.IsNullOrWhiteSpace(patient.InsuranceID)
+                ? null
+                : patient.InsuranceID.Trim();
+
             if (id != patient.PatientId)
-            {
-                return new HttpStatusCodeResult(400, "Patient ID mismatch.");
-            }
+                return new HttpStatusCodeResult(400);
 
             if (!ModelState.IsValid)
             {
@@ -98,7 +99,7 @@ namespace HealthAxisWebApp.Controllers
             try
             {
                 await _apiClient.UpdatePatient(patient);
-                return RedirectToAction("ApiIndex");
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
@@ -108,27 +109,25 @@ namespace HealthAxisWebApp.Controllers
             }
         }
 
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> Deactivate(int id)
         {
             var patient = await _apiClient.GetPatientById(id);
 
             if (patient == null)
-            {
                 return HttpNotFound();
-            }
 
             return View(patient);
         }
 
         [HttpPost]
-        [ActionName("Delete")]
+        [ActionName("Deactivate")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public async Task<ActionResult> DeactivateConfirmed(int id)
         {
             try
             {
-                await _apiClient.DeletePatient(id);
-                return RedirectToAction("ApiIndex");
+                await _apiClient.DeactivatePatient(id);
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {

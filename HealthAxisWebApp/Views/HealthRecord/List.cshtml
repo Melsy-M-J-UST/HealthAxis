@@ -1,0 +1,68 @@
+﻿@model IEnumerable<HealthAxis.Shared.DTOs.HealthRecordDto>
+@using System.Linq
+
+@{
+    ViewBag.Title = "All Health Records";
+}
+
+<div class="container mt-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>All Health Records</h2>
+
+        @Html.ActionLink(
+            "Back to Dashboard",
+            "Index",
+            "HealthRecord",
+            null,
+            new { @class = "btn btn-secondary" }
+        )
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info text-center">
+            No health records found.
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped table-hover text-center align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Appointment</th>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Visit Date</th>
+                    <th>Diagnosis</th>
+                    <th>Prescription</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.AppointmentId</td>
+                        <td>@item.PatientId</td>
+                        <td>@item.DoctorId</td>
+                        <td>@item.VisitDate.ToString("yyyy-MM-dd")</td>
+                        <td>@item.Diagnosis</td>
+                        <td>@item.Prescription</td>
+                        <td>
+                            @Html.ActionLink(
+                                "Details",
+                                "Details",
+                                "HealthRecord",
+                                new { id = item.RecordId },
+                                new { @class = "btn btn-info btn-sm" }
+                            )
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</div>

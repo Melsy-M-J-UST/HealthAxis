@@ -1,3 +1,4 @@
+using HealthAxis.Shared.Models;
 using System.Collections.Generic;
 
 namespace HealthAxisWebApp.Repositories.Interfaces
@@ -13,6 +14,9 @@ namespace HealthAxisWebApp.Repositories.Interfaces
         void Update(Doctor doctor);
 
         void Delete(int id);
+
+        int GetUpcomingAppointmentCount(int doctorId);
+
     }
 
 }

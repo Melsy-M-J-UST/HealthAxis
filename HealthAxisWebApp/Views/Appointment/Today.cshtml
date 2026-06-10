@@ -1,0 +1,170 @@
+﻿@model IEnumerable<HealthAxis.Shared.DTOs.AppointmentDto>
+
+@{
+    ViewBag.Title = "Today's Schedule";
+}
+
+<div class="container mt-4">
+
+    <div class="page-header-card">
+        <h2>Today's Schedule</h2>
+        <p>Appointments scheduled for today.</p>
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            No appointments for today.
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped table-hover align-middle">
+
+            <thead class="table-dark">
+                <tr>
+                    <th>Patient</th>
+                    <th>Date</th>
+                    <th>Time Slot</th>
+                    <th>Status</th>
+                    <th style="width:350px;">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>@item.PatientName</td>
+
+                        <td>
+                            @item.ScheduledDate.ToString("yyyy-MM-dd")
+                        </td>
+
+                        <td>
+                            @item.TimeSlotName
+                        </td>
+
+                        <td>
+
+                            @if (item.Status == 0)
+                            {
+                                <span class="badge bg-warning">
+                                    Pending
+                                </span>
+                            }
+                            else if (item.Status == 1)
+                            {
+                                <span class="badge bg-primary">
+                                    Confirmed
+                                </span>
+                            }
+                            else if (item.Status == 2)
+                            {
+                                <span class="badge bg-danger">
+                                    Cancelled
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">
+                                    Completed
+                                </span>
+                            }
+
+                        </td>
+
+                        <td>
+
+                            <div class="d-flex flex-wrap gap-2">
+
+                                @Html.ActionLink(
+                                    "Details",
+                                    "Details",
+                                    new { id = item.AppointmentId },
+                                    new
+                                    {
+                                        @class = "btn btn-info btn-sm"
+                                    })
+
+                                @if (item.Status == 0)
+                                {
+                                    using (Html.BeginForm(
+                                        "Confirm",
+                                        "Appointment",
+                                        new { id = item.AppointmentId }))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <button class="btn btn-success btn-sm">
+                                            Confirm
+                                        </button>
+                                    }
+
+                                    @Html.ActionLink(
+                                        "Cancel",
+                                        "Cancel",
+                                        new { id = item.AppointmentId },
+                                        new
+                                        {
+                                            @class = "btn btn-danger btn-sm"
+                                        })
+                                }
+
+                                @if (item.Status == 1)
+                                {
+                                    using (Html.BeginForm(
+                                        "Complete",
+                                        "Appointment",
+                                        new { id = item.AppointmentId }))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <button class="btn btn-primary btn-sm">
+                                            Complete
+                                        </button>
+                                    }
+
+                                    @Html.ActionLink(
+                                        "Cancel",
+                                        "Cancel",
+                                        new { id = item.AppointmentId },
+                                        new
+                                        {
+                                            @class = "btn btn-danger btn-sm"
+                                        })
+                                }
+
+                                @if (item.Status == 3)
+                                {
+                                    @Html.ActionLink(
+                                        "Add Health Record",
+                                        "Create",
+                                        "HealthRecord",
+                                        new
+                                        {
+                                            appointmentId = item.AppointmentId,
+                                            patientId = item.PatientId,
+                                            doctorId = item.DoctorId
+                                        },
+                                        new
+                                        {
+                                            @class = "btn btn-success btn-sm"
+                                        })
+                                }
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+    }
+
+</div>

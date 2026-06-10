@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using HealthAxisWebApp;
 using HealthAxisWebApp.Repositories.Interfaces;
 using HealthAxis.Shared.Services.Interfaces;
+using HealthAxis.Shared.Models;
 
 namespace HealthAxis.Shared.Services.Impl
 {

@@ -58,6 +58,9 @@
     <Reference Include="Microsoft.Bcl.TimeProvider, Version=8.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\HealthAxisWebApp\packages\Microsoft.Bcl.TimeProvider.8.0.1\lib\net462\Microsoft.Bcl.TimeProvider.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\lib\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=10.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\HealthAxisWebApp\packages\Microsoft.Extensions.DependencyInjection.Abstractions.10.0.0\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
@@ -184,7 +187,11 @@
     <Compile Include="Models\Doctor.cs">
       <DependentUpon>HealthAxisModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\HealthAxisModel.Context.cs" />
+    <Compile Include="Models\HealthAxisModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HealthAxisModel.Context.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\HealthAxisModel.cs">
       <DependentUpon>HealthAxisModel.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -253,6 +260,9 @@
     <Analyzer Include="..\packages\xunit.analyzers.1.18.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
     <Analyzer Include="..\packages\xunit.analyzers.1.18.0\analyzers\dotnet\cs\xunit.analyzers.fixes.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -264,8 +274,10 @@
     <Error Condition="!Exists('..\packages\xunit.core.2.9.3\build\xunit.core.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.core.2.9.3\build\xunit.core.props'))" />
     <Error Condition="!Exists('..\packages\xunit.core.2.9.3\build\xunit.core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.core.2.9.3\build\xunit.core.targets'))" />
     <Error Condition="!Exists('..\packages\xunit.runner.visualstudio.3.1.5\build\net472\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.runner.visualstudio.3.1.5\build\net472\xunit.runner.visualstudio.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets'))" />
   </Target>
   <Import Project="..\HealthAxisWebApp\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets" Condition="Exists('..\HealthAxisWebApp\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets')" />
   <Import Project="..\HealthAxisWebApp\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\HealthAxisWebApp\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
   <Import Project="..\packages\xunit.core.2.9.3\build\xunit.core.targets" Condition="Exists('..\packages\xunit.core.2.9.3\build\xunit.core.targets')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" />
 </Project>

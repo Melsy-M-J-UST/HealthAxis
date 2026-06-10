@@ -1,0 +1,291 @@
+﻿@using System.Linq
+@model IEnumerable<HealthAxis.Shared.DTOs.AppointmentDto>
+
+@{
+    ViewBag.Title = "My Appointments";
+}
+
+<style>
+    .appointments-page {
+        padding-top: 24px;
+        padding-bottom: 40px;
+    }
+
+    .appointments-header {
+        text-align: center;
+        margin-bottom: 28px;
+    }
+
+        .appointments-header h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #1f2a44;
+            margin-bottom: 8px;
+        }
+
+        .appointments-header p {
+            font-size: 1rem;
+            color: #4b5f73;
+            margin-bottom: 0;
+        }
+
+    .appointments-search-card {
+        background: rgba(255, 255, 255, 0.72);
+        border-radius: 18px;
+        padding: 22px 24px;
+        box-shadow: 0 6px 18px rgba(31, 42, 68, 0.08);
+        margin-bottom: 24px;
+    }
+
+    .appointments-search-label {
+        font-weight: 600;
+        color: #34495e;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .appointments-search-row {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+
+    .appointments-input {
+        max-width: 420px;
+        height: 48px;
+        border-radius: 12px;
+        border: 1px solid #cfd8df;
+        background-color: rgba(255,255,255,0.94);
+    }
+
+        .appointments-input:focus {
+            border-color: #77cdb5;
+            box-shadow: 0 0 0 0.18rem rgba(98, 208, 173, 0.18);
+        }
+
+    .btn-load-appointments {
+        min-width: 180px;
+        height: 48px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #67ddb7, #42cfa1);
+        color: #fff;
+        font-weight: 600;
+    }
+
+        .btn-load-appointments:hover {
+            color: #fff;
+            background: linear-gradient(135deg, #4fd3aa, #2fc08d);
+        }
+
+    .appointments-table-wrap {
+        background: rgba(255, 255, 255, 0.80);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 6px 18px rgba(31, 42, 68, 0.08);
+    }
+
+    .appointments-table {
+        width: 100%;
+        margin-bottom: 0;
+        table-layout: fixed;
+    }
+
+        .appointments-table thead th {
+            background: linear-gradient(135deg, #315e78, #3c6d87);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 14px 14px;
+            border-color: rgba(255,255,255,0.10);
+            vertical-align: middle;
+        }
+
+        .appointments-table tbody td {
+            padding: 14px 14px;
+            vertical-align: middle;
+            border-color: #dbe3e8;
+            color: #33414f;
+            background-color: rgba(255,255,255,0.92);
+            font-size: 0.95rem;
+        }
+
+        .appointments-table tbody tr:nth-child(even) td {
+            background-color: rgba(245, 248, 250, 0.97);
+        }
+
+        .appointments-table tbody tr:hover td {
+            background-color: #edf6f7;
+        }
+
+    .truncate-cell {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .badge-soft-warning {
+        background-color: #d4a017;
+        color: #fff;
+        font-size: 0.80rem;
+        padding: 5px 8px;
+        border-radius: 8px;
+        font-weight: 600;
+        display: inline-block;
+        min-width: 90px;
+        text-align: center;
+    }
+
+    .badge-soft-primary {
+        background-color: #0d6efd;
+        color: #fff;
+        font-size: 0.80rem;
+        padding: 5px 8px;
+        border-radius: 8px;
+        font-weight: 600;
+        display: inline-block;
+        min-width: 90px;
+        text-align: center;
+    }
+
+    .badge-soft-danger {
+        background-color: #dc3545;
+        color: #fff;
+        font-size: 0.80rem;
+        padding: 5px 8px;
+        border-radius: 8px;
+        font-weight: 600;
+        display: inline-block;
+        min-width: 90px;
+        text-align: center;
+    }
+
+    .badge-soft-success {
+        background-color: #1f8f5a;
+        color: #fff;
+        font-size: 0.80rem;
+        padding: 5px 8px;
+        border-radius: 8px;
+        font-weight: 600;
+        display: inline-block;
+        min-width: 90px;
+        text-align: center;
+    }
+
+    .appointments-message {
+        background: rgba(255,255,255,0.82);
+        border: 1px solid #dce6eb;
+        border-radius: 14px;
+        padding: 18px;
+        color: #3c5668;
+        text-align: center;
+        box-shadow: 0 6px 18px rgba(31, 42, 68, 0.05);
+    }
+
+    @@media (max-width: 768px) {
+        .appointments-header h2 {
+            font-size: 2.2rem;
+        }
+
+        .appointments-search-row {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .appointments-input {
+            max-width: 100%;
+        }
+
+        .btn-load-appointments {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="container appointments-page">
+
+    <div class="appointments-header">
+        <h2>My Appointments</h2>
+        <p>Enter Patient ID to view appointments.</p>
+    </div>
+
+    <div class="appointments-search-card">
+        @using (Html.BeginForm("MyAppointments", "Appointment", FormMethod.Get))
+        {
+            <div class="appointments-search-row">
+                <input type="text"
+                       name="patientId"
+                       class="form-control appointments-input"
+                       placeholder="Enter Patient ID"
+                       pattern="[0-9]*"
+                       inputmode="numeric"
+                       required />
+
+                <button type="submit" class="btn btn-load-appointments">
+                    Load
+                </button>
+            </div>
+        }
+    </div>
+
+    @if (ViewBag.HasSearched == true)
+    {
+        if (!string.IsNullOrEmpty(ViewBag.Message as string))
+        {
+            <div class="appointments-message">
+                @ViewBag.Message
+            </div>
+        }
+        else if (Model != null && Model.Any())
+        {
+            <div class="appointments-table-wrap">
+                <table class="table appointments-table table-bordered align-middle">
+                    <thead>
+                        <tr>
+                            <th style="width: 40%;">Doctor</th>
+                            <th style="width: 20%;">Date</th>
+                            <th style="width: 20%;">Time Slot</th>
+                            <th style="width: 20%;">Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="truncate-cell" title="@item.DoctorName">
+                                    @item.DoctorName
+                                </td>
+
+                                <td>@item.ScheduledDate.ToString("yyyy-MM-dd")</td>
+
+                                <td>@item.TimeSlotName</td>
+
+                                <td>
+                                    @if (item.Status == 0)
+                                    {
+                                        <span class="badge-soft-warning">Pending</span>
+                                    }
+                                    else if (item.Status == 1)
+                                    {
+                                        <span class="badge-soft-primary">Confirmed</span>
+                                    }
+                                    else if (item.Status == 2)
+                                    {
+                                        <span class="badge-soft-danger">Cancelled</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge-soft-success">Completed</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    }
+
+</div>

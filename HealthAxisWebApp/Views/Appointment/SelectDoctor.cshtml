@@ -1,0 +1,293 @@
+﻿@using System.Linq
+@model IEnumerable<HealthAxis.Shared.DTOs.AppointmentDto>
+
+@{
+    ViewBag.Title = "Doctor Schedule";
+    var currentMode = ViewBag.Mode as string ?? "";
+}
+
+<style>
+    .schedule-page {
+        padding-top: 24px;
+    }
+
+    .schedule-header h2 {
+        font-size: 2.6rem;
+        font-weight: 700;
+        color: #1f2a44;
+        margin-bottom: 6px;
+    }
+
+    .schedule-header p {
+        color: #4a5b6b;
+        font-size: 1rem;
+        margin-bottom: 0;
+    }
+
+    .schedule-card {
+        background: rgba(255,255,255,0.82);
+        border-radius: 18px;
+        padding: 24px;
+        box-shadow: 0 6px 18px rgba(31, 42, 68, 0.08);
+        margin-bottom: 24px;
+    }
+
+    .schedule-label {
+        font-weight: 600;
+        color: #34495e;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .schedule-buttons {
+        display: flex;
+        gap: 14px;
+        margin-top: 18px;
+        flex-wrap: wrap;
+    }
+
+    .btn-schedule {
+        border: none;
+        border-radius: 12px;
+        padding: 11px 20px;
+        background: linear-gradient(135deg, #67ddb7, #42cfa1);
+        color: #fff;
+        font-weight: 600;
+    }
+
+        .btn-schedule:hover {
+            color: #fff;
+            background: linear-gradient(135deg, #4fd3aa, #2fc08d);
+        }
+
+    .data-table-wrap {
+        background: rgba(255,255,255,0.80);
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 6px 18px rgba(31, 42, 68, 0.08);
+    }
+
+    .data-table {
+        width: 100%;
+        margin-bottom: 0;
+        table-layout: fixed;
+    }
+
+        .data-table thead th {
+            background: linear-gradient(135deg, #315e78, #3c6d87);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.90rem;
+            padding: 11px 10px;
+            border-color: rgba(255,255,255,0.12);
+            vertical-align: middle;
+        }
+
+        .data-table tbody td {
+            padding: 11px 10px;
+            vertical-align: middle;
+            border-color: #dbe3e8;
+            color: #33414f;
+            background-color: rgba(255,255,255,0.92);
+            font-size: 0.90rem;
+        }
+
+        .data-table tbody tr:nth-child(even) td {
+            background-color: rgba(245, 248, 250, 0.97);
+        }
+
+        .data-table tbody tr:hover td {
+            background-color: #edf6f7;
+        }
+
+    .truncate-cell {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .action-bar {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 4px;
+        align-items: center;
+    }
+
+        .action-bar .btn {
+            white-space: nowrap;
+            border-radius: 7px;
+            padding: 4px 7px;
+            font-weight: 600;
+            font-size: 0.74rem;
+            line-height: 1.1;
+        }
+
+    .badge-soft-warning {
+        background-color: #d4a017;
+        color: #fff;
+        font-size: 0.76rem;
+        padding: 4px 7px;
+        border-radius: 7px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .badge-soft-primary {
+        background-color: #0d6efd;
+        color: #fff;
+        font-size: 0.76rem;
+        padding: 4px 7px;
+        border-radius: 7px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .badge-soft-danger {
+        background-color: #dc3545;
+        color: #fff;
+        font-size: 0.76rem;
+        padding: 4px 7px;
+        border-radius: 7px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .badge-soft-success {
+        background-color: #1f8f5a;
+        color: #fff;
+        font-size: 0.76rem;
+        padding: 4px 7px;
+        border-radius: 7px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .schedule-empty {
+        background: rgba(255,255,255,0.8);
+        border: 1px solid #dce6eb;
+        border-radius: 14px;
+        padding: 18px;
+        color: #3c5668;
+        text-align: center;
+    }
+</style>
+
+<div class="container schedule-page">
+
+    <div class="schedule-header mb-4">
+        <h2>Doctor Schedule</h2>
+        <p>Select a doctor and load today's or weekly schedule below.</p>
+    </div>
+
+    <div class="schedule-card">
+        @using (Html.BeginForm("SelectDoctor", "Appointment", FormMethod.Get, new { id = "doctorScheduleForm" }))
+        {
+            <div class="mb-3">
+                <label class="schedule-label">Select Doctor</label>
+
+                @Html.DropDownList(
+                    "doctorId",
+                    (SelectList)ViewBag.DoctorList,
+                    "-- Select Doctor --",
+                    new { @class = "form-select", required = "required" }
+                )
+            </div>
+
+            <input type="hidden" name="mode" id="modeInput" value="@currentMode" />
+
+            <div class="schedule-buttons">
+                <button type="submit" class="btn btn-schedule" onclick="document.getElementById('modeInput').value='today';">
+                    View Today's Schedule
+                </button>
+
+                <button type="submit" class="btn btn-schedule" onclick="document.getElementById('modeInput').value='weekly';">
+                    View Weekly Schedule
+                </button>
+            </div>
+        }
+    </div>
+
+    @if (ViewBag.HasSearched == true)
+    {
+        if (!string.IsNullOrEmpty(ViewBag.Message as string))
+        {
+            <div class="schedule-empty">
+                @ViewBag.Message
+            </div>
+        }
+        else if (Model != null && Model.Any())
+        {
+            <div class="data-table-wrap">
+                <table class="table data-table table-bordered align-middle">
+                    <thead>
+                        <tr>
+                            <th style="width: 26%;">Patient</th>
+                            <th style="width: 16%;">Date</th>
+                            <th style="width: 16%;">Time Slot</th>
+                            <th style="width: 16%;">Status</th>
+                            <th style="width: 26%;">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="truncate-cell" title="@item.PatientName">@item.PatientName</td>
+                                <td>@item.ScheduledDate.ToString("yyyy-MM-dd")</td>
+                                <td>@item.TimeSlotName</td>
+                                <td>
+                                    @if (item.Status == 0)
+                                    {
+                                        <span class="badge-soft-warning">Pending</span>
+                                    }
+                                    else if (item.Status == 1)
+                                    {
+                                        <span class="badge-soft-primary">Confirmed</span>
+                                    }
+                                    else if (item.Status == 2)
+                                    {
+                                        <span class="badge-soft-danger">Cancelled</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge-soft-success">Completed</span>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="action-bar">
+                                        @if (item.Status == 0)
+                                        {
+                                            using (Html.BeginForm("Confirm", "Appointment", new { id = item.AppointmentId }))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                <button class="btn btn-success btn-sm">Confirm</button>
+                                            }
+
+                                            @Html.ActionLink(
+                                                "Cancel",
+                                                "Cancel",
+                                                new { id = item.AppointmentId },
+                                                new { @class = "btn btn-danger btn-sm" }
+                                            )
+                                        }
+                                        else
+                                        {
+                                            @Html.ActionLink(
+                                                "Details",
+                                                "Details",
+                                                new { id = item.AppointmentId },
+                                                new { @class = "btn btn-info btn-sm" }
+                                            )
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    }
+
+</div>

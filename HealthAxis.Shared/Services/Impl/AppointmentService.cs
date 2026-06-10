@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using HealthAxisWebApp;
 using HealthAxisWebApp.Repositories.Interfaces;
 using HealthAxis.Shared.Services.Interfaces;
+using HealthAxis.Shared.Models;
 
 namespace HealthAxis.Shared.Services.Impl
 {
@@ -33,6 +33,23 @@ namespace HealthAxis.Shared.Services.Impl
             return appointmentRepository.GetById(id);
         }
 
+        public List<Appointment> GetAppointmentsByPatient(int patientId)
+        {
+            return appointmentRepository.GetByPatientId(patientId);
+        }
+
+        public List<Appointment> GetTodayAppointments(int doctorId)
+        {
+            return appointmentRepository.GetTodayAppointments(doctorId);
+        }
+
+        // ✅ NEW: Doctor Weekly Schedule
+        public List<Appointment> GetWeeklyAppointments(int doctorId)
+        {
+            return appointmentRepository.GetWeeklyAppointments(doctorId);
+        }
+
+        // ✅ ADD
         public void AddAppointment(Appointment appointment)
         {
             if (appointment == null)
@@ -42,7 +59,7 @@ namespace HealthAxis.Shared.Services.Impl
 
             ValidateAppointment(appointment);
 
-            appointment.Status = 0;
+            appointment.Status = 0; // Pending
 
             if (appointment.CancellationReason == null)
             {
@@ -66,7 +83,7 @@ namespace HealthAxis.Shared.Services.Impl
 
         public void ConfirmAppointment(int id)
         {
-            Appointment appointment = appointmentRepository.GetById(id);
+            var appointment = appointmentRepository.GetById(id);
 
             if (appointment == null)
             {
@@ -80,13 +97,13 @@ namespace HealthAxis.Shared.Services.Impl
             }
 
             appointment.Status = 1;
-
             appointmentRepository.Update(appointment);
         }
 
+        // ✅ COMPLETE
         public void CompleteAppointment(int id)
         {
-            Appointment appointment = appointmentRepository.GetById(id);
+            var appointment = appointmentRepository.GetById(id);
 
             if (appointment == null)
             {
@@ -100,13 +117,13 @@ namespace HealthAxis.Shared.Services.Impl
             }
 
             appointment.Status = 3;
-
             appointmentRepository.Update(appointment);
         }
 
+        // ✅ CANCEL
         public void CancelAppointment(int id, string reason)
         {
-            Appointment appointment = appointmentRepository.GetById(id);
+            var appointment = appointmentRepository.GetById(id);
 
             if (appointment == null)
             {
@@ -116,8 +133,7 @@ namespace HealthAxis.Shared.Services.Impl
             if (string.IsNullOrWhiteSpace(reason))
             {
                 throw new ArgumentException(
-                    "Cancellation reason is required.",
-                    nameof(reason));
+                    "Cancellation reason is required.", nameof(reason));
             }
 
             if (appointment.Status == 3)
@@ -132,15 +148,16 @@ namespace HealthAxis.Shared.Services.Impl
                     "Appointment is already cancelled.");
             }
 
-            appointment.Status = 2;
+            appointment.Status = 2; // Cancelled
             appointment.CancellationReason = reason;
 
             appointmentRepository.Update(appointment);
         }
 
+        // ✅ DELETE
         public void DeleteAppointment(int id)
         {
-            Appointment appointment = appointmentRepository.GetById(id);
+            var appointment = appointmentRepository.GetById(id);
 
             if (appointment == null)
             {
@@ -150,30 +167,25 @@ namespace HealthAxis.Shared.Services.Impl
             appointmentRepository.Delete(id);
         }
 
+        // ✅ VALIDATION (UPDATED)
         private void ValidateAppointment(Appointment appointment)
         {
             if (appointment.PatientId <= 0)
             {
-                throw new ArgumentException(
-                    "Invalid Patient.",
-                    nameof(appointment));
+                throw new ArgumentException("Invalid Patient.");
             }
 
             if (appointment.DoctorId <= 0)
             {
-                throw new ArgumentException(
-                    "Invalid Doctor.",
-                    nameof(appointment));
+                throw new ArgumentException("Invalid Doctor.");
             }
 
             if (appointment.ScheduledDate.Date < DateTime.Today)
             {
-                throw new ArgumentException(
-                    "Past dates are not allowed.",
-                    nameof(appointment));
+                throw new ArgumentException("Past dates are not allowed.");
             }
 
-            Doctor doctor = doctorRepository.GetById(appointment.DoctorId);
+            var doctor = doctorRepository.GetById(appointment.DoctorId);
 
             if (doctor == null)
             {
@@ -185,19 +197,18 @@ namespace HealthAxis.Shared.Services.Impl
                 throw new InvalidOperationException("Doctor is inactive.");
             }
 
-            bool alreadyBooked = appointmentRepository
-                .GetAll()
-                .Any(a =>
-                    a.AppointmentId != appointment.AppointmentId
-                    && a.DoctorId == appointment.DoctorId
-                    && a.ScheduledDate == appointment.ScheduledDate
-                    && a.TimeSlot == appointment.TimeSlot
-                    && a.Status != 2);
+            // ✅ IMPROVED SLOT CHECK
+            bool isAvailable = appointmentRepository
+                .IsSlotAvailable(
+                    appointment.DoctorId,
+                    appointment.ScheduledDate,
+                    appointment.TimeSlot
+                );
 
-            if (alreadyBooked)
+            if (!isAvailable)
             {
                 throw new InvalidOperationException(
-                    "Doctor already has an appointment in this slot.");
+                    "Selected time slot is already booked.");
             }
         }
     }

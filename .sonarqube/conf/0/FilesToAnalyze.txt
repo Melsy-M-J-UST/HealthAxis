@@ -9,7 +9,6 @@ C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Enums\GenderType
 C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Mappers\AutoMapperProfile.cs
 C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Models\Appointment.cs
 C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Models\Doctor.cs
-C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Models\HealthAxisModel.Context.cs
 C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Models\HealthRecord.cs
 C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Models\Patient.cs
 C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Properties\AssemblyInfo.cs

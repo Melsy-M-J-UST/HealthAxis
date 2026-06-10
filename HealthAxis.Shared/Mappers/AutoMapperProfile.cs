@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HealthAxis.Shared.DTOs;
+using HealthAxis.Shared.Models;
 using HealthAxisWebApp;
 
 namespace HealthAxis.Shared.Mappers

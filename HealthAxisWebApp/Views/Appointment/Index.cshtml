@@ -1,92 +1,286 @@
-﻿@model IEnumerable<HealthAxisWebApp.Appointment>
+﻿@using System.Linq
+@model IEnumerable<HealthAxis.Shared.DTOs.AppointmentDto>
 
 @{
     ViewBag.Title = "Appointments";
 }
 
-<h2>Appointments</h2>
-
-<p>
-    @Html.ActionLink(
-        "Book Appointment",
-        "Create",
-        null,
-        new { @class = "btn btn-primary" })
-</p>
-
-<table class="table table-bordered table-striped">
-    <tr>
-        <th>ID</th>
-        <th>Patient</th>
-        <th>Doctor</th>
-        <th>Date</th>
-        <th>Time Slot</th>
-        <th>Status</th>
-        <th>Actions</th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@item.AppointmentId</td>
-
-            <td>@item.Patient.FullName</td>
-
-            <td>@item.Doctor.FullName</td>
-
-            <td>@item.ScheduledDate.ToShortDateString()</td>
-
-            <td>@item.TimeSlot</td>
-
-            <td>
-                @(item.Status == 0 ? "Pending" :
-                  item.Status == 1 ? "Confirmed" :
-                  item.Status == 2 ? "Cancelled" :
-                  item.Status == 3 ? "Completed" :
-                  "Unknown")
-            </td>
-
-            <td>
-
-                @Html.ActionLink(
-                    "Details",
-                    "Details",
-                    new { id = item.AppointmentId },
-                    new { @class = "btn btn-info btn-sm" })
-
-                @Html.ActionLink(
-                    "Edit",
-                    "Edit",
-                    new { id = item.AppointmentId },
-                    new { @class = "btn btn-warning btn-sm" })
-
-                @if (item.Status == 0 || item.Status == 1)
-                {
-                    @Html.ActionLink(
-                        "Cancel",
-                        "Cancel",
-                        new { id = item.AppointmentId },
-                        new { @class = "btn btn-danger btn-sm" })
-                }
-                @if (item.Status == 0)
-                {
-                    @Html.ActionLink(
-                        "Confirm",
-                        "Confirm",
-                        new { id = item.AppointmentId },
-                        new { @class = "btn btn-success btn-sm" })
-                }
-
-                @if (item.Status == 1)
-                {
-                    @Html.ActionLink(
-                        "Complete",
-                        "Complete",
-                        new { id = item.AppointmentId },
-                        new { @class = "btn btn-primary btn-sm" })
-                }
-
-            </td>
-        </tr>
+<style>
+    .appointments-page {
+        padding-top: 20px;
+        padding-bottom: 40px;
     }
-</table>
+
+    .appointments-header {
+        margin-bottom: 22px;
+    }
+
+        .appointments-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1f2a44;
+            margin-bottom: 6px;
+        }
+
+        .appointments-header p {
+            font-size: 1rem;
+            color: #445566;
+            margin-bottom: 0;
+        }
+
+    .btn-book-appointment {
+        border: none;
+        border-radius: 12px;
+        padding: 11px 18px;
+        background: linear-gradient(135deg, #1788c4, #0e7c8d);
+        color: #fff;
+        font-weight: 600;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+        .btn-book-appointment:hover {
+            color: #fff;
+            background: linear-gradient(135deg, #1178ae, #0c6e7d);
+        }
+
+    .appointments-table-wrap {
+        background: rgba(255, 255, 255, 0.80);
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 6px 18px rgba(31, 42, 68, 0.08);
+    }
+
+    .appointments-table {
+        width: 100%;
+        margin-bottom: 0;
+        table-layout: fixed;
+    }
+
+        .appointments-table thead th {
+            background: linear-gradient(135deg, #315e78, #3c6d87);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.90rem;
+            padding: 11px 10px;
+            border-color: rgba(255,255,255,0.12);
+            vertical-align: middle;
+        }
+
+        .appointments-table tbody td {
+            padding: 11px 10px;
+            vertical-align: middle;
+            border-color: #dbe3e8;
+            color: #33414f;
+            background-color: rgba(255,255,255,0.92);
+            font-size: 0.90rem;
+        }
+
+        .appointments-table tbody tr:nth-child(even) td {
+            background-color: rgba(245, 248, 250, 0.97);
+        }
+
+        .appointments-table tbody tr:hover td {
+            background-color: #edf6f7;
+        }
+
+    .truncate-cell {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .appointment-actions {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 4px;
+        align-items: center;
+    }
+
+        .appointment-actions .btn {
+            white-space: nowrap;
+            border-radius: 7px;
+            padding: 4px 7px;
+            font-weight: 600;
+            font-size: 0.74rem;
+            line-height: 1.1;
+        }
+
+    .badge-soft-warning {
+        background-color: #d4a017;
+        color: #fff;
+        font-size: 0.76rem;
+        padding: 4px 7px;
+        border-radius: 7px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .badge-soft-primary {
+        background-color: #0d6efd;
+        color: #fff;
+        font-size: 0.76rem;
+        padding: 4px 7px;
+        border-radius: 7px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .badge-soft-danger {
+        background-color: #dc3545;
+        color: #fff;
+        font-size: 0.76rem;
+        padding: 4px 7px;
+        border-radius: 7px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .badge-soft-success {
+        background-color: #1f8f5a;
+        color: #fff;
+        font-size: 0.76rem;
+        padding: 4px 7px;
+        border-radius: 7px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .appointments-empty {
+        background: rgba(255,255,255,0.8);
+        border: 1px solid #dce6eb;
+        border-radius: 14px;
+        padding: 18px;
+        color: #3c5668;
+    }
+</style>
+
+<div class="container appointments-page">
+
+    <div class="appointments-header d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div>
+            <h2>Appointments</h2>
+            <p>Manage and monitor all appointment records.</p>
+        </div>
+
+        @Html.ActionLink(
+            "Book Appointment",
+            "Create",
+            "Appointment",
+            null,
+            new { @class = "btn-book-appointment" }
+        )
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="appointments-empty text-center">
+            No appointments found.
+        </div>
+    }
+    else
+    {
+        <div class="appointments-table-wrap">
+            <table class="table appointments-table table-bordered align-middle">
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">ID</th>
+                        <th style="width: 18%;">Patient</th>
+                        <th style="width: 18%;">Doctor</th>
+                        <th style="width: 12%;">Date</th>
+                        <th style="width: 12%;">Time Slot</th>
+                        <th style="width: 10%;">Status</th>
+                        <th style="width: 25%;">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.AppointmentId</td>
+
+                            <td class="truncate-cell" title="@item.PatientName">
+                                @item.PatientName
+                            </td>
+
+                            <td class="truncate-cell" title="@item.DoctorName">
+                                @item.DoctorName
+                            </td>
+
+                            <td>@item.ScheduledDate.ToString("yyyy-MM-dd")</td>
+
+                            <td>@item.TimeSlotName</td>
+
+                            <td>
+                                @if (item.Status == 0)
+                                {
+                                    <span class="badge-soft-warning">Pending</span>
+                                }
+                                else if (item.Status == 1)
+                                {
+                                    <span class="badge-soft-primary">Confirmed</span>
+                                }
+                                else if (item.Status == 2)
+                                {
+                                    <span class="badge-soft-danger">Cancelled</span>
+                                }
+                                else
+                                {
+                                    <span class="badge-soft-success">Completed</span>
+                                }
+                            </td>
+
+                            <td>
+                                <div class="appointment-actions">
+                                    @Html.ActionLink(
+                                        "Details",
+                                        "Details",
+                                        "Appointment",
+                                        new { id = item.AppointmentId },
+                                        new { @class = "btn btn-info btn-sm" })
+
+                                    @Html.ActionLink(
+                                        "Edit",
+                                        "Edit",
+                                        "Appointment",
+                                        new { id = item.AppointmentId },
+                                        new { @class = "btn btn-warning btn-sm" })
+
+                                    @if (item.Status == 0 || item.Status == 1)
+                                    {
+                                        @Html.ActionLink(
+                                            "Cancel",
+                                            "Cancel",
+                                            "Appointment",
+                                            new { id = item.AppointmentId },
+                                            new { @class = "btn btn-danger btn-sm" })
+                                    }
+
+                                    @if (item.Status == 0)
+                                    {
+                                        using (Html.BeginForm("Confirm", "Appointment", new { id = item.AppointmentId }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button class="btn btn-success btn-sm">Confirm</button>
+                                        }
+                                    }
+
+                                    @if (item.Status == 1)
+                                    {
+                                        using (Html.BeginForm("Complete", "Appointment", new { id = item.AppointmentId }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button class="btn btn-primary btn-sm">Complete</button>
+                                        }
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+</div>

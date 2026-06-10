@@ -2,129 +2,209 @@
     ViewBag.Title = "Dashboard";
 }
 
-<main class="container mt-4">
+<section class="healthaxis-hero mt-4">
 
-    <div class="p-5 mb-5 bg-light rounded-3 shadow-sm border border-light">
-        <div class="container-fluid py-2 text-center">
+    <div class="row align-items-center g-4">
 
-            <h1 class="display-5 fw-bold" style="color: #0f4c75;">
-                HealthAxis Portal
-            </h1>
+        <div class="col-lg-7">
+            <div class="hero-content">
 
-            <p class="col-md-8 mx-auto fs-5 text-muted mt-3">
-                Your comprehensive hospital management system. Easily track patient records, manage doctor schedules, and streamline medical appointments.
-            </p>
+                <div class="hero-badge mb-3">
+                    <i class="bi bi-heart-pulse-fill me-2"></i>
+                    Smart Healthcare Management
+                </div>
 
-            <div class="mt-4">
-                <a href="/Patients/Create"
-                   class="btn btn-primary btn-lg px-4 shadow-sm"
-                   style="background-color: #3282b8; border-color: #3282b8;">
-                    Register New Patient &raquo;
-                </a>
+                <h1 class="hero-title">
+                    Welcome to <span>HealthAxis</span>
+                </h1>
+
+                <p class="hero-subtitle">
+                    A modern hospital management portal to manage patients, doctors,
+                    appointments, and health records with a cleaner and faster workflow.
+                </p>
+
+                <div class="hero-actions mt-4">
+                    <a href="@Url.Action("Create", "Patient")"
+                       class="btn btn-health-primary btn-lg px-4 me-2 mb-2">
+                        <i class="bi bi-person-plus-fill me-2"></i>
+                        Register Patient
+                    </a>
+
+                    <a href="@Url.Action("Create", "Appointment")"
+                       class="btn btn-health-outline btn-lg px-4 mb-2">
+                        <i class="bi bi-calendar-plus-fill me-2"></i>
+                        Book Appointment
+                    </a>
+                </div>
+
             </div>
-
         </div>
-    </div>
 
-    <!-- DASHBOARD CARDS -->
-    <div class="row g-4 text-center">
+        <div class="col-lg-5">
+            <div class="hero-visual-card">
 
-        <!-- Patients -->
-        <section class="col-md-3" aria-labelledby="patientsTitle">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body d-flex flex-column p-4">
-
-                    <h2 id="patientsTitle"
-                        class="card-title h4 mb-3"
-                        style="color: #0f4c75;">
-                        Patients
-                    </h2>
-
-                    <p class="card-text text-muted flex-grow-1">
-                        Securely manage patient profiles, view medical histories, check insurance validity, and monitor upcoming treatments.
-                    </p>
-
-                    <a class="btn btn-outline-primary mt-3 w-100"
-                       href="/Patients">
-                        Manage Patients &raquo;
-                    </a>
-
+                <div class="hero-visual-icon">
+                    <i class="bi bi-hospital-fill"></i>
                 </div>
-            </div>
-        </section>
 
-        <!-- Doctors -->
-        <section class="col-md-3" aria-labelledby="doctorsTitle">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body d-flex flex-column p-4">
+                <h3>Healthcare Operations</h3>
 
-                    <h2 id="doctorsTitle"
-                        class="card-title h4 mb-3"
-                        style="color: #0f4c75;">
-                        Doctors
-                    </h2>
+                <p>
+                    Centralized access to patient profiles, doctor availability,
+                    appointment tracking, and medical records.
+                </p>
 
-                    <p class="card-text text-muted flex-grow-1">
-                        Browse the active directory of medical professionals. Update specializations, consultation fees, and availability status.
-                    </p>
+                <div class="hero-stat-grid">
+                    <div>
+                        <strong>4</strong>
+                        <span>Modules</span>
+                    </div>
 
-                    <a class="btn btn-outline-primary mt-3 w-100"
-                       href="/Doctor">
-                        View Doctors &raquo;
-                    </a>
+                    <div>
+                        <strong>API</strong>
+                        <span>Enabled</span>
+                    </div>
 
+                    <div>
+                        <strong>EF6</strong>
+                        <span>Database</span>
+                    </div>
                 </div>
+
             </div>
-        </section>
-
-        <!-- Appointments -->
-        <section class="col-md-3" aria-labelledby="appointmentsTitle">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body d-flex flex-column p-4">
-
-                    <h2 id="appointmentsTitle"
-                        class="card-title h4 mb-3"
-                        style="color: #0f4c75;">
-                        Appointments
-                    </h2>
-
-                    <p class="card-text text-muted flex-grow-1">
-                        Book, reschedule, and track consultations. Prevent double bookings and manage daily schedules efficiently.
-                    </p>
-
-                    <a class="btn btn-outline-primary mt-3 w-100"
-                       href="/Appointment">
-                        Manage Appointments &raquo;
-                    </a>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- Health Records (NEW) -->
-        <section class="col-md-3" aria-labelledby="healthRecordsTitle">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body d-flex flex-column p-4">
-
-                    <h2 id="healthRecordsTitle"
-                        class="card-title h4 mb-3"
-                        style="color: #0f4c75;">
-                        Health Records
-                    </h2>
-
-                    <p class="card-text text-muted flex-grow-1">
-                        View and manage patient health records including diagnosis, prescriptions, and visit history.
-                    </p>
-
-                    <a class="btn btn-outline-primary mt-3 w-100"
-                       href="/HealthRecord/ApiIndex">
-                        Manage Health Records &raquo;
-                    </a>
-
-                </div>
-            </div>
-        </section>
+        </div>
 
     </div>
 
-</main>
+</section>
+
+<section class="dashboard-section mt-5">
+
+    <div class="section-heading text-center mb-4">
+        <h2>Manage HealthAxis Modules</h2>
+        <p>Quick access to core hospital management features.</p>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-md-6 col-xl-3">
+            <div class="dashboard-card h-100">
+
+                <div class="dashboard-icon patients-icon">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+
+                <h3>Patients</h3>
+
+                <p>
+                    Register patients, update profiles, track insurance details,
+                    and manage demographic information.
+                </p>
+
+                <a href="@Url.Action("Index", "Patient")" class="card-link-button">
+                    Manage Patients
+                    <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="dashboard-card h-100">
+
+                <div class="dashboard-icon doctors-icon">
+                    <i class="bi bi-person-badge-fill"></i>
+                </div>
+
+                <h3>Doctors</h3>
+
+                <p>
+                    Maintain doctor profiles, specialization details,
+                    experience, consultation fees, and active status.
+                </p>
+
+                <a href="@Url.Action("Index", "Doctor")" class="card-link-button">
+                    View Doctors
+                    <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="dashboard-card h-100">
+
+                <div class="dashboard-icon appointments-icon">
+                    <i class="bi bi-calendar2-check-fill"></i>
+                </div>
+
+                <h3>Appointments</h3>
+
+                <p>
+                    Book consultations, prevent double booking,
+                    confirm visits, complete appointments, or cancel slots.
+                </p>
+
+                <a href="@Url.Action("Index", "Appointment")" class="card-link-button">
+                    Manage Appointments
+                    <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="dashboard-card h-100">
+
+                <div class="dashboard-icon records-icon">
+                    <i class="bi bi-file-medical-fill"></i>
+                </div>
+
+                <h3>Health Records</h3>
+
+                <p>
+                    Create and manage medical records linked with appointments,
+                    diagnosis, prescriptions, and clinical notes.
+                </p>
+
+                <a href="@Url.Action("Index", "HealthRecord")" class="card-link-button">
+                    View Records
+                    <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="info-strip mt-5 mb-4">
+    <div class="row g-3 text-center">
+
+        <div class="col-md-4">
+            <div class="info-strip-card h-100">
+                <i class="bi bi-cloud-check-fill"></i>
+                <h5>Web API Integrated</h5>
+                <p>MVC frontend communicates with Web API endpoints.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="info-strip-card h-100">
+                <i class="bi bi-database-check"></i>
+                <h5>EF6 Database First</h5>
+                <p>SQL Server and EDMX-based Entity Framework integration.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="info-strip-card h-100">
+                <i class="bi bi-diagram-3-fill"></i>
+                <h5>Layered Architecture</h5>
+                <p>DTOs, services, repositories, and API clients are separated.</p>
+            </div>
+        </div>
+
+    </div>
+</section>

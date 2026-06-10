@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HealthAxisWebApp
+namespace HealthAxis.Shared.Models
 {
     using System;
     using System.Collections.Generic;
@@ -29,6 +29,7 @@ namespace HealthAxisWebApp
         public string Email { get; set; }
         public string InsuranceID { get; set; }
         public System.DateTime CreatedDate { get; set; }
+        public bool IsActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Appointment> Appointments { get; set; }

@@ -1,0 +1,39 @@
+﻿@model HealthAxis.Shared.DTOs.PatientDto
+
+<div class="container mt-4">
+
+    <div class="page-header-card">
+        <h2>Deactivate Patient</h2>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+
+            <p>Are you sure you want to deactivate this patient?</p>
+
+            <strong>@Model.FullName</strong>
+
+            <!-- ✅ FIXED BUTTON LAYOUT -->
+            <div class="d-flex gap-3 mt-4">
+
+                @using (Html.BeginForm("Deactivate", "Patient", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.PatientId)
+
+                    <button type="submit" class="btn btn-danger px-4">
+                        Yes, Deactivate
+                    </button>
+                }
+
+                <a href="@Url.Action("Index", "Patient")"
+                   class="btn btn-secondary px-4">
+                    Cancel
+                </a>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
