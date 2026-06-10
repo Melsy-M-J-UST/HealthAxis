@@ -1,15 +1,29 @@
 ﻿@model IEnumerable<HealthAxis.Shared.DTOs.HealthRecordDto>
+
 @using System.Linq
+@using System.Collections.Generic
 
 @{
     ViewBag.Title = "Patient Health History";
+
+    var doctorNames = ViewBag.DoctorNames as Dictionary<int, string>
+                      ?? new Dictionary<int, string>();
 }
 
 <div class="container mt-5">
 
-    <div class="text-center mb-4">
-        <h2>Patient Health History</h2>
-        <p class="text-muted">Enter a Patient ID to view the complete health history.</p>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Patient Health History</h2>
+            <p class="text-muted mb-0">
+                Enter a Patient ID to view the complete health history.
+            </p>
+        </div>
+
+        <a href="@Url.Action("Index", "Home")"
+           class="btn btn-secondary">
+            Return to Home
+        </a>
     </div>
 
     @using (Html.BeginForm("PatientHistory", "HealthRecord", FormMethod.Get))
@@ -20,11 +34,13 @@
                        name="patientId"
                        class="form-control"
                        placeholder="Enter Patient ID"
+                       value="@(ViewBag.PatientId ?? "")"
                        required />
             </div>
 
             <div class="col-md-2">
-                <button type="submit" class="btn btn-success w-100">
+                <button type="submit"
+                        class="btn btn-success w-100">
                     Load
                 </button>
             </div>
@@ -35,37 +51,56 @@
     {
         if (Model != null && Model.Any())
         {
-            <table class="table table-bordered table-striped table-hover text-center align-middle">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Doctor</th>
-                        <th>Visit Date</th>
-                        <th>Diagnosis</th>
-                        <th>Prescription</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @foreach (var item in Model)
-                    {
+            <div class="data-table-wrap">
+                <table class="table data-table table-bordered align-middle">
+                    <thead>
                         <tr>
-                            <td>Dr. #@item.DoctorId</td>
-                            <td>@item.VisitDate.ToString("yyyy-MM-dd")</td>
-                            <td>@item.Diagnosis</td>
-                            <td>@item.Prescription</td>
-                            <td>
-                                @Html.ActionLink(
-                                    "Details",
-                                    "Details",
-                                    new { id = item.RecordId },
-                                    new { @class = "btn btn-info btn-sm" }
-                                )
-                            </td>
+                            <th style="width:24%;">Doctor</th>
+                            <th style="width:18%;">Visit Date</th>
+                            <th style="width:24%;">Diagnosis</th>
+                            <th style="width:24%;">Prescription</th>
+                            <th style="width:10%;">Action</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    @(doctorNames.ContainsKey(item.DoctorId)
+                                        ? doctorNames[item.DoctorId]
+                                        : $"Dr. #{item.DoctorId}")
+                                </td>
+
+                                <td>
+                                    @item.VisitDate.ToString("yyyy-MM-dd")
+                                </td>
+
+                                <td class="truncate-cell"
+                                    title="@item.Diagnosis">
+                                    @item.Diagnosis
+                                </td>
+
+                                <td class="truncate-cell"
+                                    title="@item.Prescription">
+                                    @item.Prescription
+                                </td>
+
+                                <td>
+                                    <button type="button"
+                                            class="btn btn-info btn-sm open-healthrecord-modal"
+                                            data-url="@Url.Action("Details", "HealthRecord", new { id = item.RecordId })">
+                                        Details
+                                    </button>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         }
         else
         {
@@ -75,4 +110,57 @@
         }
     }
 
+    <!-- Modal -->
+    <div class="modal fade"
+         id="healthRecordModal"
+         tabindex="-1"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div id="healthRecordModalContent"></div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+@section Scripts {
+    <script>
+        $(function () {
+
+            var modalElement =
+                document.getElementById('healthRecordModal');
+
+            var healthRecordModal =
+                new bootstrap.Modal(modalElement);
+
+            $(document).on(
+                'click',
+                '.open-healthrecord-modal',
+                function (e) {
+
+                    e.preventDefault();
+
+                    var url = $(this).data('url');
+
+                    $.ajax({
+                        url: url,
+                        type: 'GET',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        success: function (html) {
+                            $('#healthRecordModalContent').html(html);
+                            healthRecordModal.show();
+                        },
+                        error: function () {
+                            alert(
+                                'Failed to load health record details.'
+                            );
+                        }
+                    });
+                });
+        });
+    </script>
+}

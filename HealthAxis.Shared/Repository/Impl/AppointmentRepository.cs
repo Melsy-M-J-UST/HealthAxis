@@ -100,6 +100,17 @@ namespace HealthAxisWebApp.Repositories
                 db.SaveChanges();
             }
         }
+
+        public bool HasPatientAppointmentOnDate(int patientId, DateTime date, int excludeAppointmentId)
+        {
+            return db.Appointments.Any(a =>
+                a.PatientId == patientId &&
+                a.AppointmentId != excludeAppointmentId &&
+                a.ScheduledDate.Year == date.Year &&
+                a.ScheduledDate.Month == date.Month &&
+                a.ScheduledDate.Day == date.Day &&
+                a.Status != 2);
+        }
     }
 
 }

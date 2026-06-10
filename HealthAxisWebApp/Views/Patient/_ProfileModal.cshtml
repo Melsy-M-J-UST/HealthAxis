@@ -1,0 +1,77 @@
+﻿@model HealthAxis.Shared.DTOs.PatientDto
+
+<style>
+    .patient-modal-header {
+        background: linear-gradient(135deg, #315e78, #3c6d87);
+        color: #fff;
+        padding: 16px 20px;
+        border-bottom: none;
+    }
+
+        .patient-modal-header .modal-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .patient-modal-header .btn-close {
+            filter: invert(1);
+            opacity: 0.9;
+        }
+
+    .patient-profile-body {
+        padding: 24px 24px 20px 24px;
+    }
+
+        .patient-profile-body p {
+            margin-bottom: 14px;
+            font-size: 1rem;
+            color: #2f3d4d;
+        }
+
+        .patient-profile-body strong {
+            color: #1f2a44;
+            min-width: 140px;
+            display: inline-block;
+        }
+
+    .patient-profile-card {
+        background: rgba(255,255,255,0.95);
+        border-radius: 14px;
+    }
+
+    .patient-profile-section-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #1f2a44;
+        margin-bottom: 12px;
+    }
+
+    .patient-modal-footer {
+        border-top: 1px solid #e7edf1;
+        padding: 14px 20px;
+    }
+</style>
+
+<div class="modal-header patient-modal-header">
+    <h5 class="modal-title">Patient Profile</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body patient-profile-body patient-profile-card">
+    <p><strong>Name:</strong> @Model.FullName</p>
+    <p><strong>DOB:</strong> @Model.DateOfBirth.ToString("yyyy-MM-dd")</p>
+    <p><strong>Gender:</strong> @Model.GenderName</p>
+    <p><strong>Email:</strong> @Model.Email</p>
+    <p><strong>Phone:</strong> @Model.PhoneNumber</p>
+    <p><strong>Insurance:</strong> @(string.IsNullOrEmpty(Model.InsuranceID) ? "Uninsured" : Model.InsuranceID)</p>
+
+    <hr />
+
+    <div class="patient-profile-section-title">Appointments</div>
+    <p><strong>Total:</strong> @Model.AppointmentCount</p>
+</div>
+
+<div class="modal-footer patient-modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+</div>

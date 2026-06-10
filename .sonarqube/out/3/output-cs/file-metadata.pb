@@ -34,11 +34,11 @@ wC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApi\Areas\HelpPage\M
 pC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApi\Areas\HelpPage\HelpPageConfigurationExtensions.csutf-8r
 iC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApi\Areas\HelpPage\HelpPageAreaRegistration.csutf-8r
 iC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApi\Areas\HelpPage\App_Start\HelpPageConfig.csutf-8t
-kC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApi\Areas\HelpPage\Controllers\HelpController.csutf-8a
-XC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApi\App_Start\WebApiConfig.csutf-8a
-XC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApi\App_Start\BundleConfig.csutf-8a
-XC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApi\App_Start\FilterConfig.csutf-8b
+kC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApi\Areas\HelpPage\Controllers\HelpController.csutf-8b
 YC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApi\App_Start\SwaggerConfig.csutf-8r
-iC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApi\Areas\HelpPage\ApiDescriptionExtensions.csutf-8`
-WC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApi\App_Start\UnityConfig.csutf-8`
+iC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApi\Areas\HelpPage\ApiDescriptionExtensions.csutf-8a
+XC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApi\App_Start\BundleConfig.csutf-8a
+XC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApi\App_Start\WebApiConfig.csutf-8`
+WC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApi\App_Start\UnityConfig.csutf-8a
+XC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApi\App_Start\FilterConfig.csutf-8`
 WC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApi\App_Start\RouteConfig.csutf-8

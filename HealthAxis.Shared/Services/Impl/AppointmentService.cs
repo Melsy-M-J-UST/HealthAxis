@@ -43,13 +43,11 @@ namespace HealthAxis.Shared.Services.Impl
             return appointmentRepository.GetTodayAppointments(doctorId);
         }
 
-        // ✅ NEW: Doctor Weekly Schedule
         public List<Appointment> GetWeeklyAppointments(int doctorId)
         {
             return appointmentRepository.GetWeeklyAppointments(doctorId);
         }
 
-        // ✅ ADD
         public void AddAppointment(Appointment appointment)
         {
             if (appointment == null)
@@ -59,7 +57,7 @@ namespace HealthAxis.Shared.Services.Impl
 
             ValidateAppointment(appointment);
 
-            appointment.Status = 0; // Pending
+            appointment.Status = 0;
 
             if (appointment.CancellationReason == null)
             {
@@ -100,7 +98,6 @@ namespace HealthAxis.Shared.Services.Impl
             appointmentRepository.Update(appointment);
         }
 
-        // ✅ COMPLETE
         public void CompleteAppointment(int id)
         {
             var appointment = appointmentRepository.GetById(id);
@@ -120,7 +117,6 @@ namespace HealthAxis.Shared.Services.Impl
             appointmentRepository.Update(appointment);
         }
 
-        // ✅ CANCEL
         public void CancelAppointment(int id, string reason)
         {
             var appointment = appointmentRepository.GetById(id);
@@ -148,13 +144,12 @@ namespace HealthAxis.Shared.Services.Impl
                     "Appointment is already cancelled.");
             }
 
-            appointment.Status = 2; // Cancelled
+            appointment.Status = 2;
             appointment.CancellationReason = reason;
 
             appointmentRepository.Update(appointment);
         }
 
-        // ✅ DELETE
         public void DeleteAppointment(int id)
         {
             var appointment = appointmentRepository.GetById(id);
@@ -167,9 +162,13 @@ namespace HealthAxis.Shared.Services.Impl
             appointmentRepository.Delete(id);
         }
 
-        // ✅ VALIDATION (UPDATED)
         private void ValidateAppointment(Appointment appointment)
         {
+            if (appointment == null)
+            {
+                throw new ArgumentNullException(nameof(appointment));
+            }
+
             if (appointment.PatientId <= 0)
             {
                 throw new ArgumentException("Invalid Patient.");
@@ -185,31 +184,107 @@ namespace HealthAxis.Shared.Services.Impl
                 throw new ArgumentException("Past dates are not allowed.");
             }
 
-            var doctor = doctorRepository.GetById(appointment.DoctorId);
+            var doctor = doctorRepository.GetById(
+                appointment.DoctorId);
 
             if (doctor == null)
             {
-                throw new KeyNotFoundException(DoctorNotFoundMessage);
+                throw new KeyNotFoundException(
+                    DoctorNotFoundMessage);
             }
 
             if (!doctor.IsActive)
             {
-                throw new InvalidOperationException("Doctor is inactive.");
+                throw new InvalidOperationException(
+                    "Doctor is inactive.");
             }
 
-            // ✅ IMPROVED SLOT CHECK
-            bool isAvailable = appointmentRepository
-                .IsSlotAvailable(
-                    appointment.DoctorId,
+            bool patientAlreadyBookedOnSameDay =
+                appointmentRepository
+                .HasPatientAppointmentOnDate(
+                    appointment.PatientId,
                     appointment.ScheduledDate,
-                    appointment.TimeSlot
-                );
+                    appointment.AppointmentId);
 
-            if (!isAvailable)
+            if (patientAlreadyBookedOnSameDay)
+            {
+                throw new InvalidOperationException(
+                    "Patient already has an appointment on this date.");
+            }
+
+            bool slotAlreadyBooked =
+                appointmentRepository
+                .GetAll()
+                .Any(a =>
+                    a.AppointmentId != appointment.AppointmentId &&
+                    a.DoctorId == appointment.DoctorId &&
+                    a.ScheduledDate.Date == appointment.ScheduledDate.Date &&
+                    a.TimeSlot == appointment.TimeSlot &&
+                    a.Status != 2); // Not Cancelled
+
+            if (slotAlreadyBooked)
             {
                 throw new InvalidOperationException(
                     "Selected time slot is already booked.");
             }
         }
+
+        //    private void ValidateAppointment(Appointment appointment)
+        //    {
+        //        if (appointment.PatientId <= 0)
+        //        {
+        //            throw new ArgumentException("Invalid Patient.");
+        //        }
+
+        //        if (appointment.DoctorId <= 0)
+        //        {
+        //            throw new ArgumentException("Invalid Doctor.");
+        //        }
+
+        //        if (appointment.ScheduledDate.Date < DateTime.Today)
+        //        {
+        //            throw new ArgumentException("Past dates are not allowed.");
+        //        }
+
+        //        var doctor = doctorRepository.GetById(appointment.DoctorId);
+
+        //        if (doctor == null)
+        //        {
+        //            throw new KeyNotFoundException(DoctorNotFoundMessage);
+        //        }
+
+        //        if (!doctor.IsActive)
+        //        {
+        //            throw new InvalidOperationException("Doctor is inactive.");
+        //        }
+
+        //        bool patientAlreadyBookedOnSameDay = appointmentRepository
+        //.HasPatientAppointmentOnDate(
+        //    appointment.PatientId,
+        //    appointment.ScheduledDate,
+        //    appointment.AppointmentId
+        //);
+
+        //        if (patientAlreadyBookedOnSameDay)
+        //        {
+        //            throw new InvalidOperationException(
+        //                "Patient already has an appointment on this date.");
+        //        }
+
+        //        bool slotAlreadyBooked = appointmentRepository
+        //            .GetAll()
+        //            .Any(a =>
+        //                a.AppointmentId != appointment.AppointmentId &&
+        //                a.DoctorId == appointment.DoctorId &&
+        //                a.ScheduledDate.Date == appointment.ScheduledDate.Date &&
+        //                a.TimeSlot == appointment.TimeSlot &&
+        //                a.Status != 2);
+
+        //        if (slotAlreadyBooked)
+        //        {
+        //            throw new InvalidOperationException(
+        //                "Selected time slot is already booked.");
+        //        }
+        //    }
     }
 }

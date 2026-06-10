@@ -6,11 +6,12 @@
 
     var currentSort = ViewBag.SortBy as string ?? "name";
     var currentFilter = ViewBag.Filter as string ?? "all";
+    var currentPatientId = ViewBag.PatientId;
 }
 
 <style>
     .patients-table-wrap {
-        background: rgba(255, 255, 255, 0.80);
+        background: rgba(255, 255, 255, 0.82);
         border-radius: 18px;
         overflow: hidden;
         box-shadow: 0 6px 18px rgba(31, 42, 68, 0.08);
@@ -26,19 +27,19 @@
             background: linear-gradient(135deg, #315e78, #3c6d87);
             color: #ffffff;
             font-weight: 600;
-            font-size: 0.90rem;
-            padding: 11px 10px;
+            font-size: 0.86rem;
+            padding: 9px 8px;
             border-color: rgba(255,255,255,0.12);
             vertical-align: middle;
         }
 
         .patients-table tbody td {
-            padding: 11px 10px;
+            padding: 9px 8px;
             vertical-align: middle;
             border-color: #dbe3e8;
             color: #33414f;
             background-color: rgba(255,255,255,0.92);
-            font-size: 0.90rem;
+            font-size: 0.86rem;
         }
 
         .patients-table tbody tr:nth-child(even) td {
@@ -55,10 +56,31 @@
         white-space: nowrap;
     }
 
+    .patient-actions {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 4px;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+        .patient-actions .btn {
+            white-space: nowrap;
+            border-radius: 7px;
+            padding: 4px 6px;
+            font-weight: 600;
+            font-size: 0.68rem;
+            line-height: 1.05;
+        }
+
+            .patient-actions .btn i {
+                margin-right: 2px;
+            }
+
     .badge-insured {
         background-color: #1f8f5a;
         color: #fff;
-        font-size: 0.76rem;
+        font-size: 0.72rem;
         padding: 4px 7px;
         border-radius: 7px;
         font-weight: 600;
@@ -68,48 +90,73 @@
     .badge-uninsured {
         background-color: #6c757d;
         color: #fff;
-        font-size: 0.76rem;
+        font-size: 0.72rem;
         padding: 4px 7px;
         border-radius: 7px;
         font-weight: 600;
         display: inline-block;
     }
 
-    .patient-actions {
+    .search-row {
+        margin-bottom: 16px;
+    }
+
+    .search-box {
         display: flex;
-        flex-wrap: nowrap;
-        gap: 4px;
-        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
     }
 
-        .patient-actions .btn {
-            white-space: nowrap;
-            border-radius: 7px;
-            padding: 4px 7px;
-            font-weight: 600;
-            font-size: 0.74rem;
-            line-height: 1.1;
+        .search-box input {
+            max-width: 320px;
         }
 
-            .patient-actions .btn i {
-                margin-right: 3px;
-            }
-
-    .page-header-card {
-        margin-bottom: 20px;
+    .patients-table th:nth-child(1),
+    .patients-table td:nth-child(1) {
+        width: 5%;
     }
 
-    @@media (max-width: 1200px) {
-        .patient-actions .btn {
-            font-size: 0.70rem;
-            padding: 4px 6px;
-        }
+    .patients-table th:nth-child(2),
+    .patients-table td:nth-child(2) {
+        width: 14%;
+    }
 
-        .patients-table thead th,
-        .patients-table tbody td {
-            font-size: 0.85rem;
-            padding: 10px 8px;
-        }
+    .patients-table th:nth-child(3),
+    .patients-table td:nth-child(3) {
+        width: 10%;
+    }
+
+    .patients-table th:nth-child(4),
+    .patients-table td:nth-child(4) {
+        width: 8%;
+    }
+
+    .patients-table th:nth-child(5),
+    .patients-table td:nth-child(5) {
+        width: 15%;
+    }
+
+    .patients-table th:nth-child(6),
+    .patients-table td:nth-child(6) {
+        width: 11%;
+    }
+
+    .patients-table th:nth-child(7),
+    .patients-table td:nth-child(7) {
+        width: 10%;
+    }
+
+    .patients-table th:nth-child(8),
+    .patients-table td:nth-child(8) {
+        width: 27%;
+    }
+
+    .modal-header {
+        border-bottom: 1px solid #e6edf2;
+    }
+
+    .modal-footer {
+        border-top: 1px solid #e6edf2;
     }
 </style>
 
@@ -121,13 +168,39 @@
             <p>Manage registered patient information.</p>
         </div>
 
-        <a href="@Url.Action("Create","Patient")" class="btn btn-primary">
+        <a href="@Url.Action("Create", "Patient")" class="btn btn-primary">
             <i class="bi bi-plus-lg"></i> Add Patient
         </a>
     </div>
 
-    <form method="get" class="row g-3 mb-3">
+    <form method="get" class="search-row">
+        <div class="search-box">
+            <input type="text"
+                   name="patientId"
+                   class="form-control"
+                   placeholder="Search by Patient ID"
+                   pattern="[0-9]*"
+                   inputmode="numeric"
+                   value="@(currentPatientId ?? "")" />
 
+            <button type="submit" class="btn btn-success">
+                Search
+            </button>
+
+            @if (currentPatientId != null)
+            {
+                @Html.ActionLink(
+                    "Clear",
+                    "Index",
+                    "Patient",
+                    null,
+                    new { @class = "btn btn-secondary" }
+                )
+            }
+        </div>
+    </form>
+
+    <form method="get" class="row g-3 mb-3">
         <div class="col-md-3">
             <label class="form-label">Sort By</label>
             <select name="sortBy" class="form-select">
@@ -143,31 +216,24 @@
         <div class="col-md-3">
             <label class="form-label">Insurance Filter</label>
             <select name="filter" class="form-select">
-                <option value="all" @(currentFilter == "all" ? "selected" : "")>
-                    All
-                </option>
-                <option value="insured" @(currentFilter == "insured" ? "selected" : "")>
-                    Insured
-                </option>
-                <option value="uninsured" @(currentFilter == "uninsured" ? "selected" : "")>
-                    Uninsured
-                </option>
+                <option value="all" @(currentFilter == "all" ? "selected" : "")>All</option>
+                <option value="insured" @(currentFilter == "insured" ? "selected" : "")>Insured</option>
+                <option value="uninsured" @(currentFilter == "uninsured" ? "selected" : "")>Uninsured</option>
             </select>
         </div>
 
         <div class="col-md-2 align-self-end">
-            <button type="submit" class="btn btn-success w-100">
-                Apply
-            </button>
+            <button type="submit" class="btn btn-success w-100">Apply</button>
         </div>
-
     </form>
 
-    @if (Model == null || !Model.Any())
+    @if (!string.IsNullOrEmpty(ViewBag.Message as string))
     {
-        <div class="alert alert-info">
-            No patients found.
-        </div>
+        <div class="alert alert-info">@ViewBag.Message</div>
+    }
+    else if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">No patients found.</div>
     }
     else
     {
@@ -175,14 +241,14 @@
             <table class="table patients-table table-bordered align-middle">
                 <thead>
                     <tr>
-                        <th style="width: 4%;">ID</th>
-                        <th style="width: 16%;">Name</th>
-                        <th style="width: 10%;">DOB</th>
-                        <th style="width: 8%;">Gender</th>
-                        <th style="width: 15%;">Email</th>
-                        <th style="width: 10%;">Phone</th>
-                        <th style="width: 8%;">Insurance</th>
-                        <th style="width: 29%;">Actions</th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>DOB</th>
+                        <th>Gender</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Insurance</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
 
@@ -196,7 +262,6 @@
                             <td>@item.GenderName</td>
                             <td class="truncate-cell" title="@item.Email">@item.Email</td>
                             <td>@item.PhoneNumber</td>
-
                             <td>
                                 @if (string.IsNullOrEmpty(item.InsuranceID))
                                 {
@@ -207,23 +272,25 @@
                                     <span class="badge-insured">@item.InsuranceID</span>
                                 }
                             </td>
-
                             <td>
                                 <div class="patient-actions">
-                                    <a href="@Url.Action("Profile","Patient", new { id = item.PatientId })"
-                                       class="btn btn-info btn-sm">
-                                        <i class="bi bi-person-lines-fill"></i>Profile
-                                    </a>
+                                    <button type="button"
+                                            class="btn btn-info btn-sm open-patient-modal"
+                                            data-url="@Url.Action("Profile", "Patient", new { id = item.PatientId })">
+                                        <i class="bi bi-person-lines-fill"></i>View
+                                    </button>
 
-                                    <a href="@Url.Action("Edit","Patient", new { id = item.PatientId })"
-                                       class="btn btn-warning btn-sm">
+                                    <button type="button"
+                                            class="btn btn-warning btn-sm open-patient-modal"
+                                            data-url="@Url.Action("Edit", "Patient", new { id = item.PatientId })">
                                         <i class="bi bi-pencil-square"></i>Edit
-                                    </a>
+                                    </button>
 
-                                    <a href="@Url.Action("Deactivate","Patient", new { id = item.PatientId })"
-                                       class="btn btn-danger btn-sm">
+                                    <button type="button"
+                                            class="btn btn-danger btn-sm open-patient-modal"
+                                            data-url="@Url.Action("Deactivate", "Patient", new { id = item.PatientId })">
                                         <i class="bi bi-x-circle"></i>Deactivate
-                                    </a>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -233,4 +300,56 @@
         </div>
     }
 
+    <div class="modal fade" id="patientModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div id="patientModalContent"></div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(function () {
+            var modalElement = document.getElementById('patientModal');
+            var patientModal = new bootstrap.Modal(modalElement);
+
+            $(document).on('click', '.open-patient-modal', function (e) {
+                e.preventDefault();
+
+                var url = $(this).data('url');
+
+                $.get(url, function (html) {
+                    $('#patientModalContent').html(html);
+                    $.validator.unobtrusive.parse('#patientModalContent');
+                    patientModal.show();
+                });
+            });
+
+            $(document).on('submit', 'form[data-ajax-modal="true"]', function (e) {
+                e.preventDefault();
+
+                var form = $(this);
+
+                $.ajax({
+                    url: form.attr('action'),
+                    type: 'POST',
+                    data: form.serialize(),
+                    success: function (response) {
+                        if (response && response.success) {
+                            patientModal.hide();
+                            window.location.reload();
+                        } else {
+                            $('#patientModalContent').html(response);
+                            $.validator.unobtrusive.parse('#patientModalContent');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,172 @@
+﻿@model HealthAxis.Shared.DTOs.AppointmentDto
+
+<style>
+    .appointment-modal-header {
+        background: linear-gradient(135deg, #315e78, #3c6d87);
+        color: #fff;
+        padding: 16px 20px;
+        border-bottom: none;
+    }
+
+        .appointment-modal-header .modal-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .appointment-modal-header .btn-close {
+            filter: invert(1);
+            opacity: 0.9;
+        }
+
+    .appointment-modal-body {
+        padding: 24px;
+        background: rgba(255,255,255,0.96);
+    }
+
+        .appointment-modal-body .form-label {
+            font-weight: 600;
+            color: #1f2a44;
+            margin-bottom: 6px;
+        }
+
+        .appointment-modal-body .form-control,
+        .appointment-modal-body .form-select {
+            border-radius: 10px;
+            border: 1px solid #ccd7de;
+            min-height: 44px;
+            box-shadow: none;
+        }
+
+            .appointment-modal-body .form-control:focus,
+            .appointment-modal-body .form-select:focus {
+                border-color: #61c4b2;
+                box-shadow: 0 0 0 0.18rem rgba(97, 196, 178, 0.18);
+            }
+
+        .appointment-modal-body .text-danger {
+            font-size: 0.84rem;
+        }
+
+    .appointment-modal-footer {
+        border-top: 1px solid #e7edf1;
+        padding: 14px 20px;
+        background: #fafcfd;
+    }
+
+    .btn-save-appointment {
+        background: linear-gradient(135deg, #67ddb7, #42cfa1);
+        border: none;
+        color: #fff;
+        font-weight: 600;
+        border-radius: 10px;
+        padding: 9px 18px;
+    }
+
+        .btn-save-appointment:hover {
+            color: #fff;
+            background: linear-gradient(135deg, #4fd3aa, #2fc08d);
+        }
+
+    .appointment-status-note {
+        margin-bottom: 16px;
+        padding: 12px 14px;
+        border-radius: 10px;
+        background: rgba(255, 193, 7, 0.12);
+        color: #7a5a00;
+        font-weight: 600;
+    }
+</style>
+
+@using (Html.BeginForm("Edit", "Appointment", new { id = Model.AppointmentId }, FormMethod.Post, new { data_ajax_modal = "true" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.AppointmentId)
+
+    <div class="modal-header appointment-modal-header">
+        <h5 class="modal-title">Edit Appointment</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    </div>
+
+    <div class="modal-body appointment-modal-body">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
+        @if (Model.Status == 2 || Model.Status == 3)
+        {
+            <div class="appointment-status-note">
+                Cancelled or completed appointments cannot be edited.
+            </div>
+        }
+
+        <div class="mb-3">
+            @Html.LabelFor(m => m.PatientId, new { @class = "form-label" })
+            @Html.DropDownListFor(
+                m => m.PatientId,
+                (SelectList)ViewBag.PatientList,
+                "-- Select Patient --",
+                new { @class = "form-select" })
+            @Html.ValidationMessageFor(m => m.PatientId, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(m => m.DoctorId, new { @class = "form-label" })
+            @Html.DropDownListFor(
+                m => m.DoctorId,
+                (SelectList)ViewBag.DoctorList,
+                "-- Select Doctor --",
+                new { @class = "form-select" })
+            @Html.ValidationMessageFor(m => m.DoctorId, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(m => m.ScheduledDate, new { @class = "form-label" })
+            @Html.TextBoxFor(
+                m => m.ScheduledDate,
+                "{0:yyyy-MM-dd}",
+                new
+                {
+                    @class = "form-control",
+                    type = "date",
+                    min = DateTime.Today.ToString("yyyy-MM-dd")
+                })
+            @Html.ValidationMessageFor(m => m.ScheduledDate, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(m => m.TimeSlot, new { @class = "form-label" })
+            @Html.DropDownListFor(
+                m => m.TimeSlot,
+                (SelectList)ViewBag.TimeSlotList,
+                "-- Select Time Slot --",
+                new { @class = "form-select" })
+            @Html.ValidationMessageFor(m => m.TimeSlot, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-1">
+            <label class="form-label">Status</label>
+            <p class="form-control-plaintext">
+                @if (Model.Status == 0)
+                {
+                    <span class="badge bg-warning">Pending</span>
+                }
+                else if (Model.Status == 1)
+                {
+                    <span class="badge bg-primary">Confirmed</span>
+                }
+                else if (Model.Status == 2)
+                {
+                    <span class="badge bg-danger">Cancelled</span>
+                }
+                else
+                {
+                    <span class="badge bg-success">Completed</span>
+                }
+            </p>
+        </div>
+    </div>
+
+    <div class="modal-footer appointment-modal-footer">
+        <button type="submit" class="btn btn-save-appointment">Save Changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+    </div>
+}

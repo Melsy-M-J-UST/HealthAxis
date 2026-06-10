@@ -23,6 +23,6 @@ namespace HealthAxisWebApp.Repositories.Interfaces
         List<Appointment> GetWeeklyAppointments(int doctorId);
 
         bool IsSlotAvailable(int doctorId, DateTime date, int timeSlot);
-
+        bool HasPatientAppointmentOnDate(int patientId, DateTime date, int excludeAppointmentId);
     }
 }

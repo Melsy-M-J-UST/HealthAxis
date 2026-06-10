@@ -11,26 +11,24 @@ namespace HealthAxisWebApp.Controllers
     public class HealthRecordController : Controller
     {
         private readonly HealthRecordApiClient _healthRecordApiClient;
+        private readonly DoctorApiClient _doctorApiClient;
+        private readonly PatientApiClient _patientApiClient;
 
         public HealthRecordController()
         {
             _healthRecordApiClient = new HealthRecordApiClient();
+            _doctorApiClient = new DoctorApiClient();
+            _patientApiClient = new PatientApiClient();
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index(int? patientId)
         {
-            return View();
+            return await PatientHistory(patientId);
         }
 
-        public async Task<ActionResult> List()
+        public ActionResult List()
         {
-            var records = await _healthRecordApiClient.GetAllHealthRecords();
-
-            var orderedRecords = records
-                .OrderByDescending(r => r.VisitDate)
-                .ToList();
-
-            return View(orderedRecords);
+            return RedirectToAction("Index");
         }
 
         public ActionResult Create(int? appointmentId, int? patientId, int? doctorId)
@@ -63,7 +61,7 @@ namespace HealthAxisWebApp.Controllers
             try
             {
                 await _healthRecordApiClient.CreateHealthRecord(model);
-                return RedirectToAction("List");
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
@@ -81,6 +79,13 @@ namespace HealthAxisWebApp.Controllers
                 return HttpNotFound();
             }
 
+            await LoadRecordNames(record);
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_DetailsModal", record);
+            }
+
             return View(record);
         }
 
@@ -90,7 +95,7 @@ namespace HealthAxisWebApp.Controllers
 
             if (!patientId.HasValue)
             {
-                return View(new List<HealthRecordDto>());
+                return View("Index", new List<HealthRecordDto>());
             }
 
             var records = await _healthRecordApiClient.GetAllHealthRecords();
@@ -100,30 +105,44 @@ namespace HealthAxisWebApp.Controllers
                 .OrderByDescending(r => r.VisitDate)
                 .ToList();
 
-            ViewBag.HasSearched = true;
+            await LoadDoctorNames(result);
 
-            return View(result);
+            ViewBag.HasSearched = true;
+            ViewBag.PatientId = patientId.Value;
+
+            return View("Index", result);
         }
 
-        //public async Task<ActionResult> DoctorView(int? patientId)
-        //{
-        //    ViewBag.HasSearched = false;
+        public ActionResult DoctorView(int? patientId)
+        {
+            return RedirectToAction("Index");
+        }
 
-        //    if (!patientId.HasValue)
-        //    {
-        //        return View(new List<HealthRecordDto>());
-        //    }
+        private async Task LoadDoctorNames(IEnumerable<HealthRecordDto> records)
+        {
+            var doctorIds = records
+                .Select(r => r.DoctorId)
+                .Distinct()
+                .ToList();
 
-        //    var records = await _healthRecordApiClient.GetAllHealthRecords();
+            var doctorNames = new Dictionary<int, string>();
 
-        //    var result = records
-        //        .Where(r => r.PatientId == patientId.Value)
-        //        .OrderByDescending(r => r.VisitDate)
-        //        .ToList();
+            foreach (var doctorId in doctorIds)
+            {
+                var doctor = await _doctorApiClient.GetDoctorById(doctorId);
+                doctorNames[doctorId] = doctor != null ? doctor.FullName : $"Dr. #{doctorId}";
+            }
 
-        //    ViewBag.HasSearched = true;
+            ViewBag.DoctorNames = doctorNames;
+        }
 
-        //    return View(result);
-        //}
+        private async Task LoadRecordNames(HealthRecordDto record)
+        {
+            var patient = await _patientApiClient.GetPatientById(record.PatientId);
+            var doctor = await _doctorApiClient.GetDoctorById(record.DoctorId);
+
+            ViewBag.PatientName = patient != null ? patient.FullName : $"Patient #{record.PatientId}";
+            ViewBag.DoctorName = doctor != null ? doctor.FullName : $"Dr. #{record.DoctorId}";
+        }
     }
 }

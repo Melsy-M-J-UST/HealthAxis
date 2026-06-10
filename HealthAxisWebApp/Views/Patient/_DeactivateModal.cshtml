@@ -1,0 +1,94 @@
+﻿@model HealthAxis.Shared.DTOs.PatientDto
+
+<style>
+    .patient-modal-header {
+        background: linear-gradient(135deg, #315e78, #3c6d87);
+        color: #fff;
+        padding: 16px 20px;
+        border-bottom: none;
+    }
+
+        .patient-modal-header .modal-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .patient-modal-header .btn-close {
+            filter: invert(1);
+            opacity: 0.9;
+        }
+
+    .patient-deactivate-body {
+        padding: 28px 24px 22px 24px;
+        background: rgba(255,255,255,0.96);
+    }
+
+        .patient-deactivate-body p {
+            margin-bottom: 12px;
+            color: #2f3d4d;
+            font-size: 1rem;
+        }
+
+    .patient-deactivate-name {
+        display: inline-block;
+        background: rgba(220, 53, 69, 0.08);
+        color: #9f1f33;
+        padding: 10px 14px;
+        border-radius: 10px;
+        font-weight: 700;
+        margin-top: 4px;
+    }
+
+    .patient-modal-footer {
+        border-top: 1px solid #e7edf1;
+        padding: 14px 20px;
+        background: #fafcfd;
+    }
+
+    .btn-confirm-deactivate {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        border: none;
+        color: #fff;
+        font-weight: 600;
+        border-radius: 10px;
+        padding: 9px 18px;
+    }
+
+        .btn-confirm-deactivate:hover {
+            color: #fff;
+            background: linear-gradient(135deg, #c82333, #b21f2d);
+        }
+
+    .btn-cancel-deactivate {
+        border-radius: 10px;
+        padding: 9px 18px;
+        font-weight: 600;
+    }
+</style>
+
+@using (Html.BeginForm("Deactivate", "Patient", FormMethod.Post, new { data_ajax_modal = "true" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.PatientId)
+
+    <div class="modal-header patient-modal-header">
+        <h5 class="modal-title">Deactivate Patient</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    </div>
+
+    <div class="modal-body patient-deactivate-body">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
+        <p>Are you sure you want to deactivate this patient?</p>
+
+        <div class="patient-deactivate-name">
+            @Model.FullName
+        </div>
+    </div>
+
+    <div class="modal-footer patient-modal-footer">
+        <button type="submit" class="btn btn-confirm-deactivate">Yes, Deactivate</button>
+        <button type="button" class="btn btn-secondary btn-cancel-deactivate" data-bs-dismiss="modal">Cancel</button>
+    </div>
+}

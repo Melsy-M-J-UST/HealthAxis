@@ -196,11 +196,15 @@
             <input type="hidden" name="mode" id="modeInput" value="@currentMode" />
 
             <div class="schedule-buttons">
-                <button type="submit" class="btn btn-schedule" onclick="document.getElementById('modeInput').value='today';">
+                <button type="submit"
+                        class="btn btn-schedule"
+                        onclick="document.getElementById('modeInput').value='today';">
                     View Today's Schedule
                 </button>
 
-                <button type="submit" class="btn btn-schedule" onclick="document.getElementById('modeInput').value='weekly';">
+                <button type="submit"
+                        class="btn btn-schedule"
+                        onclick="document.getElementById('modeInput').value='weekly';">
                     View Weekly Schedule
                 </button>
             </div>
@@ -256,6 +260,22 @@
                                 </td>
                                 <td>
                                     <div class="action-bar">
+
+                                        <button type="button"
+                                                class="btn btn-info btn-sm open-appointment-modal"
+                                                data-url="@Url.Action("Details", "Appointment", new { id = item.AppointmentId })">
+                                            Details
+                                        </button>
+
+                                        @if (item.Status == 0 || item.Status == 1)
+                                        {
+                                            <button type="button"
+                                                    class="btn btn-warning btn-sm open-appointment-modal"
+                                                    data-url="@Url.Action("Edit", "Appointment", new { id = item.AppointmentId })">
+                                                Edit
+                                            </button>
+                                        }
+
                                         @if (item.Status == 0)
                                         {
                                             using (Html.BeginForm("Confirm", "Appointment", new { id = item.AppointmentId }))
@@ -264,22 +284,21 @@
                                                 <button class="btn btn-success btn-sm">Confirm</button>
                                             }
 
-                                            @Html.ActionLink(
-                                                "Cancel",
-                                                "Cancel",
-                                                new { id = item.AppointmentId },
-                                                new { @class = "btn btn-danger btn-sm" }
-                                            )
+                                            <button type="button"
+                                                    class="btn btn-danger btn-sm open-appointment-modal"
+                                                    data-url="@Url.Action("Cancel", "Appointment", new { id = item.AppointmentId })">
+                                                Cancel
+                                            </button>
                                         }
-                                        else
+                                        else if (item.Status == 1)
                                         {
-                                            @Html.ActionLink(
-                                                "Details",
-                                                "Details",
-                                                new { id = item.AppointmentId },
-                                                new { @class = "btn btn-info btn-sm" }
-                                            )
+                                            <button type="button"
+                                                    class="btn btn-danger btn-sm open-appointment-modal"
+                                                    data-url="@Url.Action("Cancel", "Appointment", new { id = item.AppointmentId })">
+                                                Cancel
+                                            </button>
                                         }
+
                                     </div>
                                 </td>
                             </tr>
@@ -290,4 +309,56 @@
         }
     }
 
+    <div class="modal fade" id="appointmentModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div id="appointmentModalContent"></div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(function () {
+            var appointmentModalElement = document.getElementById('appointmentModal');
+            var appointmentModal = new bootstrap.Modal(appointmentModalElement);
+
+            $(document).on('click', '.open-appointment-modal', function (e) {
+                e.preventDefault();
+
+                var url = $(this).data('url');
+
+                $.get(url, function (html) {
+                    $('#appointmentModalContent').html(html);
+                    $.validator.unobtrusive.parse('#appointmentModalContent');
+                    appointmentModal.show();
+                });
+            });
+
+            $(document).on('submit', 'form[data-ajax-modal="true"]', function (e) {
+                e.preventDefault();
+
+                var form = $(this);
+
+                $.ajax({
+                    url: form.attr('action'),
+                    type: 'POST',
+                    data: form.serialize(),
+                    success: function (response) {
+                        if (response && response.success) {
+                            appointmentModal.hide();
+                            window.location.reload();
+                        } else {
+                            $('#appointmentModalContent').html(response);
+                            $.validator.unobtrusive.parse('#appointmentModalContent');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

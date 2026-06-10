@@ -1,0 +1,105 @@
+﻿@model HealthAxis.Shared.DTOs.HealthRecordDto
+
+<style>
+    .healthrecord-modal-header {
+        background: linear-gradient(135deg, #315e78, #3c6d87);
+        color: #fff;
+        padding: 16px 20px;
+        border-bottom: none;
+    }
+
+        .healthrecord-modal-header .modal-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .healthrecord-modal-header .btn-close {
+            filter: invert(1);
+            opacity: 0.9;
+        }
+
+    .healthrecord-modal-body {
+        padding: 24px;
+        background: rgba(255,255,255,0.96);
+    }
+
+        .healthrecord-modal-body p {
+            margin-bottom: 14px;
+            font-size: 1rem;
+            color: #2f3d4d;
+        }
+
+        .healthrecord-modal-body strong {
+            color: #1f2a44;
+            min-width: 150px;
+            display: inline-block;
+        }
+
+    .healthrecord-notes-box {
+        background: rgba(49, 94, 120, 0.06);
+        border-radius: 10px;
+        padding: 12px 14px;
+        color: #2f3d4d;
+        margin-top: 8px;
+    }
+
+    .healthrecord-modal-footer {
+        border-top: 1px solid #e7edf1;
+        padding: 14px 20px;
+        background: #fafcfd;
+    }
+</style>
+
+<div class="modal-header healthrecord-modal-header">
+    <h5 class="modal-title">Health Record Details</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body healthrecord-modal-body">
+    <p><strong>Record ID:</strong> @Model.RecordId</p>
+    <p><strong>Appointment ID:</strong> @Model.AppointmentId</p>
+    <p><strong>Patient:</strong> @ViewBag.PatientName</p>
+    <p><strong>Doctor:</strong> @ViewBag.DoctorName</p>
+    <p><strong>Visit Date:</strong> @Model.VisitDate.ToString("yyyy-MM-dd")</p>
+
+    <p>
+        <strong>Diagnosis:</strong>
+        @if (!string.IsNullOrWhiteSpace(Model.Diagnosis))
+        {
+            @Model.Diagnosis
+        }
+        else
+        {
+            <span class="text-muted">N/A</span>
+        }
+    </p>
+
+    <p>
+        <strong>Prescription:</strong>
+        @if (!string.IsNullOrWhiteSpace(Model.Prescription))
+        {
+            @Model.Prescription
+        }
+        else
+        {
+            <span class="text-muted">N/A</span>
+        }
+    </p>
+
+    <p><strong>Notes:</strong></p>
+    <div class="healthrecord-notes-box">
+        @if (!string.IsNullOrWhiteSpace(Model.Notes))
+        {
+            @Model.Notes
+        }
+        else
+        {
+            <span class="text-muted">N/A</span>
+        }
+    </div>
+</div>
+
+<div class="modal-footer healthrecord-modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+</div>

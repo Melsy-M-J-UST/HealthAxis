@@ -1,0 +1,102 @@
+﻿@model HealthAxis.Shared.DTOs.AppointmentDto
+
+<style>
+    .appointment-modal-header {
+        background: linear-gradient(135deg, #315e78, #3c6d87);
+        color: #fff;
+        padding: 16px 20px;
+        border-bottom: none;
+    }
+
+        .appointment-modal-header .modal-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .appointment-modal-header .btn-close {
+            filter: invert(1);
+            opacity: 0.9;
+        }
+
+    .appointment-modal-body {
+        padding: 24px;
+        background: rgba(255,255,255,0.96);
+    }
+
+        .appointment-modal-body p {
+            margin-bottom: 14px;
+            font-size: 1rem;
+            color: #2f3d4d;
+        }
+
+        .appointment-modal-body strong {
+            color: #1f2a44;
+            min-width: 170px;
+            display: inline-block;
+        }
+
+    .appointment-modal-footer {
+        border-top: 1px solid #e7edf1;
+        padding: 14px 20px;
+        background: #fafcfd;
+    }
+
+    .appointment-status-note {
+        margin-top: 18px;
+        padding: 12px 14px;
+        border-radius: 10px;
+        background: rgba(255, 193, 7, 0.12);
+        color: #7a5a00;
+        font-weight: 600;
+    }
+</style>
+
+<div class="modal-header appointment-modal-header">
+    <h5 class="modal-title">Appointment Details</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body appointment-modal-body">
+    <p><strong>Appointment ID:</strong> @Model.AppointmentId</p>
+    <p><strong>Patient:</strong> @Model.PatientName</p>
+    <p><strong>Doctor:</strong> @Model.DoctorName</p>
+    <p><strong>Scheduled Date:</strong> @Model.ScheduledDate.ToString("yyyy-MM-dd")</p>
+    <p><strong>Time Slot:</strong> @Model.TimeSlotName</p>
+
+    <p>
+        <strong>Status:</strong>
+        @if (Model.Status == 0)
+        {
+            <span class="badge bg-warning">Pending</span>
+        }
+        else if (Model.Status == 1)
+        {
+            <span class="badge bg-primary">Confirmed</span>
+        }
+        else if (Model.Status == 2)
+        {
+            <span class="badge bg-danger">Cancelled</span>
+        }
+        else
+        {
+            <span class="badge bg-success">Completed</span>
+        }
+    </p>
+
+    @if (!string.IsNullOrWhiteSpace(Model.CancellationReason))
+    {
+        <p><strong>Cancellation Reason:</strong> @Model.CancellationReason</p>
+    }
+
+    @if (Model.Status == 2 || Model.Status == 3)
+    {
+        <div class="appointment-status-note">
+            Cancelled or completed appointments cannot be edited.
+        </div>
+    }
+</div>
+
+<div class="modal-footer appointment-modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+</div>

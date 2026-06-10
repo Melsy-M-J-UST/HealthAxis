@@ -1,5 +1,6 @@
 ﻿using HealthAxis.Shared.DTOs;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -34,7 +35,7 @@ namespace HealthAxisWebApp.Services
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                throw new Exception("Failed to load doctors. " + error);
+                throw new Exception(ExtractErrorMessage(error));
             }
 
             var json = await response.Content.ReadAsStringAsync();
@@ -58,7 +59,7 @@ namespace HealthAxisWebApp.Services
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                throw new Exception("Failed to load doctor. " + error);
+                throw new Exception(ExtractErrorMessage(error));
             }
 
             var json = await response.Content.ReadAsStringAsync();
@@ -77,7 +78,7 @@ namespace HealthAxisWebApp.Services
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                throw new Exception("Failed to load profile. " + error);
+                throw new Exception(ExtractErrorMessage(error));
             }
 
             var json = await response.Content.ReadAsStringAsync();
@@ -99,7 +100,7 @@ namespace HealthAxisWebApp.Services
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                throw new Exception(error);
+                throw new Exception(ExtractErrorMessage(error));
             }
         }
 
@@ -118,7 +119,7 @@ namespace HealthAxisWebApp.Services
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                throw new Exception(error);
+                throw new Exception(ExtractErrorMessage(error));
             }
         }
 
@@ -129,7 +130,7 @@ namespace HealthAxisWebApp.Services
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                throw new Exception(error);
+                throw new Exception(ExtractErrorMessage(error));
             }
         }
 
@@ -140,8 +141,52 @@ namespace HealthAxisWebApp.Services
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                throw new Exception(error);
+                throw new Exception(ExtractErrorMessage(error));
             }
+        }
+
+        private string ExtractErrorMessage(string errorContent)
+        {
+            if (string.IsNullOrWhiteSpace(errorContent))
+            {
+                return "An unexpected error occurred.";
+            }
+
+            try
+            {
+                var json = JObject.Parse(errorContent);
+                var message = json["Message"]?.ToString();
+
+                if (!string.IsNullOrWhiteSpace(message))
+                {
+                    if (message.Contains("\r\n"))
+                    {
+                        message = message.Split(new[] { "\r\n" }, StringSplitOptions.None)[0];
+                    }
+
+                    if (message.Contains("Parameter name:"))
+                    {
+                        message = message.Split(new[] { "Parameter name:" }, StringSplitOptions.None)[0].Trim();
+                    }
+
+                    return message.Trim();
+                }
+            }
+            catch
+            {
+            }
+
+            if (errorContent.Contains("\r\n"))
+            {
+                errorContent = errorContent.Split(new[] { "\r\n" }, StringSplitOptions.None)[0];
+            }
+
+            if (errorContent.Contains("Parameter name:"))
+            {
+                errorContent = errorContent.Split(new[] { "Parameter name:" }, StringSplitOptions.None)[0].Trim();
+            }
+
+            return errorContent.Trim();
         }
     }
 }

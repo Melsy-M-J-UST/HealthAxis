@@ -1,0 +1,72 @@
+﻿@model HealthAxis.Shared.DTOs.DoctorDto
+
+<style>
+    .doctor-modal-header {
+        background: linear-gradient(135deg, #315e78, #3c6d87);
+        color: #fff;
+        padding: 16px 20px;
+        border-bottom: none;
+    }
+
+        .doctor-modal-header .modal-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .doctor-modal-header .btn-close {
+            filter: invert(1);
+            opacity: 0.9;
+        }
+
+    .doctor-modal-body {
+        padding: 24px;
+        background: rgba(255,255,255,0.96);
+    }
+
+        .doctor-modal-body p {
+            margin-bottom: 14px;
+            font-size: 1rem;
+            color: #2f3d4d;
+        }
+
+        .doctor-modal-body strong {
+            color: #1f2a44;
+            min-width: 170px;
+            display: inline-block;
+        }
+
+    .doctor-modal-footer {
+        border-top: 1px solid #e7edf1;
+        padding: 14px 20px;
+        background: #fafcfd;
+    }
+</style>
+
+<div class="modal-header doctor-modal-header">
+    <h5 class="modal-title">Doctor Profile</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body doctor-modal-body">
+    <p><strong>Name:</strong> @Model.FullName</p>
+    <p><strong>Specialisation:</strong> @Model.SpecialisationName</p>
+    <p><strong>Experience:</strong> @Model.YearsOfExperience years</p>
+    <p><strong>Consultation Fee:</strong> ₹@Model.ConsultationFee</p>
+    <p>
+        <strong>Status:</strong>
+        @if (Model.IsActive)
+        {
+            <span class="badge bg-success">Active</span>
+        }
+        else
+        {
+            <span class="badge bg-secondary">Inactive</span>
+        }
+    </p>
+    <p><strong>Upcoming Appointments:</strong> @Model.UpcomingAppointmentCount</p>
+</div>
+
+<div class="modal-footer doctor-modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+</div>

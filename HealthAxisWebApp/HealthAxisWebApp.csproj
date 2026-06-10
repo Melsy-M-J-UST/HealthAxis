@@ -351,6 +351,16 @@
     <Content Include="Views\HealthRecord\DoctorView.cshtml" />
     <Content Include="Views\HealthRecord\PatientHistory.cshtml" />
     <Content Include="Views\HealthRecord\List.cshtml" />
+    <Content Include="Views\Patient\_ProfileModal.cshtml" />
+    <Content Include="Views\Patient\_EditModal.cshtml" />
+    <Content Include="Views\Patient\_DeactivateModal.cshtml" />
+    <Content Include="Views\Doctor\_DoctorProfileModal.cshtml" />
+    <Content Include="Views\Doctor\_EditModal.cshtml" />
+    <Content Include="Views\Doctor\_ToggleModal.cshtml" />
+    <Content Include="Views\Appointment\_DetailsModal.cshtml" />
+    <Content Include="Views\Appointment\_EditModal.cshtml" />
+    <Content Include="Views\Appointment\_CancelModal.cshtml" />
+    <Content Include="Views\HealthRecord\_DetailsModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

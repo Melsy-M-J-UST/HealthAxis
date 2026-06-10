@@ -1,6 +1,7 @@
 ﻿using HealthAxis.Shared.DTOs;
 using HealthAxisWebApp.Services;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -15,13 +16,33 @@ namespace HealthAxisWebApp.Controllers
             _apiClient = new PatientApiClient();
         }
 
-        public async Task<ActionResult> Index(string sortBy = "name", string filter = "all")
+        public async Task<ActionResult> Index(
+            string sortBy = "name",
+            string filter = "all",
+            int? patientId = null)
         {
-            var patients = await _apiClient.GetPatients(sortBy, filter);
-
             ViewBag.SortBy = sortBy;
             ViewBag.Filter = filter;
+            ViewBag.HasSearched = false;
+            ViewBag.Message = null;
+            ViewBag.PatientId = patientId;
 
+            if (patientId.HasValue)
+            {
+                ViewBag.HasSearched = true;
+
+                var patient = await _apiClient.GetPatientById(patientId.Value);
+
+                if (patient == null)
+                {
+                    ViewBag.Message = "Patient does not exists";
+                    return View(new List<PatientDto>());
+                }
+
+                return View(new List<PatientDto> { patient });
+            }
+
+            var patients = await _apiClient.GetPatients(sortBy, filter);
             return View(patients);
         }
 
@@ -31,6 +52,9 @@ namespace HealthAxisWebApp.Controllers
 
             if (patient == null)
                 return HttpNotFound();
+
+            if (Request.IsAjaxRequest())
+                return PartialView("_ProfileModal", patient);
 
             return View(patient);
         }
@@ -76,6 +100,10 @@ namespace HealthAxisWebApp.Controllers
                 return HttpNotFound();
 
             LoadGenderDropdown(patient.Gender);
+
+            if (Request.IsAjaxRequest())
+                return PartialView("_EditModal", patient);
+
             return View(patient);
         }
 
@@ -93,18 +121,30 @@ namespace HealthAxisWebApp.Controllers
             if (!ModelState.IsValid)
             {
                 LoadGenderDropdown(patient.Gender);
+
+                if (Request.IsAjaxRequest())
+                    return PartialView("_EditModal", patient);
+
                 return View(patient);
             }
 
             try
             {
                 await _apiClient.UpdatePatient(patient);
+
+                if (Request.IsAjaxRequest())
+                    return Json(new { success = true });
+
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
                 LoadGenderDropdown(patient.Gender);
+
+                if (Request.IsAjaxRequest())
+                    return PartialView("_EditModal", patient);
+
                 return View(patient);
             }
         }
@@ -115,6 +155,9 @@ namespace HealthAxisWebApp.Controllers
 
             if (patient == null)
                 return HttpNotFound();
+
+            if (Request.IsAjaxRequest())
+                return PartialView("_DeactivateModal", patient);
 
             return View(patient);
         }
@@ -127,6 +170,10 @@ namespace HealthAxisWebApp.Controllers
             try
             {
                 await _apiClient.DeactivatePatient(id);
+
+                if (Request.IsAjaxRequest())
+                    return Json(new { success = true });
+
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -134,6 +181,10 @@ namespace HealthAxisWebApp.Controllers
                 ModelState.AddModelError("", ex.Message);
 
                 var patient = await _apiClient.GetPatientById(id);
+
+                if (Request.IsAjaxRequest())
+                    return PartialView("_DeactivateModal", patient);
+
                 return View(patient);
             }
         }

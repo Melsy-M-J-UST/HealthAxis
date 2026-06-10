@@ -1,0 +1,119 @@
+﻿@model HealthAxis.Shared.DTOs.DoctorDto
+
+<style>
+    .doctor-modal-header {
+        background: linear-gradient(135deg, #315e78, #3c6d87);
+        color: #fff;
+        padding: 16px 20px;
+        border-bottom: none;
+    }
+
+        .doctor-modal-header .modal-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .doctor-modal-header .btn-close {
+            filter: invert(1);
+            opacity: 0.9;
+        }
+
+    .doctor-modal-body {
+        padding: 24px;
+        background: rgba(255,255,255,0.96);
+    }
+
+        .doctor-modal-body .form-label {
+            font-weight: 600;
+            color: #1f2a44;
+            margin-bottom: 6px;
+        }
+
+        .doctor-modal-body .form-control,
+        .doctor-modal-body .form-select {
+            border-radius: 10px;
+            border: 1px solid #ccd7de;
+            min-height: 44px;
+            box-shadow: none;
+        }
+
+            .doctor-modal-body .form-control:focus,
+            .doctor-modal-body .form-select:focus {
+                border-color: #61c4b2;
+                box-shadow: 0 0 0 0.18rem rgba(97, 196, 178, 0.18);
+            }
+
+    .doctor-modal-footer {
+        border-top: 1px solid #e7edf1;
+        padding: 14px 20px;
+        background: #fafcfd;
+    }
+
+    .btn-save-doctor {
+        background: linear-gradient(135deg, #67ddb7, #42cfa1);
+        border: none;
+        color: #fff;
+        font-weight: 600;
+        border-radius: 10px;
+        padding: 9px 18px;
+    }
+
+        .btn-save-doctor:hover {
+            color: #fff;
+            background: linear-gradient(135deg, #4fd3aa, #2fc08d);
+        }
+</style>
+
+@using (Html.BeginForm("Edit", "Doctor", new { id = Model.DoctorId }, FormMethod.Post, new { data_ajax_modal = "true" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.DoctorId)
+    @Html.HiddenFor(m => m.IsActive)
+
+    <div class="modal-header doctor-modal-header">
+        <h5 class="modal-title">Edit Doctor</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    </div>
+
+    <div class="modal-body doctor-modal-body">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
+        <div class="mb-3">
+            @Html.LabelFor(m => m.FullName, new { @class = "form-label" })
+            @Html.TextBoxFor(m => m.FullName,
+                new { @class = "form-control", placeholder = "Enter full name" })
+            @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(m => m.Specialisation, new { @class = "form-label" })
+            @Html.DropDownListFor(
+                m => m.Specialisation,
+                (SelectList)ViewBag.SpecialisationList,
+                "-- Select Specialisation --",
+                new { @class = "form-select" }
+            )
+            @Html.ValidationMessageFor(m => m.Specialisation, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-3">
+            @Html.LabelFor(m => m.YearsOfExperience, new { @class = "form-label" })
+            @Html.TextBoxFor(m => m.YearsOfExperience,
+                new { @class = "form-control", placeholder = "Enter years of experience" })
+            @Html.ValidationMessageFor(m => m.YearsOfExperience, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="mb-1">
+            @Html.LabelFor(m => m.ConsultationFee, new { @class = "form-label" })
+            @Html.TextBoxFor(m => m.ConsultationFee,
+                new { @class = "form-control", placeholder = "Enter consultation fee" })
+            @Html.ValidationMessageFor(m => m.ConsultationFee, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="modal-footer doctor-modal-footer">
+        <button type="submit" class="btn btn-save-doctor">Save Changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+    </div>
+}

@@ -22,19 +22,15 @@ namespace HealthAxisWebApp.Controllers
             _doctorApiClient = new DoctorApiClient();
         }
 
-        // ENTRY POINT → REDIRECT TO DASHBOARD
         public ActionResult Index()
         {
             return RedirectToAction("Dashboard");
         }
 
-        // NEW DASHBOARD (PATIENT + DOCTOR CARDS)
         public ActionResult Dashboard()
         {
             return View();
         }
-
-        // PATIENT VIEW
 
         public async Task<ActionResult> MyAppointments(int? patientId)
         {
@@ -112,22 +108,18 @@ namespace HealthAxisWebApp.Controllers
             return View(appointments);
         }
 
-
-        // TODAY SCHEDULE
         public async Task<ActionResult> Today(int doctorId)
         {
             var list = await _appointmentApiClient.GetTodayAppointments(doctorId);
             return View(list);
         }
 
-        // WEEKLY SCHEDULE
         public async Task<ActionResult> Weekly(int doctorId)
         {
             var list = await _appointmentApiClient.GetWeeklyAppointments(doctorId);
             return View(list);
         }
 
-        // DETAILS
         public async Task<ActionResult> Details(int id)
         {
             var appointment = await _appointmentApiClient.GetAppointmentById(id);
@@ -137,10 +129,14 @@ namespace HealthAxisWebApp.Controllers
                 return HttpNotFound();
             }
 
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_DetailsModal", appointment);
+            }
+
             return View(appointment);
         }
 
-        // CREATE
         public async Task<ActionResult> Create()
         {
             var model = new AppointmentDto
@@ -187,7 +183,6 @@ namespace HealthAxisWebApp.Controllers
             }
         }
 
-        // EDIT
         public async Task<ActionResult> Edit(int id)
         {
             var appointment = await _appointmentApiClient.GetAppointmentById(id);
@@ -197,11 +192,27 @@ namespace HealthAxisWebApp.Controllers
                 return HttpNotFound();
             }
 
+            if (appointment.Status == 2 || appointment.Status == 3)
+            {
+                if (Request.IsAjaxRequest())
+                {
+                    return Content("<div class='p-4 text-danger fw-semibold'>Cancelled or completed appointments cannot be edited.</div>");
+                }
+
+                TempData["ErrorMessage"] = "Cancelled or completed appointments cannot be edited.";
+                return RedirectToAction("List");
+            }
+
             await LoadDropdowns(
                 appointment.PatientId,
                 appointment.DoctorId,
                 appointment.TimeSlot,
                 appointment.Status);
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_EditModal", appointment);
+            }
 
             return View(appointment);
         }
@@ -215,6 +226,31 @@ namespace HealthAxisWebApp.Controllers
                 return new HttpStatusCodeResult(400, "Appointment ID mismatch.");
             }
 
+            var existing = await _appointmentApiClient.GetAppointmentById(appointment.AppointmentId);
+
+            if (existing == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (existing.Status == 2 || existing.Status == 3)
+            {
+                ModelState.AddModelError("", "Cancelled or completed appointments cannot be edited.");
+
+                await LoadDropdowns(
+                    appointment.PatientId,
+                    appointment.DoctorId,
+                    appointment.TimeSlot,
+                    appointment.Status);
+
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("_EditModal", appointment);
+                }
+
+                return View(appointment);
+            }
+
             if (!ModelState.IsValid)
             {
                 await LoadDropdowns(
@@ -223,15 +259,25 @@ namespace HealthAxisWebApp.Controllers
                     appointment.TimeSlot,
                     appointment.Status);
 
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("_EditModal", appointment);
+                }
+
                 return View(appointment);
             }
 
             try
             {
-                var existing = await _appointmentApiClient.GetAppointmentById(appointment.AppointmentId);
                 appointment.Status = existing.Status;
 
                 await _appointmentApiClient.UpdateAppointment(appointment);
+
+                if (Request.IsAjaxRequest())
+                {
+                    return Json(new { success = true });
+                }
+
                 return RedirectToAction("Dashboard");
             }
             catch (Exception ex)
@@ -244,11 +290,15 @@ namespace HealthAxisWebApp.Controllers
                     appointment.TimeSlot,
                     appointment.Status);
 
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("_EditModal", appointment);
+                }
+
                 return View(appointment);
             }
         }
 
-        // DELETE
         public async Task<ActionResult> Delete(int id)
         {
             var appointment = await _appointmentApiClient.GetAppointmentById(id);
@@ -280,7 +330,6 @@ namespace HealthAxisWebApp.Controllers
             }
         }
 
-        // CONFIRM
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Confirm(int id)
@@ -288,7 +337,7 @@ namespace HealthAxisWebApp.Controllers
             try
             {
                 await _appointmentApiClient.ConfirmAppointment(id);
-                return RedirectToAction("Dashboard");
+                return RedirectToAction("List");
             }
             catch (Exception ex)
             {
@@ -297,24 +346,20 @@ namespace HealthAxisWebApp.Controllers
             }
         }
 
-        // COMPLETE
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Complete(int id)
         {
             try
             {
-                var appointment =
-                    await _appointmentApiClient
-                        .GetAppointmentById(id);
+                var appointment = await _appointmentApiClient.GetAppointmentById(id);
 
                 if (appointment == null)
                 {
                     return HttpNotFound();
                 }
 
-                await _appointmentApiClient
-                    .CompleteAppointment(id);
+                await _appointmentApiClient.CompleteAppointment(id);
 
                 return RedirectToAction(
                     "Create",
@@ -329,10 +374,7 @@ namespace HealthAxisWebApp.Controllers
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = ex.Message;
-
-                return RedirectToAction(
-                    "Details",
-                    new { id });
+                return RedirectToAction("Details", new { id });
             }
         }
 
@@ -353,8 +395,6 @@ namespace HealthAxisWebApp.Controllers
             return View("Index", appointments);
         }
 
-
-        // CANCEL
         public async Task<ActionResult> Cancel(int id)
         {
             var appointment = await _appointmentApiClient.GetAppointmentById(id);
@@ -362,6 +402,11 @@ namespace HealthAxisWebApp.Controllers
             if (appointment == null)
             {
                 return HttpNotFound();
+            }
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_CancelModal", appointment);
             }
 
             return View(appointment);
@@ -376,12 +421,24 @@ namespace HealthAxisWebApp.Controllers
                 ModelState.AddModelError("", "Cancellation reason is required.");
 
                 var appointment = await _appointmentApiClient.GetAppointmentById(id);
+
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("_CancelModal", appointment);
+                }
+
                 return View(appointment);
             }
 
             try
             {
                 await _appointmentApiClient.CancelAppointment(id, cancellationReason);
+
+                if (Request.IsAjaxRequest())
+                {
+                    return Json(new { success = true });
+                }
+
                 return RedirectToAction("Dashboard");
             }
             catch (Exception ex)
@@ -389,6 +446,12 @@ namespace HealthAxisWebApp.Controllers
                 ModelState.AddModelError("", ex.Message);
 
                 var appointment = await _appointmentApiClient.GetAppointmentById(id);
+
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("_CancelModal", appointment);
+                }
+
                 return View(appointment);
             }
         }

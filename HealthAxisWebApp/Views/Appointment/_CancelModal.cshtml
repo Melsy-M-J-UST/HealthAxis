@@ -1,0 +1,110 @@
+﻿@model HealthAxis.Shared.DTOs.AppointmentDto
+
+<style>
+    .appointment-modal-header {
+        background: linear-gradient(135deg, #315e78, #3c6d87);
+        color: #fff;
+        padding: 16px 20px;
+        border-bottom: none;
+    }
+
+        .appointment-modal-header .modal-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .appointment-modal-header .btn-close {
+            filter: invert(1);
+            opacity: 0.9;
+        }
+
+    .appointment-modal-body {
+        padding: 24px;
+        background: rgba(255,255,255,0.96);
+    }
+
+        .appointment-modal-body p {
+            margin-bottom: 12px;
+            color: #2f3d4d;
+            font-size: 1rem;
+        }
+
+    .appointment-summary-box {
+        background: rgba(220, 53, 69, 0.06);
+        border-radius: 10px;
+        padding: 12px 14px;
+        margin-bottom: 18px;
+    }
+
+    .appointment-modal-body .form-label {
+        font-weight: 600;
+        color: #1f2a44;
+    }
+
+    .appointment-modal-body textarea.form-control {
+        border-radius: 10px;
+        border: 1px solid #ccd7de;
+        min-height: 110px;
+        box-shadow: none;
+    }
+
+        .appointment-modal-body textarea.form-control:focus {
+            border-color: #61c4b2;
+            box-shadow: 0 0 0 0.18rem rgba(97, 196, 178, 0.18);
+        }
+
+    .appointment-modal-footer {
+        border-top: 1px solid #e7edf1;
+        padding: 14px 20px;
+        background: #fafcfd;
+    }
+
+    .btn-confirm-cancel {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        border: none;
+        color: #fff;
+        font-weight: 600;
+        border-radius: 10px;
+        padding: 9px 18px;
+    }
+
+        .btn-confirm-cancel:hover {
+            color: #fff;
+            background: linear-gradient(135deg, #c82333, #b21f2d);
+        }
+</style>
+
+@using (Html.BeginForm("Cancel", "Appointment", new { id = Model.AppointmentId }, FormMethod.Post, new { data_ajax_modal = "true" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="modal-header appointment-modal-header">
+        <h5 class="modal-title">Cancel Appointment</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    </div>
+
+    <div class="modal-body appointment-modal-body">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
+        <div class="appointment-summary-box">
+            <p><strong>Patient:</strong> @Model.PatientName</p>
+            <p><strong>Doctor:</strong> @Model.DoctorName</p>
+            <p><strong>Date:</strong> @Model.ScheduledDate.ToString("yyyy-MM-dd")</p>
+            <p><strong>Time Slot:</strong> @Model.TimeSlotName</p>
+        </div>
+
+        <div class="mb-1">
+            <label class="form-label">Cancellation Reason</label>
+            <textarea name="cancellationReason"
+                      class="form-control"
+                      rows="4"
+                      placeholder="Enter reason for cancellation"></textarea>
+        </div>
+    </div>
+
+    <div class="modal-footer appointment-modal-footer">
+        <button type="submit" class="btn btn-confirm-cancel">Cancel Appointment</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    </div>
+}

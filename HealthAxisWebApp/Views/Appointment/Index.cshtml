@@ -153,6 +153,14 @@
         padding: 18px;
         color: #3c5668;
     }
+
+    .modal-header {
+        border-bottom: 1px solid #e6edf2;
+    }
+
+    .modal-footer {
+        border-top: 1px solid #e6edf2;
+    }
 </style>
 
 <div class="container appointments-page">
@@ -199,19 +207,10 @@
                     {
                         <tr>
                             <td>@item.AppointmentId</td>
-
-                            <td class="truncate-cell" title="@item.PatientName">
-                                @item.PatientName
-                            </td>
-
-                            <td class="truncate-cell" title="@item.DoctorName">
-                                @item.DoctorName
-                            </td>
-
+                            <td class="truncate-cell" title="@item.PatientName">@item.PatientName</td>
+                            <td class="truncate-cell" title="@item.DoctorName">@item.DoctorName</td>
                             <td>@item.ScheduledDate.ToString("yyyy-MM-dd")</td>
-
                             <td>@item.TimeSlotName</td>
-
                             <td>
                                 @if (item.Status == 0)
                                 {
@@ -230,31 +229,30 @@
                                     <span class="badge-soft-success">Completed</span>
                                 }
                             </td>
-
                             <td>
                                 <div class="appointment-actions">
-                                    @Html.ActionLink(
-                                        "Details",
-                                        "Details",
-                                        "Appointment",
-                                        new { id = item.AppointmentId },
-                                        new { @class = "btn btn-info btn-sm" })
-
-                                    @Html.ActionLink(
-                                        "Edit",
-                                        "Edit",
-                                        "Appointment",
-                                        new { id = item.AppointmentId },
-                                        new { @class = "btn btn-warning btn-sm" })
+                                    <button type="button"
+                                            class="btn btn-info btn-sm open-appointment-modal"
+                                            data-url="@Url.Action("Details", "Appointment", new { id = item.AppointmentId })">
+                                        Details
+                                    </button>
 
                                     @if (item.Status == 0 || item.Status == 1)
                                     {
-                                        @Html.ActionLink(
-                                            "Cancel",
-                                            "Cancel",
-                                            "Appointment",
-                                            new { id = item.AppointmentId },
-                                            new { @class = "btn btn-danger btn-sm" })
+                                        <button type="button"
+                                                class="btn btn-warning btn-sm open-appointment-modal"
+                                                data-url="@Url.Action("Edit", "Appointment", new { id = item.AppointmentId })">
+                                            Edit
+                                        </button>
+                                    }
+
+                                    @if (item.Status == 0 || item.Status == 1)
+                                    {
+                                        <button type="button"
+                                                class="btn btn-danger btn-sm open-appointment-modal"
+                                                data-url="@Url.Action("Cancel", "Appointment", new { id = item.AppointmentId })">
+                                            Cancel
+                                        </button>
                                     }
 
                                     @if (item.Status == 0)
@@ -283,4 +281,56 @@
         </div>
     }
 
+    <div class="modal fade" id="appointmentModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div id="appointmentModalContent"></div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(function () {
+            var appointmentModalElement = document.getElementById('appointmentModal');
+            var appointmentModal = new bootstrap.Modal(appointmentModalElement);
+
+            $(document).on('click', '.open-appointment-modal', function (e) {
+                e.preventDefault();
+
+                var url = $(this).data('url');
+
+                $.get(url, function (html) {
+                    $('#appointmentModalContent').html(html);
+                    $.validator.unobtrusive.parse('#appointmentModalContent');
+                    appointmentModal.show();
+                });
+            });
+
+            $(document).on('submit', 'form[data-ajax-modal="true"]', function (e) {
+                e.preventDefault();
+
+                var form = $(this);
+
+                $.ajax({
+                    url: form.attr('action'),
+                    type: 'POST',
+                    data: form.serialize(),
+                    success: function (response) {
+                        if (response && response.success) {
+                            appointmentModal.hide();
+                            window.location.reload();
+                        } else {
+                            $('#appointmentModalContent').html(response);
+                            $.validator.unobtrusive.parse('#appointmentModalContent');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

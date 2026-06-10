@@ -40,6 +40,11 @@ namespace HealthAxisWebApp.Controllers
                 return HttpNotFound();
             }
 
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_DoctorProfileModal", doctor);
+            }
+
             return View(doctor);
         }
 
@@ -85,6 +90,12 @@ namespace HealthAxisWebApp.Controllers
             }
 
             LoadSpecialisationDropdown(doctor.Specialisation);
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_EditModal", doctor);
+            }
+
             return View(doctor);
         }
 
@@ -100,6 +111,12 @@ namespace HealthAxisWebApp.Controllers
             if (!ModelState.IsValid)
             {
                 LoadSpecialisationDropdown(doctor.Specialisation);
+
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("_EditModal", doctor);
+                }
+
                 return View(doctor);
             }
 
@@ -115,20 +132,74 @@ namespace HealthAxisWebApp.Controllers
                 doctor.IsActive = existingDoctor.IsActive;
 
                 await _apiClient.UpdateDoctor(doctor);
+
+                if (Request.IsAjaxRequest())
+                {
+                    return Json(new { success = true });
+                }
+
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
                 LoadSpecialisationDropdown(doctor.Specialisation);
+
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("_EditModal", doctor);
+                }
+
                 return View(doctor);
             }
         }
 
         public async Task<ActionResult> Toggle(int id)
         {
-            await _apiClient.ToggleDoctorStatus(id);
+            var doctor = await _apiClient.GetDoctorById(id);
+
+            if (doctor == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_ToggleModal", doctor);
+            }
+
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ActionName("Toggle")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ToggleConfirmed(int id)
+        {
+            try
+            {
+                await _apiClient.ToggleDoctorStatus(id);
+
+                if (Request.IsAjaxRequest())
+                {
+                    return Json(new { success = true });
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+
+                var doctor = await _apiClient.GetDoctorById(id);
+
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("_ToggleModal", doctor);
+                }
+
+                return RedirectToAction("Index");
+            }
         }
 
         private void LoadSpecialisationDropdown(
