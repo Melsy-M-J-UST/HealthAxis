@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using HealthAxis.Shared.Models;
 using HealthAxis.Shared.Services.Impl;
-using HealthAxisWebApp;
 using HealthAxisWebApp.Repositories.Interfaces;
 using Moq;
 using Xunit;
@@ -37,6 +36,25 @@ namespace HealthAxis.Tests.Services
             Assert.Single(result);
             Assert.Equal(1, result[0].PatientId);
             Assert.Equal("Arun Kumar", result[0].FullName);
+        }
+
+        [Fact]
+        public void GetPatients_ReturnsFilteredAndSortedPatients()
+        {
+            var patients = new List<Patient>
+            {
+                CreateValidPatient(1),
+                CreateValidPatient(2)
+            };
+
+            patientRepositoryMock
+                .Setup(r => r.GetAllActive("name", "all"))
+                .Returns(patients);
+
+            var result = patientService.GetPatients("name", "all");
+
+            Assert.Equal(2, result.Count);
+            patientRepositoryMock.Verify(r => r.GetAllActive("name", "all"), Times.Once);
         }
 
         [Fact]
@@ -144,10 +162,58 @@ namespace HealthAxis.Tests.Services
         }
 
         [Fact]
+        public void AddPatient_WhenDateOfBirthBefore1900_ThrowsArgumentException()
+        {
+            var patient = CreateValidPatient();
+            patient.DateOfBirth = new DateTime(1899, 12, 31);
+
+            var ex = Assert.Throws<ArgumentException>(() =>
+                patientService.AddPatient(patient));
+
+            Assert.Equal("Date of Birth year must be 1900 or later.", ex.Message);
+        }
+
+        [Fact]
+        public void AddPatient_WhenDuplicateEmail_ThrowsArgumentException()
+        {
+            var patient = CreateValidPatient();
+
+            patientRepositoryMock
+                .Setup(r => r.EmailExists(patient.Email))
+                .Returns(true);
+
+            var ex = Assert.Throws<ArgumentException>(() =>
+                patientService.AddPatient(patient));
+
+            Assert.Equal("Email already exists.", ex.Message);
+        }
+
+        [Fact]
+        public void AddPatient_WhenInsuranceIdIsBlank_NormalizesToNull()
+        {
+            var patient = CreateValidPatient();
+            patient.InsuranceID = "   ";
+
+            patientRepositoryMock
+                .Setup(r => r.EmailExists(patient.Email))
+                .Returns(false);
+
+            patientService.AddPatient(patient);
+
+            patientRepositoryMock.Verify(
+                r => r.Add(It.Is<Patient>(p => p.InsuranceID == null)),
+                Times.Once);
+        }
+
+        [Fact]
         public void AddPatient_WhenValid_SetsCreatedDate()
         {
             var patient = CreateValidPatient();
             var before = DateTime.Now.AddSeconds(-1);
+
+            patientRepositoryMock
+                .Setup(r => r.EmailExists(patient.Email))
+                .Returns(false);
 
             patientService.AddPatient(patient);
 
@@ -157,9 +223,28 @@ namespace HealthAxis.Tests.Services
         }
 
         [Fact]
+        public void AddPatient_WhenValid_SetsIsActiveTrue()
+        {
+            var patient = CreateValidPatient();
+            patient.IsActive = false;
+
+            patientRepositoryMock
+                .Setup(r => r.EmailExists(patient.Email))
+                .Returns(false);
+
+            patientService.AddPatient(patient);
+
+            Assert.True(patient.IsActive);
+        }
+
+        [Fact]
         public void AddPatient_WhenValid_CallsRepositoryAdd()
         {
             var patient = CreateValidPatient();
+
+            patientRepositoryMock
+                .Setup(r => r.EmailExists(patient.Email))
+                .Returns(false);
 
             patientService.AddPatient(patient);
 
@@ -186,9 +271,45 @@ namespace HealthAxis.Tests.Services
         }
 
         [Fact]
+        public void UpdatePatient_WhenDuplicateEmail_ThrowsArgumentException()
+        {
+            var patient = CreateValidPatient(1);
+
+            patientRepositoryMock
+                .Setup(r => r.EmailExists(patient.Email, patient.PatientId))
+                .Returns(true);
+
+            var ex = Assert.Throws<ArgumentException>(() =>
+                patientService.UpdatePatient(patient));
+
+            Assert.Equal("Email already exists.", ex.Message);
+        }
+
+        [Fact]
+        public void UpdatePatient_WhenInsuranceIdIsBlank_NormalizesToNull()
+        {
+            var patient = CreateValidPatient(1);
+            patient.InsuranceID = "   ";
+
+            patientRepositoryMock
+                .Setup(r => r.EmailExists(patient.Email, patient.PatientId))
+                .Returns(false);
+
+            patientService.UpdatePatient(patient);
+
+            patientRepositoryMock.Verify(
+                r => r.Update(It.Is<Patient>(p => p.InsuranceID == null)),
+                Times.Once);
+        }
+
+        [Fact]
         public void UpdatePatient_WhenValid_CallsRepositoryUpdate()
         {
             var patient = CreateValidPatient(1);
+
+            patientRepositoryMock
+                .Setup(r => r.EmailExists(patient.Email, patient.PatientId))
+                .Returns(false);
 
             patientService.UpdatePatient(patient);
 
@@ -224,6 +345,47 @@ namespace HealthAxis.Tests.Services
                 Times.Once);
         }
 
+        [Fact]
+        public void DeactivatePatient_WhenPatientDoesNotExist_ThrowsKeyNotFoundException()
+        {
+            patientRepositoryMock
+                .Setup(r => r.GetById(50))
+                .Returns((Patient)null);
+
+            var ex = Assert.Throws<KeyNotFoundException>(() =>
+                patientService.DeactivatePatient(50));
+
+            Assert.Equal("Patient not found.", ex.Message);
+        }
+
+        [Fact]
+        public void DeactivatePatient_WhenPatientExists_CallsRepositoryDeactivate()
+        {
+            var patient = CreateValidPatient(3);
+
+            patientRepositoryMock
+                .Setup(r => r.GetById(3))
+                .Returns(patient);
+
+            patientService.DeactivatePatient(3);
+
+            patientRepositoryMock.Verify(
+                r => r.Deactivate(3),
+                Times.Once);
+        }
+
+        [Fact]
+        public void GetAppointmentCount_ReturnsRepositoryValue()
+        {
+            patientRepositoryMock
+                .Setup(r => r.GetAppointmentCount(7))
+                .Returns(4);
+
+            var count = patientService.GetAppointmentCount(7);
+
+            Assert.Equal(4, count);
+        }
+
         private static Patient CreateValidPatient(int id = 0)
         {
             return new Patient
@@ -235,7 +397,8 @@ namespace HealthAxis.Tests.Services
                 PhoneNumber = "9876543210",
                 Email = "arun@example.com",
                 InsuranceID = "INS1001",
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.Now,
+                IsActive = true
             };
         }
     }

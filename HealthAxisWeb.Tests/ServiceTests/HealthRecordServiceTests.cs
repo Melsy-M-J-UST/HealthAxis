@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using HealthAxis.Shared.Models;
 using HealthAxis.Shared.Services.Impl;
-using HealthAxisWebApp;
 using HealthAxisWebApp.Repositories.Interfaces;
 using Moq;
 using Xunit;
@@ -37,6 +36,18 @@ namespace HealthAxis.Tests.Services
 
             Assert.Single(result);
             Assert.Equal(1, result[0].RecordId);
+        }
+
+        [Fact]
+        public void GetAllRecords_WhenNoRecords_ReturnsEmptyList()
+        {
+            healthRecordRepositoryMock
+                .Setup(r => r.GetAll())
+                .Returns(new List<HealthRecord>());
+
+            var result = healthRecordService.GetAllRecords();
+
+            Assert.Empty(result);
         }
 
         [Fact]
@@ -124,6 +135,19 @@ namespace HealthAxis.Tests.Services
         }
 
         [Fact]
+        public void AddRecord_WhenNotesEmpty_StillAllowsAdd()
+        {
+            var record = CreateValidHealthRecord();
+            record.Notes = string.Empty;
+
+            healthRecordService.AddRecord(record);
+
+            healthRecordRepositoryMock.Verify(
+                r => r.Add(record),
+                Times.Once);
+        }
+
+        [Fact]
         public void AddRecord_WhenValid_CallsRepositoryAdd()
         {
             var record = CreateValidHealthRecord();
@@ -143,10 +167,50 @@ namespace HealthAxis.Tests.Services
         }
 
         [Fact]
-        public void UpdateRecord_WhenInvalid_ThrowsArgumentException()
+        public void UpdateRecord_WhenPatientIdInvalid_ThrowsArgumentException()
         {
-            var record = CreateValidHealthRecord();
+            var record = CreateValidHealthRecord(1);
+            record.PatientId = 0;
+
+            Assert.Throws<ArgumentException>(() =>
+                healthRecordService.UpdateRecord(record));
+        }
+
+        [Fact]
+        public void UpdateRecord_WhenDoctorIdInvalid_ThrowsArgumentException()
+        {
+            var record = CreateValidHealthRecord(1);
+            record.DoctorId = 0;
+
+            Assert.Throws<ArgumentException>(() =>
+                healthRecordService.UpdateRecord(record));
+        }
+
+        [Fact]
+        public void UpdateRecord_WhenVisitDateInPast_ThrowsArgumentException()
+        {
+            var record = CreateValidHealthRecord(1);
+            record.VisitDate = DateTime.Today.AddDays(-1);
+
+            Assert.Throws<ArgumentException>(() =>
+                healthRecordService.UpdateRecord(record));
+        }
+
+        [Fact]
+        public void UpdateRecord_WhenDiagnosisMissing_ThrowsArgumentException()
+        {
+            var record = CreateValidHealthRecord(1);
             record.Diagnosis = string.Empty;
+
+            Assert.Throws<ArgumentException>(() =>
+                healthRecordService.UpdateRecord(record));
+        }
+
+        [Fact]
+        public void UpdateRecord_WhenPrescriptionMissing_ThrowsArgumentException()
+        {
+            var record = CreateValidHealthRecord(1);
+            record.Prescription = string.Empty;
 
             Assert.Throws<ArgumentException>(() =>
                 healthRecordService.UpdateRecord(record));

@@ -1,28 +1,4 @@
-ƒ
-cC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Repository\Impl\HealthRepository.cs
-
-		 'n
-. 0   %% && ++ .. 44 88 99 
-
-" (
- # $
- # $
-
- #
-( *  ' )
- # $
- # $
-% &   
-
-## 
-##% +%%! '
-
-)) 
-))( .++ 
-
-11 
-11 !44& (
-33 66 88( .Ç
+Ç
 dC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Services\Impl\HealthRecordService.cs
 
 
@@ -46,101 +22,7 @@ dC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Services\Impl\H
 ++% '--5 744  
 -- // 
 77 * && ‚
-778 >99 ;;7 =>> BB !EE II !LL PP !SS* 0WW !ZZ* 0^^ !ê
-`C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Repository\IPatientRepository.cs
-
- '
-
- 
-
-
-
- "
-
-
-
-* 0
-
-
-
-9 H
-
- 
-
- 
-
- 
-
-  
-
- 
-
- #
-
- 
-
- 
-
- 
-
-  %
-
- 
-
-  %
-
-+ ;
-
- 
-
- 
-
- 
-
-$ -¬
-_C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Services\Impl\PatientService.cs
-
-
-
- Œ
-, 6   "" -- 55 @@ EE JJ (QQ VV $]] bb ,
-) 5uu 
-ƒƒ 
-‘‘ 
-1 ; (
-
- +
-
- (
-0 6+ 1
-? N3 B
-
-   %
-  * ,""& (
-
-%% Z
-%%' .'' #)) ))< C++ --' .22 33 55 "
-
-88 !P
-88* 1:: #<< <<< C>> @@' .@@6 =EE %
-
-HH !
-HH& (JJ1 3QQ  
-JJ LL 
-
-TT %
-TT* ,VV- /]]" $
-VV XX 
-
-`` &
-``+ 4bb2 ;
-ee +'' :: x
-ee4 ;gg ii7 >ll* 1rr zz* 1
-€€ 
-ˆˆ* 1
-ŽŽ 
-–– 
-›› Ú
+778 >99 ;;7 =>> BB !EE II !LL PP !SS* 0WW !ZZ* 0^^ !Ú
 `C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Services\IHealthRecordService.cs
 
  )
@@ -161,77 +43,57 @@ _C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Services\Impl\P
 
  
 
-  ©
-[C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Services\IPatientService.cs
+  ƒ
+cC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Repository\Impl\HealthRepository.cs
 
- $
+		 'n
+. 0   %% && ++ .. 44 88 99 
 
- $
+" (
+ # $
+ # $
 
-
-
- !
+ #
+( *  ' )
+ # $
+ # $
+% &   
 
-
-
-) /
+## 
+##% +%%! '
 
-
-
-8 G
+)) 
+))( .++ 
 
- 
+11 
+11 !44& (
+33 66 88( .ƒ
+^C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Services\Impl\DoctorService.cs
 
-# %
+ Z
++ 5   %% ,, 11 &88 << 
+) 5PP 
+/ 9 (
 
- 
+ )
 
-  '
+ #
+( *& (
 
- 
+!! 
+!!% +## !%% !
 
-# *
+((  
+((( .** !,, $
 
- 
+//  
+//% '11/ 188  
+11 33 
 
- !
-
- 
-
-# %
-
- 
-
-$ -ì
-ZC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Services\IDoctorService.cs
-
- #
-
-		 "
-
-
-
- 
-
-
-
-! #
-
- 
-
- $
-
- 
-
-! '
-
- 
-
-  
-
- '
-
-, .™
+:: .
+::3 ;<<: B
+>> *## ** ‚
+>>2 8@@ BB7 =EE* 0II !MM TT !WW [[ !^^ bb !ee ii !™
 cC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Services\Impl\AppointmentService.cs
 
 
@@ -334,33 +196,91 @@ cC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Services\Impl\A
 ÜÜ 
 ÝÝ 
 ÞÞ 
-ßß ƒ
-^C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Services\Impl\DoctorService.cs
+ßß ©
+[C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Services\IPatientService.cs
 
- Z
-+ 5   %% ,, 11 &88 << 
-) 5PP 
-/ 9 (
+ $
 
- )
+ $
 
- #
-( *& (
+
+
+ !
 
-!! 
-!!% +## !%% !
+
+
+) /
 
-((  
-((( .** !,, $
+
+
+8 G
 
-//  
-//% '11/ 188  
-11 33 
+ 
 
-:: .
-::3 ;<<: B
->> *## ** ‚
->>2 8@@ BB7 =EE* 0II !MM TT !WW [[ !^^ bb !ee ii !­
+# %
+
+ 
+
+  '
+
+ 
+
+# *
+
+ 
+
+ !
+
+ 
+
+# %
+
+ 
+
+$ -¬
+_C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Services\Impl\PatientService.cs
+
+
+
+ Œ
+, 6   "" -- 55 @@ EE JJ (QQ VV $]] bb ,
+) 5uu 
+ƒƒ 
+‘‘ 
+1 ; (
+
+ +
+
+ (
+0 6+ 1
+? N3 B
+
+   %
+  * ,""& (
+
+%% Z
+%%' .'' #)) ))< C++ --' .22 33 55 "
+
+88 !P
+88* 1:: #<< <<< C>> @@' .@@6 =EE %
+
+HH !
+HH& (JJ1 3QQ  
+JJ LL 
+
+TT %
+TT* ,VV- /]]" $
+VV XX 
+
+`` &
+``+ 4bb2 ;
+ee +'' :: x
+ee4 ;gg ii7 >ll* 1rr zz* 1
+€€ 
+ˆˆ* 1
+ŽŽ 
+–– 
+›› ­
 _C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Services\IAppointmentService.cs
 
  (
@@ -443,7 +363,61 @@ dC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Repository\Impl
 
 ll &
 ll+ 4nn= F
-nn) *nn. /á
+nn) *nn. /ì
+ZC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Services\IDoctorService.cs
+
+ #
+
+		 "
+
+
+
+ 
+
+
+
+! #
+
+ 
+
+ $
+
+ 
+
+! '
+
+ 
+
+  
+
+ '
+
+, .Ù
+_C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Repository\IHealthRepository.cs
+
+ ,
+
+ !
+
+
+
+ 
+
+
+
+! #
+
+ 
+
+ $
+
+ 
+
+! '
+
+ 
+
+ á
 cC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Repository\Impl\DoctorRepository.cs
 
 		 !x
@@ -466,7 +440,58 @@ cC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Repository\Impl
 
 00 
 00 !22, .
-22 44 66" (»	
+22 44 66" (ê
+`C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Repository\IPatientRepository.cs
+
+ '
+
+ 
+
+
+
+ "
+
+
+
+* 0
+
+
+
+9 H
+
+ 
+
+ 
+
+ 
+
+  
+
+ 
+
+ #
+
+ 
+
+ 
+
+ 
+
+  %
+
+ 
+
+  %
+
++ ;
+
+ 
+
+ 
+
+ 
+
+$ -»	
 hC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Repository\Impl\AppointmentRepository.cs
 
 
@@ -522,32 +547,36 @@ hC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Repository\Impl
 hh4 =kk ((
 hhH Lmm( ,nn) -oo' +
 hhR fll# 7F
-jj' (kk ll mm nn oo pp Ù
-_C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Repository\IHealthRepository.cs
+jj' (kk ll mm nn oo pp ñ
+_C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Repository\IDoctorRepository.cs
 
- ,
+ &
 
- !
-
-
-
- 
+ 
 
 
 
-! #
+ 
+
+
+
+ 
 
  
 
- $
+ 
 
  
 
-! '
+ !
 
  
 
- †
+ 
+
+ '
+
+, 4†
 dC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Repository\IAppointmentRepository.cs
 
  +
@@ -596,49 +625,51 @@ dC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Repository\IApp
 
 A E
 
-K _ñ
-_C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Repository\IDoctorRepository.cs
+K _\
+ZC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Properties\AssemblyInfo.cs·
+aC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Models\HealthAxisModel.Context.cs
 
- &
+ -
 
- 
+  /
 
-
-
- 
+? K
 
-
-
- 
+* 6
 
- 
+% ,
 
- 
++ 8
 
- 
-
- !
-
- 
-
- 
-
- '
-
-, 4\
-ZC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Properties\AssemblyInfo.csj
+& .j
 \C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Mappers\AutoMapperProfile.cs
 
  "j
 \C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Enums\AppointmentTimeSlot.cs
 
-		 #a
+		 #¿
+QC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\DTOs\DoctorDto.cs
+
+ 
+
+ 
+
+ 
+
+ !
+
+ (
+
+ $
+
+ &
+
+ +
+
+ a
 SC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Enums\GenderType.cs
 
-		 h
-ZC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Enums\AppointmentStatus.cs
-
-		 !k
+		 k
 ]C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Enums\DoctorSpecialisation.cs
 
 		 $Å
@@ -660,26 +691,7 @@ WC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\DTOs\HealthReco
 
  "
 
- ¿
-QC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\DTOs\DoctorDto.cs
-
- 
-
- 
-
- 
-
- !
-
- (
-
- $
-
- &
-
- +
-
- º
+ º
 RC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\DTOs\PatientDto.cs
 
  
@@ -708,7 +720,10 @@ RC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\DTOs\PatientDto
 &&- 5
 
 &&H Y
-(( ** $è
+(( ** $h
+ZC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\Enums\AppointmentStatus.cs
+
+		 !è
 VC:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxis.Shared\DTOs\AppointmentDto.cs
 
  

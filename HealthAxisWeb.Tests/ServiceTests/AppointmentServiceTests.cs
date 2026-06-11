@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using HealthAxis.Shared.Models;
 using HealthAxis.Shared.Services.Impl;
-using HealthAxisWebApp;
 using HealthAxisWebApp.Repositories.Interfaces;
 using Moq;
 using Xunit;
@@ -68,6 +67,59 @@ namespace HealthAxis.Tests.Services
             var result = appointmentService.GetAppointmentById(99);
 
             Assert.Null(result);
+        }
+
+        [Fact]
+        public void GetAppointmentsByPatient_ReturnsAppointments()
+        {
+            var appointments = new List<Appointment>
+            {
+                CreateValidAppointment(1),
+                CreateValidAppointment(2)
+            };
+
+            appointmentRepositoryMock
+                .Setup(r => r.GetByPatientId(1))
+                .Returns(appointments);
+
+            var result = appointmentService.GetAppointmentsByPatient(1);
+
+            Assert.Equal(2, result.Count);
+        }
+
+        [Fact]
+        public void GetTodayAppointments_ReturnsAppointments()
+        {
+            var appointments = new List<Appointment>
+            {
+                CreateValidAppointment(1)
+            };
+
+            appointmentRepositoryMock
+                .Setup(r => r.GetTodayAppointments(2))
+                .Returns(appointments);
+
+            var result = appointmentService.GetTodayAppointments(2);
+
+            Assert.Single(result);
+        }
+
+        [Fact]
+        public void GetWeeklyAppointments_ReturnsAppointments()
+        {
+            var appointments = new List<Appointment>
+            {
+                CreateValidAppointment(1),
+                CreateValidAppointment(2)
+            };
+
+            appointmentRepositoryMock
+                .Setup(r => r.GetWeeklyAppointments(2))
+                .Returns(appointments);
+
+            var result = appointmentService.GetWeeklyAppointments(2);
+
+            Assert.Equal(2, result.Count);
         }
 
         [Fact]
@@ -154,6 +206,37 @@ namespace HealthAxis.Tests.Services
         }
 
         [Fact]
+        public void AddAppointment_WhenSamePatientHasCancelledAppointmentOnSameDay_AllowsBooking()
+        {
+            var appointment = CreateValidAppointment();
+
+            var existingAppointments = new List<Appointment>
+            {
+                new Appointment
+                {
+                    AppointmentId = 99,
+                    PatientId = appointment.PatientId,
+                    DoctorId = 7,
+                    ScheduledDate = appointment.ScheduledDate,
+                    TimeSlot = 3,
+                    Status = 2
+                }
+            };
+
+            SetupActiveDoctor();
+
+            appointmentRepositoryMock
+                .Setup(r => r.GetAll())
+                .Returns(existingAppointments);
+
+            appointmentService.AddAppointment(appointment);
+
+            appointmentRepositoryMock.Verify(
+                r => r.Add(appointment),
+                Times.Once);
+        }
+
+        [Fact]
         public void AddAppointment_WhenDoctorAlreadyBooked_ThrowsInvalidOperationException()
         {
             var appointment = CreateValidAppointment();
@@ -177,8 +260,10 @@ namespace HealthAxis.Tests.Services
                 .Setup(r => r.GetAll())
                 .Returns(existingAppointments);
 
-            Assert.Throws<InvalidOperationException>(() =>
+            var ex = Assert.Throws<InvalidOperationException>(() =>
                 appointmentService.AddAppointment(appointment));
+
+            Assert.Equal("Selected time slot is already booked.", ex.Message);
         }
 
         [Fact]
@@ -304,6 +389,36 @@ namespace HealthAxis.Tests.Services
             appointmentRepositoryMock.Verify(
                 r => r.Update(appointment),
                 Times.Once);
+        }
+
+        [Fact]
+        public void UpdateAppointment_WhenSameDoctorDateAndSlotAlreadyBookedByAnotherAppointment_ThrowsInvalidOperationException()
+        {
+            var appointment = CreateValidAppointment(10);
+
+            var existingAppointments = new List<Appointment>
+            {
+                new Appointment
+                {
+                    AppointmentId = 99,
+                    PatientId = 7,
+                    DoctorId = appointment.DoctorId,
+                    ScheduledDate = appointment.ScheduledDate,
+                    TimeSlot = appointment.TimeSlot,
+                    Status = 0
+                }
+            };
+
+            SetupActiveDoctor();
+
+            appointmentRepositoryMock
+                .Setup(r => r.GetAll())
+                .Returns(existingAppointments);
+
+            var ex = Assert.Throws<InvalidOperationException>(() =>
+                appointmentService.UpdateAppointment(appointment));
+
+            Assert.Equal("Selected time slot is already booked.", ex.Message);
         }
 
         [Fact]
@@ -458,6 +573,20 @@ namespace HealthAxis.Tests.Services
 
             Assert.Throws<ArgumentException>(() =>
                 appointmentService.CancelAppointment(1, string.Empty));
+        }
+
+        [Fact]
+        public void CancelAppointment_WhenReasonWhitespace_ThrowsArgumentException()
+        {
+            var appointment = CreateValidAppointment(1);
+            appointment.Status = 0;
+
+            appointmentRepositoryMock
+                .Setup(r => r.GetById(1))
+                .Returns(appointment);
+
+            Assert.Throws<ArgumentException>(() =>
+                appointmentService.CancelAppointment(1, "   "));
         }
 
         [Fact]

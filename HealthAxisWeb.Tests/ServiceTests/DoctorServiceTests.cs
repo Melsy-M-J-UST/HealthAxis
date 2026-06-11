@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using HealthAxis.Shared.Models;
 using HealthAxis.Shared.Services.Impl;
-using HealthAxisWebApp;
 using HealthAxisWebApp.Repositories.Interfaces;
 using Moq;
 using Xunit;
@@ -67,6 +66,18 @@ namespace HealthAxis.Tests.Services
         }
 
         [Fact]
+        public void GetUpcomingAppointmentCount_ReturnsRepositoryValue()
+        {
+            doctorRepositoryMock
+                .Setup(r => r.GetUpcomingAppointmentCount(5))
+                .Returns(3);
+
+            var result = doctorService.GetUpcomingAppointmentCount(5);
+
+            Assert.Equal(3, result);
+        }
+
+        [Fact]
         public void AddDoctor_WhenDoctorIsNull_ThrowsArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(() =>
@@ -94,6 +105,17 @@ namespace HealthAxis.Tests.Services
         }
 
         [Fact]
+        public void AddDoctor_WhenNameHasOnlyLettersAndSpaces_DoesNotThrow()
+        {
+            var doctor = CreateValidDoctor();
+            doctor.FullName = "Amit Verma";
+
+            var exception = Record.Exception(() => doctorService.AddDoctor(doctor));
+
+            Assert.Null(exception);
+        }
+
+        [Fact]
         public void AddDoctor_WhenExperienceNegative_ThrowsArgumentException()
         {
             var doctor = CreateValidDoctor();
@@ -114,14 +136,15 @@ namespace HealthAxis.Tests.Services
         }
 
         [Fact]
-        public void AddDoctor_WhenSpecialisationInvalid_ThrowsArgumentException()
+        public void AddDoctor_WhenConsultationFeeNegative_ThrowsArgumentException()
         {
             var doctor = CreateValidDoctor();
-            doctor.Specialisation = 0;
+            doctor.ConsultationFee = -100;
 
             Assert.Throws<ArgumentException>(() =>
                 doctorService.AddDoctor(doctor));
         }
+
 
         [Fact]
         public void AddDoctor_WhenValid_CallsRepositoryAdd()
@@ -143,7 +166,7 @@ namespace HealthAxis.Tests.Services
         }
 
         [Fact]
-        public void UpdateDoctor_WhenInvalid_ThrowsArgumentException()
+        public void UpdateDoctor_WhenInvalidFee_ThrowsArgumentException()
         {
             var doctor = CreateValidDoctor();
             doctor.ConsultationFee = -100;
@@ -151,6 +174,27 @@ namespace HealthAxis.Tests.Services
             Assert.Throws<ArgumentException>(() =>
                 doctorService.UpdateDoctor(doctor));
         }
+
+        [Fact]
+        public void UpdateDoctor_WhenNameHasInvalidCharacters_ThrowsArgumentException()
+        {
+            var doctor = CreateValidDoctor(1);
+            doctor.FullName = "Doctor9";
+
+            Assert.Throws<ArgumentException>(() =>
+                doctorService.UpdateDoctor(doctor));
+        }
+
+        [Fact]
+        public void UpdateDoctor_WhenExperienceNegative_ThrowsArgumentException()
+        {
+            var doctor = CreateValidDoctor(1);
+            doctor.YearsOfExperience = -5;
+
+            Assert.Throws<ArgumentException>(() =>
+                doctorService.UpdateDoctor(doctor));
+        }
+
 
         [Fact]
         public void UpdateDoctor_WhenValid_CallsRepositoryUpdate()

@@ -93,6 +93,16 @@ C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Views\Appointment
 C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Views\HealthRecord\DoctorView.cshtml
 C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Views\HealthRecord\PatientHistory.cshtml
 C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Views\HealthRecord\List.cshtml
+C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Views\Patient\_ProfileModal.cshtml
+C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Views\Patient\_EditModal.cshtml
+C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Views\Patient\_DeactivateModal.cshtml
+C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Views\Doctor\_DoctorProfileModal.cshtml
+C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Views\Doctor\_EditModal.cshtml
+C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Views\Doctor\_ToggleModal.cshtml
+C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Views\Appointment\_DetailsModal.cshtml
+C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Views\Appointment\_EditModal.cshtml
+C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Views\Appointment\_CancelModal.cshtml
+C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Views\HealthRecord\_DetailsModal.cshtml
 C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Content\bootstrap.rtl.min.css.map
 C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Content\bootstrap.rtl.css.map
 C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\Content\bootstrap.min.css.map

@@ -8,9 +8,15 @@ namespace HealthAxis.Shared.Enums
 {
     public enum DoctorSpecialisation
     {
-        Cardiology = 1,
-        Dermatology = 2,
-        Neurology = 3,
-        GeneralMedicine = 4
+        GeneralPractitioner = 1,
+        Cardiologist = 2,
+        Dermatologist = 3,
+        Neurologist = 4,
+        Pediatrician = 5,
+        Psychiatrist = 6,
+        OrthopedicSurgeon = 7,
+        Gynecologist = 8,
+        Oncologist = 9,
+        Endocrinologist = 10
     }
 }
