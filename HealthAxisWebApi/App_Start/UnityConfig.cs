@@ -1,7 +1,6 @@
 using HealthAxis.Shared.Models;
 using HealthAxis.Shared.Services.Impl;
 using HealthAxis.Shared.Services.Interfaces;
-using HealthAxisWebApp;
 using HealthAxisWebApp.Repositories;
 using HealthAxisWebApp.Repositories.Interfaces;
 using System.Web.Http;

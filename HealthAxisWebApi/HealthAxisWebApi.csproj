@@ -360,6 +360,7 @@
     <Folder Include="Views\Doctors\" />
     <Folder Include="Views\HealthRecords\" />
     <Folder Include="Views\Patients\" />
+    <Folder Include="Views\Values\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\bootstrap.min.js.map" />

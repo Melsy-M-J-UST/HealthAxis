@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ProjectInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
-  <ProjectName>HealthAxisWeb.Tests</ProjectName>
+  <ProjectName>HealthAxisWebApp</ProjectName>
   <ProjectLanguage>C#</ProjectLanguage>
   <ProjectType>Test</ProjectType>
-  <ProjectGuid>c2a38c34-c9c3-450c-bc2f-a020504a4688</ProjectGuid>
-  <FullPath>C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWeb.Tests\HealthAxisWeb.Tests.csproj</FullPath>
+  <ProjectGuid>d5efc7ed-9c1c-430f-a1d0-88c6564003c7</ProjectGuid>
+  <FullPath>C:\Users\287766\source\repos\S2_HealthAxisWeb\HealthAxisWebApp\HealthAxisWebApp.csproj</FullPath>
   <IsExcluded>false</IsExcluded>
   <AnalysisResultFiles>
     <AnalysisResultFile Id="FilesToAnalyze" Location="C:\Users\287766\source\repos\S2_HealthAxisWeb\.sonarqube\conf\2\FilesToAnalyze.txt" />

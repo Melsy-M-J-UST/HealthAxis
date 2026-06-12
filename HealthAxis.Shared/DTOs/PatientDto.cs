@@ -21,6 +21,7 @@ namespace HealthAxis.Shared.DTOs
         public string GenderName { get; set; }
 
         [Required(ErrorMessage = "Phone number is required.")]
+        [Phone(ErrorMessage = "Invalid format")]
         public string PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "Email is required.")]
