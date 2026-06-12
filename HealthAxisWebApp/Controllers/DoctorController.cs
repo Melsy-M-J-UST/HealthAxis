@@ -74,7 +74,7 @@ namespace HealthAxisWebApp.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", ex.Message);
+                AddDoctorFieldError(doctor, ex.Message);
                 LoadSpecialisationDropdown(doctor.Specialisation);
                 return View(doctor);
             }
@@ -142,7 +142,7 @@ namespace HealthAxisWebApp.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", ex.Message);
+                AddDoctorFieldError(doctor, ex.Message);
                 LoadSpecialisationDropdown(doctor.Specialisation);
 
                 if (Request.IsAjaxRequest())
@@ -230,6 +230,36 @@ namespace HealthAxisWebApp.Controllers
                 "Text",
                 selectedSpecialisation
             );
+        }
+
+        private void AddDoctorFieldError(DoctorDto doctor, string message)
+        {
+            if (string.IsNullOrWhiteSpace(message))
+            {
+                ModelState.AddModelError("", "An unexpected error occurred.");
+                return;
+            }
+
+            if (message.Contains("Doctor name") || message.Contains("Name") || message.Contains("name"))
+            {
+                ModelState.AddModelError(nameof(doctor.FullName), message);
+            }
+            else if (message.Contains("experience") || message.Contains("Experience"))
+            {
+                ModelState.AddModelError(nameof(doctor.YearsOfExperience), message);
+            }
+            else if (message.Contains("fee") || message.Contains("Fee") || message.Contains("Consultation"))
+            {
+                ModelState.AddModelError(nameof(doctor.ConsultationFee), message);
+            }
+            else if (message.Contains("Specialisation") || message.Contains("specialisation"))
+            {
+                ModelState.AddModelError(nameof(doctor.Specialisation), message);
+            }
+            else
+            {
+                ModelState.AddModelError("", message);
+            }
         }
     }
 }

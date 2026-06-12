@@ -86,7 +86,27 @@ namespace HealthAxisWebApp.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", ex.Message);
+                if (ex.Message.Contains("Phone number"))
+                {
+                    ModelState.AddModelError(nameof(patient.PhoneNumber), ex.Message);
+                }
+                else if (ex.Message.Contains("Name"))
+                {
+                    ModelState.AddModelError(nameof(patient.FullName), ex.Message);
+                }
+                else if (ex.Message.Contains("Email"))
+                {
+                    ModelState.AddModelError(nameof(patient.Email), ex.Message);
+                }
+                else if (ex.Message.Contains("Date of Birth"))
+                {
+                    ModelState.AddModelError(nameof(patient.DateOfBirth), ex.Message);
+                }
+                else
+                {
+                    ModelState.AddModelError("", ex.Message);
+                }
+
                 LoadGenderDropdown(patient.Gender);
                 return View(patient);
             }
@@ -139,7 +159,27 @@ namespace HealthAxisWebApp.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", ex.Message);
+                if (ex.Message.Contains("Phone number"))
+                {
+                    ModelState.AddModelError(nameof(patient.PhoneNumber), ex.Message);
+                }
+                else if (ex.Message.Contains("Name"))
+                {
+                    ModelState.AddModelError(nameof(patient.FullName), ex.Message);
+                }
+                else if (ex.Message.Contains("Email"))
+                {
+                    ModelState.AddModelError(nameof(patient.Email), ex.Message);
+                }
+                else if (ex.Message.Contains("Date of Birth"))
+                {
+                    ModelState.AddModelError(nameof(patient.DateOfBirth), ex.Message);
+                }
+                else
+                {
+                    ModelState.AddModelError("", ex.Message);
+                }
+
                 LoadGenderDropdown(patient.Gender);
 
                 if (Request.IsAjaxRequest())

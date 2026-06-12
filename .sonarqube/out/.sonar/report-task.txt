@@ -1,0 +1,6 @@
+projectKey=HealthAxisWebApp
+serverUrl=http://localhost:9000
+serverVersion=26.1.0.118079
+dashboardUrl=http://localhost:9000/dashboard?id=HealthAxisWebApp
+ceTaskId=18108c0f-8ab1-4c06-8278-cb028a839370
+ceTaskUrl=http://localhost:9000/api/ce/task?id=18108c0f-8ab1-4c06-8278-cb028a839370

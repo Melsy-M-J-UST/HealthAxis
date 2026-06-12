@@ -123,7 +123,14 @@
 
         <div class="mb-3">
             @Html.LabelFor(m => m.PhoneNumber, new { @class = "form-label" })
-            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+            @Html.TextBoxFor(
+                m => m.PhoneNumber,
+                new
+                {
+                    @class = "form-control",
+                    placeholder = "Enter 10-digit phone number",
+                    inputmode = "numeric"
+                })
             @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
         </div>
 

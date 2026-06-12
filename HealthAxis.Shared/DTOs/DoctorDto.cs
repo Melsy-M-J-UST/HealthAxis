@@ -7,7 +7,7 @@ namespace HealthAxis.Shared.DTOs
         public int DoctorId { get; set; }
 
         [Required(ErrorMessage = "Doctor name is required.")]
-        [StringLength(100, MinimumLength = 2, ErrorMessage = "Name must be between 2 and 100 characters.")]
+                [RegularExpression(@"^[A-Z][a-zA-Z]*(?: [a-zA-Z]+)*$", ErrorMessage = "Name must start with a capital letter and contain only letters and spaces.")]
         public string FullName { get; set; }
 
         [Required(ErrorMessage = "Specialisation is required.")]

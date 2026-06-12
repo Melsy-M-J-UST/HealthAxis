@@ -44,6 +44,10 @@
                 box-shadow: 0 0 0 0.18rem rgba(97, 196, 178, 0.18);
             }
 
+        .doctor-modal-body .text-danger {
+            font-size: 0.84rem;
+        }
+
     .doctor-modal-footer {
         border-top: 1px solid #e7edf1;
         padding: 14px 20px;
@@ -81,8 +85,13 @@
 
         <div class="mb-3">
             @Html.LabelFor(m => m.FullName, new { @class = "form-label" })
-            @Html.TextBoxFor(m => m.FullName,
-                new { @class = "form-control", placeholder = "Enter full name" })
+            @Html.TextBoxFor(
+                m => m.FullName,
+                new
+                {
+                    @class = "form-control",
+                    placeholder = "Enter full name"
+                })
             @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
         </div>
 
@@ -92,22 +101,31 @@
                 m => m.Specialisation,
                 (SelectList)ViewBag.SpecialisationList,
                 "-- Select Specialisation --",
-                new { @class = "form-select" }
-            )
+                new { @class = "form-select" })
             @Html.ValidationMessageFor(m => m.Specialisation, "", new { @class = "text-danger" })
         </div>
 
         <div class="mb-3">
             @Html.LabelFor(m => m.YearsOfExperience, new { @class = "form-label" })
-            @Html.TextBoxFor(m => m.YearsOfExperience,
-                new { @class = "form-control", placeholder = "Enter years of experience" })
+            @Html.TextBoxFor(
+                m => m.YearsOfExperience,
+                new
+                {
+                    @class = "form-control",
+                    placeholder = "Enter years of experience"
+                })
             @Html.ValidationMessageFor(m => m.YearsOfExperience, "", new { @class = "text-danger" })
         </div>
 
         <div class="mb-1">
             @Html.LabelFor(m => m.ConsultationFee, new { @class = "form-label" })
-            @Html.TextBoxFor(m => m.ConsultationFee,
-                new { @class = "form-control", placeholder = "Enter consultation fee" })
+            @Html.TextBoxFor(
+                m => m.ConsultationFee,
+                new
+                {
+                    @class = "form-control",
+                    placeholder = "Enter consultation fee"
+                })
             @Html.ValidationMessageFor(m => m.ConsultationFee, "", new { @class = "text-danger" })
         </div>
     </div>

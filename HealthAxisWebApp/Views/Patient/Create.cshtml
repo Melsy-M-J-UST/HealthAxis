@@ -22,7 +22,13 @@
 
                 <div class="mb-3">
                     @Html.LabelFor(m => m.FullName, new { @class = "form-label" })
-                    @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+                    @Html.TextBoxFor(
+                        m => m.FullName,
+                        new
+                        {
+                            @class = "form-control",
+                            placeholder = "Enter full name"
+                        })
                     @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
                 </div>
 
@@ -53,13 +59,26 @@
 
                 <div class="mb-3">
                     @Html.LabelFor(m => m.PhoneNumber, new { @class = "form-label" })
-                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                    @Html.TextBoxFor(
+                        m => m.PhoneNumber,
+                        new
+                        {
+                            @class = "form-control",
+                            placeholder = "Enter 10-digit phone number",
+                            inputmode = "numeric"
+                        })
                     @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="mb-3">
                     @Html.LabelFor(m => m.Email, new { @class = "form-label" })
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    @Html.TextBoxFor(
+                        m => m.Email,
+                        new
+                        {
+                            @class = "form-control",
+                            placeholder = "Enter email address"
+                        })
                     @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                 </div>
 
@@ -75,9 +94,9 @@
                     @Html.ValidationMessageFor(m => m.InsuranceID, "", new { @class = "text-danger" })
                 </div>
 
-                <div class="mt-4">
+                <div class="mt-4 d-flex gap-2">
                     <button type="submit" class="btn btn-success">
-                        Create
+                        Create Patient
                     </button>
 
                     @Html.ActionLink(
@@ -85,7 +104,7 @@
                         "Index",
                         "Patient",
                         null,
-                        new { @class = "btn btn-secondary ms-2" })
+                        new { @class = "btn btn-secondary" })
                 </div>
 
             </div>
