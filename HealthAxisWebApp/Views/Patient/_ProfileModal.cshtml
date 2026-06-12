@@ -21,6 +21,7 @@
 
     .patient-profile-body {
         padding: 24px 24px 20px 24px;
+        background: rgba(255,255,255,0.96);
     }
 
         .patient-profile-body p {
@@ -35,11 +36,6 @@
             display: inline-block;
         }
 
-    .patient-profile-card {
-        background: rgba(255,255,255,0.95);
-        border-radius: 14px;
-    }
-
     .patient-profile-section-title {
         font-size: 1.05rem;
         font-weight: 700;
@@ -50,6 +46,18 @@
     .patient-modal-footer {
         border-top: 1px solid #e7edf1;
         padding: 14px 20px;
+        background: #fafcfd;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .patient-profile-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
     }
 </style>
 
@@ -58,13 +66,13 @@
     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 </div>
 
-<div class="modal-body patient-profile-body patient-profile-card">
+<div class="modal-body patient-profile-body">
     <p><strong>Name:</strong> @Model.FullName</p>
     <p><strong>DOB:</strong> @Model.DateOfBirth.ToString("yyyy-MM-dd")</p>
     <p><strong>Gender:</strong> @Model.GenderName</p>
     <p><strong>Email:</strong> @Model.Email</p>
     <p><strong>Phone:</strong> @Model.PhoneNumber</p>
-    <p><strong>Insurance:</strong> @(string.IsNullOrEmpty(Model.InsuranceID) ? "Uninsured" : Model.InsuranceID)</p>
+    <p><strong>Insurance:</strong> @(string.IsNullOrWhiteSpace(Model.InsuranceID) ? "Uninsured" : Model.InsuranceID)</p>
 
     <hr />
 
@@ -73,5 +81,17 @@
 </div>
 
 <div class="modal-footer patient-modal-footer">
+    <div class="patient-profile-actions">
+        <a href="@Url.Action("MyAppointments", "Appointment", new { patientId = Model.PatientId })"
+           class="btn btn-info">
+            Appointment History
+        </a>
+
+        <a href="@Url.Action("PatientHistory", "HealthRecord", new { patientId = Model.PatientId })"
+           class="btn btn-success">
+            Health Records
+        </a>
+    </div>
+
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 </div>

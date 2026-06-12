@@ -41,6 +41,29 @@ namespace HealthAxisWebApp.Services
             return JsonConvert.DeserializeObject<List<PatientDto>>(json);
         }
 
+        public async Task<List<PatientDto>> SearchPatients(
+            string searchBy,
+            string searchValue,
+            string sortBy = "name",
+            string filter = "all")
+        {
+            var url =
+                $"api/patients?sortBy={sortBy}" +
+                $"&insuranceFilter={filter}" +
+                $"&searchBy={searchBy}" +
+                $"&searchValue={Uri.EscapeDataString(searchValue ?? string.Empty)}";
+
+            var response = await _client.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Failed to search patients.");
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<List<PatientDto>>(json);
+        }
+
         public async Task<PatientDto> GetPatientById(int id)
         {
             var response = await _client.GetAsync($"api/patients/{id}");

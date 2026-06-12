@@ -2,73 +2,423 @@
 
 @{
     ViewBag.Title = "Create Appointment";
+
+    var specialisationList = ViewBag.SpecialisationList as SelectList;
+    var doctorList = ViewBag.DoctorList as SelectList;
+    var timeSlotList = ViewBag.TimeSlotList as SelectList;
+
+    var selectedSpecialisationValue = "";
+    if (specialisationList != null)
+    {
+        var selectedItem = specialisationList.FirstOrDefault(x => x.Selected);
+        if (selectedItem != null)
+        {
+            selectedSpecialisationValue = selectedItem.Value;
+        }
+    }
 }
 
-<div class="container mt-4">
-    <h2>Create Appointment</h2>
-    <hr />
+<style>
+    .appointment-page {
+        padding-top: 24px;
+        padding-bottom: 40px;
+    }
 
-    @using (Html.BeginForm("Create", "Appointment", FormMethod.Post))
+    .appointment-header {
+        margin-bottom: 24px;
+    }
+
+    .appointment-header h2 {
+        font-size: 2.7rem;
+        font-weight: 700;
+        color: #1f2a44;
+        margin-bottom: 6px;
+    }
+
+    .appointment-header p {
+        color: #4a5b6b;
+        font-size: 1rem;
+        margin-bottom: 0;
+    }
+
+    .appointment-form-card {
+        background: rgba(255,255,255,0.84);
+        border-radius: 18px;
+        padding: 22px;
+        box-shadow: 0 6px 18px rgba(31, 42, 68, 0.08);
+    }
+
+    .appointment-form-card .form-label {
+        font-weight: 600;
+        color: #1f2a44;
+        margin-bottom: 6px;
+    }
+
+    .appointment-form-card .form-control,
+    .appointment-form-card .form-select {
+        border-radius: 10px;
+        min-height: 46px;
+        box-shadow: none;
+    }
+
+    .appointment-form-card .form-control:focus,
+    .appointment-form-card .form-select:focus {
+        border-color: #61c4b2;
+        box-shadow: 0 0 0 0.18rem rgba(97, 196, 178, 0.18);
+    }
+
+    .patient-search-row {
+        display: grid;
+        grid-template-columns: 220px 160px auto;
+        gap: 12px;
+        align-items: end;
+    }
+
+    .patient-search-row .btn {
+        height: 46px;
+        white-space: nowrap;
+    }
+
+    .patient-result-card {
+        margin-top: 16px;
+        background: rgba(49, 94, 120, 0.06);
+        border-radius: 12px;
+        padding: 14px 16px;
+        border: 1px solid rgba(49, 94, 120, 0.10);
+    }
+
+    .patient-result-card h6 {
+        font-weight: 700;
+        color: #1f2a44;
+        margin-bottom: 10px;
+    }
+
+    .patient-result-card p {
+        margin-bottom: 8px;
+        color: #33414f;
+    }
+
+    .patient-result-card strong {
+        color: #1f2a44;
+        min-width: 120px;
+        display: inline-block;
+    }
+
+    .patient-result-card.hidden {
+        display: none;
+    }
+
+    .patient-search-message {
+        margin-top: 12px;
+    }
+
+    .doctor-loading-note {
+        font-size: 0.88rem;
+        color: #5d7388;
+        margin-top: 6px;
+    }
+
+    .appointment-actions {
+        margin-top: 24px;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+    @@media (max-width: 991px) {
+        .patient-search-row {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="container appointment-page">
+
+    <div class="appointment-header">
+        <h2>Create Appointment</h2>
+        <p>Search the patient, choose a specialization, select a doctor, and book a 30-minute consultation slot.</p>
+    </div>
+
+    @using (Html.BeginForm("Create", "Appointment", FormMethod.Post, new { id = "appointmentCreateForm" }))
     {
         @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.PatientId, new { id = "PatientId" })
 
-        <div class="card">
-            <div class="card-body">
+        <div class="appointment-form-card">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
 
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <!-- PATIENT SEARCH -->
+            <div class="mb-4">
+                <label class="form-label">Patient Search</label>
 
-                <div class="mb-3">
-                    @Html.LabelFor(model => model.PatientId, "Patient", new { @class = "form-label" })
-                    @Html.DropDownListFor(
-                        model => model.PatientId,
-                        (SelectList)ViewBag.PatientList,
-                        "-- Select Patient --",
-                        new { @class = "form-control" }
-                    )
-                    @Html.ValidationMessageFor(model => model.PatientId, "", new { @class = "text-danger" })
+                <div class="patient-search-row">
+                    <div>
+                        <label for="patientSearchId" class="form-label">Patient ID</label>
+                        <input type="number"
+                               id="patientSearchId"
+                               class="form-control"
+                               placeholder="Enter Patient ID"
+                               value="@(Model.PatientId > 0 ? Model.PatientId.ToString() : "")" />
+                    </div>
+
+                    <div>
+                        <button type="button" id="btnSearchPatient" class="btn btn-info w-100">
+                            Search Patient
+                        </button>
+                    </div>
+
+                    <div class="d-flex align-items-end">
+                        <div class="doctor-loading-note">
+                            Search the patient by ID before booking the appointment.
+                        </div>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    @Html.LabelFor(model => model.DoctorId, "Doctor", new { @class = "form-label" })
-                    @Html.DropDownListFor(
-                        model => model.DoctorId,
-                        (SelectList)ViewBag.DoctorList,
-                        "-- Select Doctor --",
-                        new { @class = "form-control" }
-                    )
-                    @Html.ValidationMessageFor(model => model.DoctorId, "", new { @class = "text-danger" })
+                <div id="patientSearchMessage" class="patient-search-message"></div>
+
+                <div id="patientResultCard" class="patient-result-card hidden">
+                    <h6>Selected Patient</h6>
+                    <p><strong>Name:</strong> <span id="patientFullName"></span></p>
+                    <p><strong>DOB:</strong> <span id="patientDob"></span></p>
+                    <p><strong>Gender:</strong> <span id="patientGender"></span></p>
+                    <p><strong>Email:</strong> <span id="patientEmail"></span></p>
+                    <p><strong>Phone:</strong> <span id="patientPhone"></span></p>
+                    <p><strong>Insurance:</strong> <span id="patientInsurance"></span></p>
                 </div>
 
-                <div class="mb-3">
-                    @Html.LabelFor(model => model.ScheduledDate, "Scheduled Date", new { @class = "form-label" })
-                    @Html.TextBoxFor(model => model.ScheduledDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-                    @Html.ValidationMessageFor(model => model.ScheduledDate, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(m => m.PatientId, "", new { @class = "text-danger d-block mt-2" })
+            </div>
+
+            <!-- DOCTOR SPECIALISATION -->
+            <div class="mb-3">
+                <label for="selectedSpecialisation" class="form-label">Doctor Specialisation</label>
+                @Html.DropDownList(
+                    "selectedSpecialisation",
+                    specialisationList,
+                    "-- Select Specialisation --",
+                    new
+                    {
+                        @class = "form-select",
+                        id = "selectedSpecialisation"
+                    })
+            </div>
+
+            <!-- DOCTOR -->
+            <div class="mb-3">
+                @Html.LabelFor(m => m.DoctorId, new { @class = "form-label" })
+                @Html.DropDownListFor(
+                    m => m.DoctorId,
+                    doctorList ?? new SelectList(Enumerable.Empty<SelectListItem>()),
+                    "-- Select Doctor --",
+                    new
+                    {
+                        @class = "form-select",
+                        id = "DoctorId"
+                    })
+                <div class="doctor-loading-note">
+                    Choose a specialisation first to load matching active doctors.
                 </div>
+                @Html.ValidationMessageFor(m => m.DoctorId, "", new { @class = "text-danger" })
+            </div>
 
-                <div class="mb-3">
-                    @Html.LabelFor(model => model.TimeSlot, "Time Slot", new { @class = "form-label" })
-                    @Html.DropDownListFor(
-                        model => model.TimeSlot,
-                        (SelectList)ViewBag.TimeSlotList,
-                        "-- Select Time Slot --",
-                        new { @class = "form-control" }
-                    )
-                    @Html.ValidationMessageFor(model => model.TimeSlot, "", new { @class = "text-danger" })
-                </div>
+            <!-- DATE -->
+            <div class="mb-3">
+                @Html.LabelFor(m => m.ScheduledDate, new { @class = "form-label" })
+                @Html.TextBoxFor(
+                    m => m.ScheduledDate,
+                    "{0:yyyy-MM-dd}",
+                    new
+                    {
+                        @class = "form-control",
+                        type = "date",
+                        min = DateTime.Today.ToString("yyyy-MM-dd")
+                    })
+                @Html.ValidationMessageFor(m => m.ScheduledDate, "", new { @class = "text-danger" })
+            </div>
 
-                @Html.HiddenFor(model => model.Status)
+            <!-- TIME SLOT -->
+            <div class="mb-3">
+                @Html.LabelFor(m => m.TimeSlot, new { @class = "form-label" })
+                @Html.DropDownListFor(
+                    m => m.TimeSlot,
+                    timeSlotList ?? new SelectList(Enumerable.Empty<SelectListItem>()),
+                    "-- Select Time Slot --",
+                    new
+                    {
+                        @class = "form-select"
+                    })
+                @Html.ValidationMessageFor(m => m.TimeSlot, "", new { @class = "text-danger" })
+            </div>
 
+            <div class="appointment-actions">
+                <button type="submit" class="btn btn-success">Create</button>
 
-                <div class="mt-3">
-                    <button type="submit" class="btn btn-success">Create</button>
-                    @Html.ActionLink("Back to List", "Dashboard", "Appointment", null, new { @class = "btn btn-secondary ms-2" })
-                </div>
-
+                @Html.ActionLink(
+                    "Back to List",
+                    "List",
+                    "Appointment",
+                    null,
+                    new { @class = "btn btn-secondary" })
             </div>
         </div>
     }
+
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(function () {
+            var $patientIdHidden = $('#PatientId');
+            var $patientSearchId = $('#patientSearchId');
+            var $patientMessage = $('#patientSearchMessage');
+            var $patientCard = $('#patientResultCard');
+
+            var $specialisation = $('#selectedSpecialisation');
+            var $doctorSelect = $('#DoctorId');
+
+            function showPatientMessage(message, type) {
+                var css = 'alert ';
+                css += type === 'success' ? 'alert-success' : 'alert-danger';
+
+                $patientMessage
+                    .removeClass()
+                    .addClass(css)
+                    .text(message);
+            }
+
+            function clearPatientMessage() {
+                $patientMessage.removeClass().empty();
+            }
+
+            function hidePatientCard() {
+                $patientCard.addClass('hidden');
+                $('#patientFullName').text('');
+                $('#patientDob').text('');
+                $('#patientGender').text('');
+                $('#patientEmail').text('');
+                $('#patientPhone').text('');
+                $('#patientInsurance').text('');
+            }
+
+            function showPatientCard(data) {
+                $('#patientFullName').text(data.FullName || '');
+                $('#patientDob').text(formatDate(data.DateOfBirth));
+                $('#patientGender').text(data.GenderName || '');
+                $('#patientEmail').text(data.Email || '');
+                $('#patientPhone').text(data.PhoneNumber || '');
+                $('#patientInsurance').text(data.InsuranceID ? data.InsuranceID : 'Uninsured');
+                $patientCard.removeClass('hidden');
+            }
+
+            function formatDate(dateValue) {
+                if (!dateValue) {
+                    return '';
+                }
+
+                var d = new Date(dateValue);
+                if (isNaN(d.getTime())) {
+                    return dateValue;
+                }
+
+                var year = d.getFullYear();
+                var month = String(d.getMonth() + 1).padStart(2, '0');
+                var day = String(d.getDate()).padStart(2, '0');
+
+                return year + '-' + month + '-' + day;
+            }
+
+            function resetDoctorDropdown() {
+                $doctorSelect.empty();
+                $doctorSelect.append($('<option>', {
+                    value: '',
+                    text: '-- Select Doctor --'
+                }));
+            }
+
+            function loadDoctorsBySpecialisation(selectedDoctorId) {
+                var specialisation = $specialisation.val();
+
+                resetDoctorDropdown();
+
+                if (!specialisation) {
+                    return;
+                }
+
+                $.get('@Url.Action("GetDoctorsBySpecialisation", "Appointment")', { specialisation: specialisation })
+                    .done(function (doctors) {
+                        $.each(doctors, function (index, doctor) {
+                            $doctorSelect.append($('<option>', {
+                                value: doctor.DoctorId,
+                                text: doctor.FullName,
+                                selected: selectedDoctorId && selectedDoctorId.toString() === doctor.DoctorId.toString()
+                            }));
+                        });
+                    })
+                    .fail(function () {
+                        resetDoctorDropdown();
+                    });
+            }
+
+            $('#btnSearchPatient').on('click', function () {
+                var patientId = $patientSearchId.val();
+
+                clearPatientMessage();
+                hidePatientCard();
+                $patientIdHidden.val('');
+
+                if (!patientId) {
+                    showPatientMessage('Please enter Patient ID.', 'error');
+                    return;
+                }
+
+                $.get('@Url.Action("SearchPatientById", "Appointment")', { patientId: patientId })
+                    .done(function (response) {
+                        if (response && response.success) {
+                            $patientIdHidden.val(response.patient.PatientId);
+                            showPatientCard(response.patient);
+                            showPatientMessage('Patient found and selected successfully.', 'success');
+                        } else {
+                            showPatientMessage(response.message || 'Patient not found.', 'error');
+                        }
+                    })
+                    .fail(function () {
+                        showPatientMessage('Failed to search patient.', 'error');
+                    });
+            });
+
+            $specialisation.on('change', function () {
+                loadDoctorsBySpecialisation(null);
+            });
+
+            // If page reloads with selected doctor/specialisation, keep doctor list populated
+            var existingDoctorId = '@Model.DoctorId';
+            var existingSpecialisation = '@selectedSpecialisationValue';
+
+            if (existingSpecialisation) {
+                $specialisation.val(existingSpecialisation);
+                loadDoctorsBySpecialisation(existingDoctorId);
+            } else {
+                // If doctor list already comes from server, keep it.
+                if (!$doctorSelect.val()) {
+                    resetDoctorDropdown();
+                }
+            }
+
+            // If page reloaded with selected patient, auto fetch and show patient card
+            var existingPatientId = '@Model.PatientId';
+
+            if (existingPatientId && existingPatientId !== '0') {
+                $patientSearchId.val(existingPatientId);
+
+                $.get('@Url.Action("SearchPatientById", "Appointment")', { patientId: existingPatientId })
+                    .done(function (response) {
+                        if (response && response.success) {
+                            $patientIdHidden.val(response.patient.PatientId);
+                            showPatientCard(response.patient);
+                        }
+                    });
+            }
+        });
+    </script>
 }

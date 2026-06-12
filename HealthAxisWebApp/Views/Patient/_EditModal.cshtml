@@ -140,7 +140,7 @@
             @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
         </div>
 
-        <div class="mb-1">
+        <div class="mb-3">
             @Html.LabelFor(m => m.InsuranceID, new { @class = "form-label" })
             @Html.TextBoxFor(
                 m => m.InsuranceID,
@@ -148,8 +148,7 @@
                 {
                     @class = "form-control",
                     placeholder = "Optional - leave blank if uninsured"
-                }
-            )
+                })
             @Html.ValidationMessageFor(m => m.InsuranceID, "", new { @class = "text-danger" })
         </div>
     </div>

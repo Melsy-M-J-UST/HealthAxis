@@ -6,7 +6,9 @@
 
     var currentSort = ViewBag.SortBy as string ?? "name";
     var currentFilter = ViewBag.Filter as string ?? "all";
-    var currentPatientId = ViewBag.PatientId;
+    var currentSearchBy = ViewBag.SearchBy as string ?? "id";
+    var currentSearchValue = ViewBag.SearchValue as string ?? "";
+    var pageError = ViewBag.ErrorMessage as string;
 }
 
 <style>
@@ -77,6 +79,12 @@
                 margin-right: 2px;
             }
 
+    .patient-action-disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+        pointer-events: auto;
+    }
+
     .badge-insured {
         background-color: #1f8f5a;
         color: #fff;
@@ -97,19 +105,59 @@
         display: inline-block;
     }
 
+    .badge-inactive-patient {
+        background-color: #dc3545;
+        color: #fff;
+        font-size: 0.72rem;
+        padding: 4px 7px;
+        border-radius: 7px;
+        font-weight: 600;
+        display: inline-block;
+        margin-left: 6px;
+    }
+
     .search-row {
         margin-bottom: 16px;
     }
 
-    .search-box {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
+    /* Search By + Search Value in same row, Search/Clear next to each other */
+    .search-grid {
+        display: grid;
+        grid-template-columns: 260px minmax(360px, 1fr) auto;
+        gap: 14px;
+        align-items: start;
     }
 
-        .search-box input {
-            max-width: 320px;
-        }
+    .search-field label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 500;
+        color: #2f3d4d;
+    }
+
+    .search-helper-wrap {
+        min-height: 22px; /* keeps layout stable */
+        margin-top: 6px;
+    }
+
+    .realtime-search-note {
+        font-size: 0.85rem;
+        color: #5c7186;
+        line-height: 1.2;
+    }
+
+    .search-action-group {
+        display: flex;
+        gap: 10px;
+        align-items: flex-end;
+        padding-top: 30px; /* aligns buttons with input row */
+    }
+
+    .search-action-btn {
+        height: 46px;
+        min-width: 100px;
+        white-space: nowrap;
+    }
 
     .patients-table th:nth-child(1),
     .patients-table td:nth-child(1) {
@@ -151,12 +199,19 @@
         width: 27%;
     }
 
-    .modal-header {
-        border-bottom: 1px solid #e6edf2;
-    }
+    @@media (max-width: 991px) {
+        .search-grid {
+            grid-template-columns: 1fr;
+        }
 
-    .modal-footer {
-        border-top: 1px solid #e6edf2;
+        .search-action-group {
+            padding-top: 0;
+            width: 100%;
+        }
+
+        .search-action-btn {
+            width: 100%;
+        }
     }
 </style>
 
@@ -173,34 +228,67 @@
         </a>
     </div>
 
-    <form method="get" class="search-row">
-        <div class="search-box">
-            <input type="text"
-                   name="patientId"
-                   class="form-control"
-                   placeholder="Search by Patient ID"
-                   pattern="[0-9]*"
-                   inputmode="numeric"
-                   value="@(currentPatientId ?? "")" />
+    <div id="patientActionAlert"
+         class="alert alert-warning d-none mt-3"
+         role="alert">
+    </div>
 
-            <button type="submit" class="btn btn-success">
-                Search
-            </button>
+    @if (!string.IsNullOrEmpty(pageError))
+    {
+        <div class="alert alert-warning mt-3">
+            @pageError
+        </div>
+    }
 
-            @if (currentPatientId != null)
-            {
-                @Html.ActionLink(
-                    "Clear",
-                    "Index",
-                    "Patient",
-                    null,
-                    new { @class = "btn btn-secondary" }
-                )
-            }
+    <!-- SEARCH -->
+    <form id="patientSearchForm" method="get" class="search-row">
+        <input type="hidden" name="sortBy" value="@currentSort" />
+        <input type="hidden" name="filter" value="@currentFilter" />
+
+        <div class="search-grid">
+            <div class="search-field">
+                <label for="searchBy">Search By</label>
+                <select id="searchBy" name="searchBy" class="form-select">
+                    <option value="id" @(currentSearchBy == "id" ? "selected" : "")>Search with ID</option>
+                    <option value="name" @(currentSearchBy == "name" ? "selected" : "")>Search with Name</option>
+                </select>
+            </div>
+
+            <div class="search-field">
+                <label for="searchValue">Search Value</label>
+                <input type="text"
+                       id="searchValue"
+                       name="searchValue"
+                       class="form-control"
+                       placeholder="@(currentSearchBy == "name" ? "Search by Patient Name" : "Search by Patient ID")"
+                       value="@currentSearchValue"
+                       inputmode="@(currentSearchBy == "id" ? "numeric" : "text")" />
+
+                <div class="search-helper-wrap">
+                    <div id="nameSearchHelp"
+                         class="realtime-search-note @(currentSearchBy == "name" ? "" : "invisible")">
+                        Type to search active patients by name in real time.
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-action-group">
+                <button type="submit" class="btn btn-success search-action-btn">
+                    Search
+                </button>
+
+                <a href="@Url.Action("Index", "Patient")" class="btn btn-secondary search-action-btn">
+                    Clear
+                </a>
+            </div>
         </div>
     </form>
 
-    <form method="get" class="row g-3 mb-3">
+    <!-- FILTER + SORT -->
+    <form id="patientFilterForm" method="get" class="row g-3 mb-3">
+        <input type="hidden" name="searchBy" id="filterSearchBy" value="@currentSearchBy" />
+        <input type="hidden" name="searchValue" id="filterSearchValue" value="@currentSearchValue" />
+
         <div class="col-md-3">
             <label class="form-label">Sort By</label>
             <select name="sortBy" class="form-select">
@@ -216,89 +304,135 @@
         <div class="col-md-3">
             <label class="form-label">Insurance Filter</label>
             <select name="filter" class="form-select">
-                <option value="all" @(currentFilter == "all" ? "selected" : "")>All</option>
-                <option value="insured" @(currentFilter == "insured" ? "selected" : "")>Insured</option>
-                <option value="uninsured" @(currentFilter == "uninsured" ? "selected" : "")>Uninsured</option>
+                <option value="all" @(currentFilter == "all" ? "selected" : "")>
+                    All
+                </option>
+                <option value="insured" @(currentFilter == "insured" ? "selected" : "")>
+                    Insured
+                </option>
+                <option value="uninsured" @(currentFilter == "uninsured" ? "selected" : "")>
+                    Uninsured
+                </option>
             </select>
         </div>
 
         <div class="col-md-2 align-self-end">
-            <button type="submit" class="btn btn-success w-100">Apply</button>
+            <button type="submit" class="btn btn-success w-100">
+                Apply
+            </button>
         </div>
     </form>
 
-    @if (!string.IsNullOrEmpty(ViewBag.Message as string))
-    {
-        <div class="alert alert-info">@ViewBag.Message</div>
-    }
-    else if (Model == null || !Model.Any())
-    {
-        <div class="alert alert-info">No patients found.</div>
-    }
-    else
-    {
-        <div class="patients-table-wrap">
-            <table class="table patients-table table-bordered align-middle">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>DOB</th>
-                        <th>Gender</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Insurance</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @foreach (var item in Model)
-                    {
+    <!-- RESULTS AREA -->
+    <div id="patientResultsSection">
+        @if (!string.IsNullOrEmpty(ViewBag.Message as string))
+        {
+            <div class="alert alert-info">
+                @ViewBag.Message
+            </div>
+        }
+        else if (Model == null || !Model.Any())
+        {
+            <div class="alert alert-info">
+                No patients found.
+            </div>
+        }
+        else
+        {
+            <div class="patients-table-wrap">
+                <table class="table patients-table table-bordered align-middle">
+                    <thead>
                         <tr>
-                            <td>@item.PatientId</td>
-                            <td class="truncate-cell" title="@item.FullName">@item.FullName</td>
-                            <td>@item.DateOfBirth.ToString("yyyy-MM-dd")</td>
-                            <td>@item.GenderName</td>
-                            <td class="truncate-cell" title="@item.Email">@item.Email</td>
-                            <td>@item.PhoneNumber</td>
-                            <td>
-                                @if (string.IsNullOrEmpty(item.InsuranceID))
-                                {
-                                    <span class="badge-uninsured">Uninsured</span>
-                                }
-                                else
-                                {
-                                    <span class="badge-insured">@item.InsuranceID</span>
-                                }
-                            </td>
-                            <td>
-                                <div class="patient-actions">
-                                    <button type="button"
-                                            class="btn btn-info btn-sm open-patient-modal"
-                                            data-url="@Url.Action("Profile", "Patient", new { id = item.PatientId })">
-                                        <i class="bi bi-person-lines-fill"></i>View
-                                    </button>
-
-                                    <button type="button"
-                                            class="btn btn-warning btn-sm open-patient-modal"
-                                            data-url="@Url.Action("Edit", "Patient", new { id = item.PatientId })">
-                                        <i class="bi bi-pencil-square"></i>Edit
-                                    </button>
-
-                                    <button type="button"
-                                            class="btn btn-danger btn-sm open-patient-modal"
-                                            data-url="@Url.Action("Deactivate", "Patient", new { id = item.PatientId })">
-                                        <i class="bi bi-x-circle"></i>Deactivate
-                                    </button>
-                                </div>
-                            </td>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>DOB</th>
+                            <th>Gender</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Insurance</th>
+                            <th>Actions</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    }
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.PatientId</td>
+                                <td class="truncate-cell" title="@item.FullName">
+                                    @item.FullName
+                                    @if (!item.IsActive)
+                                    {
+                                        <span class="badge-inactive-patient">Inactive</span>
+                                    }
+                                </td>
+                                <td>@item.DateOfBirth.ToString("yyyy-MM-dd")</td>
+                                <td>@item.GenderName</td>
+                                <td class="truncate-cell" title="@item.Email">@item.Email</td>
+                                <td>@item.PhoneNumber</td>
+
+                                <td>
+                                    @if (string.IsNullOrEmpty(item.InsuranceID))
+                                    {
+                                        <span class="badge-uninsured">Uninsured</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge-insured">@item.InsuranceID</span>
+                                    }
+                                </td>
+
+                                <td>
+                                    <div class="patient-actions">
+                                        @if (item.IsActive)
+                                        {
+                                            <button type="button"
+                                                    class="btn btn-info btn-sm open-patient-modal"
+                                                    data-url="@Url.Action("Profile", "Patient", new { id = item.PatientId })">
+                                                <i class="bi bi-person-lines-fill"></i>View
+                                            </button>
+
+                                            <button type="button"
+                                                    class="btn btn-warning btn-sm open-patient-modal"
+                                                    data-url="@Url.Action("Edit", "Patient", new { id = item.PatientId })">
+                                                <i class="bi bi-pencil-square"></i>Edit
+                                            </button>
+
+                                            <button type="button"
+                                                    class="btn btn-danger btn-sm open-patient-modal"
+                                                    data-url="@Url.Action("Deactivate", "Patient", new { id = item.PatientId })">
+                                                <i class="bi bi-x-circle"></i>Deactivate
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button"
+                                                    class="btn btn-info btn-sm patient-action-disabled"
+                                                    data-disabled-message="Patient's account has been disabled, no operations allowed.">
+                                                <i class="bi bi-person-lines-fill"></i>View
+                                            </button>
+
+                                            <button type="button"
+                                                    class="btn btn-warning btn-sm patient-action-disabled"
+                                                    data-disabled-message="Patient's account has been disabled, no operations allowed.">
+                                                <i class="bi bi-pencil-square"></i>Edit
+                                            </button>
+
+                                            <button type="button"
+                                                    class="btn btn-danger btn-sm patient-action-disabled"
+                                                    data-disabled-message="Patient's account has been disabled, no operations allowed.">
+                                                <i class="bi bi-x-circle"></i>Deactivate
+                                            </button>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
 
     <div class="modal fade" id="patientModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -317,6 +451,48 @@
         $(function () {
             var modalElement = document.getElementById('patientModal');
             var patientModal = new bootstrap.Modal(modalElement);
+            var searchTimer = null;
+
+            function updateSearchUi() {
+                var searchBy = $('#searchBy').val();
+
+                if (searchBy === 'name') {
+                    $('#searchValue')
+                        .attr('placeholder', 'Search by Patient Name')
+                        .attr('inputmode', 'text');
+
+                    $('#nameSearchHelp').removeClass('invisible');
+                } else {
+                    $('#searchValue')
+                        .attr('placeholder', 'Search by Patient ID')
+                        .attr('inputmode', 'numeric');
+
+                    $('#nameSearchHelp').addClass('invisible');
+                }
+
+                syncSearchFieldsToFilterForm();
+            }
+
+            function syncSearchFieldsToFilterForm() {
+                $('#filterSearchBy').val($('#searchBy').val());
+                $('#filterSearchValue').val($('#searchValue').val());
+            }
+
+            function fetchPatientResults() {
+                syncSearchFieldsToFilterForm();
+
+                var query = {
+                    sortBy: $('select[name="sortBy"]', '#patientFilterForm').val(),
+                    filter: $('select[name="filter"]', '#patientFilterForm').val(),
+                    searchBy: $('#searchBy').val(),
+                    searchValue: $('#searchValue').val()
+                };
+
+                $.get('@Url.Action("Index", "Patient")', query, function (html) {
+                    var newResults = $(html).find('#patientResultsSection').html();
+                    $('#patientResultsSection').html(newResults);
+                });
+            }
 
             $(document).on('click', '.open-patient-modal', function (e) {
                 e.preventDefault();
@@ -350,6 +526,51 @@
                     }
                 });
             });
+
+            $(document).on('click', '.patient-action-disabled', function (e) {
+                e.preventDefault();
+
+                var message = $(this).data('disabled-message') || "Patient's account has been disabled, no operations allowed.";
+
+                $('#patientActionAlert')
+                    .removeClass('d-none')
+                    .text(message);
+
+                $('html, body').animate({
+                    scrollTop: $('#patientActionAlert').offset().top - 90
+                }, 200);
+            });
+
+            $('#searchBy').on('change', function () {
+                $('#searchValue').val('');
+                updateSearchUi();
+            });
+
+            $('#searchValue').on('input', function () {
+                syncSearchFieldsToFilterForm();
+
+                if ($('#searchBy').val() !== 'name') {
+                    return;
+                }
+
+                clearTimeout(searchTimer);
+
+                searchTimer = setTimeout(function () {
+                    fetchPatientResults();
+                }, 350);
+            });
+
+            $('#patientSearchForm').on('submit', function (e) {
+                syncSearchFieldsToFilterForm();
+
+                if ($('#searchBy').val() === 'name') {
+                    e.preventDefault();
+                    fetchPatientResults();
+                }
+                // if searchBy = id, normal GET form submit continues
+            });
+
+            updateSearchUi();
         });
     </script>
 }

@@ -29,6 +29,16 @@ namespace HealthAxis.Shared.Services.Impl
             return repository.GetAllActive(sortBy, insuranceFilter);
         }
 
+        public List<Patient> SearchPatientsByName(string name, string sortBy, string insuranceFilter)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return new List<Patient>();
+            }
+
+            return repository.SearchByName(name.Trim(), sortBy, insuranceFilter);
+        }
+
         public Patient GetPatientById(int id)
         {
             return repository.GetById(id);
@@ -45,6 +55,12 @@ namespace HealthAxis.Shared.Services.Impl
             if (repository.EmailExists(patient.Email))
             {
                 throw new ArgumentException("Email already exists.");
+            }
+
+            if (!string.IsNullOrWhiteSpace(patient.InsuranceID) &&
+                repository.InsuranceIdExists(patient.InsuranceID))
+            {
+                throw new ArgumentException("Insurance ID already exists.");
             }
 
             patient.CreatedDate = DateTime.Now;
@@ -64,6 +80,12 @@ namespace HealthAxis.Shared.Services.Impl
             if (repository.EmailExists(patient.Email, patient.PatientId))
             {
                 throw new ArgumentException("Email already exists.");
+            }
+
+            if (!string.IsNullOrWhiteSpace(patient.InsuranceID) &&
+                repository.InsuranceIdExists(patient.InsuranceID, patient.PatientId))
+            {
+                throw new ArgumentException("Insurance ID already exists.");
             }
 
             repository.Update(patient);

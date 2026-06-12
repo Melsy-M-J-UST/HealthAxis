@@ -10,6 +10,8 @@ namespace HealthAxisWebApp.Controllers
     public class PatientController : Controller
     {
         private readonly PatientApiClient _apiClient;
+        private const string InactivePatientMessage =
+            "Patient's account has been disabled, no operations allowed.";
 
         public PatientController()
         {
@@ -19,42 +21,87 @@ namespace HealthAxisWebApp.Controllers
         public async Task<ActionResult> Index(
             string sortBy = "name",
             string filter = "all",
-            int? patientId = null)
+            string searchBy = "id",
+            string searchValue = null)
         {
             ViewBag.SortBy = sortBy;
             ViewBag.Filter = filter;
+            ViewBag.SearchBy = searchBy;
+            ViewBag.SearchValue = searchValue;
             ViewBag.HasSearched = false;
             ViewBag.Message = null;
-            ViewBag.PatientId = patientId;
+            ViewBag.ErrorMessage = TempData["ErrorMessage"];
 
-            if (patientId.HasValue)
+            if (!string.IsNullOrWhiteSpace(searchValue))
             {
                 ViewBag.HasSearched = true;
 
-                var patient = await _apiClient.GetPatientById(patientId.Value);
-
-                if (patient == null)
+                if (searchBy == "id")
                 {
-                    ViewBag.Message = "Patient does not exists";
-                    return View(new List<PatientDto>());
-                }
+                    if (!int.TryParse(searchValue, out int patientId))
+                    {
+                        ViewBag.Message = "Please enter a valid Patient ID.";
+                        return View(new List<PatientDto>());
+                    }
 
-                return View(new List<PatientDto> { patient });
+                    var patient = await _apiClient.GetPatientById(patientId);
+
+                    if (patient == null)
+                    {
+                        ViewBag.Message = "Patient does not exists";
+                        return View(new List<PatientDto>());
+                    }
+
+                    return View(new List<PatientDto> { patient });
+                }
+                else if (searchBy == "name")
+                {
+                    var patients = await _apiClient.SearchPatients(
+                        "name",
+                        searchValue,
+                        sortBy,
+                        filter);
+
+                    if (patients == null || patients.Count == 0)
+                    {
+                        ViewBag.Message = "No patients found.";
+                        return View(new List<PatientDto>());
+                    }
+
+                    return View(patients);
+                }
             }
 
-            var patients = await _apiClient.GetPatients(sortBy, filter);
-            return View(patients);
+            var allPatients = await _apiClient.GetPatients(sortBy, filter);
+            return View(allPatients);
         }
+
 
         public new async Task<ActionResult> Profile(int id)
         {
+            var patientStatus = await _apiClient.GetPatientById(id);
+
+            if (patientStatus == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (!patientStatus.IsActive)
+            {
+                return HandleInactivePatientAccess();
+            }
+
             var patient = await _apiClient.GetPatientProfile(id);
 
             if (patient == null)
+            {
                 return HttpNotFound();
+            }
 
             if (Request.IsAjaxRequest())
+            {
                 return PartialView("_ProfileModal", patient);
+            }
 
             return View(patient);
         }
@@ -86,27 +133,7 @@ namespace HealthAxisWebApp.Controllers
             }
             catch (Exception ex)
             {
-                if (ex.Message.Contains("Phone number"))
-                {
-                    ModelState.AddModelError(nameof(patient.PhoneNumber), ex.Message);
-                }
-                else if (ex.Message.Contains("Name"))
-                {
-                    ModelState.AddModelError(nameof(patient.FullName), ex.Message);
-                }
-                else if (ex.Message.Contains("Email"))
-                {
-                    ModelState.AddModelError(nameof(patient.Email), ex.Message);
-                }
-                else if (ex.Message.Contains("Date of Birth"))
-                {
-                    ModelState.AddModelError(nameof(patient.DateOfBirth), ex.Message);
-                }
-                else
-                {
-                    ModelState.AddModelError("", ex.Message);
-                }
-
+                AddPatientFieldError(patient, ex.Message);
                 LoadGenderDropdown(patient.Gender);
                 return View(patient);
             }
@@ -117,12 +144,21 @@ namespace HealthAxisWebApp.Controllers
             var patient = await _apiClient.GetPatientById(id);
 
             if (patient == null)
+            {
                 return HttpNotFound();
+            }
+
+            if (!patient.IsActive)
+            {
+                return HandleInactivePatientAccess();
+            }
 
             LoadGenderDropdown(patient.Gender);
 
             if (Request.IsAjaxRequest())
+            {
                 return PartialView("_EditModal", patient);
+            }
 
             return View(patient);
         }
@@ -136,14 +172,36 @@ namespace HealthAxisWebApp.Controllers
                 : patient.InsuranceID.Trim();
 
             if (id != patient.PatientId)
+            {
                 return new HttpStatusCodeResult(400);
+            }
+
+            var existingPatient = await _apiClient.GetPatientById(id);
+
+            if (existingPatient == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (!existingPatient.IsActive)
+            {
+                if (Request.IsAjaxRequest())
+                {
+                    return Content("<div class='p-4 text-danger fw-semibold'>Patient's account has been disabled, no operations allowed.</div>");
+                }
+
+                TempData["ErrorMessage"] = InactivePatientMessage;
+                return RedirectToAction("Index");
+            }
 
             if (!ModelState.IsValid)
             {
                 LoadGenderDropdown(patient.Gender);
 
                 if (Request.IsAjaxRequest())
+                {
                     return PartialView("_EditModal", patient);
+                }
 
                 return View(patient);
             }
@@ -153,37 +211,21 @@ namespace HealthAxisWebApp.Controllers
                 await _apiClient.UpdatePatient(patient);
 
                 if (Request.IsAjaxRequest())
+                {
                     return Json(new { success = true });
+                }
 
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                if (ex.Message.Contains("Phone number"))
-                {
-                    ModelState.AddModelError(nameof(patient.PhoneNumber), ex.Message);
-                }
-                else if (ex.Message.Contains("Name"))
-                {
-                    ModelState.AddModelError(nameof(patient.FullName), ex.Message);
-                }
-                else if (ex.Message.Contains("Email"))
-                {
-                    ModelState.AddModelError(nameof(patient.Email), ex.Message);
-                }
-                else if (ex.Message.Contains("Date of Birth"))
-                {
-                    ModelState.AddModelError(nameof(patient.DateOfBirth), ex.Message);
-                }
-                else
-                {
-                    ModelState.AddModelError("", ex.Message);
-                }
-
+                AddPatientFieldError(patient, ex.Message);
                 LoadGenderDropdown(patient.Gender);
 
                 if (Request.IsAjaxRequest())
+                {
                     return PartialView("_EditModal", patient);
+                }
 
                 return View(patient);
             }
@@ -194,10 +236,19 @@ namespace HealthAxisWebApp.Controllers
             var patient = await _apiClient.GetPatientById(id);
 
             if (patient == null)
+            {
                 return HttpNotFound();
+            }
+
+            if (!patient.IsActive)
+            {
+                return HandleInactivePatientAccess();
+            }
 
             if (Request.IsAjaxRequest())
+            {
                 return PartialView("_DeactivateModal", patient);
+            }
 
             return View(patient);
         }
@@ -207,12 +258,32 @@ namespace HealthAxisWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeactivateConfirmed(int id)
         {
+            var patient = await _apiClient.GetPatientById(id);
+
+            if (patient == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (!patient.IsActive)
+            {
+                if (Request.IsAjaxRequest())
+                {
+                    return Content("<div class='p-4 text-danger fw-semibold'>Patient's account has been disabled, no operations allowed.</div>");
+                }
+
+                TempData["ErrorMessage"] = InactivePatientMessage;
+                return RedirectToAction("Index");
+            }
+
             try
             {
                 await _apiClient.DeactivatePatient(id);
 
                 if (Request.IsAjaxRequest())
+                {
                     return Json(new { success = true });
+                }
 
                 return RedirectToAction("Index");
             }
@@ -220,12 +291,14 @@ namespace HealthAxisWebApp.Controllers
             {
                 ModelState.AddModelError("", ex.Message);
 
-                var patient = await _apiClient.GetPatientById(id);
+                var latestPatient = await _apiClient.GetPatientById(id);
 
                 if (Request.IsAjaxRequest())
-                    return PartialView("_DeactivateModal", patient);
+                {
+                    return PartialView("_DeactivateModal", latestPatient);
+                }
 
-                return View(patient);
+                return View(latestPatient);
             }
         }
 
@@ -242,6 +315,51 @@ namespace HealthAxisWebApp.Controllers
                 "Text",
                 selectedGender
             );
+        }
+
+        private void AddPatientFieldError(PatientDto patient, string message)
+        {
+            if (string.IsNullOrWhiteSpace(message))
+            {
+                ModelState.AddModelError("", "An unexpected error occurred.");
+                return;
+            }
+
+            if (message.Contains("Phone number"))
+            {
+                ModelState.AddModelError(nameof(patient.PhoneNumber), message);
+            }
+            else if (message.Contains("Insurance"))
+            {
+                ModelState.AddModelError(nameof(patient.InsuranceID), message);
+            }
+            else if (message.Contains("Name") || message.Contains("name"))
+            {
+                ModelState.AddModelError(nameof(patient.FullName), message);
+            }
+            else if (message.Contains("Email") || message.Contains("email"))
+            {
+                ModelState.AddModelError(nameof(patient.Email), message);
+            }
+            else if (message.Contains("Date of Birth") || message.Contains("DOB"))
+            {
+                ModelState.AddModelError(nameof(patient.DateOfBirth), message);
+            }
+            else
+            {
+                ModelState.AddModelError("", message);
+            }
+        }
+
+        private ActionResult HandleInactivePatientAccess()
+        {
+            if (Request.IsAjaxRequest())
+            {
+                return Content("<div class='p-4 text-danger fw-semibold'>Patient's account has been disabled, no operations allowed.</div>");
+            }
+
+            TempData["ErrorMessage"] = InactivePatientMessage;
+            return RedirectToAction("Index");
         }
     }
 }

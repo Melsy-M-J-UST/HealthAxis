@@ -145,7 +145,13 @@ namespace HealthAxisWebApp.Controllers
                 Status = (int)AppointmentStatus.Pending
             };
 
-            await LoadDropdowns(model.PatientId, model.DoctorId, model.TimeSlot, model.Status);
+            await LoadDropdowns(
+                model.PatientId,
+                model.DoctorId,
+                model.TimeSlot,
+                model.Status,
+                null);
+
             return View(model);
         }
 
@@ -159,7 +165,8 @@ namespace HealthAxisWebApp.Controllers
                     appointment.PatientId,
                     appointment.DoctorId,
                     appointment.TimeSlot,
-                    appointment.Status);
+                    appointment.Status,
+                    null);
 
                 return View(appointment);
             }
@@ -177,7 +184,8 @@ namespace HealthAxisWebApp.Controllers
                     appointment.PatientId,
                     appointment.DoctorId,
                     appointment.TimeSlot,
-                    appointment.Status);
+                    appointment.Status,
+                    null);
 
                 return View(appointment);
             }
@@ -207,7 +215,8 @@ namespace HealthAxisWebApp.Controllers
                 appointment.PatientId,
                 appointment.DoctorId,
                 appointment.TimeSlot,
-                appointment.Status);
+                appointment.Status,
+                null);
 
             if (Request.IsAjaxRequest())
             {
@@ -241,7 +250,8 @@ namespace HealthAxisWebApp.Controllers
                     appointment.PatientId,
                     appointment.DoctorId,
                     appointment.TimeSlot,
-                    appointment.Status);
+                    appointment.Status,
+                    null);
 
                 if (Request.IsAjaxRequest())
                 {
@@ -257,7 +267,8 @@ namespace HealthAxisWebApp.Controllers
                     appointment.PatientId,
                     appointment.DoctorId,
                     appointment.TimeSlot,
-                    appointment.Status);
+                    appointment.Status,
+                    null);
 
                 if (Request.IsAjaxRequest())
                 {
@@ -288,7 +299,8 @@ namespace HealthAxisWebApp.Controllers
                     appointment.PatientId,
                     appointment.DoctorId,
                     appointment.TimeSlot,
-                    appointment.Status);
+                    appointment.Status,
+                    null);
 
                 if (Request.IsAjaxRequest())
                 {
@@ -456,25 +468,134 @@ namespace HealthAxisWebApp.Controllers
             }
         }
 
+        // =========================================================
+        // NEW: Search patient by ID for Create Appointment
+        // =========================================================
+        [HttpGet]
+        public async Task<JsonResult> SearchPatientById(int patientId)
+        {
+            var patient = await _patientApiClient.GetPatientById(patientId);
+
+            if (patient == null)
+            {
+                return Json(
+                    new
+                    {
+                        success = false,
+                        message = "Patient not found."
+                    },
+                    JsonRequestBehavior.AllowGet);
+            }
+
+            if (!patient.IsActive)
+            {
+                return Json(
+                    new
+                    {
+                        success = false,
+                        message = "Patient's account has been disabled, no operations allowed."
+                    },
+                    JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(
+                new
+                {
+                    success = true,
+                    patient = new
+                    {
+                        patient.PatientId,
+                        patient.FullName,
+                        patient.DateOfBirth,
+                        patient.Gender,
+                        patient.GenderName,
+                        patient.PhoneNumber,
+                        patient.Email,
+                        patient.InsuranceID
+                    }
+                },
+                JsonRequestBehavior.AllowGet);
+        }
+
+        // =========================================================
+        // NEW: Load doctors by specialisation for Create Appointment
+        // =========================================================
+        [HttpGet]
+        public async Task<JsonResult> GetDoctorsBySpecialisation(int specialisation)
+        {
+            var doctors = await _doctorApiClient.GetAllDoctors();
+
+            var filteredDoctors = doctors
+                .Where(d => d.IsActive && d.Specialisation == specialisation)
+                .Select(d => new
+                {
+                    d.DoctorId,
+                    d.FullName
+                })
+                .ToList();
+
+            return Json(filteredDoctors, JsonRequestBehavior.AllowGet);
+        }
+
         private async Task LoadDropdowns(
             int? selectedPatientId = null,
             int? selectedDoctorId = null,
             int? selectedTimeSlot = null,
-            int? selectedStatus = null)
+            int? selectedStatus = null,
+            int? selectedSpecialisation = null)
         {
             var patients = await _patientApiClient.GetPatients("name", "all");
             var doctors = await _doctorApiClient.GetAllDoctors();
 
-            ViewBag.PatientList = new SelectList(patients, "PatientId", "FullName", selectedPatientId);
-            ViewBag.DoctorList = new SelectList(doctors, "DoctorId", "FullName", selectedDoctorId);
+            ViewBag.PatientList = new SelectList(
+                patients,
+                "PatientId",
+                "FullName",
+                selectedPatientId);
+
+            // If specialisation not passed but doctor selected, infer it
+            if (!selectedSpecialisation.HasValue && selectedDoctorId.HasValue)
+            {
+                var selectedDoctor = doctors.FirstOrDefault(d => d.DoctorId == selectedDoctorId.Value);
+                if (selectedDoctor != null)
+                {
+                    selectedSpecialisation = selectedDoctor.Specialisation;
+                }
+            }
+
+            var specialisations = Enum.GetValues(typeof(DoctorSpecialisation))
+                .Cast<DoctorSpecialisation>()
+                .Select(s => new
+                {
+                    Value = (int)s,
+                    Text = s.ToString()
+                })
+                .ToList();
+
+            ViewBag.SpecialisationList = new SelectList(
+                specialisations,
+                "Value",
+                "Text",
+                selectedSpecialisation);
+
+            var filteredDoctors = selectedSpecialisation.HasValue
+                ? doctors.Where(d => d.IsActive && d.Specialisation == selectedSpecialisation.Value).ToList()
+                : new List<DoctorDto>();
+
+            ViewBag.DoctorList = new SelectList(
+                filteredDoctors,
+                "DoctorId",
+                "FullName",
+                selectedDoctorId);
 
             var timeSlots = Enum.GetValues(typeof(AppointmentTimeSlot))
                 .Cast<AppointmentTimeSlot>()
                 .Select(t => new
                 {
                     Value = (int)t,
-                    Text = t.ToString()
-                }).ToList();
+                    Text = GetTimeSlotDisplayName((int)t)
+                })
+                .ToList();
 
             ViewBag.TimeSlotList = new SelectList(timeSlots, "Value", "Text", selectedTimeSlot);
 
@@ -484,9 +605,30 @@ namespace HealthAxisWebApp.Controllers
                 {
                     Value = (int)s,
                     Text = s.ToString()
-                }).ToList();
+                })
+                .ToList();
 
             ViewBag.StatusList = new SelectList(statuses, "Value", "Text", selectedStatus);
+        }
+
+        private string GetTimeSlotDisplayName(int slot)
+        {
+            switch (slot)
+            {
+                case 1: return "10:00 a.m. - 10:30 a.m.";
+                case 2: return "10:30 a.m. - 11:00 a.m.";
+                case 3: return "11:00 a.m. - 11:30 a.m.";
+                case 4: return "11:30 a.m. - 12:00 p.m.";
+                case 5: return "12:00 p.m. - 12:30 p.m.";
+                case 6: return "12:30 p.m. - 01:00 p.m.";
+                case 7: return "01:00 p.m. - 01:30 p.m.";
+                case 8: return "01:30 p.m. - 02:00 p.m.";
+                case 9: return "02:00 p.m. - 02:30 p.m.";
+                case 10: return "02:30 p.m. - 03:00 p.m.";
+                case 11: return "03:00 p.m. - 03:30 p.m.";
+                case 12: return "03:30 p.m. - 04:00 p.m.";
+                default: return "Unknown Slot";
+            }
         }
     }
 }

@@ -10,11 +10,12 @@ namespace HealthAxis.Shared.DTOs
 
 
         [Required(ErrorMessage = "Name is required.")]
+        [Display(Name = "Full Name")]
         [RegularExpression(@"^[A-Z][a-zA-Z]*(?: [a-zA-Z]+)*$", ErrorMessage = "Name must start with a capital letter and contain only letters and spaces.")]
         public string FullName { get; set; }
 
         [Required(ErrorMessage = "Date of Birth is required.")]
-        [Display(Name = "DateOfBirth")]
+        [Display(Name = "Date Of Birth")]
         public DateTime DateOfBirth { get; set; }
 
         [Required(ErrorMessage = "Gender is required.")]
@@ -24,13 +25,14 @@ namespace HealthAxis.Shared.DTOs
 
 
         [Required(ErrorMessage = "Phone number is required.")]
+        [Display(Name = "Phone Number")]
         [RegularExpression(@"^[0-9]{10}$", ErrorMessage = "Phone number must contain 10 digits.")]
         public string PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Invalid email format.")]
         public string Email { get; set; }
-
+        [Display(Name = "Insurance ID")]
         public string InsuranceID { get; set; }
 
         public DateTime CreatedDate { get; set; }

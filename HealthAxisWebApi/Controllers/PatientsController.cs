@@ -3,6 +3,7 @@ using HealthAxis.Shared.Enums;
 using HealthAxis.Shared.Models;
 using HealthAxis.Shared.Services.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
@@ -20,11 +21,51 @@ namespace HealthAxisWebApi.Controllers
 
         [HttpGet]
         [Route("")]
-        public IHttpActionResult GetAll(string sortBy = "name", string insuranceFilter = "all")
+        public IHttpActionResult GetAll(
+            string sortBy = "name",
+            string insuranceFilter = "all",
+            string searchBy = null,
+            string searchValue = null)
         {
-            var patients = _patientService
-                .GetPatients(sortBy, insuranceFilter)
-                .Where(p => p.IsActive)
+            List<Patient> patients;
+
+            if (!string.IsNullOrWhiteSpace(searchBy) &&
+                !string.IsNullOrWhiteSpace(searchValue))
+            {
+                if (searchBy == "id")
+                {
+                    if (!int.TryParse(searchValue, out int patientId))
+                    {
+                        return Ok(new List<PatientDto>());
+                    }
+
+                    var patient = _patientService.GetPatientById(patientId);
+
+                    if (patient == null)
+                    {
+                        return Ok(new List<PatientDto>());
+                    }
+
+                    patients = new List<Patient> { patient };
+                }
+                else if (searchBy == "name")
+                {
+                    patients = _patientService.SearchPatientsByName(
+                        searchValue,
+                        sortBy,
+                        insuranceFilter);
+                }
+                else
+                {
+                    patients = _patientService.GetPatients(sortBy, insuranceFilter);
+                }
+            }
+            else
+            {
+                patients = _patientService.GetPatients(sortBy, insuranceFilter);
+            }
+
+            var result = patients
                 .Select(p => new PatientDto
                 {
                     PatientId = p.PatientId,
@@ -40,7 +81,7 @@ namespace HealthAxisWebApi.Controllers
                 })
                 .ToList();
 
-            return Ok(patients);
+            return Ok(result);
         }
 
         [HttpGet]

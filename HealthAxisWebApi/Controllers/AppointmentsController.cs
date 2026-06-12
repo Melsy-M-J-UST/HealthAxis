@@ -2,10 +2,10 @@
 using HealthAxis.Shared.Enums;
 using HealthAxis.Shared.Models;
 using HealthAxis.Shared.Services.Interfaces;
-using HealthAxisWebApp;
 using System;
 using System.Linq;
 using System.Web.Http;
+using System.Data.Entity.Infrastructure;
 
 namespace HealthAxisWebApi.Controllers
 {
@@ -13,6 +13,7 @@ namespace HealthAxisWebApi.Controllers
     public class AppointmentsController : ApiController
     {
         private readonly IAppointmentService _appointmentService;
+
         public AppointmentsController(
             IAppointmentService appointmentService)
         {
@@ -47,25 +48,19 @@ namespace HealthAxisWebApi.Controllers
                         ? a.Doctor.FullName
                         : string.Empty,
 
-                    ScheduledDate =
-                        a.ScheduledDate,
+                    ScheduledDate = a.ScheduledDate,
 
-                    TimeSlot =
-                        a.TimeSlot,
+                    TimeSlot = a.TimeSlot,
 
                     TimeSlotName =
-                        GetTimeSlotName(
-                            a.TimeSlot),
+                        GetTimeSlotName(a.TimeSlot),
 
-                    Status =
-                        a.Status,
+                    Status = a.Status,
 
                     StatusName =
-                        GetStatusName(
-                            a.Status),
+                        GetStatusName(a.Status),
 
-                    CancellationReason =
-                        a.CancellationReason
+                    CancellationReason = a.CancellationReason
                 })
                 .ToList();
 
@@ -77,8 +72,7 @@ namespace HealthAxisWebApi.Controllers
         // ==========================================
         [HttpGet]
         [Route("{id:int}")]
-        public IHttpActionResult GetById(
-            int id)
+        public IHttpActionResult GetById(int id)
         {
             var appointment =
                 _appointmentService
@@ -92,44 +86,35 @@ namespace HealthAxisWebApi.Controllers
             var dto =
                 new AppointmentDto
                 {
-                    AppointmentId =
-                        appointment.AppointmentId,
+                    AppointmentId = appointment.AppointmentId,
 
-                    PatientId =
-                        appointment.PatientId,
+                    PatientId = appointment.PatientId,
 
                     PatientName =
                         appointment.Patient != null
                         ? appointment.Patient.FullName
                         : string.Empty,
 
-                    DoctorId =
-                        appointment.DoctorId,
+                    DoctorId = appointment.DoctorId,
 
                     DoctorName =
                         appointment.Doctor != null
                         ? appointment.Doctor.FullName
                         : string.Empty,
 
-                    ScheduledDate =
-                        appointment.ScheduledDate,
+                    ScheduledDate = appointment.ScheduledDate,
 
-                    TimeSlot =
-                        appointment.TimeSlot,
+                    TimeSlot = appointment.TimeSlot,
 
                     TimeSlotName =
-                        GetTimeSlotName(
-                            appointment.TimeSlot),
+                        GetTimeSlotName(appointment.TimeSlot),
 
-                    Status =
-                        appointment.Status,
+                    Status = appointment.Status,
 
                     StatusName =
-                        GetStatusName(
-                            appointment.Status),
+                        GetStatusName(appointment.Status),
 
-                    CancellationReason =
-                        appointment.CancellationReason
+                    CancellationReason = appointment.CancellationReason
                 };
 
             return Ok(dto);
@@ -140,56 +125,42 @@ namespace HealthAxisWebApi.Controllers
         // ==========================================
         [HttpPost]
         [Route("")]
-        public IHttpActionResult Create(
-            AppointmentDto dto)
+        public IHttpActionResult Create(AppointmentDto dto)
         {
             if (dto == null)
             {
-                return BadRequest(
-                    "Appointment data is required.");
+                return BadRequest("Appointment data is required.");
             }
 
             if (!ModelState.IsValid)
             {
-                return BadRequest(
-                    ModelState);
+                return BadRequest(ModelState);
             }
 
             var appointment =
                 new Appointment
                 {
-                    PatientId =
-                        dto.PatientId,
-
-                    DoctorId =
-                        dto.DoctorId,
-
-                    ScheduledDate =
-                        dto.ScheduledDate,
-
-                    TimeSlot =
-                        dto.TimeSlot,
-
-                    Status =
-                        dto.Status,
-
-                    CancellationReason =
-                        dto.CancellationReason
+                    PatientId = dto.PatientId,
+                    DoctorId = dto.DoctorId,
+                    ScheduledDate = dto.ScheduledDate,
+                    TimeSlot = dto.TimeSlot,
+                    Status = dto.Status,
+                    CancellationReason = dto.CancellationReason
                 };
 
             try
             {
-                _appointmentService
-                    .AddAppointment(
-                        appointment);
+                _appointmentService.AddAppointment(appointment);
 
-                return Ok(
-                    "Appointment created successfully.");
+                return Ok("Appointment created successfully.");
+            }
+            catch (DbUpdateException ex)
+            {
+                return BadRequest("Database error: " + GetInnermostMessage(ex));
             }
             catch (Exception ex)
             {
-                return BadRequest(
-                    ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -198,26 +169,21 @@ namespace HealthAxisWebApi.Controllers
         // ==========================================
         [HttpPut]
         [Route("{id:int}")]
-        public IHttpActionResult Update(
-            int id,
-            AppointmentDto dto)
+        public IHttpActionResult Update(int id, AppointmentDto dto)
         {
             if (dto == null)
             {
-                return BadRequest(
-                    "Appointment data is required.");
+                return BadRequest("Appointment data is required.");
             }
 
             if (id != dto.AppointmentId)
             {
-                return BadRequest(
-                    "Appointment ID mismatch.");
+                return BadRequest("Appointment ID mismatch.");
             }
 
             if (!ModelState.IsValid)
             {
-                return BadRequest(
-                    ModelState);
+                return BadRequest(ModelState);
             }
 
             var existingAppointment =
@@ -229,37 +195,26 @@ namespace HealthAxisWebApi.Controllers
                 return NotFound();
             }
 
-            existingAppointment.PatientId =
-                dto.PatientId;
-
-            existingAppointment.DoctorId =
-                dto.DoctorId;
-
-            existingAppointment.ScheduledDate =
-                dto.ScheduledDate;
-
-            existingAppointment.TimeSlot =
-                dto.TimeSlot;
-
-            existingAppointment.Status =
-                dto.Status;
-
-            existingAppointment.CancellationReason =
-                dto.CancellationReason;
+            existingAppointment.PatientId = dto.PatientId;
+            existingAppointment.DoctorId = dto.DoctorId;
+            existingAppointment.ScheduledDate = dto.ScheduledDate;
+            existingAppointment.TimeSlot = dto.TimeSlot;
+            existingAppointment.Status = dto.Status;
+            existingAppointment.CancellationReason = dto.CancellationReason;
 
             try
             {
-                _appointmentService
-                    .UpdateAppointment(
-                        existingAppointment);
+                _appointmentService.UpdateAppointment(existingAppointment);
 
-                return Ok(
-                    "Appointment updated successfully.");
+                return Ok("Appointment updated successfully.");
+            }
+            catch (DbUpdateException ex)
+            {
+                return BadRequest("Database error: " + GetInnermostMessage(ex));
             }
             catch (Exception ex)
             {
-                return BadRequest(
-                    ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -268,9 +223,7 @@ namespace HealthAxisWebApi.Controllers
         // ==========================================
         [HttpPut]
         [Route("{id:int}/cancel")]
-        public IHttpActionResult Cancel(
-            int id,
-            CancelAppointmentRequest request)
+        public IHttpActionResult Cancel(int id, CancelAppointmentRequest request)
         {
             var appointment =
                 _appointmentService
@@ -282,27 +235,26 @@ namespace HealthAxisWebApi.Controllers
             }
 
             if (request == null ||
-                string.IsNullOrWhiteSpace(
-                    request.CancellationReason))
+                string.IsNullOrWhiteSpace(request.CancellationReason))
             {
-                return BadRequest(
-                    "Cancellation reason is required.");
+                return BadRequest("Cancellation reason is required.");
             }
 
             try
             {
-                _appointmentService
-                    .CancelAppointment(
-                        id,
-                        request.CancellationReason);
+                _appointmentService.CancelAppointment(
+                    id,
+                    request.CancellationReason);
 
-                return Ok(
-                    "Appointment cancelled successfully.");
+                return Ok("Appointment cancelled successfully.");
+            }
+            catch (DbUpdateException ex)
+            {
+                return BadRequest("Database error: " + GetInnermostMessage(ex));
             }
             catch (Exception ex)
             {
-                return BadRequest(
-                    ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -311,8 +263,7 @@ namespace HealthAxisWebApi.Controllers
         // ==========================================
         [HttpPut]
         [Route("{id:int}/confirm")]
-        public IHttpActionResult Confirm(
-            int id)
+        public IHttpActionResult Confirm(int id)
         {
             var appointment =
                 _appointmentService
@@ -325,16 +276,17 @@ namespace HealthAxisWebApi.Controllers
 
             try
             {
-                _appointmentService
-                    .ConfirmAppointment(id);
+                _appointmentService.ConfirmAppointment(id);
 
-                return Ok(
-                    "Appointment confirmed successfully.");
+                return Ok("Appointment confirmed successfully.");
+            }
+            catch (DbUpdateException ex)
+            {
+                return BadRequest("Database error: " + GetInnermostMessage(ex));
             }
             catch (Exception ex)
             {
-                return BadRequest(
-                    ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -343,8 +295,7 @@ namespace HealthAxisWebApi.Controllers
         // ==========================================
         [HttpPut]
         [Route("{id:int}/complete")]
-        public IHttpActionResult Complete(
-            int id)
+        public IHttpActionResult Complete(int id)
         {
             var appointment =
                 _appointmentService
@@ -357,16 +308,17 @@ namespace HealthAxisWebApi.Controllers
 
             try
             {
-                _appointmentService
-                    .CompleteAppointment(id);
+                _appointmentService.CompleteAppointment(id);
 
-                return Ok(
-                    "Appointment completed successfully.");
+                return Ok("Appointment completed successfully.");
+            }
+            catch (DbUpdateException ex)
+            {
+                return BadRequest("Database error: " + GetInnermostMessage(ex));
             }
             catch (Exception ex)
             {
-                return BadRequest(
-                    ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -375,21 +327,19 @@ namespace HealthAxisWebApi.Controllers
         // ==========================================
         [HttpGet]
         [Route("patient/{patientId:int}")]
-        public IHttpActionResult GetByPatient(
-            int patientId)
+        public IHttpActionResult GetByPatient(int patientId)
         {
             var appointments =
                 _appointmentService
                 .GetAllAppointments()
-                .Where(a =>
-                    a.PatientId == patientId)
+                .Where(a => a.PatientId == patientId)
                 .Select(a => new AppointmentDto
                 {
                     AppointmentId = a.AppointmentId,
                     PatientId = a.PatientId,
-                    PatientName = a.Patient.FullName,
+                    PatientName = a.Patient != null ? a.Patient.FullName : string.Empty,
                     DoctorId = a.DoctorId,
-                    DoctorName = a.Doctor.FullName,
+                    DoctorName = a.Doctor != null ? a.Doctor.FullName : string.Empty,
                     ScheduledDate = a.ScheduledDate,
                     TimeSlot = a.TimeSlot,
                     TimeSlotName = GetTimeSlotName(a.TimeSlot),
@@ -407,26 +357,23 @@ namespace HealthAxisWebApi.Controllers
         // ==========================================
         [HttpGet]
         [Route("doctor/{doctorId:int}/today")]
-        public IHttpActionResult GetTodayAppointments(
-            int doctorId)
+        public IHttpActionResult GetTodayAppointments(int doctorId)
         {
-            DateTime today =
-                DateTime.Today;
+            DateTime today = DateTime.Today;
 
             var appointments =
                 _appointmentService
                 .GetAllAppointments()
                 .Where(a =>
-                    a.DoctorId == doctorId
-                    &&
+                    a.DoctorId == doctorId &&
                     a.ScheduledDate.Date == today)
                 .Select(a => new AppointmentDto
                 {
                     AppointmentId = a.AppointmentId,
                     PatientId = a.PatientId,
-                    PatientName = a.Patient.FullName,
+                    PatientName = a.Patient != null ? a.Patient.FullName : string.Empty,
                     DoctorId = a.DoctorId,
-                    DoctorName = a.Doctor.FullName,
+                    DoctorName = a.Doctor != null ? a.Doctor.FullName : string.Empty,
                     ScheduledDate = a.ScheduledDate,
                     TimeSlot = a.TimeSlot,
                     TimeSlotName = GetTimeSlotName(a.TimeSlot),
@@ -444,31 +391,25 @@ namespace HealthAxisWebApi.Controllers
         // ==========================================
         [HttpGet]
         [Route("doctor/{doctorId:int}/week")]
-        public IHttpActionResult GetWeeklyAppointments(
-            int doctorId)
+        public IHttpActionResult GetWeeklyAppointments(int doctorId)
         {
-            DateTime start =
-                DateTime.Today;
-
-            DateTime end =
-                DateTime.Today.AddDays(7);
+            DateTime start = DateTime.Today;
+            DateTime end = DateTime.Today.AddDays(7);
 
             var appointments =
                 _appointmentService
                 .GetAllAppointments()
                 .Where(a =>
-                    a.DoctorId == doctorId
-                    &&
-                    a.ScheduledDate.Date >= start
-                    &&
+                    a.DoctorId == doctorId &&
+                    a.ScheduledDate.Date >= start &&
                     a.ScheduledDate.Date <= end)
                 .Select(a => new AppointmentDto
                 {
                     AppointmentId = a.AppointmentId,
                     PatientId = a.PatientId,
-                    PatientName = a.Patient.FullName,
+                    PatientName = a.Patient != null ? a.Patient.FullName : string.Empty,
                     DoctorId = a.DoctorId,
-                    DoctorName = a.Doctor.FullName,
+                    DoctorName = a.Doctor != null ? a.Doctor.FullName : string.Empty,
                     ScheduledDate = a.ScheduledDate,
                     TimeSlot = a.TimeSlot,
                     TimeSlotName = GetTimeSlotName(a.TimeSlot),
@@ -486,8 +427,7 @@ namespace HealthAxisWebApi.Controllers
         // ==========================================
         [HttpDelete]
         [Route("{id:int}")]
-        public IHttpActionResult Delete(
-            int id)
+        public IHttpActionResult Delete(int id)
         {
             var appointment =
                 _appointmentService
@@ -500,59 +440,66 @@ namespace HealthAxisWebApi.Controllers
 
             try
             {
-                _appointmentService
-                    .DeleteAppointment(id);
+                _appointmentService.DeleteAppointment(id);
 
-                return Ok(
-                    "Appointment deleted successfully.");
+                return Ok("Appointment deleted successfully.");
+            }
+            catch (DbUpdateException ex)
+            {
+                return BadRequest("Database error: " + GetInnermostMessage(ex));
             }
             catch (Exception ex)
             {
-                return BadRequest(
-                    ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 
         // ==========================================
         // HELPER METHODS
         // ==========================================
-        private string GetStatusName(
-            int status)
+        private string GetStatusName(int status)
         {
-            if (Enum.IsDefined(
-                typeof(AppointmentStatus),
-                status))
+            if (Enum.IsDefined(typeof(AppointmentStatus), status))
             {
-                return ((AppointmentStatus)
-                    status).ToString();
+                return ((AppointmentStatus)status).ToString();
             }
 
             return "Unknown";
         }
 
-        private string GetTimeSlotName(
-            int slot)
+        private string GetTimeSlotName(int slot)
         {
-            if (Enum.IsDefined(
-                typeof(AppointmentTimeSlot),
-                slot))
+            switch (slot)
             {
-                return ((AppointmentTimeSlot)
-                    slot).ToString();
+                case 1: return "10:00 a.m. - 10:30 a.m.";
+                case 2: return "10:30 a.m. - 11:00 a.m.";
+                case 3: return "11:00 a.m. - 11:30 a.m.";
+                case 4: return "11:30 a.m. - 12:00 p.m.";
+                case 5: return "12:00 p.m. - 12:30 p.m.";
+                case 6: return "12:30 p.m. - 01:00 p.m.";
+                case 7: return "01:00 p.m. - 01:30 p.m.";
+                case 8: return "01:30 p.m. - 02:00 p.m.";
+                case 9: return "02:00 p.m. - 02:30 p.m.";
+                case 10: return "02:30 p.m. - 03:00 p.m.";
+                case 11: return "03:00 p.m. - 03:30 p.m.";
+                case 12: return "03:30 p.m. - 04:00 p.m.";
+                default: return "Unknown Slot";
+            }
+        }
+
+        private string GetInnermostMessage(Exception ex)
+        {
+            while (ex.InnerException != null)
+            {
+                ex = ex.InnerException;
             }
 
-            return "Unknown";
+            return ex.Message;
         }
     }
 
-
-
     public class CancelAppointmentRequest
     {
-        public string CancellationReason
-        {
-            get;
-            set;
-        }
+        public string CancellationReason { get; set; }
     }
 }
