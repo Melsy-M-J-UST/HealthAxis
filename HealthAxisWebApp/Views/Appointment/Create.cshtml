@@ -1,4 +1,6 @@
-﻿@model HealthAxis.Shared.DTOs.AppointmentDto
+﻿@using System.Linq
+@using System.Web
+@model HealthAxis.Shared.DTOs.AppointmentDto
 
 @{
     ViewBag.Title = "Create Appointment";
@@ -28,18 +30,18 @@
         margin-bottom: 24px;
     }
 
-    .appointment-header h2 {
-        font-size: 2.7rem;
-        font-weight: 700;
-        color: #1f2a44;
-        margin-bottom: 6px;
-    }
+        .appointment-header h2 {
+            font-size: 2.7rem;
+            font-weight: 700;
+            color: #1f2a44;
+            margin-bottom: 6px;
+        }
 
-    .appointment-header p {
-        color: #4a5b6b;
-        font-size: 1rem;
-        margin-bottom: 0;
-    }
+        .appointment-header p {
+            color: #4a5b6b;
+            font-size: 1rem;
+            margin-bottom: 0;
+        }
 
     .appointment-form-card {
         background: rgba(255,255,255,0.84);
@@ -48,24 +50,24 @@
         box-shadow: 0 6px 18px rgba(31, 42, 68, 0.08);
     }
 
-    .appointment-form-card .form-label {
-        font-weight: 600;
-        color: #1f2a44;
-        margin-bottom: 6px;
-    }
+        .appointment-form-card .form-label {
+            font-weight: 600;
+            color: #1f2a44;
+            margin-bottom: 6px;
+        }
 
-    .appointment-form-card .form-control,
-    .appointment-form-card .form-select {
-        border-radius: 10px;
-        min-height: 46px;
-        box-shadow: none;
-    }
+        .appointment-form-card .form-control,
+        .appointment-form-card .form-select {
+            border-radius: 10px;
+            min-height: 46px;
+            box-shadow: none;
+        }
 
-    .appointment-form-card .form-control:focus,
-    .appointment-form-card .form-select:focus {
-        border-color: #61c4b2;
-        box-shadow: 0 0 0 0.18rem rgba(97, 196, 178, 0.18);
-    }
+            .appointment-form-card .form-control:focus,
+            .appointment-form-card .form-select:focus {
+                border-color: #61c4b2;
+                box-shadow: 0 0 0 0.18rem rgba(97, 196, 178, 0.18);
+            }
 
     .patient-search-row {
         display: grid;
@@ -74,10 +76,10 @@
         align-items: end;
     }
 
-    .patient-search-row .btn {
-        height: 46px;
-        white-space: nowrap;
-    }
+        .patient-search-row .btn {
+            height: 46px;
+            white-space: nowrap;
+        }
 
     .patient-result-card {
         margin-top: 16px;
@@ -87,26 +89,26 @@
         border: 1px solid rgba(49, 94, 120, 0.10);
     }
 
-    .patient-result-card h6 {
-        font-weight: 700;
-        color: #1f2a44;
-        margin-bottom: 10px;
-    }
+        .patient-result-card h6 {
+            font-weight: 700;
+            color: #1f2a44;
+            margin-bottom: 10px;
+        }
 
-    .patient-result-card p {
-        margin-bottom: 8px;
-        color: #33414f;
-    }
+        .patient-result-card p {
+            margin-bottom: 8px;
+            color: #33414f;
+        }
 
-    .patient-result-card strong {
-        color: #1f2a44;
-        min-width: 120px;
-        display: inline-block;
-    }
+        .patient-result-card strong {
+            color: #1f2a44;
+            min-width: 120px;
+            display: inline-block;
+        }
 
-    .patient-result-card.hidden {
-        display: none;
-    }
+        .patient-result-card.hidden {
+            display: none;
+        }
 
     .patient-search-message {
         margin-top: 12px;
@@ -124,6 +126,40 @@
         gap: 12px;
         flex-wrap: wrap;
     }
+
+    .appointment-error-modal .modal-content {
+        border-radius: 14px;
+        overflow: hidden;
+        border: none;
+        box-shadow: 0 10px 30px rgba(31, 42, 68, 0.18);
+    }
+
+    .appointment-error-modal .modal-header {
+        background: linear-gradient(135deg, #b12d2d, #d64545);
+        color: #fff;
+        border-bottom: none;
+    }
+
+    .appointment-error-modal .modal-title {
+        font-weight: 700;
+    }
+
+    .appointment-error-modal .btn-close {
+        filter: invert(1);
+        opacity: 0.95;
+    }
+
+    .appointment-error-modal .modal-body {
+        padding: 22px;
+        font-size: 1rem;
+        color: #33414f;
+    }
+
+    .appointment-error-modal .modal-footer {
+        border-top: 1px solid #e7edf1;
+        background: #fafcfd;
+    }
+
     @@media (max-width: 991px) {
         .patient-search-row {
             grid-template-columns: 1fr;
@@ -193,7 +229,7 @@
                 <label for="selectedSpecialisation" class="form-label">Doctor Specialisation</label>
                 @Html.DropDownList(
                     "selectedSpecialisation",
-                    specialisationList,
+                    specialisationList ?? new SelectList(Enumerable.Empty<SelectListItem>()),
                     "-- Select Specialisation --",
                     new
                     {
@@ -261,7 +297,24 @@
             </div>
         </div>
     }
+</div>
 
+<!-- BOOKING ERROR MODAL -->
+<div class="modal fade appointment-error-modal" id="appointmentErrorModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Booking Not Allowed</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="appointmentErrorText" style="margin-bottom: 0;"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
@@ -316,11 +369,26 @@
                     return '';
                 }
 
-                var d = new Date(dateValue);
-                if (isNaN(d.getTime())) {
-                    return dateValue;
+                // Handles ASP.NET MVC JSON date format: /Date(975263400000)/
+                var match = /\/Date\((\d+)\)\//.exec(dateValue);
+                if (match) {
+                    var ticks = parseInt(match[1], 10);
+                    var dateFromTicks = new Date(ticks);
+
+                    if (!isNaN(dateFromTicks.getTime())) {
+                        return formatJsDate(dateFromTicks);
+                    }
                 }
 
+                var d = new Date(dateValue);
+                if (!isNaN(d.getTime())) {
+                    return formatJsDate(d);
+                }
+
+                return dateValue;
+            }
+
+            function formatJsDate(d) {
                 var year = d.getFullYear();
                 var month = String(d.getMonth() + 1).padStart(2, '0');
                 var day = String(d.getDate()).padStart(2, '0');
@@ -391,7 +459,6 @@
                 loadDoctorsBySpecialisation(null);
             });
 
-            // If page reloads with selected doctor/specialisation, keep doctor list populated
             var existingDoctorId = '@Model.DoctorId';
             var existingSpecialisation = '@selectedSpecialisationValue';
 
@@ -399,13 +466,11 @@
                 $specialisation.val(existingSpecialisation);
                 loadDoctorsBySpecialisation(existingDoctorId);
             } else {
-                // If doctor list already comes from server, keep it.
                 if (!$doctorSelect.val()) {
                     resetDoctorDropdown();
                 }
             }
 
-            // If page reloaded with selected patient, auto fetch and show patient card
             var existingPatientId = '@Model.PatientId';
 
             if (existingPatientId && existingPatientId !== '0') {
@@ -421,4 +486,18 @@
             }
         });
     </script>
+
+    @if (!string.IsNullOrWhiteSpace(ViewBag.PopupError as string))
+    {
+        <script>
+            window.addEventListener('load', function () {
+                var errorText = '@Html.Raw(HttpUtility.JavaScriptStringEncode(ViewBag.PopupError as string))';
+                document.getElementById('appointmentErrorText').textContent = errorText;
+
+                var modalElement = document.getElementById('appointmentErrorModal');
+                var errorModal = new bootstrap.Modal(modalElement);
+                errorModal.show();
+            });
+        </script>
+    }
 }

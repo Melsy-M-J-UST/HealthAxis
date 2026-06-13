@@ -159,6 +159,30 @@ namespace HealthAxisWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(AppointmentDto appointment)
         {
+            // Always force default booking state
+            appointment.Status = (int)AppointmentStatus.Pending;
+
+            if (string.IsNullOrWhiteSpace(appointment.CancellationReason))
+            {
+                appointment.CancellationReason = string.Empty;
+            }
+
+            // Explicit validation for the new Create flow
+            if (appointment.PatientId <= 0)
+            {
+                ModelState.AddModelError(nameof(appointment.PatientId), "Please search and select a valid patient.");
+            }
+
+            if (appointment.DoctorId <= 0)
+            {
+                ModelState.AddModelError(nameof(appointment.DoctorId), "Please select a doctor.");
+            }
+
+            if (appointment.TimeSlot <= 0)
+            {
+                ModelState.AddModelError(nameof(appointment.TimeSlot), "Please select a time slot.");
+            }
+
             if (!ModelState.IsValid)
             {
                 await LoadDropdowns(
@@ -178,7 +202,8 @@ namespace HealthAxisWebApp.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", ex.Message);
+                // Popup message for booking-rule failures
+                ViewBag.PopupError = ex.Message;
 
                 await LoadDropdowns(
                     appointment.PatientId,
@@ -469,7 +494,7 @@ namespace HealthAxisWebApp.Controllers
         }
 
         // =========================================================
-        // NEW: Search patient by ID for Create Appointment
+        // Search patient by ID for Create Appointment
         // =========================================================
         [HttpGet]
         public async Task<JsonResult> SearchPatientById(int patientId)
@@ -518,7 +543,7 @@ namespace HealthAxisWebApp.Controllers
         }
 
         // =========================================================
-        // NEW: Load doctors by specialisation for Create Appointment
+        // Load doctors by specialisation for Create Appointment
         // =========================================================
         [HttpGet]
         public async Task<JsonResult> GetDoctorsBySpecialisation(int specialisation)
@@ -553,7 +578,6 @@ namespace HealthAxisWebApp.Controllers
                 "FullName",
                 selectedPatientId);
 
-            // If specialisation not passed but doctor selected, infer it
             if (!selectedSpecialisation.HasValue && selectedDoctorId.HasValue)
             {
                 var selectedDoctor = doctors.FirstOrDefault(d => d.DoctorId == selectedDoctorId.Value);

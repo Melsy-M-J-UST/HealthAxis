@@ -1,5 +1,6 @@
 ﻿using HealthAxis.Shared.DTOs;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -229,7 +230,6 @@ namespace HealthAxisWebApp.Services
         private static StringContent CreateJsonContent(object value)
         {
             string json = JsonConvert.SerializeObject(value);
-
             return new StringContent(json, Encoding.UTF8, JsonMediaType);
         }
 
@@ -243,9 +243,54 @@ namespace HealthAxisWebApp.Services
             string message)
         {
             string error = await response.Content.ReadAsStringAsync();
+            string cleanMessage = ExtractErrorMessage(error);
 
-            throw new HttpRequestException(
-                $"{message} Status Code: {response.StatusCode}. Details: {error}");
+            throw new HttpRequestException(cleanMessage);
+        }
+
+        private static string ExtractErrorMessage(string errorContent)
+        {
+            if (string.IsNullOrWhiteSpace(errorContent))
+            {
+                return "An unexpected error occurred.";
+            }
+
+            try
+            {
+                var json = JObject.Parse(errorContent);
+                var message = json["Message"]?.ToString();
+
+                if (!string.IsNullOrWhiteSpace(message))
+                {
+                    if (message.Contains("\r\n"))
+                    {
+                        message = message.Split(new[] { "\r\n" }, StringSplitOptions.None)[0];
+                    }
+
+                    if (message.Contains("Parameter name:"))
+                    {
+                        message = message.Split(new[] { "Parameter name:" }, StringSplitOptions.None)[0].Trim();
+                    }
+
+                    return message.Trim();
+                }
+            }
+            catch
+            {
+                // If response is not JSON, return raw trimmed text below
+            }
+
+            if (errorContent.Contains("\r\n"))
+            {
+                errorContent = errorContent.Split(new[] { "\r\n" }, StringSplitOptions.None)[0];
+            }
+
+            if (errorContent.Contains("Parameter name:"))
+            {
+                errorContent = errorContent.Split(new[] { "Parameter name:" }, StringSplitOptions.None)[0].Trim();
+            }
+
+            return errorContent.Trim();
         }
     }
 }
