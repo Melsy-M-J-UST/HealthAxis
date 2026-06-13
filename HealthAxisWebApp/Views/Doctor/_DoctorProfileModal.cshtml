@@ -1,72 +1,144 @@
 ﻿@model HealthAxis.Shared.DTOs.DoctorDto
 
 <style>
-    .doctor-modal-header {
+    .doctor-profile-header {
         background: linear-gradient(135deg, #315e78, #3c6d87);
         color: #fff;
         padding: 16px 20px;
         border-bottom: none;
     }
 
-        .doctor-modal-header .modal-title {
-            font-size: 1.35rem;
-            font-weight: 700;
-            margin: 0;
-        }
+    .doctor-profile-header .modal-title {
+        font-size: 1.35rem;
+        font-weight: 700;
+        margin: 0;
+    }
 
-        .doctor-modal-header .btn-close {
-            filter: invert(1);
-            opacity: 0.9;
-        }
+    .doctor-profile-header .btn-close {
+        filter: invert(1);
+        opacity: 0.9;
+    }
 
-    .doctor-modal-body {
-        padding: 24px;
+    .doctor-profile-body {
+        padding: 26px 28px 20px 28px;
         background: rgba(255,255,255,0.96);
     }
 
-        .doctor-modal-body p {
-            margin-bottom: 14px;
-            font-size: 1rem;
-            color: #2f3d4d;
-        }
+    .doctor-profile-row {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: 14px;
+        align-items: center;
+        margin-bottom: 18px;
+    }
 
-        .doctor-modal-body strong {
-            color: #1f2a44;
-            min-width: 170px;
-            display: inline-block;
-        }
+    .doctor-profile-label {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #1f2a44;
+    }
 
-    .doctor-modal-footer {
+    .doctor-profile-value {
+        font-size: 1rem;
+        color: #33414f;
+    }
+
+    .doctor-profile-status {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.88rem;
+        color: #fff;
+    }
+
+    .doctor-profile-status.active {
+        background-color: #198754;
+    }
+
+    .doctor-profile-status.inactive {
+        background-color: #dc3545;
+    }
+
+    .doctor-profile-footer {
         border-top: 1px solid #e7edf1;
         padding: 14px 20px;
         background: #fafcfd;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .doctor-profile-footer-left {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    @@media (max-width: 767px) {
+        .doctor-profile-row {
+            grid-template-columns: 1fr;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
     }
 </style>
 
-<div class="modal-header doctor-modal-header">
+<div class="modal-header doctor-profile-header">
     <h5 class="modal-title">Doctor Profile</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 </div>
 
-<div class="modal-body doctor-modal-body">
-    <p><strong>Name:</strong> @Model.FullName</p>
-    <p><strong>Specialisation:</strong> @Model.SpecialisationName</p>
-    <p><strong>Experience:</strong> @Model.YearsOfExperience years</p>
-    <p><strong>Consultation Fee:</strong> ₹@Model.ConsultationFee</p>
-    <p>
-        <strong>Status:</strong>
-        @if (Model.IsActive)
-        {
-            <span class="badge bg-success">Active</span>
-        }
-        else
-        {
-            <span class="badge bg-secondary">Inactive</span>
-        }
-    </p>
-    <p><strong>Upcoming Appointments:</strong> @Model.UpcomingAppointmentCount</p>
+<div class="modal-body doctor-profile-body">
+    <div class="doctor-profile-row">
+        <div class="doctor-profile-label">Name:</div>
+        <div class="doctor-profile-value">@Model.FullName</div>
+    </div>
+
+    <div class="doctor-profile-row">
+        <div class="doctor-profile-label">Specialisation:</div>
+        <div class="doctor-profile-value">@Model.SpecialisationName</div>
+    </div>
+
+    <div class="doctor-profile-row">
+        <div class="doctor-profile-label">Experience:</div>
+        <div class="doctor-profile-value">@Model.YearsOfExperience years</div>
+    </div>
+
+    <div class="doctor-profile-row">
+        <div class="doctor-profile-label">Consultation Fee:</div>
+        <div class="doctor-profile-value">₹@Model.ConsultationFee.ToString("0.00")</div>
+    </div>
+
+    <div class="doctor-profile-row">
+        <div class="doctor-profile-label">Status:</div>
+        <div class="doctor-profile-value">
+            @if (Model.IsActive)
+            {
+                <span class="doctor-profile-status active">Active</span>
+            }
+            else
+            {
+                <span class="doctor-profile-status inactive">Inactive</span>
+            }
+        </div>
+    </div>
+
+    <div class="doctor-profile-row">
+        <div class="doctor-profile-label">Upcoming Appointments:</div>
+        <div class="doctor-profile-value">@Model.UpcomingAppointmentCount</div>
+    </div>
 </div>
 
-<div class="modal-footer doctor-modal-footer">
+<div class="modal-footer doctor-profile-footer">
+    <div class="doctor-profile-footer-left">
+        <a href="@Url.Action("SelectDoctor", "Appointment", new { doctorId = Model.DoctorId, mode = "today" })"
+           class="btn btn-primary">
+            <i class="bi bi-calendar-week"></i> Doctor Schedule
+        </a>
+    </div>
+
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 </div>

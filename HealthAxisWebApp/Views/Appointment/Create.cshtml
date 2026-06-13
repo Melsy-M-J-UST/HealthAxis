@@ -266,7 +266,8 @@
                     {
                         @class = "form-control",
                         type = "date",
-                        min = DateTime.Today.ToString("yyyy-MM-dd")
+                        min = DateTime.Today.ToString("yyyy-MM-dd"),
+                        max = DateTime.Today.AddMonths(3).ToString("yyyy-MM-dd")
                     })
                 @Html.ValidationMessageFor(m => m.ScheduledDate, "", new { @class = "text-danger" })
             </div>
@@ -369,7 +370,6 @@
                     return '';
                 }
 
-                // Handles ASP.NET MVC JSON date format: /Date(975263400000)/
                 var match = /\/Date\((\d+)\)\//.exec(dateValue);
                 if (match) {
                     var ticks = parseInt(match[1], 10);

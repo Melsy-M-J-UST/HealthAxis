@@ -6,6 +6,7 @@ namespace HealthAxisWebApp.Repositories.Interfaces
     public interface IDoctorRepository
     {
         List<Doctor> GetAll();
+        List<Doctor> GetAll(string sortBy, string specialisation);
 
         Doctor GetById(int id);
 

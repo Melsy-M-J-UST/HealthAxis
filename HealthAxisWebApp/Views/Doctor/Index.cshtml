@@ -1,16 +1,222 @@
 ﻿@using System.Linq
+@using HealthAxis.Shared.Enums
 @model IEnumerable<HealthAxis.Shared.DTOs.DoctorDto>
 
 @{
     ViewBag.Title = "Doctors";
 
     var currentSort = ViewBag.SortBy as string ?? "name";
-    var currentSpec = ViewBag.Specialisation as string ?? "all";
+    var currentSpecialisation = ViewBag.Specialisation as string ?? "all";
 }
 
-<div class="container mt-4">
+<style>
+    .doctor-page {
+        padding-top: 24px;
+        padding-bottom: 40px;
+    }
 
-    <div class="page-header-card d-flex justify-content-between align-items-center">
+    .doctor-header {
+        margin-bottom: 28px;
+    }
+
+        .doctor-header h2 {
+            font-size: 2.7rem;
+            font-weight: 700;
+            color: #1f2a44;
+            margin-bottom: 6px;
+        }
+
+        .doctor-header p {
+            color: #4a5b6b;
+            font-size: 1rem;
+            margin-bottom: 0;
+        }
+
+    .doctor-filter-card {
+        background: rgba(255,255,255,0.82);
+        border-radius: 18px;
+        padding: 20px;
+        box-shadow: 0 6px 18px rgba(31, 42, 68, 0.08);
+        margin-bottom: 18px;
+    }
+
+        .doctor-filter-card .form-label {
+            font-weight: 600;
+            color: #1f2a44;
+            margin-bottom: 6px;
+        }
+
+        .doctor-filter-card .form-select,
+        .doctor-filter-card .form-control {
+            border-radius: 10px;
+            min-height: 46px;
+            box-shadow: none;
+        }
+
+            .doctor-filter-card .form-select:focus,
+            .doctor-filter-card .form-control:focus {
+                border-color: #61c4b2;
+                box-shadow: 0 0 0 0.18rem rgba(97, 196, 178, 0.18);
+            }
+
+    .doctor-filter-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr auto;
+        gap: 14px;
+        align-items: end;
+    }
+
+    .doctor-filter-actions {
+        display: flex;
+        gap: 10px;
+        align-items: end;
+    }
+
+        .doctor-filter-actions .btn {
+            min-width: 120px;
+            height: 46px;
+            white-space: nowrap;
+            border-radius: 10px;
+        }
+
+    .doctor-table-wrap {
+        background: rgba(255, 255, 255, 0.82);
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 6px 18px rgba(31, 42, 68, 0.08);
+    }
+
+    .doctor-table {
+        width: 100%;
+        margin-bottom: 0;
+        table-layout: fixed;
+    }
+
+        .doctor-table thead th {
+            background: linear-gradient(135deg, #315e78, #3c6d87);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.86rem;
+            padding: 9px 8px;
+            border-color: rgba(255,255,255,0.12);
+            vertical-align: middle;
+        }
+
+        .doctor-table tbody td {
+            padding: 9px 8px;
+            vertical-align: middle;
+            border-color: #dbe3e8;
+            color: #33414f;
+            background-color: rgba(255,255,255,0.92);
+            font-size: 0.86rem;
+        }
+
+        .doctor-table tbody tr:nth-child(even) td {
+            background-color: rgba(245, 248, 250, 0.97);
+        }
+
+        .doctor-table tbody tr:hover td {
+            background-color: #edf6f7;
+        }
+
+    .truncate-cell {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .doctor-actions {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 4px;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+        .doctor-actions .btn {
+            white-space: nowrap;
+            border-radius: 7px;
+            padding: 4px 6px;
+            font-weight: 600;
+            font-size: 0.68rem;
+            line-height: 1.05;
+        }
+
+            .doctor-actions .btn i {
+                margin-right: 2px;
+            }
+
+    .doctor-status-badge {
+        font-size: 0.72rem;
+        padding: 4px 8px;
+        border-radius: 8px;
+        font-weight: 700;
+        display: inline-block;
+        color: #fff;
+    }
+
+    .doctor-status-active {
+        background-color: #198754;
+    }
+
+    .doctor-status-inactive {
+        background-color: #dc3545;
+    }
+
+    .doctor-table th:nth-child(1),
+    .doctor-table td:nth-child(1) {
+        width: 6%;
+    }
+
+    .doctor-table th:nth-child(2),
+    .doctor-table td:nth-child(2) {
+        width: 22%;
+    }
+
+    .doctor-table th:nth-child(3),
+    .doctor-table td:nth-child(3) {
+        width: 18%;
+    }
+
+    .doctor-table th:nth-child(4),
+    .doctor-table td:nth-child(4) {
+        width: 11%;
+    }
+
+    .doctor-table th:nth-child(5),
+    .doctor-table td:nth-child(5) {
+        width: 12%;
+    }
+
+    .doctor-table th:nth-child(6),
+    .doctor-table td:nth-child(6) {
+        width: 10%;
+    }
+
+    .doctor-table th:nth-child(7),
+    .doctor-table td:nth-child(7) {
+        width: 21%;
+    }
+
+    @@media (max-width: 991px) {
+        .doctor-filter-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .doctor-filter-actions {
+            width: 100%;
+            flex-direction: column;
+        }
+
+            .doctor-filter-actions .btn {
+                width: 100%;
+            }
+    }
+</style>
+
+<div class="container doctor-page">
+
+    <div class="doctor-header d-flex justify-content-between align-items-center">
         <div>
             <h2>Doctors</h2>
             <p>Manage doctor profiles and availability.</p>
@@ -21,37 +227,44 @@
         </a>
     </div>
 
-    <form method="get" class="row g-3 mb-3">
+    <div class="doctor-filter-card">
+        <form method="get">
+            <div class="doctor-filter-grid">
+                <div>
+                    <label class="form-label">Sort By</label>
+                    <select name="sortBy" class="form-select">
+                        <option value="name" @(currentSort == "name" ? "selected" : "")>Name (A-Z)</option>
+                        <option value="name_desc" @(currentSort == "name_desc" ? "selected" : "")>Name (Z-A)</option>
+                        <option value="id" @(currentSort == "id" ? "selected" : "")>ID</option>
+                    </select>
+                </div>
 
-        <div class="col-md-3">
-            <label class="form-label">Sort By</label>
-            <select name="sortBy" class="form-select">
-                <option value="name" @(currentSort == "name" ? "selected" : null)>Name (A-Z)</option>
-            </select>
-        </div>
+                <div>
+                    <label class="form-label">Specialisation</label>
+                    <select name="specialisation" class="form-select">
+                        <option value="all" @(currentSpecialisation == "all" ? "selected" : "")>All</option>
+                        @foreach (DoctorSpecialisation spec in Enum.GetValues(typeof(DoctorSpecialisation)))
+                        {
+                            var specValue = ((int)spec).ToString();
+                            <option value="@specValue" @(currentSpecialisation == specValue ? "selected" : "")>
+                                @spec.ToString()
+                            </option>
+                        }
+                    </select>
+                </div>
 
-        <div class="col-md-3">
-            <label class="form-label">Specialisation</label>
-            <select name="specialisation" class="form-select">
-                <option value="all">All</option>
-                @if (ViewBag.SpecialisationList != null)
-                {
-                    foreach (var item in (SelectList)ViewBag.SpecialisationList)
-                    {
-                        <option value="@item.Value" @(item.Value.ToString() == currentSpec ? "selected" : null)>
-                            @item.Text
-                        </option>
-                    }
-                }
-            </select>
-        </div>
+                <div class="doctor-filter-actions">
+                    <button type="submit" class="btn btn-success">
+                        Apply
+                    </button>
 
-        <div class="col-md-2 align-self-end">
-            <button type="submit" class="btn btn-success w-100">
-                Apply
-            </button>
-        </div>
-    </form>
+                    <a href="@Url.Action("Index", "Doctor")" class="btn btn-secondary">
+                        Clear
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
 
     @if (Model == null || !Model.Any())
     {
@@ -61,17 +274,17 @@
     }
     else
     {
-        <div class="data-table-wrap">
-            <table class="table data-table table-bordered align-middle">
+        <div class="doctor-table-wrap">
+            <table class="table doctor-table table-bordered align-middle">
                 <thead>
                     <tr>
-                        <th style="width: 6%;">ID</th>
-                        <th style="width: 20%;">Name</th>
-                        <th style="width: 16%;">Specialisation</th>
-                        <th style="width: 11%;">Experience</th>
-                        <th style="width: 12%;">Fee</th>
-                        <th style="width: 10%;">Status</th>
-                        <th style="width: 25%;">Actions</th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Specialisation</th>
+                        <th>Experience</th>
+                        <th>Fee</th>
+                        <th>Status</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
 
@@ -83,34 +296,35 @@
                             <td class="truncate-cell" title="@item.FullName">@item.FullName</td>
                             <td class="truncate-cell" title="@item.SpecialisationName">@item.SpecialisationName</td>
                             <td>@item.YearsOfExperience yrs</td>
-                            <td>₹@item.ConsultationFee</td>
+                            <td>₹@item.ConsultationFee.ToString("0.00")</td>
                             <td>
                                 @if (item.IsActive)
                                 {
-                                    <span class="badge-soft-success">Active</span>
+                                    <span class="doctor-status-badge doctor-status-active">Active</span>
                                 }
                                 else
                                 {
-                                    <span class="badge-soft-secondary">Inactive</span>
+                                    <span class="doctor-status-badge doctor-status-inactive">Inactive</span>
                                 }
                             </td>
                             <td>
-                                <div class="action-bar">
+                                <div class="doctor-actions">
                                     <button type="button"
                                             class="btn btn-info btn-sm open-doctor-modal"
                                             data-url="@Url.Action("DoctorProfile", "Doctor", new { id = item.DoctorId })">
-                                        Profile
+                                        <i class="bi bi-person-lines-fill"></i>Profile
                                     </button>
 
                                     <button type="button"
                                             class="btn btn-warning btn-sm open-doctor-modal"
                                             data-url="@Url.Action("Edit", "Doctor", new { id = item.DoctorId })">
-                                        Edit
+                                        <i class="bi bi-pencil-square"></i>Edit
                                     </button>
 
                                     <button type="button"
-                                            class="btn btn-danger btn-sm open-doctor-modal"
+                                            class="btn @(item.IsActive ? "btn-danger" : "btn-success") btn-sm open-doctor-modal"
                                             data-url="@Url.Action("Toggle", "Doctor", new { id = item.DoctorId })">
+                                        <i class="bi @(item.IsActive ? "bi-x-circle" : "bi-check-circle")"></i>
                                         @(item.IsActive ? "Deactivate" : "Activate")
                                     </button>
                                 </div>
@@ -137,8 +351,8 @@
 
     <script>
         $(function () {
-            var doctorModalElement = document.getElementById('doctorModal');
-            var doctorModal = new bootstrap.Modal(doctorModalElement);
+            var modalElement = document.getElementById('doctorModal');
+            var doctorModal = new bootstrap.Modal(modalElement);
 
             $(document).on('click', '.open-doctor-modal', function (e) {
                 e.preventDefault();

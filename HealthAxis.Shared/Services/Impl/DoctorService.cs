@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using HealthAxisWebApp.Repositories.Interfaces;
 using HealthAxis.Shared.Services.Interfaces;
-using HealthAxisWebApp;
 using HealthAxis.Shared.Models;
 
 namespace HealthAxis.Shared.Services.Impl
@@ -25,6 +24,11 @@ namespace HealthAxis.Shared.Services.Impl
             return repository.GetAll();
         }
 
+        public List<Doctor> GetAllDoctors(string sortBy, string specialisation)
+        {
+            return repository.GetAll(sortBy, specialisation);
+        }
+
         public Doctor GetDoctorById(int id)
         {
             return repository.GetById(id);
@@ -33,14 +37,12 @@ namespace HealthAxis.Shared.Services.Impl
         public void AddDoctor(Doctor doctor)
         {
             ValidateDoctor(doctor);
-
             repository.Add(doctor);
         }
 
         public void UpdateDoctor(Doctor doctor)
         {
             ValidateDoctor(doctor);
-
             repository.Update(doctor);
         }
 
@@ -55,10 +57,12 @@ namespace HealthAxis.Shared.Services.Impl
 
             repository.Delete(id);
         }
+
         public int GetUpcomingAppointmentCount(int doctorId)
         {
             return repository.GetUpcomingAppointmentCount(doctorId);
         }
+
         private static void ValidateDoctor(Doctor doctor)
         {
             if (doctor == null)

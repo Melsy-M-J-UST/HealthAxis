@@ -25,20 +25,8 @@ namespace HealthAxisWebApi.Controllers
             string specialisation = "all")
         {
             var doctors = _doctorService
-                .GetAllDoctors()
+                .GetAllDoctors(sortBy, specialisation)
                 .Where(d => d.IsActive);
-
-            if (!string.IsNullOrEmpty(specialisation) && specialisation != "all")
-            {
-                if (int.TryParse(specialisation, out int specValue))
-                {
-                    doctors = doctors.Where(d => d.Specialisation == specValue);
-                }
-            }
-
-            doctors = sortBy == "name_desc"
-                ? doctors.OrderByDescending(d => d.FullName)
-                : doctors.OrderBy(d => d.FullName);
 
             var result = doctors
                 .Select(d => new DoctorDto

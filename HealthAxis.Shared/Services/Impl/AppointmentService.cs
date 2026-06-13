@@ -184,6 +184,11 @@ namespace HealthAxis.Shared.Services.Impl
                 throw new ArgumentException("Past dates are not allowed.");
             }
 
+            if (appointment.ScheduledDate.Date > DateTime.Today.AddMonths(3))
+            {
+                throw new ArgumentException("Appointments can only be booked within the next 3 months.");
+            }
+
             var doctor = doctorRepository.GetById(appointment.DoctorId);
 
             if (doctor == null)
